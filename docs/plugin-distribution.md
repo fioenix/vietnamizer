@@ -92,6 +92,16 @@ Gửi vào directory chính thức là bước riêng, cần quyền tài khoả
 submission tại thời điểm gửi và owner duyệt trước khi nộp. Không tạo MCP server, auth flow,
 screenshots giả hoặc capability không có thật chỉ để lấp trường metadata.
 
+Việc gửi Anthropic đang tạm dừng theo quyết định của owner ngày 04/10/2026. Người dùng vẫn có
+thể [tự thêm marketplace của repo hoặc upload plugin](../README.md#claude-web-và-claude-desktop-thêm-marketplace)
+theo gói và chính sách của Claude; không cần chờ listing chính thức.
+
+Khi tiếp tục gửi Anthropic, dùng [developer portal](https://claude.ai/directory/manage) và chọn
+**Plugin bundle** từ repository GitHub; ZIP ở Releases chỉ phục vụ cài/review riêng.
+Directory đọc README ở root plugin làm mô tả listing. Chọn đúng tổ chức sở hữu trước khi tạo
+hồ sơ; không suy ra publisher từ tài khoản đang đăng nhập. Rà
+[checklist Claude](claude-marketplace-checks.md) để chuẩn bị dữ liệu, prompt và cổng xác nhận.
+
 Nguồn định dạng:
 
 - [OpenAI: plugin package và marketplace](https://developers.openai.com/plugins/build/plugins).

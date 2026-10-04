@@ -37,13 +37,13 @@ Xem [hướng dẫn chuyển tên](docs/rename-vietnamizer-2026-10-03.md).
 ### Codex và các agent dùng Skills CLI
 
 ```bash
-npx skills add fioenix/vietnamizer --global
+npx --yes skills@1.5.20 add fioenix/vietnamizer --global
 ```
 
 Cài cho mọi agent mà Skills CLI hỗ trợ:
 
 ```bash
-npx skills add fioenix/vietnamizer \
+npx --yes skills@1.5.20 add fioenix/vietnamizer \
   --skill vietnamizer \
   --agent '*' \
   --global \
@@ -53,7 +53,7 @@ npx skills add fioenix/vietnamizer \
 Bỏ `--global` nếu muốn cài trong phạm vi dự án. Có thể xem skill mà CLI tìm được trước khi cài:
 
 ```bash
-npx skills add fioenix/vietnamizer --list
+npx --yes skills@1.5.20 add fioenix/vietnamizer --list
 ```
 
 Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn. Cờ `--agent '*'` chọn mọi agent được hỗ trợ; cờ `--copy` buộc CLI sao chép file thay vì tạo liên kết tượng trưng.
@@ -65,7 +65,41 @@ Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn
 /plugin install vietnamizer@vietnamizer
 ```
 
-Sau khi cài, gọi skill bằng `/vietnamizer:vietnamizer`.
+Đây là marketplace của repo, không cần chờ Anthropic duyệt directory. Sau khi cài, gọi skill
+bằng `/vietnamizer:vietnamizer` kèm đoạn cần biên tập. Nếu chưa thấy skill, mở phiên mới.
+
+### Claude web và Claude Desktop: thêm marketplace
+
+1. Mở **Customize → Plugins → Add → Add marketplace**.
+2. Chọn **Add from a repository**, nhập `fioenix/vietnamizer` hoặc
+   `https://github.com/fioenix/vietnamizer`.
+3. Trong **Discover**, chọn **Vietnamizer → Add**, rồi kiểm plugin đã bật.
+4. Trong cuộc trò chuyện, gõ `/` hoặc bấm `+`, chọn skill **Vietnamizer** và gửi đoạn cần sửa.
+
+Theo [hướng dẫn của Claude](https://support.claude.com/en/articles/13837440-use-plugins-in-claude),
+plugin trên web/Desktop dành cho các gói Pro, Max, Team và Enterprise. Nếu không thấy tùy chọn,
+kiểm tra gói và chính sách của tổ chức; cài riêng không bỏ qua các giới hạn này.
+
+Có thể tải `vietnamizer-plugin.zip` từ
+[Releases](https://github.com/fioenix/vietnamizer/releases/latest) để upload plugin thay vì thêm
+repo. Không dùng `vietnamizer.skill` hoặc `vietnamizer-claude-org.zip` ở bước upload plugin:
+hai file đó là gói skill riêng.
+
+Vietnamizer chưa được Anthropic duyệt vào directory; việc gửi duyệt đang tạm dừng. Các đường
+cài riêng ở trên không phụ thuộc việc niêm yết. Maintainer giữ
+[checklist gửi Anthropic](docs/claude-marketplace-checks.md) để dùng khi tiếp tục.
+
+### Marketplace plugin cho tổ chức Claude
+
+Owner của tổ chức Team/Enterprise có thể tải `vietnamizer-plugin.zip` từ Releases, mở
+**Organization settings → Plugins & skills → Add → Upload a plugin**, chọn marketplace mới
+hoặc có sẵn rồi upload. Thành viên cài plugin từ **Discover** theo quyền được cấp.
+
+Đừng nhầm với **Sync from GitHub** của marketplace tổ chức: đường sync này yêu cầu repo
+GitHub private/internal, không nhận trực tiếp repo public `fioenix/vietnamizer`. Dùng upload
+ZIP cho trường hợp đó. Xem
+[hướng dẫn quản trị plugin](https://support.claude.com/en/articles/13837433-manage-plugins-for-your-organization)
+về quyền, bật Cowork/Skills và chính sách phân phối.
 
 ### Codex plugin và Marketplace
 
@@ -83,14 +117,14 @@ repo không đồng nghĩa plugin đã được duyệt vào directory chính th
 Xem [hướng dẫn phân phối và kiểm thử](docs/plugin-distribution.md),
 [quyền riêng tư](PRIVACY.md) và [điều kiện sử dụng](TERMS.md).
 
-### Claude và Claude Desktop
+### Claude web và Claude Desktop: chỉ cài skill
 
 [Tải gói skill từ trang Releases](https://github.com/fioenix/vietnamizer/releases/latest),
 mở **Customize → Skills → + Create skill → Upload a skill**, chọn file vừa tải rồi bật skill.
 Claude cần bật **Code execution and file creation** để dùng custom skill. Xem thêm
 [hướng dẫn chính thức của Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
 
-### Claude Org
+### Claude Org: chỉ cài skill
 
 [Tải gói Claude Org từ trang Releases](https://github.com/fioenix/vietnamizer/releases/latest),
 mở **Organization settings → Plugins & skills → Add → Upload a skill**, rồi chọn file ZIP. Gói này
@@ -138,6 +172,56 @@ Khi cần sửa file, nêu rõ phạm vi:
 Dùng vietnamizer để sửa phần văn xuôi trong docs/bai-viet.md.
 Giữ nguyên code, bảng tham số và các trích dẫn.
 ```
+
+### Ba prompt dùng thử trên Claude
+
+Dán từng prompt bên dưới sau khi chọn skill Vietnamizer. Với Claude Code, thêm
+`/vietnamizer:vietnamizer` trước prompt. Đây là mẫu thử và tiêu chí mong đợi, không phải cam kết
+mọi lần chạy model sẽ trả cùng một câu.
+
+1. **Hoàn chỉnh ý:** “Sửa câu sau trong bài kể trải nghiệm; chỉ trả câu cuối: Đã thử ba cách mà
+   vẫn không giải quyết vấn đề.” Kết quả mong đợi thêm “được” sau “giải quyết”, giữ “ba cách”.
+2. **Giữ câu vốn tự nhiên:** “Rà câu sau trong chat công việc; nếu đã tự nhiên thì giữ nguyên.
+   Chỉ trả câu cuối: Tôi rời công ty lúc sáu giờ.” Kết quả mong đợi giữ nguyên câu.
+3. **Giữ code trong README:** dùng mẫu dưới đây. Kết quả mong đợi thêm “là” sau “đơn giản nhất”
+   và giữ nguyên khối code từng byte.
+
+````text
+Biên tập phần văn xuôi sau trong README; giữ nguyên khối code từng byte:
+Cách xử lý đơn giản nhất tăng số worker.
+
+```bash
+WORKERS=3 ./run-worker.sh --dry-run
+```
+````
+
+### Cách hoạt động, dữ liệu và hỗ trợ
+
+Plugin nạp hướng dẫn Markdown, profile và bảng tra đi kèm; không có MCP server, hook, bước
+cài dependency hoặc chương trình chạy nền. Chỉ phần văn bản người dùng giao để biên tập được
+xử lý; không tự tìm mẫu giọng trong memory hoặc lịch sử hội thoại. Agent có thể đọc hay sửa
+file được người dùng giao trong phạm vi cụ thể, theo quyền và cơ chế xác nhận của host.
+Đó không phải quyền quét các file khác để thu thập dữ liệu.
+
+Maintainer không có máy chủ nhận văn bản hay telemetry của plugin. Claude vẫn xử lý và có thể
+lưu hội thoại theo chính sách của nền tảng; plugin không biến việc biên tập thành xử lý hoàn
+toàn trên máy. Không gửi credential, định danh chính phủ, dữ liệu thẻ thanh toán hoặc PHI.
+Xem [quyền riêng tư](PRIVACY.md) và [điều kiện sử dụng](TERMS.md).
+
+Nếu người dùng cho phép thẩm định qua TypeSafe đã có trên host, đoạn gốc, candidate và ngữ
+cảnh tối thiểu có thể được gửi tới dịch vụ đó. Đây là luồng gửi dữ liệu tùy chọn, không phải
+“không bao giờ gửi cho bên thứ ba”; xem [chính sách TypeSafe](https://typesafe.ai/legal/privacy-policy).
+Không có skill TypeSafe thì quy trình tiếp tục im lặng, không yêu cầu cài đặt.
+
+- **Không thấy skill:** kiểm plugin đã bật, rồi mở phiên mới. Trong Claude Code kiểm đúng
+  marketplace `vietnamizer` và lời gọi `/vietnamizer:vietnamizer`.
+- **Mô tả hoặc phiên bản chưa đổi:** cập nhật đúng plugin cùng tên từ nguồn đã cài; tránh cài
+  thêm bản review trùng tên. ZIP upload riêng không tự cập nhật từ GitHub.
+- **Icon mặc định:** manifest có icon, nhưng kết quả CLI validator không chứng minh client
+  hiển thị nó. Kiểm preview listing; không coi icon mặc định là lỗi của quy trình biên tập.
+- **Sửa sai hoặc sửa quá tay:** gửi ca giả lập/đã ẩn danh cùng kết quả mong đợi qua
+  [GitHub Issues](https://github.com/fioenix/vietnamizer/issues). Đọc
+  [hướng dẫn đóng góp](CONTRIBUTING.md) trước; không đăng dữ liệu nhạy cảm lên issue công khai.
 
 ## Phạm vi
 
