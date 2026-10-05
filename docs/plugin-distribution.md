@@ -84,6 +84,36 @@ public sau khi thay đổi tương ứng đã merge.
 
 ## Repo marketplace không phải directory chính thức
 
+### Mở đường hỗ trợ trước khi đón người dùng
+
+Hai manifest dùng cùng URL hỗ trợ `https://github.com/fioenix/vietnamizer/issues`. Không thay
+URL này bằng email hoặc địa chỉ chưa xác minh. Tại lần kiểm tra ngày 05/10/2026, GitHub API trả
+`has_issues: true`; Private Vulnerability Reporting trả `enabled: true` và trang Advisories
+hiển thị **Report a vulnerability**. Đây là trạng thái tại thời điểm kiểm, cần đọc lại trước
+khi công bố tài liệu hỗ trợ.
+
+Chủ repo cần thực hiện:
+
+1. Giữ **Issues** bật trong **Settings → General → Features** của `fioenix/vietnamizer`.
+2. Sau khi thay đổi tài liệu/template được tích hợp, mở **Issues → New issue** và kiểm mẫu
+   báo lỗi; kiểm link support của cả hai manifest tới đúng repo. `config.yml` chỉ cấu hình
+   mẫu và đường báo riêng, không bật tính năng Issues.
+3. Giữ Private Vulnerability Reporting đang bật. Trong **Security → Advisories**, kiểm
+   **Report a vulnerability**. Nếu bị tắt, chủ repo mở **Settings → Advanced Security →
+   Private vulnerability reporting → Enable** trước khi công bố kênh đó.
+4. Kiểm người chịu trách nhiệm nhận báo cáo và cấu hình **Watch → Custom → Security alerts**
+   cùng tùy chọn thông báo của tài khoản. Việc bật kênh không chứng minh thông báo đã tới người
+   phụ trách; không gửi báo cáo giả chỉ để kiểm. Không cam kết SLA khi chưa có quyết định.
+
+Xem [SECURITY.md](../SECURITY.md) và
+[hướng dẫn GitHub về báo lỗi riêng](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/configure-for-a-repository).
+Các bước này không cấp quyền cho agent đổi settings, push hay submit lại plugin.
+
+Tài liệu và template hỗ trợ không nằm trong payload do scripts đóng gói hiện tại tạo ra.
+Đối chiếu ZIP public/local không chứng minh đó là đúng byte của submission OpenAI; cần bản
+submit hoặc checksum từ nguồn được xác nhận mới kết luận được. Không suy ra thiếu đường hỗ trợ
+là nguyên nhân chậm duyệt.
+
 `.agents/plugins/marketplace.json` và `.claude-plugin/marketplace.json` là catalog do maintainer
 kiểm soát. Người dùng có thể đăng ký repo và cài plugin; đây không phải dấu hiệu OpenAI hoặc
 Anthropic đã review hay bảo chứng plugin.

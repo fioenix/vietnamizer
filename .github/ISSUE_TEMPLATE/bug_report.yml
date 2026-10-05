@@ -1,0 +1,70 @@
+name: Báo lỗi hoặc ca biên tập sai
+description: Báo lỗi cài đặt, sử dụng hoặc biên tập bằng ví dụ tối thiểu đã ẩn dữ liệu.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Issues là nơi công khai. Không đăng API key, token, dữ liệu cá nhân, tài liệu nội bộ hoặc nội dung nhạy cảm, kể cả trong ảnh chụp.
+        Không cần gửi toàn bộ prompt, log hay tài liệu. Chỉ dùng đoạn tối thiểu đã ẩn dữ liệu hoặc ví dụ giả lập mà bạn có quyền công bố.
+        Lỗi bảo mật không báo ở đây: dùng [Report a vulnerability](https://github.com/fioenix/vietnamizer/security/advisories/new).
+  - type: input
+    id: version
+    attributes:
+      label: Phiên bản Vietnamizer và nguồn cài
+      description: Ghi version và nguồn (Releases, repo marketplace hoặc Skills CLI). Nếu không xác định được, ghi rõ.
+      placeholder: "0.9.8; vietnamizer@vietnamizer từ repo marketplace"
+    validations:
+      required: true
+  - type: input
+    id: client
+    attributes:
+      label: Coding client hoặc ứng dụng và phiên bản
+      placeholder: "Codex desktop/CLI, Claude Code/Desktop hoặc agent khác; phiên bản nếu biết"
+    validations:
+      required: true
+  - type: input
+    id: provider
+    attributes:
+      label: Provider và model
+      description: Chỉ ghi tên provider/model nếu biết; không gửi key, endpoint riêng hoặc thông tin tài khoản.
+      placeholder: "OpenAI/Anthropic/provider khác; model hoặc không biết"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Các bước tái hiện
+      description: Ghi thao tác tối thiểu, cách gọi skill và thể loại/người đọc nếu liên quan. Không gửi toàn bộ prompt hay log.
+      placeholder: "1. Cài hoặc chọn skill...\n2. Gửi ví dụ giả lập dưới đây...\n3. Quan sát..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Kết quả mong đợi
+      description: Với ca biên tập, nêu bản mong đợi và lý do cần sửa hoặc giữ nguyên.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Kết quả thực tế
+      description: Chỉ gửi phần kết quả hoặc thông báo lỗi cần thiết, đã loại dữ liệu nhạy cảm.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Ví dụ tối thiểu đã ẩn dữ liệu
+      description: Ưu tiên ví dụ giả lập. Với lỗi cài đặt không cần văn bản đầu vào, ghi “Không áp dụng” và chỉ nêu lỗi đã ẩn dữ liệu.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safe_to_publish
+    attributes:
+      label: Kiểm tra trước khi công bố
+      options:
+        - label: Tôi có quyền công bố ví dụ này và đã loại API key, token, dữ liệu cá nhân, tài liệu nội bộ và nội dung nhạy cảm.
+          required: true
+        - label: Đây không phải báo cáo lỗi bảo mật; lỗi bảo mật sẽ được gửi qua kênh riêng.
+          required: true

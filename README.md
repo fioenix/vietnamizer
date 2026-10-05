@@ -220,8 +220,10 @@ Không có skill TypeSafe thì quy trình tiếp tục im lặng, không yêu c�
 - **Icon mặc định:** manifest có icon, nhưng kết quả CLI validator không chứng minh client
   hiển thị nó. Kiểm preview listing; không coi icon mặc định là lỗi của quy trình biên tập.
 - **Sửa sai hoặc sửa quá tay:** gửi ca giả lập/đã ẩn danh cùng kết quả mong đợi qua
-  [GitHub Issues](https://github.com/fioenix/vietnamizer/issues). Đọc
-  [hướng dẫn đóng góp](CONTRIBUTING.md) trước; không đăng dữ liệu nhạy cảm lên issue công khai.
+  [GitHub Issues](https://github.com/fioenix/vietnamizer/issues) theo mẫu báo lỗi. Đọc
+  [hướng dẫn đóng góp](CONTRIBUTING.md) trước; không gửi toàn bộ prompt, log hay tài liệu.
+- **Lỗi bảo mật:** dùng [kênh báo riêng](SECURITY.md), không đăng lên Issues công khai.
+  Không gửi API key, token, dữ liệu cá nhân, tài liệu nội bộ hoặc nội dung nhạy cảm.
 
 ## Phạm vi
 

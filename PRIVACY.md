@@ -58,4 +58,6 @@ GitHub hoặc do người khác giữ. Ca hiệu chuẩn được duyệt chỉ 
 đã loại dữ liệu cá nhân và nhạy cảm, để bảo trì quy tắc biên tập.
 
 Liên hệ về quyền riêng tư qua [GitHub Issues](https://github.com/fioenix/vietnamizer/issues),
-chỉ mô tả vấn đề đã loại dữ liệu nhạy cảm.
+chỉ mô tả vấn đề chung đã loại dữ liệu nhạy cảm. Không đăng thêm dữ liệu cá nhân
+để yêu cầu gỡ nội dung. Nếu vấn đề liên quan đến lộ dữ liệu hoặc lỗi bảo mật, dùng
+[kênh báo riêng](SECURITY.md); không gửi credential hoặc dữ liệu nhạy cảm trong báo cáo.

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Báo lỗi bảo mật riêng
+    url: https://github.com/fioenix/vietnamizer/security/advisories/new
+    about: Không đăng lỗi bảo mật, dữ liệu nhạy cảm hoặc credential lên Issues công khai.

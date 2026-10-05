@@ -4,6 +4,15 @@ Người dùng có thể gửi ca sửa sai hoặc đề xuất sửa bằng iss
 thể loại, người đọc, đoạn gốc, kết quả của skill, bản đối chiếu và lý do khác biệt. Chỉ gửi văn bản
 mày có quyền công bố; thay dữ kiện riêng bằng ví dụ giả lập trước khi gửi.
 
+[GitHub Issues](https://github.com/fioenix/vietnamizer/issues) dùng mẫu báo lỗi trong
+`.github/ISSUE_TEMPLATE/bug_report.yml`. Ghi phiên bản và nguồn cài, client/provider, các bước tái
+hiện, kết quả mong đợi/thực tế và ví dụ tối thiểu đã ẩn dữ liệu. Nếu không biết phiên bản hoặc
+model thì ghi rõ; lỗi cài đặt không bắt buộc có văn bản đầu vào.
+
+Không đăng API key, token, dữ liệu cá nhân, tài liệu nội bộ hoặc nội dung nhạy cảm. Không cần
+gửi toàn bộ prompt, log hay tài liệu. Lỗi bảo mật dùng [kênh riêng trong SECURITY.md](SECURITY.md),
+không dùng Issues hoặc pull request công khai.
+
 `SKILL.md` sở hữu quy tắc chung; `profiles/` sở hữu quy tắc theo thể loại. Xem [AGENTS.md](AGENTS.md)
 trước khi sửa rule. Sở thích văn phong cá nhân không được đưa vào calibration dùng chung.
 

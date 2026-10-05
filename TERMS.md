@@ -13,3 +13,5 @@ MIT License của repo không cấp tài khoản hoặc quota cho các dịch v�
 cần TypeSafe. Xem [thông tin quyền riêng tư](PRIVACY.md) trước khi bật advisor tùy chọn.
 
 Báo lỗi hoặc đề xuất sửa qua [GitHub Issues](https://github.com/fioenix/vietnamizer/issues).
+Chỉ gửi ví dụ tối thiểu đã ẩn dữ liệu theo [hướng dẫn đóng góp](CONTRIBUTING.md).
+Lỗi bảo mật dùng [kênh báo riêng](SECURITY.md), không báo qua Issues công khai.
