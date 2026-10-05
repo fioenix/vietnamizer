@@ -38,6 +38,8 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `scripts/package-plugin.py` | Kiểm metadata/asset và tạo ZIP plugin hai nền tảng từ cùng public payload |
 | `docs/plugin-distribution.md` | Hướng dẫn kiểm cài đặt và ranh giới repo marketplace với directory chính thức |
 | `PRIVACY.md`, `TERMS.md` | Thông tin dữ liệu và điều kiện dùng gói mã nguồn mở |
+| `SECURITY.md` | Ranh giới bảo mật và kênh báo lỗi riêng, không dùng Issues công khai |
+| `.github/ISSUE_TEMPLATE/` | Mẫu báo lỗi tối thiểu đã ẩn dữ liệu và đường dẫn báo bảo mật riêng |
 | `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại |
 | `.specify/` | Cấu hình, template và script của Spec Kit; constitution trong `.specify/memory/constitution.md` chi phối spec, plan và implementation |
 | `.specify/LICENSE` | MIT notice của GitHub Spec Kit được vendor trong repo |
