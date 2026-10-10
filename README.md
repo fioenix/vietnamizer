@@ -58,6 +58,30 @@ npx --yes skills@1.5.20 add fioenix/vietnamizer --list
 
 Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn. Cờ `--agent '*'` chọn mọi agent được hỗ trợ; cờ `--copy` buộc CLI sao chép file thay vì tạo liên kết tượng trưng.
 
+### Niêm yết trên skills.sh
+
+[skills.sh](https://skills.sh) ghi nhận skill qua telemetry khi người dùng cài từ repo bằng
+Skills CLI; [FAQ chính thức](https://skills.sh/docs/faq) không yêu cầu gửi form hay chờ duyệt.
+Repo cần có `SKILL.md` hợp lệ và được CLI tìm thấy. Root `SKILL.md` của repo này là nguồn chuẩn;
+không cần chuyển nó vào `skills/` hoặc tạo thêm bản sao để được tìm thấy.
+
+Cài riêng cho một dự án và một agent:
+
+```bash
+npx --yes skills@1.5.20 add fioenix/vietnamizer --skill vietnamizer --agent codex --yes
+```
+
+Cài thành công không chứng minh trang niêm yết đã xuất hiện. Kiểm riêng
+[trang Vietnamizer trên skills.sh](https://skills.sh/fioenix/vietnamizer/vietnamizer)
+sau khi có lượt cài từ repo public. Không có cam kết thời gian cập nhật trong FAQ.
+Niêm yết này độc lập với directory plugin của OpenAI và Anthropic.
+
+Khi chỉ kiểm thử cài đặt, đặt `DISABLE_TELEMETRY=1 DO_NOT_TRACK=1` để không gửi telemetry hoặc
+yêu cầu audit. Chạy trong thư mục dự án tạm, bỏ `--global` và chỉ chọn agent cần kiểm. Nếu cài
+nguồn local, dùng cây source sạch chỉ chứa file public được track: CLI có thể sao chép cả file
+bị gitignore trong thư mục skill, gồm scratch output và môi trường local. Cài từ repo public
+tránh mang theo các file local đó. Không gửi dữ liệu riêng để tạo lượt niêm yết.
+
 ### Claude Code plugin
 
 ```text
