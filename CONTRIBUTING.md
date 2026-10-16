@@ -34,9 +34,12 @@ Skill packager cần `zip` và `unzip`; plugin packager dựng tiếp một ZIP 
 Các archive nằm trong `dist/`. Mỗi archive phải có `LICENSE`,
 đúng public inventory và nội dung khớp source.
 
-Vietnamizer không chứa mã tích hợp TypeSafe. Skill chỉ hướng dẫn dùng khả năng chính chủ
-đã có trên host khi hữu ích và có quyền gửi dữ liệu. Không khôi phục runtime từ đặc tả cũ.
-Các corpus, config và evidence cũ là hồ sơ lịch sử đã ngừng dùng, không phải harness thực thi.
+Runner Jev mới nằm trong `jev/`, chỉ dùng Python standard library và key do host inject.
+Không lấy runtime từ nghiên cứu cũ hoặc thêm đường dẫn máy maintainer. Sau khi sửa recipe hoặc
+pattern canonical, chạy `python3 -B scripts/build-jev-registry.py` rồi kiểm `--check`. Registry
+được track và phải đồng bộ trong mọi archive. Chạy test runtime bằng
+`python3 -B -m unittest tests.test_jev -v`; live smoke chỉ dùng dữ liệu giả lập được phép gửi,
+không thay thế kiểm holdout cho policy số. Không gọi thật API trong test offline.
 
 ## Tooling Spec Kit cho maintainer
 

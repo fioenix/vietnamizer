@@ -25,6 +25,7 @@ PACKAGE_FIXTURE_PATHS = (
     "profiles",
     "references",
     "scripts",
+    "jev",
 )
 
 
@@ -41,6 +42,24 @@ class PackageSecurityTest(unittest.TestCase):
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(source, target)
         return repo
+
+    def test_source_gate_rejects_registry_recipe_drift(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo=self.copy_package_fixture(Path(directory))
+            path=repo/'jev/registry.json'; registry=json.loads(path.read_text())
+            registry['patterns'][0]['questions'][0]['instructions']='Drifted recipe'
+            path.write_text(json.dumps(registry,ensure_ascii=False))
+            run=subprocess.run([sys.executable,'-B','scripts/validate-package.py'],cwd=repo,capture_output=True,text=True)
+            self.assertNotEqual(run.returncode,0,run.stdout)
+            self.assertIn('recipe',run.stdout+run.stderr)
+
+    def test_source_gate_requires_recipe_generator(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo=self.copy_package_fixture(Path(directory))
+            (repo/'scripts/build-jev-registry.py').unlink()
+            run=subprocess.run([sys.executable,'-B','scripts/validate-package.py'],cwd=repo,capture_output=True,text=True)
+            self.assertNotEqual(run.returncode,0,run.stdout)
+            self.assertIn('recipe',run.stdout+run.stderr)
 
     def run_packager(
         self,

@@ -19,7 +19,7 @@ class DistributionTest(unittest.TestCase):
         repo.mkdir()
         for relative in (
             "SKILL.md", "LICENSE", "README.md", "profiles", "references", "calibration",
-            "agents", "assets", "scripts", ".claude-plugin", ".codex-plugin",
+            "agents", "assets", "jev", "scripts", ".claude-plugin", ".codex-plugin",
             ".agents/plugins", ".plugin-skills", ".gitignore",
         ):
             source = ROOT / relative
@@ -276,6 +276,25 @@ class DistributionTest(unittest.TestCase):
                     ["git", "-c", "core.excludesFile=/dev/null", "check-ignore", "--no-index", "-q", path], cwd=repo,
                 )
                 self.assertEqual(result.returncode == 0, ignored, path)
+
+    def test_extracted_plugin_runs_offline_and_contains_all_patterns(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self.fixture(Path(temporary))
+            result = self.package(repo)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            extracted = Path(temporary) / "installed"
+            with zipfile.ZipFile(repo / "dist/vietnamizer-plugin.zip") as archive:
+                archive.extractall(extracted)
+            skill = extracted / "skills/vietnamizer"
+            self.assertTrue((skill / "jev/registry.json").is_file(), "shipped evaluator missing")
+            registry = json.loads((skill / "jev/registry.json").read_text())
+            self.assertEqual(len(registry["patterns"]), 55)
+            import os
+            env = {k: v for k, v in os.environ.items() if k != "TYPESAFE_API_KEY"}
+            run = subprocess.run([sys.executable, "-B", "-m", "jev", "evaluate"],
+                                 cwd=skill, env=env, capture_output=True, text=True)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            self.assertEqual(json.loads(run.stdout)["status"], "key_absent")
 
 
 if __name__ == "__main__":

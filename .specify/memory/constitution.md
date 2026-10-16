@@ -1,11 +1,10 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.0 -> 1.0.1
-- Modified constraints:
-  - Evaluation traceability now distinguishes pre-policy judgment runs from policy-applied reports
-- Added sections: none
-- Removed sections: none
-- Deferred items: none
+- Version change: 1.0.1 -> 2.0.0
+- Owner approval: 2026-10-16, spec 007; active Jev-informed host editing authorized.
+- Replace mandatory shadow-only introduction with bounded advisory use under the five safeguards.
+- Numerical automatic edit acceptance/rejection/reversion still requires holdout evidence.
+- Offline operation, data minimization and non-pass service failures remain mandatory.
 -->
 # Constitution của vi-humanizer
 
@@ -72,8 +71,11 @@ không phải *pass*. Tích hợp tùy chọn MUST NOT làm gói skill phụ thu
    output mới của lệnh kiểm tra không phải bằng chứng.
 3. Behavioral eval MUST báo harmful-edit recall, valid-edit false-block rate, review rate, lỗi
    dịch vụ, latency và cost. Số lượt guard bắn chưa chứng minh guard đúng.
-4. Thay đổi dùng external model MUST bắt đầu ở shadow mode. Chỉ được review, loại hoặc hoàn edit
-   tự động sau khi có bằng chứng trên holdout và nhãn hậu kiểm từ lượt thật.
+4. External model MAY hỗ trợ Agent biên tập ngay khi người dùng cho phép gửi dữ liệu và host
+   có capability phù hợp. Agent MUST kiểm năm chốt chặn trước khi giữ edit; Jev không tự áp,
+   chấp nhận, loại hoặc hoàn edit. Policy số tự động quyết định edit MUST có bằng chứng trên
+   holdout và nhãn hậu kiểm từ lượt thật trước khi kích hoạt. Quyết định owner ngày 16/10/2026
+   trong spec 007 cho phép nhánh có key tự động thử Jev, không gỡ các giới hạn này.
 5. Trước khi phát hành, MUST chạy và đọc output của `python3 scripts/validate-package.py`,
    `npx skills add . --list` và `claude plugin validate .`. Sau đó cài lại gói cho mọi runtime
    đang dùng bản chép và đối chiếu bytes đã cài.
@@ -87,4 +89,4 @@ không tương thích một principle, MINOR khi thêm hoặc mở rộng govern
 Mọi spec và review MUST kiểm tra các principle này. Complexity không truy ngược được tới outcome
 hoặc acceptance criterion MUST bị bỏ.
 
-**Version**: 1.0.1 | **Ratified**: 2026-09-26 | **Last Amended**: 2026-09-26
+**Version**: 2.0.0 | **Ratified**: 2026-09-26 | **Last Amended**: 2026-10-16

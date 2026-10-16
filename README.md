@@ -28,8 +28,8 @@ cho thấy bản gốc thật sự có vấn đề.
 ## Cài nhanh
 
 Tên mới từ bản **0.9.7**: Vietnamizer, định danh `vietnamizer` (trước đây là
-`vi-humanizer`). Bản hiện tại là **0.9.8**, cập nhật metadata và ranh giới quyền riêng tư
-cho Directory; phát hành GitHub không đồng nghĩa được Directory chấp thuận.
+`vi-humanizer`). Bản hiện tại là **0.10.0**, bổ sung đánh giá Jev tự động khi host cấp key và quyền gửi
+dữ liệu; phát hành GitHub không đồng nghĩa được Directory chấp thuận.
 Asset của các release trước 0.9.7 vẫn mang tên
 `vi-humanizer.*` và chứa định danh cũ.
 Xem [hướng dẫn chuyển tên](docs/rename-vietnamizer-2026-10-03.md).
@@ -151,7 +151,7 @@ Kết quả là `dist/vietnamizer-plugin.zip`, có hai manifest và một skill 
 
 ### Cài thủ công
 
-Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/`, `agents/` và `assets/` vào
+Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/`, `agents/`, `assets/` và `jev/` vào
 thư mục skill của agent:
 
 ```bash
@@ -208,10 +208,9 @@ lưu hội thoại theo chính sách của nền tảng; plugin không biến vi
 toàn trên máy. Không gửi credential, định danh chính phủ, dữ liệu thẻ thanh toán hoặc PHI.
 Xem [quyền riêng tư](PRIVACY.md) và [điều kiện sử dụng](TERMS.md).
 
-Nếu người dùng cho phép thẩm định qua TypeSafe đã có trên host, đoạn gốc, candidate và ngữ
-cảnh tối thiểu có thể được gửi tới dịch vụ đó. Đây là luồng gửi dữ liệu tùy chọn, không phải
-“không bao giờ gửi cho bên thứ ba”; xem [chính sách TypeSafe](https://typesafe.ai/legal/privacy-policy).
-Không có skill TypeSafe thì quy trình tiếp tục im lặng, không yêu cầu cài đặt.
+Khi host cấp key và đã có quyền gửi dữ liệu, Vietnamizer tự động thử đánh giá qua TypeSafe;
+đoạn gốc, candidate và ngữ cảnh liên quan được gửi tới dịch vụ đó. Không có key thì core không
+gọi dịch vụ. Xem [quyền riêng tư](PRIVACY.md) và [hợp đồng Jev](references/typesafe-advisor.md).
 
 - **Không thấy skill:** kiểm plugin đã bật, rồi mở phiên mới. Trong Claude Code kiểm đúng
   marketplace `vietnamizer` và lời gọi `/vietnamizer:vietnamizer`.
@@ -239,23 +238,24 @@ người dùng chủ động cung cấp. Skill không tự truy xuất memory ha
 
 Skill không dùng kết quả rà soát để xác định tác giả. Người viết song ngữ cũng có thể giữ cấu trúc tiếng Anh trong câu tiếng Việt; LLM cũng có thể tạo ra câu hoàn toàn tự nhiên.
 
-### TypeSafe/Jev là lớp tăng cường tùy chọn
+### Jev tự động khi có key
 
-Vietnamizer chạy đầy đủ mà không cần TypeSafe, SDK, API key hoặc mạng. Từ bản 0.9.7, cả ba
-gói và repo không chứa mã tích hợp TypeSafe. Nếu host đã cung cấp skill chính chủ,
-Agent có thể tận dụng khi thẩm định hữu ích và người dùng cho phép gửi dữ liệu; Vietnamizer không tự
-cài, đọc credential hoặc dựng connector. Có skill trên máy chưa chứng minh dịch vụ dùng được,
-cũng không tạo quyền gửi văn bản.
+Từ 0.10.0, mỗi lượt Vietnamizer kiểm tra key được host cấp. Không có key thì Agent dùng core
+Markdown, không gọi API hoặc yêu cầu thiết lập. Có `TYPESAFE_API_KEY`, script execution và quyền
+gửi dữ liệu thì Agent phải thử runner `python3 -B -m jev evaluate --input /absolute/workspace/input.json` từ skill root.
+Runner dùng Python 3.12+ standard library, không SDK; gửi nguyên đoạn cùng ngữ cảnh cần thiết tới
+TypeSafe, model pin `jev-1.14.0`. Key không thay thế quyền truyền dữ liệu hoặc giới hạn của host.
 
-Không có skill TypeSafe trong harness thì Vietnamizer bỏ qua im lặng, không gợi ý cài đặt
-hoặc thiết lập. Đây chỉ là phần bổ trợ tùy chọn, không phải dependency hay yêu cầu để dùng skill.
+Gói chứa định nghĩa chuẩn bị sẵn cho đủ V1–V25, T1–T6, B1–B17, K1–K7. Mỗi phần chỉ dùng
+pattern phù hợp thể loại/profile; kiểm cơ học nằm trong mã. Kết quả có coverage và phân bố,
+không phải chứng nhận câu đúng. LLM viết candidate/bản cuối, dùng tín hiệu Jev dưới năm chốt chặn;
+runner không tự áp hoặc quyết định edit bằng ngưỡng số. Chất lượng tiếng Việt chưa được xác nhận
+bởi test schema hay transport.
 
-TypeSafe chỉ thẩm định các candidate V20 mà Agent tạo trước; Agent vẫn quyết định giữ hay sửa
-và viết câu cuối. Thiếu capability hoặc lỗi dịch vụ thì tiếp tục core, không mạo nhận đã kiểm.
-Ranh giới sử dụng nằm trong [hướng dẫn thẩm định tùy chọn](references/typesafe-advisor.md).
-
-Repo không còn CLI, SDK hoặc evaluation harness TypeSafe. Các đặc tả, báo cáo và corpus cũ
-chỉ được giữ để truy nguyên quyết định, không phải mã chạy hay bằng chứng hiệu quả hiện hành.
+Key hỏng, quyền bị chặn, timeout hoặc vượt giới hạn thì tiếp tục core và nêu đúng phần Jev chưa
+hoàn tất. Không có capability script thì không mạo nhận đã kiểm key. Hướng dẫn input, status,
+ngữ cảnh, candidate và bảo toàn nằm trong [hợp đồng Jev](references/typesafe-advisor.md).
+Các nghiên cứu 001/002/005 vẫn là lịch sử, không phải runtime mới hoặc bằng chứng hiệu quả.
 
 ## Giữ giọng và chọn phong cách
 
@@ -311,7 +311,7 @@ profiles/ky-thuat-doanh-nghiep/styles/        ba style card kỹ thuật, vận 
 references/han-viet-thuan-viet.md             bảng tra và điều kiện phải giữ thuật ngữ
 references/bang-tra-cuu.md                    bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
 references/bo-giai-phong-cach.md              bộ giải ngữ cảnh, precedence và registry đường dẫn
-references/typesafe-advisor.md                consent và ranh giới dùng skill TypeSafe đã có
+references/typesafe-advisor.md                workflow tự động, input và ranh giới Jev
 calibration/LOG.md                            bằng chứng dùng để sửa quy tắc chung
 calibration/ca-kiem-thu.md                    ca kiểm thử chạy tay cho từng pattern
 agents/openai.yaml                            tên hiển thị và lời gọi mặc định
@@ -325,6 +325,8 @@ scripts/package-skill.sh                      tạo hai artifact cài đặt
 scripts/package-plugin.py                     kiểm metadata và tạo ZIP plugin hai nền tảng
 docs/plugin-distribution.md                   đường cài, kiểm thử và giới hạn publication
 scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy
+jev/                                         runner Python và registry 55 pattern
+scripts/build-jev-registry.py                 sinh/kiểm registry từ nguồn canonical
 .specify/                                     constitution, template và script của Spec Kit
 specs/                                        đặc tả, checklist, plan và task theo từng feature
 eval/guard/                                   hồ sơ corpus/config lịch sử đã ngừng dùng
@@ -526,6 +528,10 @@ Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tha
 Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
+
+- **0.10.0** – Thêm runner Jev 1.14 và registry 55 pattern: tự động thử khi host cấp key và quyền gửi,
+  core độc lập khi không có key hoặc dịch vụ lỗi. Kiểm tra riêng từng candidate, giữ năm chốt chặn,
+  coverage và trạng thái lỗi trung thực; không tự quyết định edit theo điểm số. Gói cài chứa cùng runtime.
 
 - **0.9.8** – Chuẩn hóa base listing Codex bằng tiếng Anh, giữ bản dịch tiếng Việt và bổ sung
   liên kết hỗ trợ. Làm rõ workflow theo thể loại, ranh giới dữ liệu bị hạn chế và quyền riêng tư;
