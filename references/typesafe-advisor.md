@@ -1,38 +1,124 @@
-# Thẩm định bằng TypeSafe đã có trên host
+# Automatic Jev evaluation and host editing
 
-Vietnamizer không đóng gói runtime TypeSafe, không thiết lập credential và không cần dịch vụ
-này để biên tập. Có thể tận dụng skill chính chủ đã có khi thẩm định hữu ích cho tác vụ hiện tại
-và đáp ứng các điều kiện dưới đây. Đây chỉ là phần bổ trợ, không phải dependency.
+## Entry on every Vietnamizer invocation
 
-## Điều kiện sử dụng
+After the input-data gate, resolve the installed skill root and run locally from it:
 
-- Host đã cung cấp skill TypeSafe chính chủ qua cơ chế discovery được hỗ trợ. Dùng định danh do
-  host cung cấp; không đoán tên, quét thư mục máy, tải hướng dẫn từ mạng hoặc tự cài skill.
-- Skill đã cài chỉ cung cấp hướng dẫn; khả năng gọi dịch vụ phải thực sự có và được phép.
-- Người dùng đã đồng ý gửi đúng đoạn văn và ngữ cảnh tối thiểu cho lần thẩm định. Yêu cầu biên tập
-  đơn thuần, skill đã cài hoặc key có sẵn không thay thế cho sự đồng ý này.
-- Cấu hình, credential, kết nối và chính sách dữ liệu do skill TypeSafe cùng host quản lý.
-  Vietnamizer không đọc key từ môi trường, yêu cầu dán key hoặc dựng connector thay họ.
+```bash
+python3 -B -m jev status
+```
 
-Nếu harness không cung cấp skill TypeSafe, bỏ qua im lặng và tiếp tục core; không gợi ý agent
-hoặc người dùng cài đặt, thiết lập hay tìm key. Nếu thiếu điều kiện khác, cũng tiếp tục core.
-Chỉ báo *chưa kiểm tra* khi người dùng chủ động hỏi hoặc yêu cầu thẩm định bằng TypeSafe;
-không mạo nhận kết quả. Việc không dùng TypeSafe không phải lỗi hoặc thiếu sót của tác vụ.
+- `key_absent`: use the complete Markdown editing workflow; do not run evaluation scripts,
+  contact TypeSafe, request a key or suggest setup.
+- `key_available`: prepare the authorized input below and run the shipped evaluator before
+  producing the final edited response. Evaluation is the default, not a discretionary V20-only step.
+- No Python/tool execution: record `capability_unavailable`; continue core editing without
+  pretending the key was absent or Jev ran. Key availability is not proof that the API works.
 
-## Ranh giới phán đoán
+Use only the host's existing credential injection. The package reads the injected
+`TYPESAFE_API_KEY` internally; never print it, put it in arguments/input, search files/keychains,
+install a connector or change shared settings. Existing authorization persists; an available key
+never overrides host transmission policy or the restricted-data gate in SKILL.md.
 
-Host Agent gọi tên V20 `lexically_incomplete` hoặc `unnatural_collocation`, loại trừ vùng bảo
-toàn và tạo trước một đến ba candidate. TypeSafe chỉ thẩm định nhu cầu sửa, chất lượng candidate,
-giữ nghĩa, giọng và an toàn; không được yêu cầu sinh, nối hoặc sửa câu chữ.
+## Prepare the input
 
-Chỉ gửi đoạn nhỏ nhất còn đủ nghĩa và các candidate đã có. Loại secret, vùng bảo toàn, định danh
-không cần thiết, nhãn kiểm thử và provenance; nếu không tách được dữ liệu nhạy cảm thì bỏ qua
-dịch vụ. Không gửi toàn tài liệu chỉ để quyết định một edit cục bộ.
+Write a task-local JSON input only within the user's authorized workspace, or supply it through
+stdin. Follow the host's data policy for temporary text and cleanup. Raw prose is never telemetry.
+Set `transmission_allowed` to literal `true` only when sharing this text with TypeSafe is authorized;
+use existing permission instead of asking again. Otherwise continue core and disclose the blocked
+external check when relevant. Do not substitute a browser tool for the evaluator.
 
-Tín hiệu chỉ hỗ trợ Agent; không làm hard gate, không cứu candidate đã trượt năm quy tắc chốt
-chặn và không dùng threshold chưa hiệu chỉnh. Xếp hạng chỉ áp dụng cho ít nhất hai candidate
-đã đủ chuẩn. Agent quyết định giữ hay sửa và viết bản cuối.
+```json
+{
+  "transmission_allowed": true,
+  "sections": [{
+    "id": "p1",
+    "profile": "blog",
+    "kind": "prose",
+    "text": "Đã thử ba cách mà vẫn không tìm nguyên nhân.",
+    "context": ["Lỗi tiếp tục xảy ra dù nhóm đã thử sửa."],
+    "register": "Vietnamese work communication; preserve the source voice.",
+    "audience": "Colleagues",
+    "purpose": "Report the unsuccessful troubleshooting result."
+  }]
+}
+```
 
-Chỉ dùng kết quả thực sự nhận được cho đúng đoạn gốc, ngữ cảnh và candidate hiện tại. Input đổi
-thì kết quả cũ hết hiệu lực. Thiếu capability, timeout hoặc response không hợp lệ là *chưa kiểm
-tra*, không phải `pass`; việc biên tập vẫn tiếp tục bằng core.
+Each section is a full paragraph or structural unit. Supply complete related paragraphs in
+`context` when references, conditions or definitions occur elsewhere; do not cap context at one
+or two sentences. `profile` is `blog`, `technical` or `typography-only`; `kind` is `prose`, `heading`,
+`list` or `protected`. Resolve canonical genre/profile/style rules first. Add the supplied style
+context to `register`; the runner does not infer personal profiles or source authorship.
+
+For sentence-level targeting, supply `targets: [{"id":"s1","start":0,"end":8}]` using verified
+Python character offsets within `text`. Without targets the full paragraph is assessed. Paragraph
+patterns use the full unit. Structural patterns need the relevant surrounding heading/list context;
+source-support patterns need actual source passages, not an invented summary or an assertion that
+an unexamined URL proves a claim. Numerical checks and byte comparisons remain code/host work.
+
+Mark protected ranges with `protected_spans: [{"start":0,"end":8}]`. Mark a wholly preserved unit
+as `kind: "protected"`. The runner excludes protected units and redacts protected substrings from
+outbound fields. Explicit targets intersecting protection are excluded. Redact code, structured
+values, quotations, names and other protected data before placing them in related context; do not
+rely on the runner to discover unmarked private data. Never supply actual restricted input.
+
+## Run and consume evidence
+
+```bash
+python3 -B -m jev evaluate --input input.json
+```
+
+The runner pins `jev-1.14.0`, accounts for all 55 pattern IDs per section, excludes inactive
+profiles/genre-protected patterns, performs document-wide mechanical T3 checks locally (with nested quotation exceptions) and batches the applicable
+semantic questions. It sends text only to `https://api.typesafe.ai/v1/systemone`. Prepared recipes
+and canonical exceptions are shipped in `jev/registry.json`; they are not regenerated per request.
+`python3 -B -m jev evaluate --input input.json --pattern V20` is a single-pattern diagnostic,
+not completion of a full invocation.
+
+Read `coverage`, `receipts`, `judgments` and `candidate_reviews`; validate the actual statuses before
+claiming Jev evaluated text. `jev_evaluated` means typed evidence was received, not that the text
+passed or an edit was approved. Keep Noul probabilities, Choice distributions and Score levels
+separate. Every Score has an independent context-evidence Choice. Consume a Score only with
+`disposition: "context_supported"`; `ignore_insufficient_context` and `ignore_unresolved_context`
+retain its raw distribution for inspection but cannot support an edit. This disposition grants no
+edit approval. Insufficient context is not medium quality; different errors may coexist. Do not use a
+universal threshold or compute an authorship probability. Recipes and Score levels are uncalibrated
+editing aids until tested on separate labeled data.
+
+The limits are 1 MiB input/response, 48,000 bytes and 48 questions per request, 32 requests,
+120 seconds total and 15 seconds per request. Requests are not silently truncated or retried.
+A killable subprocess bounds complete HTTP I/O; late replies are discarded. `deadline_exceeded`
+is distinct from service failure. Invalid-schema receipts contain only a fixed validation reason
+and a requested check ID, never the provider body. Size/budget limits, authentication/network
+errors or invalid responses leave explicit non-pass
+coverage. Continue core on failure and disclose that Jev was incomplete; do not repeat calls merely
+to obtain a favorable judgment. An offline fallback is not a successful Jev run.
+
+## Propose edits and retain five safeguards
+
+The host LLM generates prose. Jev evaluates bounded judgments; it does not generate rewrites or
+apply patches. Use a small candidate set including the original in the host's decision.
+Add candidates to their paragraph as `candidates: [{"id":"e1","start":0,"end":8,"replacement":"..."}]`.
+Each candidate is assessed separately for meaning, new claims, targeted improvement and voice.
+Overlapping protected ranges are rejected; numerical-token preservation is reported locally.
+Changed numbers do not become acceptable because another score is high.
+
+Read the individual guards and inspect the actual edit. All five canonical safeguards still apply:
+name the error and exclude No flag cases; add no facts; preserve meaning/voice; change only the
+necessary span; keep production metadata out of the delivered text. Preserve exact protected bytes
+in the host's final output. A fluent candidate may still be invalid. A host-identifiable error can be
+reviewed even if a first-pass Jev classifier missed it. Re-read interacting edits in their paragraphs.
+
+Jev may inform the host's final editing immediately under the owner-approved governance amendment.
+The runner never automatically accepts, rejects or reverts an edit. A future numerical automatic
+edit policy still requires holdout evidence. Changed input/context/candidate/rubric invalidates the
+affected judgments. Read the current response, not a receipt from an earlier invocation.
+
+## Distribution and reproducibility
+
+Core editing requires no SDK, service or key. The evaluator uses Python 3.12+ standard library and
+is included in every archive. It has no dependency on a maintainer's local scripts. To maintain
+prepared definitions after a canonical rule change, run `python3 -B scripts/build-jev-registry.py`
+and verify `--check`; do not hand-edit the generated registry. Keep corpus/config/model/policy
+bindings in evaluation evidence. Numerical response validation and fixture tests prove contracts,
+not Vietnamese-domain accuracy.

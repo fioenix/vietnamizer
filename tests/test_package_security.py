@@ -25,6 +25,7 @@ PACKAGE_FIXTURE_PATHS = (
     "profiles",
     "references",
     "scripts",
+    "jev",
 )
 
 

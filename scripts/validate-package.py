@@ -78,7 +78,7 @@ EXPECTED_PROFILE_DIRECTORIES = {
     for relative in EXPECTED_PROFILE_FILES
     if PurePosixPath(relative).parent.name == "styles"
 }
-PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration", "agents", "assets"}
+PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration", "agents", "assets", "jev"}
 REFERENCE_FILES = {
     "references/bang-tra-cuu.md",
     "references/bo-giai-phong-cach.md",
@@ -90,6 +90,7 @@ CALIBRATION_FILES = {
     "calibration/ca-kiem-thu.md",
 }
 EXACT_DIRECTORY_FILES = {
+    "jev": {f"jev/{name}" for name in ("__init__.py", "__main__.py", "core.py", "transport.py", "registry.json")},
     "references": REFERENCE_FILES,
     "calibration": CALIBRATION_FILES,
     "agents": {"agents/openai.yaml"},
@@ -214,6 +215,31 @@ def validate_payload_tree(root: Path) -> None:
                 f"{directory_name} chứa thư mục ngoài inventory canonical: "
                 f"{sorted(actual_directories)}"
             )
+
+    try:
+        registry = json.loads((root / "jev/registry.json").read_text())
+        expected_ids = {f"{prefix}{i}" for prefix, count in (("V",25),("T",6),("B",17),("K",7)) for i in range(1,count+1)}
+        entries = registry["patterns"]
+        if registry["model"] != "jev-1.14.0" or len(entries) != 55 or {e["id"] for e in entries} != expected_ids:
+            raise ValueError("registry inventory")
+        for entry in entries:
+            owner = PATTERN_OWNERS[entry["id"][0]]
+            source = (root / owner).read_text()
+            match = re.search(r"(?ms)^### " + re.escape(entry["id"]) + r"\. (.+?)\n(.*?)(?=^### [VTBK]\d+\.|\Z)", source)
+            exclusion = re.search(r"\*\*Không flag:\*\*\s*(.*?)(?=\n\n(?:##|---)|\Z)", match[2], re.S)[1].strip()
+            if entry["source"] != owner or entry["title"] != match[1] or entry["no_flag"] != exclusion:
+                raise ValueError("registry canonical binding")
+            if entry["mode"] != ("mechanical" if entry["id"] == "T3" else "semantic"):
+                raise ValueError("registry mode")
+            if entry["scope"] not in {"target", "paragraph"}:
+                raise ValueError("registry scope")
+            if entry["mode"] == "semantic" and not entry["questions"]:
+                raise ValueError("registry questions")
+            for question in entry["questions"]:
+                if question["type"] not in {"noul", "choice", "score"} or not question["instructions"]:
+                    raise ValueError("registry question type")
+    except (OSError, ValueError, KeyError, TypeError, AttributeError, IndexError):
+        fail("Jev registry thiếu/sai schema hoặc lệch canonical pattern")
 
     for name, square in ASSETS.items():
         try:
