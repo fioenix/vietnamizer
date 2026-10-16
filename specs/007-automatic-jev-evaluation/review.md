@@ -50,3 +50,39 @@ All four added regressions were observed RED before their corresponding fixes. T
 ## Sentinel containment checkpoint
 
 Claude's narrow re-review of 8165f14 closed R1/R2/R3 and found N1: excluding every match that intersects an existing marker also excludes a larger protected value enclosing that marker. Before a third correction of the masking invariant, the host paused and fixed the authoritative rule: only matches wholly contained in a reserved marker may be ignored; enclosing/crossing protected intervals remain classified as data and must be masked. This is interval containment, not a new heuristic or second redaction state. A fixture with editable prose plus a protected value enclosing a marker reproduced the leak in both context and candidate-derived fields. Source/replacement masking still share one matcher and one renderer. No policy/model/permission change is involved.
+
+## Final closure and verification
+
+- Runtime/test revision: `1e98639e512ac6e47669868708867dd338e03b4f`. Claude Code confirmed R1/R2/R3 closed at 8165f14 and N1 closed at 1e98639, with no new regression in the narrow inspected changes. Antigravity's A1–A6/rubric re-review was clean at 79666a8; no subsequent recipe or transport change invalidates that evidence. Later commits update only this report and task dispositions, not runtime bytes.
+- Python 3.12: full discovery 86 tests, OK, 19.225 seconds. Python 3.15: full discovery 86 tests, OK, 19.713 seconds. No code changed after those runs.
+- Registry check: all 55 definitions source-bound. Source validator and plugin packaging passed; mutated-recipe and missing-generator gates are tested.
+- Final archives separately extracted under `/private/tmp/vietnamizer-final-c84c13fh`: 15/15 runtime file comparisons equal source, and all three no-key CLI runs succeeded. Skills 1.5.20 listing and both Claude plugin validation commands passed.
+- Live transport smoke ran the extracted plugin at 79666a8, actual jev-1.14.0: evaluated; 47 semantic + one local mechanical + seven inactive-profile exclusions; 32,870 input and 5,089 output tokens. CLI wall time was 8.67 seconds via /usr/bin/time. Billed currency cost was not available.
+- After the candidate/sentinel corrections, a deterministic current-run payload capture exactly matched every HTTP request digest from that validated smoke. The transport bytes are unchanged. This reuses equivalent transport evidence; it is not claimed as a new live invocation of the last archive. Protected/candidate paths are verified with offline wire-capture regressions rather than exporting private data.
+- Scoped committed diff hygiene passed and git tracked-ignored check was empty. Reviewers did not modify the repository. No shared skill installation or release was performed.
+
+Final runtime SHA-256:
+
+```text
+jev/__init__.py 2e7dcf0438ffb749ff5e9eac5fd9bce7c32aa5cfd7aa7b6794a1d4b565888f17
+jev/__main__.py 56473ef75379687509b2f33f7fc36e2daf5355000cd18f9469b98a8b0b564676
+jev/core.py 904214ced286db872fe200a98f6e91b614ff2b5436c6df380e9b3a1670629778
+jev/transport.py e60866e50134bd225863609a72572c1fb1c1dd04222b6d650ac671d1784afded
+jev/registry.json e7b012701835ff5f3678b70c154765228742ec00e677c1e3ec870c640663af21
+```
+
+Final archive SHA-256:
+
+```text
+vietnamizer.skill 067ca022356dad8f01cd658fc626e009eb498ce99cdb49d1b75a12648a3b807d
+vietnamizer-claude-org.zip ce7669d6594797aa21bb675ddd7662c7941b9eafac51fcd6a38d037d19e6d431
+vietnamizer-plugin.zip 1f3fa42d7f0a111c334a68319d9d633d99eda42c2f5926dc8abb8cdc0c79d9ca
+```
+
+## Draft PR delivery
+
+PR: https://github.com/fioenix/vietnamizer/pull/11
+
+Observed at creation: OPEN, isDraft=true, base main, head codex/007-automatic-jev-evaluation at 1e98639e512ac6e47669868708867dd338e03b4f. Attached to this Codex task. GitHub validate was IN_PROGRESS at that observation; no pass is inferred from local tests. The final chat handoff separately reports the observed check status after pushing this evidence-only commit. No merge was requested or performed.
+
+All owner-authorized branch/review/fix/test/draft-PR tasks are complete. Vietnamese holdout calibration, actual client UI invocation across hosts, shared installation/release and recovering the historical invalid_response field remain explicitly unproven or out of scope.

@@ -76,5 +76,7 @@ Owner authorized branch separation, Claude Code and Antigravity review, finding 
 
 - [X] T022 Separate only feature 007 changes onto `codex/007-automatic-jev-evaluation` based on current `origin/main`; preserve the former branch and unrelated README commit.
 - [X] T023 Obtain independent read-only Claude Code runtime/security/package review and Antigravity spec/rubric/context/overediting review on the same immutable feature revision.
-- [ ] T024 Reproduce and dispose actionable findings, run affected/final checks, and record exact reviewed/tested revisions in `specs/007-automatic-jev-evaluation/review.md`.
-- [ ] T025 Push the dedicated branch, create and attach a draft PR against `main`, verify draft/head/base state and leave unmerged.
+- [X] T024 Reproduce and dispose actionable findings, run affected/final checks, and record exact reviewed/tested revisions in `specs/007-automatic-jev-evaluation/review.md`.
+- [X] T025 Push the dedicated branch, create and attach a draft PR against `main`, verify draft/head/base state and leave unmerged.
+
+PR handoff: draft #11 is OPEN against main, attached to this task; runtime 1e98639, 86 tests on both supported test interpreters, current archive parity and reviewer dispositions recorded in review.md. No merge/release/shared installation.
