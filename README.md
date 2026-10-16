@@ -28,7 +28,7 @@ cho thấy bản gốc thật sự có vấn đề.
 ## Cài nhanh
 
 Tên mới từ bản **0.9.7**: Vietnamizer, định danh `vietnamizer` (trước đây là
-`vi-humanizer`). Bản hiện tại là **0.10.0**, bổ sung đánh giá Jev tự động khi host cấp key và quyền gửi
+`vi-humanizer`). Bản hiện tại là **0.11.0** (source chưa phát hành), mở rộng tách câu và coverage trên nền Jev tự động khi host cấp key và quyền gửi
 dữ liệu; phát hành GitHub không đồng nghĩa được Directory chấp thuận.
 Asset của các release trước 0.9.7 vẫn mang tên
 `vi-humanizer.*` và chứa định danh cũ.
@@ -245,6 +245,10 @@ Markdown, không gọi API hoặc yêu cầu thiết lập. Có `TYPESAFE_API_KE
 gửi dữ liệu thì Agent phải thử runner `python3 -B -m jev evaluate --input /absolute/workspace/input.json` từ skill root.
 Runner dùng Python 3.12+ standard library, không SDK; gửi nguyên đoạn cùng ngữ cảnh cần thiết tới
 TypeSafe, model pin `jev-1.14.0`. Key không thay thế quyền truyền dữ liệu hoặc giới hạn của host.
+Source 0.11.0 tự tách câu với input v2; `prepare` chạy offline để xem các span và phần chưa rõ.
+Host chọn layout, đánh dấu vùng bảo toàn và rà phụ thuộc ngữ cảnh; chỉ dữ liệu được phép mới gửi.
+Coverage tách nguồn/ranh giới/ngữ cảnh/câu hỏi. Hết batch vẫn liệt kê phần chưa kiểm; không phải
+bài dài nào cũng hoàn tất trong 32 request. Input cũ chỉ chứng minh coverage các section đã cung cấp.
 
 Gói chứa định nghĩa chuẩn bị sẵn cho đủ V1–V25, T1–T6, B1–B17, K1–K7. Mỗi phần chỉ dùng
 pattern phù hợp thể loại/profile; kiểm cơ học nằm trong mã. Kết quả có coverage và phân bố,
@@ -528,6 +532,11 @@ Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tha
 Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
+
+- **0.11.0** – Chưa phát hành. Tự tách đoạn/câu từ input nguồn, giữ vị trí và nguyên đoạn/ngữ cảnh;
+  đối soát từng câu, pattern và rubric qua nhiều batch. CLI có `prepare` offline, contract v2 phân biệt
+  đủ câu trả lời với đủ ngữ cảnh và kiểm đầy đủ; input `sections` cũ vẫn dùng được. Phần mơ hồ hoặc
+  vượt giới hạn cục bộ/dịch vụ được báo riêng; không tăng quota hay tự quyết định edit.
 
 - **0.10.0** – Thêm runner Jev 1.14 và registry 55 pattern: tự động thử khi host cấp key và quyền gửi,
   core độc lập khi không có key hoặc dịch vụ lỗi. Kiểm tra riêng từng candidate, giữ năm chốt chặn,
