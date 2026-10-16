@@ -53,6 +53,13 @@ Generated integration files, raw runs, scratch output, environment files và cac
 theo `.gitignore`. Khi contributor cần Spec Kit, dùng bootstrap trong `CONTRIBUTING.md`; constitution,
 template, scripts, workflows, specs và evidence đã duyệt vẫn là source public được track.
 
+## Runtime Jev và coverage
+
+`jev/preparation.py` sở hữu phân đoạn nguồn/ngữ cảnh; `jev/coverage.py` sở hữu manifest công việc
+và đối soát; `jev/core.py` lập lịch, `jev/transport.py` giữ origin/model và deadline I/O.
+Khi sửa source spans, context, batch hoặc kết quả, đối chiếu hợp đồng hiện hành trong
+`references/typesafe-advisor.md` và test nguồn/câu/context/coverage; không suy coverage từ số pattern.
+
 ## TypeSafe và hồ sơ lịch sử
 
 Vietnamizer có runner Python standard library trong `jev/`, tự động thử khi host cấp key và

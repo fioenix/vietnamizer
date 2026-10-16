@@ -7,7 +7,7 @@ description: |
   cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
-  version: "0.10.0"
+  version: "0.11.0"
 ---
 
 # Vietnamizer
@@ -91,7 +91,11 @@ quét file, tìm credential hay yêu cầu người dùng thiết lập dịch v
 Không có key thì dùng đầy đủ quy trình core, không gọi API. Có key và quyền gửi dữ liệu thì
 **bắt buộc thử** runner đã đóng gói trước khi trả bản biên tập. Runner dùng `jev-1.14.0`, các
 định nghĩa sẵn cho đủ 55 pattern, nguyên đoạn và ngữ cảnh liên quan; chỉ chạy các pattern đúng
-cổng thể loại/profile và giữ vùng bảo toàn. LLM sinh candidate và bản cuối, Jev trả typed judgments.
+cổng thể loại/profile và giữ vùng bảo toàn. Runner tự tách đoạn/câu từ input nguồn; host chọn
+layout, thể loại, vùng bảo toàn và xác nhận các phụ thuộc ngữ cảnh theo hợp đồng. Mỗi câu giữ
+nguyên đoạn và các đoạn liên quan; đọc riêng trạng thái segmentation, context và coverage.
+Giới hạn batch hoặc ranh giới chưa rõ phải được báo là chưa hoàn tất, không phải đã kiểm hết.
+LLM sinh candidate và bản cuối, Jev trả typed judgments.
 
 Host không chạy được script, bị từ chối quyền gửi, API lỗi hoặc kết quả thiếu thì tiếp tục core
 và nêu đúng giới hạn khi có yêu cầu hoặc đã thử Jev; không mạo nhận *đã kiểm tra*. Có key không
