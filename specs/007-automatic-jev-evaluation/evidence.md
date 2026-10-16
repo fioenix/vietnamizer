@@ -1,6 +1,6 @@
 # Implementation evidence — feature 007
 
-Updated 2026-10-16. Implementation, bounded code/security re-review and final verification complete. This is a local delivery, not a release or a shared-runtime installation.
+Initial implementation verification, 2026-10-16. The later owner-authorized Claude Code/Antigravity review, fixes and PR verification are recorded in review.md; hashes and counts below bind the earlier snapshot. This is a local delivery, not a release or a shared-runtime installation.
 
 ## Workflow and authority
 

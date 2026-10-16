@@ -107,6 +107,39 @@ CHOICES = {
 'K7':['supported','contradicted','not_addressed','ambiguous'],
 }
 
+# These options describe the target's function/support, never support for a
+# violation hypothesis. Noul remains the independent defect judgment.
+CHOICE_DESCRIPTIONS = {
+ 'V14': {
+  'complete_clause':'A complete Vietnamese clause, including context-licensed subject ellipsis.',
+  'standalone_noun_phrase_sentence':'A noun phrase is punctuated as a complete prose sentence without a licensed predicate.',
+  'heading_or_label':'A heading, label, lookup entry or table cell; no prose predicate is required.',
+  'intentional_fragment':'An intentional fragment supported by its discourse function.'},
+ 'V16': {
+  'justified_topic_or_genre_passive':'A true passive serving topic focus, result emphasis or an established administrative/technical convention.',
+  'cumbersome_translated_passive':'A cumbersome passive copied from another language without a supported topic or genre function.',
+  'capability_or_result':'Được expresses ability or achieved result rather than a passive construction.',
+  'benefit_or_adversity':'Được/bị expresses benefit or adversity appropriate to the intended meaning.'},
+ 'V22': {
+  'claim_supported_by_source':'The target factual assertion is supported by actual supplied source passages, not merely by a disclaimer.',
+  'claim_contradicted_by_source':'The actual supplied source contradicts the target factual assertion.',
+  'claim_not_addressed_by_source':'A source is supplied but does not establish the target factual assertion.',
+  'licensed_forecast_or_limit':'Explicit forecast/risk scenario, grounded estimate, data cutoff or research limitation; not an unsupported assertion presented as fact.',
+  'ambiguous_claim_or_scope':'The target assertion or its source relation has multiple readings; do not infer external truth.'},
+ 'T1': {
+  'ordinary_sentence_case':'Heading/common-noun capitalization follows Vietnamese sentence case.',
+  'unmotivated_title_case':'Common words have unsupported English-style Title Case.',
+  'proper_or_official_name':'Capitalization belongs to a proper or official name and must be preserved.',
+  'intentional_design_caps':'All-caps typography is an intentional design/format requirement.'},
+}
+for _ident in ('B8','K7'):
+ CHOICE_DESCRIPTIONS[_ident] = {
+  'claim_supported_by_source':'Actual supplied identifiable evidence supports the target authority, attribution or ranking claim.',
+  'claim_contradicted_by_source':'Actual supplied evidence contradicts that specific claim.',
+  'claim_not_addressed_by_source':'A source is supplied but does not support that specific claim; its mere presence is not support.',
+  'licensed_attribution_or_example':'An attributed view, illustrative quotation or domain-specific convention has a legitimate evidenced function.',
+  'ambiguous_claim_or_scope':'The target claim or evidence relation is ambiguous. Missing source evidence belongs to insufficient, not inferred truth.'}
+
 
 def build():
     entries = []
@@ -120,9 +153,9 @@ def build():
             scope = 'paragraph' if ident in {'V12','V13','T5','B3','B4','B7','B10','B11','B13','B15','B16','B17','K3','K4','K5','K6'} else 'target'
             qs = [{'key':'violation','type':'noul','instructions':RECIPES[ident]}]
             if ident in CHOICES:
-                options = {x: x.replace('_',' ') for x in CHOICES[ident]}
+                options = dict(CHOICE_DESCRIPTIONS[ident]) if ident in CHOICE_DESCRIPTIONS else {x: x.replace('_',' ') for x in CHOICES[ident]}
                 options.update({'none_fit':'None of these interpretations fits.','insufficient':'The supplied evidence cannot resolve this interpretation.'})
-                qs.append({'key':'interpretation','type':'choice','instructions':f'For the issue described here, which interpretation/function best fits the target in context? {RECIPES[ident]}','criteria':options})
+                qs.append({'key':'interpretation','type':'choice','instructions':f'Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? {RECIPES[ident]}','criteria':options})
             if ident in SCORES:
                 qs.append({'key':'evidence','type':'choice','instructions':f'Can the supplied context establish the intended meaning, reference, audience and exceptions needed to judge this issue? {RECIPES[ident]}','criteria':{'sufficient':'The necessary context is supplied; the issue may be present or absent.','insufficient':'A necessary fact, intended referent or context is missing.','none_fit':'These context dispositions do not fit the supplied evidence.'}})
                 qs.append({'key':'degree','type':'score','instructions':f'Rate ONLY the degree of the specific issue described in this question, not overall writing quality: {RECIPES[ident]} Context insufficiency is not a middle score.','criteria':['No established instance of this issue in the target context.','A slight instance; little effect on the relevant reading function.','A clear instance affecting the relevant reading function.','A pronounced instance substantially obstructing the relevant reading function.']})

@@ -74,7 +74,7 @@ Final checkpoint: all 21 tasks verified against the evidence in evidence.md. Pyt
 
 Owner authorized branch separation, Claude Code and Antigravity review, finding fixes, targeted verification and draft PR on 2026-10-16. No merge authority.
 
-- [ ] T022 Separate only feature 007 changes onto `codex/007-automatic-jev-evaluation` based on current `origin/main`; preserve the former branch and unrelated README commit.
-- [ ] T023 Obtain independent read-only Claude Code runtime/security/package review and Antigravity spec/rubric/context/overediting review on the same immutable feature revision.
+- [X] T022 Separate only feature 007 changes onto `codex/007-automatic-jev-evaluation` based on current `origin/main`; preserve the former branch and unrelated README commit.
+- [X] T023 Obtain independent read-only Claude Code runtime/security/package review and Antigravity spec/rubric/context/overediting review on the same immutable feature revision.
 - [ ] T024 Reproduce and dispose actionable findings, run affected/final checks, and record exact reviewed/tested revisions in `specs/007-automatic-jev-evaluation/review.md`.
 - [ ] T025 Push the dedicated branch, create and attach a draft PR against `main`, verify draft/head/base state and leave unmerged.

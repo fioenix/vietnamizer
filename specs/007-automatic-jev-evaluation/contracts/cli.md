@@ -4,8 +4,8 @@ From the installed skill root:
 
 ```bash
 python3 -B -m jev status
-python3 -B -m jev evaluate --input input.json
-python3 -B -m jev evaluate --input input.json --pattern V20
+python3 -B -m jev evaluate --input /absolute/workspace/input.json
+python3 -B -m jev evaluate --input /absolute/workspace/input.json --pattern V20
 ```
 
 status emits only key_available/key_absent and makes no network call. evaluate with no injected key returns key_absent before reading an input. With a key, stdin is used if --input is omitted. The individual-pattern diagnostic declares single_pattern coverage.

@@ -252,6 +252,48 @@ class JevTest(unittest.TestCase):
         self.assertEqual(score['disposition'], 'ignore_insufficient_context')
         self.assertIn('probabilities', score['answer'])
 
+    def test_overlap_redaction_and_derived_targets_do_not_leak(self):
+        section=self.doc['sections'][0]
+        section.update(text='call ABCD EFG HIJ now',protected_spans=[{'start':5,'end':17}],
+                       targets=[{'id':'s1','start':0,'end':14}])
+        section['context']=['call ABCD EFG HIJ now']
+        self.doc['sections'].append({'id':'p2','profile':'blog','kind':'protected','text':'call ABCD EFG'})
+        self.evaluate(only_pattern='V20')
+        self.assertTrue(self.calls)
+        wire=json.dumps(self.calls)
+        self.assertNotIn('HIJ',wire)
+        self.assertNotIn('ABCD',wire)
+        self.assertNotIn('EFG',wire)
+
+    def test_short_protected_tokens_do_not_corrupt_prose_or_placeholders(self):
+        section=self.doc['sections'][0]
+        section.update(text='SECRET E; rà và rà soát',protected_spans=[{'start':0,'end':6},{'start':7,'end':8},{'start':10,'end':12}])
+        self.evaluate(only_pattern='V20')
+        state=self.calls[0]['state']
+        self.assertEqual(state['paragraph'],'[PROTECTED] [PROTECTED]; [PROTECTED] và rà soát')
+        self.assertEqual(state['register'],'Preserve the supplied text’s register.')
+
+    def test_protected_targets_do_not_suppress_paragraph_and_document_checks(self):
+        section=self.doc['sections'][0]
+        section.update(text='An nói thiếu rõ ràng.',protected_spans=[{'start':0,'end':2}],targets=[{'id':'s1','start':0,'end':2}])
+        result=self.evaluate()
+        coverage={e['pattern']:e for e in result['coverage']}
+        self.assertEqual(coverage['V20']['status'],'excluded')
+        self.assertEqual(coverage['V13']['status'],'jev_evaluated')
+        self.assertEqual(coverage['T3']['status'],'mechanically_checked')
+
+    def test_t3_mismatched_low_and_cross_paragraph_quotes_are_visible(self):
+        for text in ('Câu 1: “Xin chào". Câu 2: "Tạm biệt”.','„Xin chào" và „tạm biệt"','Mở “câu\nMột "câu khác".'):
+            with self.subTest(text=text):
+                self.assertTrue(self.core.mechanical(text))
+        self.assertEqual(self.core.mechanical('Cô nói: “Từ "nhà" ở đây đúng.”'),[])
+
+    def test_elapsed_deadline_between_sections_is_not_size_limit(self):
+        self.doc['sections'].append(dict(self.doc['sections'][0],id='p2'))
+        with patch('jev.core.time.monotonic',side_effect=[0,0,0,0,0,121]):
+            result=self.evaluate(only_pattern='V20')
+        self.assertTrue(any(e['status']=='deadline_exceeded' for e in result['coverage']))
+
     def test_cli_no_key_works_without_input(self):
         env = {k: v for k, v in os.environ.items() if k != 'TYPESAFE_API_KEY'}
         run = subprocess.run([sys.executable, '-B', '-m', 'jev', 'evaluate'], cwd=ROOT,

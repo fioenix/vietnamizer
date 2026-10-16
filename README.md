@@ -28,8 +28,8 @@ cho thấy bản gốc thật sự có vấn đề.
 ## Cài nhanh
 
 Tên mới từ bản **0.9.7**: Vietnamizer, định danh `vietnamizer` (trước đây là
-`vi-humanizer`). Bản hiện tại là **0.9.8**, cập nhật metadata và ranh giới quyền riêng tư
-cho Directory; phát hành GitHub không đồng nghĩa được Directory chấp thuận.
+`vi-humanizer`). Bản hiện tại là **0.10.0**, bổ sung đánh giá Jev tự động khi host cấp key và quyền gửi
+dữ liệu; phát hành GitHub không đồng nghĩa được Directory chấp thuận.
 Asset của các release trước 0.9.7 vẫn mang tên
 `vi-humanizer.*` và chứa định danh cũ.
 Xem [hướng dẫn chuyển tên](docs/rename-vietnamizer-2026-10-03.md).
@@ -151,7 +151,7 @@ Kết quả là `dist/vietnamizer-plugin.zip`, có hai manifest và một skill 
 
 ### Cài thủ công
 
-Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/`, `agents/` và `assets/` vào
+Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/`, `agents/`, `assets/` và `jev/` vào
 thư mục skill của agent:
 
 ```bash
@@ -242,7 +242,7 @@ Skill không dùng kết quả rà soát để xác định tác giả. Người
 
 Từ 0.10.0, mỗi lượt Vietnamizer kiểm tra key được host cấp. Không có key thì Agent dùng core
 Markdown, không gọi API hoặc yêu cầu thiết lập. Có `TYPESAFE_API_KEY`, script execution và quyền
-gửi dữ liệu thì Agent phải thử runner `python3 -B -m jev evaluate --input input.json` từ skill root.
+gửi dữ liệu thì Agent phải thử runner `python3 -B -m jev evaluate --input /absolute/workspace/input.json` từ skill root.
 Runner dùng Python 3.12+ standard library, không SDK; gửi nguyên đoạn cùng ngữ cảnh cần thiết tới
 TypeSafe, model pin `jev-1.14.0`. Key không thay thế quyền truyền dữ liệu hoặc giới hạn của host.
 

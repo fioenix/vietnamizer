@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import re
 import stat
+import subprocess
 import sys
 import zipfile
 from pathlib import Path, PurePosixPath
@@ -612,6 +613,17 @@ for relative, budget in LINE_BUDGETS.items():
 for target in sorted(set(re.findall(r"`((?:profiles|references|scripts)/[\w./-]+)`", skill))):
     if not (ROOT / target).exists():
         fail(f"SKILL.md trỏ tới file không tồn tại: {target}")
+
+# Source-only recipe gate: extracted public payloads intentionally omit tooling.
+generator = ROOT / "scripts/build-jev-registry.py"
+if generator.is_file():
+    generated = subprocess.run([sys.executable, "-B", str(generator), "--check"],
+                               capture_output=True, text=True)
+    if generated.returncode:
+        fail("Jev registry recipe lệch generator; chạy scripts/build-jev-registry.py")
+current_version = re.search(r"Bản hiện tại là \*\*([^*]+)\*\*", read("README.md"))
+if not current_version or current_version[1] != skill_version:
+    fail("README current version lệch SKILL.md")
 
 # --- Kết quả -------------------------------------------------------------
 

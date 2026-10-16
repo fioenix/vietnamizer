@@ -23,7 +23,8 @@ never overrides host transmission policy or the restricted-data gate in SKILL.md
 ## Prepare the input
 
 Write a task-local JSON input only within the user's authorized workspace, or supply it through
-stdin. Follow the host's data policy for temporary text and cleanup. Raw prose is never telemetry.
+stdin. Follow the host's data policy for temporary text and cleanup. Raw prose is never telemetry. Use an absolute workspace input path (the examples use
+`/absolute/workspace/input.json`) or stdin while executing from the installed skill root.
 Set `transmission_allowed` to literal `true` only when sharing this text with TypeSafe is authorized;
 use existing permission instead of asking again. Otherwise continue core and disclose the blocked
 external check when relevant. Do not substitute a browser tool for the evaluator.
@@ -58,24 +59,28 @@ an unexamined URL proves a claim. Numerical checks and byte comparisons remain c
 
 Mark protected ranges with `protected_spans: [{"start":0,"end":8}]`. Mark a wholly preserved unit
 as `kind: "protected"`. The runner excludes protected units and redacts protected substrings from
-outbound fields. Explicit targets intersecting protection are excluded. Redact code, structured
+derived target/edit fields. Related unstructured fields use one-pass union redaction of full
+protected strings; repeated unmarked primary prose is not automatically classified as private.
+Mark every sensitive occurrence in primary text, including partial copies, explicitly. Targets containing protected spans are masked by source offsets; only targets without editable
+non-whitespace text are excluded. Paragraph/document checks remain independent of target exclusion. Redact code, structured
 values, quotations, names and other protected data before placing them in related context; do not
 rely on the runner to discover unmarked private data. Never supply actual restricted input.
 
 ## Run and consume evidence
 
 ```bash
-python3 -B -m jev evaluate --input input.json
+python3 -B -m jev evaluate --input /absolute/workspace/input.json
 ```
 
 The runner pins `jev-1.14.0`, accounts for all 55 pattern IDs per section, excludes inactive
 profiles/genre-protected patterns, performs document-wide mechanical T3 checks locally (with nested quotation exceptions) and batches the applicable
 semantic questions. It sends text only to `https://api.typesafe.ai/v1/systemone`. Prepared recipes
 and canonical exceptions are shipped in `jev/registry.json`; they are not regenerated per request.
-`python3 -B -m jev evaluate --input input.json --pattern V20` is a single-pattern diagnostic,
+`python3 -B -m jev evaluate --input /absolute/workspace/input.json --pattern V20` is a single-pattern diagnostic,
 not completion of a full invocation.
 
-Read `coverage`, `receipts`, `judgments` and `candidate_reviews`; validate the actual statuses before
+Judgments retain validated partial evidence with `coverage_status`; a valid partial judgment
+does not complete its enclosing pattern. Read `coverage`, `receipts`, `judgments` and `candidate_reviews`; validate the actual statuses before
 claiming Jev evaluated text. `jev_evaluated` means typed evidence was received, not that the text
 passed or an edit was approved. Keep Noul probabilities, Choice distributions and Score levels
 separate. Every Score has an independent context-evidence Choice. Consume a Score only with

@@ -1,4 +1,7 @@
 import json
+import os
+import tempfile
+from pathlib import Path
 import unittest
 import subprocess
 import sys
@@ -70,6 +73,42 @@ class TransportTest(unittest.TestCase):
             self.assertEqual(caught.exception.category, 'deadline_exceeded')
             self.assertLess(time.monotonic()-started, 2)
             self.assertIsNotNone(children[0].poll())
+
+    def test_worker_ignores_hostile_cwd_imports(self):
+        real_popen=subprocess.Popen
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);marker=root/'imported'
+            (root/'json.py').write_text('from pathlib import Path; Path('+repr(str(marker))+').touch(); raise RuntimeError("hostile")')
+            def harmless(command,**kwargs):
+                command=list(command)
+                command[command.index('-c')+1]='import sys; sys.path.insert(0,sys.argv[1]); import jev.transport as t; sys.stdout.buffer.write(t.encoded({"reply":{}}))'
+                return real_popen(command,cwd=directory,**kwargs)
+            with patch('jev.transport.subprocess.Popen',side_effect=harmless):
+                self.assertEqual(bounded_request({},'fixture',2),{})
+            self.assertFalse(marker.exists())
+
+    def test_keyboard_interrupt_collects_child(self):
+        real_popen=subprocess.Popen;children=[]
+        def interrupt(*args,**kwargs):
+            child=real_popen([sys.executable,'-c','import time; time.sleep(30)'],**kwargs)
+            child.communicate=lambda *a,**k: (_ for _ in ()).throw(KeyboardInterrupt())
+            children.append(child);return child
+        try:
+            with patch('jev.transport.subprocess.Popen',side_effect=interrupt):
+                with self.assertRaises(KeyboardInterrupt):bounded_request({},'fixture',2)
+            self.assertIsNotNone(children[0].poll())
+        finally:
+            if children and children[0].poll() is None:children[0].kill();children[0].wait()
+
+    def test_worker_has_own_absolute_watchdog(self):
+        root=str(Path(__file__).resolve().parents[1])
+        command=[sys.executable,'-I','-B','-c','import sys,time; sys.path.insert(0,sys.argv[1]); import jev.transport as t; t._request_once=lambda *a:time.sleep(30); t._worker()',root]
+        with subprocess.Popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE) as child:
+            try:
+                child.communicate(json.dumps({'payload':{},'key':'fixture','timeout':.15}).encode(),timeout=2)
+                self.assertEqual(child.returncode,124)
+            except subprocess.TimeoutExpired:
+                child.kill();child.wait();self.fail('worker survived its own deadline')
 
     def test_redirect_cannot_forward_authorization(self):
         req = urllib.request.Request('https://api.typesafe.ai/v1/systemone', headers={'Authorization':'Bearer test-key'})

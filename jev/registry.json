@@ -18,7 +18,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does the intended result, capability or direction of the action require a missing complement such as được or ra? Distinguish deliberate refusal from inability.",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does the intended result, capability or direction of the action require a missing complement such as được or ra? Distinguish deliberate refusal from inability.",
           "criteria": {
             "ongoing_action": "ongoing action",
             "deliberate_refusal": "deliberate refusal",
@@ -46,7 +46,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does an omitted paired connective actually obscure the relation between clauses? A relation already clear in Vietnamese needs no extra thì or nên.",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does an omitted paired connective actually obscure the relation between clauses? A relation already clear in Vietnamese needs no extra thì or nên.",
           "criteria": {
             "causal": "causal",
             "conditional": "conditional",
@@ -74,7 +74,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is là required to express this definition or selection, rather than an adjective predicate, action or legitimate label?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is là required to express this definition or selection, rather than an adjective predicate, action or legitimate label?",
           "criteria": {
             "definition_or_selection": "definition or selection",
             "adjective_predicate": "adjective predicate",
@@ -102,7 +102,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is a temporal/aspect marker missing or redundant in the established sequence of events? Preserve completion, continuation and timing.",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is a temporal/aspect marker missing or redundant in the established sequence of events? Preserve completion, continuation and timing.",
           "criteria": {
             "completed": "completed",
             "ongoing": "ongoing",
@@ -131,7 +131,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is a classifier genuinely missing or inappropriate for this noun in its intended count/mass/generic sense and regional usage?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is a classifier genuinely missing or inappropriate for this noun in its intended count/mass/generic sense and regional usage?",
           "criteria": {
             "count_individual": "count individual",
             "mass_or_abstract": "mass or abstract",
@@ -159,7 +159,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does the question/request frame conflict with the communicative intention supported by the supplied relationship and context?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does the question/request frame conflict with the communicative intention supported by the supplied relationship and context?",
           "criteria": {
             "yes_no_question": "yes no question",
             "open_question": "open question",
@@ -203,7 +203,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is a particular các/những unnecessary or wrong for the intended whole set, subset or generic scope?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is a particular các/những unnecessary or wrong for the intended whole set, subset or generic scope?",
           "criteria": {
             "whole_defined_set": "whole defined set",
             "subset": "subset",
@@ -266,7 +266,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does adverb placement create materially competing attachments not resolved by context?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does adverb placement create materially competing attachments not resolved by context?",
           "criteria": {
             "one_supported_attachment": "one supported attachment",
             "competing_attachments": "competing attachments",
@@ -400,11 +400,12 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is a noun phrase incorrectly presented as a complete prose sentence rather than a heading, label or intentional fragment?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is a noun phrase incorrectly presented as a complete prose sentence rather than a heading, label or intentional fragment?",
           "criteria": {
-            "prose_sentence": "prose sentence",
-            "heading_or_label": "heading or label",
-            "intentional_fragment": "intentional fragment",
+            "complete_clause": "A complete Vietnamese clause, including context-licensed subject ellipsis.",
+            "standalone_noun_phrase_sentence": "A noun phrase is punctuated as a complete prose sentence without a licensed predicate.",
+            "heading_or_label": "A heading, label, lookup entry or table cell; no prose predicate is required.",
+            "intentional_fragment": "An intentional fragment supported by its discourse function.",
             "none_fit": "None of these interpretations fits.",
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
@@ -463,11 +464,12 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is passive wording unnecessarily copied or cumbersome here, rather than expressing result, ability, benefit, adversity or a justified topic focus?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is passive wording unnecessarily copied or cumbersome here, rather than expressing result, ability, benefit, adversity or a justified topic focus?",
           "criteria": {
-            "passive": "passive",
-            "capability_or_result": "capability or result",
-            "benefit_or_adversity": "benefit or adversity",
+            "justified_topic_or_genre_passive": "A true passive serving topic focus, result emphasis or an established administrative/technical convention.",
+            "cumbersome_translated_passive": "A cumbersome passive copied from another language without a supported topic or genre function.",
+            "capability_or_result": "Được expresses ability or achieved result rather than a passive construction.",
+            "benefit_or_adversity": "Được/bị expresses benefit or adversity appropriate to the intended meaning.",
             "none_fit": "None of these interpretations fits.",
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
@@ -505,7 +507,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Are subjects or referents materially unclear across clauses, rather than recoverable Vietnamese ellipsis?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Are subjects or referents materially unclear across clauses, rather than recoverable Vietnamese ellipsis?",
           "criteria": {
             "clear_referent": "clear referent",
             "context_licensed_ellipsis": "context licensed ellipsis",
@@ -553,7 +555,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is an English insertion inappropriate for the supplied audience and domain, rather than an established term or community usage?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is an English insertion inappropriate for the supplied audience and domain, rather than an established term or community usage?",
           "criteria": {
             "proper_name": "proper name",
             "established_term": "established term",
@@ -602,7 +604,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is a lexical expression internally incomplete or an unnatural combination in its intended sense? Distinguish valid standalone words and community shortening from actual missing syllables.",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is a lexical expression internally incomplete or an unnatural combination in its intended sense? Distinguish valid standalone words and community shortening from actual missing syllables.",
           "criteria": {
             "standalone_word": "standalone word",
             "community_shortening": "community shortening",
@@ -651,7 +653,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does this sentence address the commissioning user as leftover assistant conversation instead of the intended document reader?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does this sentence address the commissioning user as leftover assistant conversation instead of the intended document reader?",
           "criteria": {
             "assistant_remnant": "assistant remnant",
             "genuine_greeting_or_wish": "genuine greeting or wish",
@@ -678,12 +680,13 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does a source-limitation disclaimer precede a concrete speculation unsupported by the supplied evidence? Do not infer truth from plausibility.",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does a source-limitation disclaimer precede a concrete speculation unsupported by the supplied evidence? Do not infer truth from plausibility.",
           "criteria": {
-            "supported": "supported",
-            "contradicted": "contradicted",
-            "not_addressed": "not addressed",
-            "ambiguous": "ambiguous",
+            "claim_supported_by_source": "The target factual assertion is supported by actual supplied source passages, not merely by a disclaimer.",
+            "claim_contradicted_by_source": "The actual supplied source contradicts the target factual assertion.",
+            "claim_not_addressed_by_source": "A source is supplied but does not establish the target factual assertion.",
+            "licensed_forecast_or_limit": "Explicit forecast/risk scenario, grounded estimate, data cutoff or research limitation; not an unsupported assertion presented as fact.",
+            "ambiguous_claim_or_scope": "The target assertion or its source relation has multiple readings; do not infer external truth.",
             "none_fit": "None of these interpretations fits.",
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
@@ -706,7 +709,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does the sentence rebut a position absent from the supplied discussion rather than make an informative contrast?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does the sentence rebut a position absent from the supplied discussion rather than make an informative contrast?",
           "criteria": {
             "present_opponent_or_alternative": "present opponent or alternative",
             "informative_contrast": "informative contrast",
@@ -733,7 +736,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Do possibility/uncertainty expressions duplicate the same scope, such that removing one preserves the exact epistemic commitment?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Do possibility/uncertainty expressions duplicate the same scope, such that removing one preserves the exact epistemic commitment?",
           "criteria": {
             "same_epistemic_scope": "same epistemic scope",
             "distinct_scopes": "distinct scopes",
@@ -759,7 +762,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Has a specific relation established in the supplied source become vague or lost its direction/type/certainty in this target?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Has a specific relation established in the supplied source become vague or lost its direction/type/certainty in this target?",
           "criteria": {
             "relation_preserved": "relation preserved",
             "relation_weakened": "relation weakened",
@@ -787,11 +790,12 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is capitalization inappropriate for Vietnamese headings/common nouns, excluding proper and official names whose spelling must be preserved?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is capitalization inappropriate for Vietnamese headings/common nouns, excluding proper and official names whose spelling must be preserved?",
           "criteria": {
-            "heading": "heading",
-            "common_noun": "common noun",
-            "proper_or_official_name": "proper or official name",
+            "ordinary_sentence_case": "Heading/common-noun capitalization follows Vietnamese sentence case.",
+            "unmotivated_title_case": "Common words have unsupported English-style Title Case.",
+            "proper_or_official_name": "Capitalization belongs to a proper or official name and must be preserved.",
+            "intentional_design_caps": "All-caps typography is an intentional design/format requirement.",
             "none_fit": "None of these interpretations fits.",
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
@@ -814,7 +818,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is a dash used contrary to the canonical typography rule, excluding protected text, valid en-dash ranges, dialogue and name pairs?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is a dash used contrary to the canonical typography rule, excluding protected text, valid en-dash ranges, dialogue and name pairs?",
           "criteria": {
             "incidental_aside": "incidental aside",
             "range": "range",
@@ -852,7 +856,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is the comma before và dispensable here without losing list boundaries, clause distinction or intentional rhythm?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is the comma before và dispensable here without losing list boundaries, clause distinction or intentional rhythm?",
           "criteria": {
             "simple_list": "simple list",
             "complex_list_boundary": "complex list boundary",
@@ -880,7 +884,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Do repeated label-colon structures add no real classification, subtitle, lookup or data-field function?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Do repeated label-colon structures add no real classification, subtitle, lookup or data-field function?",
           "criteria": {
             "data_field": "data field",
             "real_classification": "real classification",
@@ -908,7 +912,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Are decorative emoji contrary to an explicit genre/user requirement, excluding informative symbols and accepted social usage?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Are decorative emoji contrary to an explicit genre/user requirement, excluding informative symbols and accepted social usage?",
           "criteria": {
             "informative_symbol": "informative symbol",
             "accepted_social_decoration": "accepted social decoration",
@@ -971,7 +975,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is an off-the-shelf metaphor or translated idiom replacing information or mixing incompatible imagery, rather than an established term or developed image?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is an off-the-shelf metaphor or translated idiom replacing information or mixing incompatible imagery, rather than an established term or developed image?",
           "criteria": {
             "established_term": "established term",
             "developed_metaphor": "developed metaphor",
@@ -1034,7 +1038,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is the optimistic closing generic and uninformative, excluding a genuine wish, concrete plan or required conclusion?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is the optimistic closing generic and uninformative, excluding a genuine wish, concrete plan or required conclusion?",
           "criteria": {
             "concrete_plan": "concrete plan",
             "genuine_wish": "genuine wish",
@@ -1083,7 +1087,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does the parallel contrast merely restate the first clause more strongly instead of adding distinct information?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does the parallel contrast merely restate the first clause more strongly instead of adding distinct information?",
           "criteria": {
             "distinct_information": "distinct information",
             "repetition_or_inflation": "repetition or inflation",
@@ -1109,7 +1113,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is the opening question a formula delaying a direct explanation rather than a real question, useful rhetoric or FAQ?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is the opening question a formula delaying a direct explanation rather than a real question, useful rhetoric or FAQ?",
           "criteria": {
             "real_question": "real question",
             "faq": "faq",
@@ -1173,12 +1177,13 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is an unsubstantiated rank or anonymous authority being used to persuade, without supporting evidence in scope?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is an unsubstantiated rank or anonymous authority being used to persuade, without supporting evidence in scope?",
           "criteria": {
-            "supported": "supported",
-            "contradicted": "contradicted",
-            "not_addressed": "not addressed",
-            "ambiguous": "ambiguous",
+            "claim_supported_by_source": "Actual supplied identifiable evidence supports the target authority, attribution or ranking claim.",
+            "claim_contradicted_by_source": "Actual supplied evidence contradicts that specific claim.",
+            "claim_not_addressed_by_source": "A source is supplied but does not support that specific claim; its mere presence is not support.",
+            "licensed_attribution_or_example": "An attributed view, illustrative quotation or domain-specific convention has a legitimate evidenced function.",
+            "ambiguous_claim_or_scope": "The target claim or evidence relation is ambiguous. Missing source evidence belongs to insufficient, not inferred truth.",
             "none_fit": "None of these interpretations fits.",
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
@@ -1201,7 +1206,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is an unnecessarily formal Sino-Vietnamese choice mismatched to this author/audience, excluding defined technical terminology?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is an unnecessarily formal Sino-Vietnamese choice mismatched to this author/audience, excluding defined technical terminology?",
           "criteria": {
             "defined_term": "defined term",
             "appropriate_register": "appropriate register",
@@ -1249,7 +1254,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is an idiom misused in meaning or is its density obstructing the paragraph? Do not invent an idiom origin or ignore regional variants.",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is an idiom misused in meaning or is its density obstructing the paragraph? Do not invent an idiom origin or ignore regional variants.",
           "criteria": {
             "supported_idiom_sense": "supported idiom sense",
             "possible_regional_variant": "possible regional variant",
@@ -1297,7 +1302,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does symmetrical triadic rhythm substitute for information rather than enumerate three genuinely distinct facts?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does symmetrical triadic rhythm substitute for information rather than enumerate three genuinely distinct facts?",
           "criteria": {
             "distinct_facts": "distinct facts",
             "rhythm_without_information": "rhythm without information",
@@ -1323,7 +1328,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Is a four-syllable slogan semantically empty here, excluding an established administrative/technical term?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is a four-syllable slogan semantically empty here, excluding an established administrative/technical term?",
           "criteria": {
             "defined_term": "defined term",
             "ordinary_expression": "ordinary expression",
@@ -1386,7 +1391,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does a request/advice/reassurance sound unintentionally harsh for the evidenced relationship because appropriate modality is missing?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does a request/advice/reassurance sound unintentionally harsh for the evidenced relationship because appropriate modality is missing?",
           "criteria": {
             "request": "request",
             "advice": "advice",
@@ -1435,7 +1440,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Are pronouns inconsistent or referentially unclear given the supplied roles? Never infer age or hierarchy.",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Are pronouns inconsistent or referentially unclear given the supplied roles? Never infer age or hierarchy.",
           "criteria": {
             "clear_roles": "clear roles",
             "unresolved_roles": "unresolved roles",
@@ -1498,7 +1503,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does an unintentional register shift conflict with the established function/voice, rather than regional or purposeful variation?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does an unintentional register shift conflict with the established function/voice, rather than regional or purposeful variation?",
           "criteria": {
             "purposeful_shift": "purposeful shift",
             "distinct_section_function": "distinct section function",
@@ -1546,7 +1551,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does a description unnecessarily narrate its own diff rather than explain current behavior, excluding changelogs and progress reports?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does a description unnecessarily narrate its own diff rather than explain current behavior, excluding changelogs and progress reports?",
           "criteria": {
             "current_description": "current description",
             "necessary_change_history": "necessary change history",
@@ -1609,7 +1614,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Do symmetrical headings reflect a hollow template rather than the actual content or a required document structure?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Do symmetrical headings reflect a hollow template rather than the actual content or a required document structure?",
           "criteria": {
             "required_structure": "required structure",
             "content_led_structure": "content led structure",
@@ -1708,7 +1713,7 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does this sentence describe producing this document for its commissioner rather than serve the intended reader, excluding meaningful ADR/workflow history?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does this sentence describe producing this document for its commissioner rather than serve the intended reader, excluding meaningful ADR/workflow history?",
           "criteria": {
             "subject_content": "subject content",
             "useful_history": "useful history",
@@ -1735,12 +1740,13 @@
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "For the issue described here, which interpretation/function best fits the target in context? Does an anonymous appeal to expertise substitute for identifiable supporting evidence within the supplied sources?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does an anonymous appeal to expertise substitute for identifiable supporting evidence within the supplied sources?",
           "criteria": {
-            "supported": "supported",
-            "contradicted": "contradicted",
-            "not_addressed": "not addressed",
-            "ambiguous": "ambiguous",
+            "claim_supported_by_source": "Actual supplied identifiable evidence supports the target authority, attribution or ranking claim.",
+            "claim_contradicted_by_source": "Actual supplied evidence contradicts that specific claim.",
+            "claim_not_addressed_by_source": "A source is supplied but does not support that specific claim; its mere presence is not support.",
+            "licensed_attribution_or_example": "An attributed view, illustrative quotation or domain-specific convention has a legitimate evidenced function.",
+            "ambiguous_claim_or_scope": "The target claim or evidence relation is ambiguous. Missing source evidence belongs to insufficient, not inferred truth.",
             "none_fit": "None of these interpretations fits.",
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }

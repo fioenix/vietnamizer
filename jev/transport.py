@@ -1,5 +1,7 @@
 """Fixed-origin TypeSafe transport. Errors never include response bodies."""
 import json
+import os
+import threading
 import subprocess
 import sys
 import time
@@ -51,8 +53,12 @@ def _worker():
     # Only the bounded child performs I/O. Secrets/prose travel over stdin, never argv/files.
     try:
         envelope=json.load(sys.stdin)
-        reply=_request_once(envelope['payload'],envelope['key'],envelope['timeout'])
-        result={'reply':reply}
+        watchdog=threading.Timer(envelope['timeout'],lambda:os._exit(124))
+        watchdog.daemon=True;watchdog.start()
+        try:
+            reply=_request_once(envelope['payload'],envelope['key'],envelope['timeout'])
+            result={'reply':reply}
+        finally:watchdog.cancel()
     except ServiceError as error:
         result={'error':error.category}
     except Exception:
@@ -65,7 +71,7 @@ def request(payload, key, timeout):
     # response headers and drip-fed bodies together, without leaving a live thread.
     started=time.monotonic()
     root=str(Path(__file__).resolve().parent.parent)
-    command=[sys.executable,'-B','-c',
+    command=[sys.executable,'-I','-B','-c',
         'import sys; sys.path.insert(0, sys.argv[1]); from jev.transport import _worker; _worker()',root]
     envelope=encoded({'payload':payload,'key':key,'timeout':timeout})
     try:
@@ -78,8 +84,12 @@ def request(payload, key, timeout):
                 child.kill()
                 child.communicate()
                 raise ServiceError('deadline_exceeded') from None
+            except BaseException:
+                child.kill();child.wait()
+                raise
             if time.monotonic()-started>=timeout:
                 raise ServiceError('deadline_exceeded')
+            if child.returncode==124:raise ServiceError('deadline_exceeded')
             if child.returncode or len(output)>MAX_RESPONSE+1024:
                 raise ServiceError('invalid_response')
         result=json.loads(output)

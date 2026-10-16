@@ -161,9 +161,17 @@ def mechanical(text):
     # Inspect outer quotation conventions across the entire editable document.
     # Different styles nested inside a quotation are legitimate.
     stack=[];styles=set();findings=[]
-    for char in text:
-        if char=='"':
+    for n,char in enumerate(text):
+        if char=='\n':
+            for closer in set(stack):
+                findings.append({'kind':{'"':'unbalanced_straight_quotes','”':'unbalanced_curly_quotes','»':'unbalanced_guillemets'}[closer]})
+            stack=[]
+        elif char=='„':
+            findings.append({'kind':'nonstandard_low_quotes'});styles.add('low');stack.append('"')
+        elif char=='"':
             if stack and stack[-1]=='"': stack.pop()
+            elif stack and n>0 and not text[n-1].isspace() and (n+1==len(text) or text[n+1].isspace() or text[n+1] in '.,;:!?'):
+                findings.append({'kind':'mismatched_quote_styles'});styles.add('straight');stack.pop()
             else:
                 if not stack: styles.add('straight')
                 stack.append('"')
@@ -172,6 +180,8 @@ def mechanical(text):
             stack.append('”')
         elif char=='”':
             if stack and stack[-1]==char: stack.pop()
+            elif stack and stack[-1]=='"':
+                stack.pop();findings.append({'kind':'mismatched_quote_styles'});styles.add('curly')
             else: findings.append({'kind':'unbalanced_curly_quotes'})
         elif char=='«':
             if not stack: styles.add('guillemets')
@@ -198,9 +208,27 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
         if only_pattern and only_pattern not in {x['id'] for x in registry}: raise ValueError('invalid_input')
     except (ValueError,TypeError,KeyError,OSError,AttributeError,RecursionError):
         return dict(base,status='invalid_input')
-    def redact(s):
-        for word in hidden: s=s.replace(word,'[PROTECTED]')
-        return s
+    def redact(s,ranges=None,start=0,end=None):
+        # Source spans are authoritative. For unstructured related fields, find
+        # all full protected strings in the original input before inserting masks.
+        if ranges is None:
+            ranges=[]
+            for word in hidden:
+                at=s.find(word)
+                while at>=0:
+                    ranges.append((at,at+len(word)));at=s.find(word,at+1)
+        end=len(s) if end is None else end
+        merged=[]
+        for a,b in sorted(ranges):
+            a=max(a,start);b=min(b,end)
+            if a>=b:continue
+            if merged and a<=merged[-1][1]:merged[-1]=(merged[-1][0],max(b,merged[-1][1]))
+            else:merged.append((a,b))
+        chunks=[];cursor=start
+        for a,b in merged:
+            chunks.extend((s[cursor:a],'[PROTECTED]'));cursor=b
+        chunks.append(s[cursor:end])
+        return ''.join(chunks)
     base['input_digest']=digest(document)
     base['registry_digest']=digest(registry)
     base['corpus_version']='input:'+base['input_digest']
@@ -211,15 +239,15 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
         sid=section['id'];text=section['text'];protected=spans(section.get('protected_spans',[]),text)
         targets=[]
         for t in section.get('targets',[]):
-            if not any(t['start']<b and t['end']>a for a,b in protected):
-                targets.append({'id':t['id'],'text':redact(text[t['start']:t['end']])})
+            if editable_text(section)[t['start']:t['end']].strip():
+                targets.append({'id':t['id'],'text':redact(text,protected,t['start'],t['end'])})
         if not section.get('targets') and editable_text(section).strip():
-            targets=[{'id':'paragraph','text':redact(text)}]
-        state={'paragraph':redact(text),'targets':targets,
+            targets=[{'id':'paragraph','text':redact(text,protected)}]
+        state={'paragraph':redact(text,protected),'targets':targets,
                'related_paragraphs':[redact(s) for s in section.get('context',[])],
-               'register':redact(section.get('register','Preserve the supplied text’s register.')),
-               'audience':redact(section.get('audience','Unspecified; do not invent relationships.')),
-               'purpose':redact(section.get('purpose','Preserve the supplied purpose.')),
+               'register':redact(section['register']) if 'register' in section else 'Preserve the supplied text’s register.',
+               'audience':redact(section['audience']) if 'audience' in section else 'Unspecified; do not invent relationships.',
+               'purpose':redact(section['purpose']) if 'purpose' in section else 'Preserve the supplied purpose.',
                'kind':section['kind'],'profile':section['profile']}
         work=[];entries={};required={};done={};failed={}
         for pattern in registry:
@@ -231,7 +259,8 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
             if section['kind']=='protected': reason='protected_region'
             elif section['profile']=='typography-only' and prefix!='T': reason='genre_gate'
             elif prefix=='B' and section['profile']!='blog' or prefix=='K' and section['profile']!='technical': reason='inactive_profile'
-            elif not targets: reason='protected_targets'
+            elif not editable_text(section).strip():reason='protected_region'
+            elif pattern['scope']=='target' and pattern['mode']!='mechanical' and not targets:reason='protected_targets'
             if reason:
                 entry.update(status='excluded',reason=reason);continue
             if pattern['mode']=='mechanical':
@@ -256,8 +285,9 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
                     'numeric_tokens_preserved':re.findall(r'\d+(?:[.,/]\d+)*',original)==re.findall(r'\d+(?:[.,/]\d+)*',replacement)}
             base['candidate_reviews'].append(review);entries[ckey]=review;required[ckey]=0;done[ckey]=0
             # Send edits as data; never generate or apply them here.
-            state.setdefault('edits',{})[cid]={'original':redact(original),'replacement':redact(replacement),
-                'revised_paragraph':redact(text[:a]+replacement+text[b:])}
+            state.setdefault('edits',{})[cid]={'original':redact(text,protected,a,b),'replacement':redact(replacement),
+                'revised_paragraph':redact(text[:a]+replacement+text[b:],
+                    [(x+(len(replacement)-(b-a) if x>=b else 0),y+(len(replacement)-(b-a) if x>=b else 0)) for x,y in protected])}
             questions={
                 'meaning':{'type':'choice','instructions':f'Compare edits.{cid}.original with edits.{cid}.replacement in the full paragraph. Classify their factual and intended meaning; fluency is not equivalence.',
                     'criteria':{'equivalent':'Meaning, referents, timing, causal relations, scope and commitments are preserved.','stronger':'The edit strengthens certainty, scope or commitment.','weaker':'The edit weakens certainty, scope or commitment.','different':'Another factual or intended relation changes.','insufficient':'The available context cannot establish preservation.'}},
@@ -267,7 +297,8 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
             for name,q in questions.items():
                 work.append((ckey+'_'+name,q,ckey));required[ckey]+=1
         while work:
-            if halt or calls>=MAX_REQUESTS or time.monotonic()-clock_start>=TOTAL_SECONDS:
+            if time.monotonic()-clock_start>=TOTAL_SECONDS:halt='deadline_exceeded'
+            if halt or calls>=MAX_REQUESTS:
                 for _,_,pid in work: failed[pid]=halt or 'limit_exceeded'
                 break
             batch={};refs=[]
@@ -311,6 +342,10 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
         for pid in required:
             entry=entries[pid];entry['scheduled']=required[pid];entry['validated']=done[pid]
             entry['status']=failed.get(pid,'jev_evaluated' if done[pid]==required[pid] else 'incomplete')
+    coverage_status={(e['section'],e['pattern']):e['status'] for e in base['coverage']}
+    for judgment in base['judgments']:
+        pid=judgment['check'].split('_',1)[0]
+        judgment['coverage_status']=coverage_status.get((judgment['section'],pid),'candidate_guard')
     answers={(j['section'],j['check']):j['answer'] for j in base['judgments']}
     for judgment in base['judgments']:
         if judgment['answer']['type']=='score':

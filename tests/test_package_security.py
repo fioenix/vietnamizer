@@ -43,6 +43,16 @@ class PackageSecurityTest(unittest.TestCase):
                 shutil.copy2(source, target)
         return repo
 
+    def test_source_gate_rejects_registry_recipe_drift(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo=self.copy_package_fixture(Path(directory))
+            path=repo/'jev/registry.json'; registry=json.loads(path.read_text())
+            registry['patterns'][0]['questions'][0]['instructions']='Drifted recipe'
+            path.write_text(json.dumps(registry,ensure_ascii=False))
+            run=subprocess.run([sys.executable,'-B','scripts/validate-package.py'],cwd=repo,capture_output=True,text=True)
+            self.assertNotEqual(run.returncode,0,run.stdout)
+            self.assertIn('recipe',run.stdout+run.stderr)
+
     def run_packager(
         self,
         repo: Path,
