@@ -317,6 +317,15 @@ class JevTest(unittest.TestCase):
         self.evaluate(only_pattern='V20')
         self.assertEqual(self.calls[0]['state']['related_paragraphs'],['Đã che [PROTECTED].'])
 
+    def test_protected_value_enclosing_a_marker_is_still_masked(self):
+        secret='Token: [PROTECTED] abc123'
+        section=self.doc['sections'][0]
+        section.update(text=secret+'; cứ làm đi.',protected_spans=[{'start':0,'end':len(secret)}],context=[secret],
+                       candidates=[{'id':'e1','start':len(secret)+2,'end':len(secret)+4,'replacement':secret}])
+        self.evaluate(only_pattern='V20')
+        self.assertTrue(self.calls)
+        self.assertNotIn('abc123',json.dumps(self.calls))
+
     def test_cli_no_key_works_without_input(self):
         env = {k: v for k, v in os.environ.items() if k != 'TYPESAFE_API_KEY'}
         run = subprocess.run([sys.executable, '-B', '-m', 'jev', 'evaluate'], cwd=ROOT,

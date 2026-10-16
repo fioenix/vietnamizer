@@ -216,7 +216,7 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
             at=s.find(word)
             while at>=0:
                 end=at+len(word)
-                if not any(at<b and end>a for a,b in markers):matches.append((at,end))
+                if not any(a<=at and end<=b for a,b in markers):matches.append((at,end))
                 at=s.find(word,at+1)
         return matches
     def redact(s,ranges=None,start=0,end=None):
