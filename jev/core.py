@@ -208,15 +208,20 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
         if only_pattern and only_pattern not in {x['id'] for x in registry}: raise ValueError('invalid_input')
     except (ValueError,TypeError,KeyError,OSError,AttributeError,RecursionError):
         return dict(base,status='invalid_input')
+    def protected_matches(s):
+        # A single original-text match set is shared by all secondary renderings.
+        markers=[(m.start(),m.end()) for m in re.finditer(re.escape('[PROTECTED]'),s)]
+        matches=[]
+        for word in hidden:
+            at=s.find(word)
+            while at>=0:
+                end=at+len(word)
+                if not any(at<b and end>a for a,b in markers):matches.append((at,end))
+                at=s.find(word,at+1)
+        return matches
     def redact(s,ranges=None,start=0,end=None):
-        # Source spans are authoritative. For unstructured related fields, find
-        # all full protected strings in the original input before inserting masks.
-        if ranges is None:
-            ranges=[]
-            for word in hidden:
-                at=s.find(word)
-                while at>=0:
-                    ranges.append((at,at+len(word)));at=s.find(word,at+1)
+        # Source spans are authoritative; secondary fields share one match policy.
+        if ranges is None:ranges=protected_matches(s)
         end=len(s) if end is None else end
         merged=[]
         for a,b in sorted(ranges):
@@ -287,7 +292,8 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
             # Send edits as data; never generate or apply them here.
             state.setdefault('edits',{})[cid]={'original':redact(text,protected,a,b),'replacement':redact(replacement),
                 'revised_paragraph':redact(text[:a]+replacement+text[b:],
-                    [(x+(len(replacement)-(b-a) if x>=b else 0),y+(len(replacement)-(b-a) if x>=b else 0)) for x,y in protected])}
+                    [(x+(len(replacement)-(b-a) if x>=b else 0),y+(len(replacement)-(b-a) if x>=b else 0)) for x,y in protected]
+                    +[(a+x,a+y) for x,y in protected_matches(replacement)])}
             questions={
                 'meaning':{'type':'choice','instructions':f'Compare edits.{cid}.original with edits.{cid}.replacement in the full paragraph. Classify their factual and intended meaning; fluency is not equivalence.',
                     'criteria':{'equivalent':'Meaning, referents, timing, causal relations, scope and commitments are preserved.','stronger':'The edit strengthens certainty, scope or commitment.','weaker':'The edit weakens certainty, scope or commitment.','different':'Another factual or intended relation changes.','insufficient':'The available context cannot establish preservation.'}},
@@ -324,7 +330,7 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
                 receipt.update(status='validated',model_actual=MODEL,usage=usage,response_digest=digest(reply))
                 for ident,pid in refs:
                     done[pid]+=1
-                    base['judgments'].append({'section':sid,'check':ident,'answer':clean[ident],
+                    base['judgments'].append({'section':sid,'check':ident,'coverage_key':pid,'answer':clean[ident],
                                               'request_digest':receipt['request_digest']})
             except ServiceError as error:
                 halt=error.category if error.category in ('authentication_failed','service_failed','invalid_response','deadline_exceeded') else 'service_failed'
@@ -343,9 +349,9 @@ def evaluate(document, environ=None, transport=None, only_pattern=None):
             entry=entries[pid];entry['scheduled']=required[pid];entry['validated']=done[pid]
             entry['status']=failed.get(pid,'jev_evaluated' if done[pid]==required[pid] else 'incomplete')
     coverage_status={(e['section'],e['pattern']):e['status'] for e in base['coverage']}
+    coverage_status.update({(e['section'],'edit_'+e['candidate']):e['status'] for e in base['candidate_reviews']})
     for judgment in base['judgments']:
-        pid=judgment['check'].split('_',1)[0]
-        judgment['coverage_status']=coverage_status.get((judgment['section'],pid),'candidate_guard')
+        judgment['coverage_status']=coverage_status[(judgment['section'],judgment['coverage_key'])]
     answers={(j['section'],j['check']):j['answer'] for j in base['judgments']}
     for judgment in base['judgments']:
         if judgment['answer']['type']=='score':

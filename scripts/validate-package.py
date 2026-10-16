@@ -621,6 +621,8 @@ if generator.is_file():
                                capture_output=True, text=True)
     if generated.returncode:
         fail("Jev registry recipe lệch generator; chạy scripts/build-jev-registry.py")
+else:
+    fail("Thiếu Jev recipe generator trong source scripts/")
 current_version = re.search(r"Bản hiện tại là \*\*([^*]+)\*\*", read("README.md"))
 if not current_version or current_version[1] != skill_version:
     fail("README current version lệch SKILL.md")

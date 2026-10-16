@@ -294,6 +294,29 @@ class JevTest(unittest.TestCase):
             result=self.evaluate(only_pattern='V20')
         self.assertTrue(any(e['status']=='deadline_exceeded' for e in result['coverage']))
 
+    def test_candidate_revised_paragraph_masks_inserted_protected_values(self):
+        section=self.doc['sections'][0];text='Mã ABC123 hết hạn.'
+        section.update(text=text,protected_spans=[{'start':3,'end':9}],candidates=[{'id':'e_1','start':text.index('hết'),'end':len(text)-1,'replacement':'ABC123 hết hạn'}])
+        self.evaluate(only_pattern='V20')
+        self.assertNotIn('ABC123',json.dumps(self.calls))
+
+    def test_partial_candidate_judgment_carries_actual_review_status(self):
+        self.doc['sections'][0]['candidates']=[{'id':'e_1','start':0,'end':8,'replacement':'Tao hiểu rồi.'}]
+        seen=[]
+        def fail_second_guard(payload,*_):
+            seen.append(payload);r=response(payload)
+            if len(seen)==6:r['model']='wrong'
+            return r
+        with patch('jev.core.MAX_QUESTIONS',1):
+            result=self.evaluate(only_pattern='V20',transport=fail_second_guard)
+        candidate=next(j for j in result['judgments'] if j['check'].startswith('edit_'))
+        self.assertEqual(candidate['coverage_status'],'invalid_response')
+
+    def test_related_context_preserves_preexisting_mask_markers(self):
+        self.doc['sections'][0].update(text='E là biến.',protected_spans=[{'start':0,'end':1}],context=['Đã che [PROTECTED].'])
+        self.evaluate(only_pattern='V20')
+        self.assertEqual(self.calls[0]['state']['related_paragraphs'],['Đã che [PROTECTED].'])
+
     def test_cli_no_key_works_without_input(self):
         env = {k: v for k, v in os.environ.items() if k != 'TYPESAFE_API_KEY'}
         run = subprocess.run([sys.executable, '-B', '-m', 'jev', 'evaluate'], cwd=ROOT,

@@ -38,3 +38,11 @@ Unconfirmed numeric-tolerance concern: no evidence justifies widening validation
 ## Verification in progress
 
 Behavioral regressions observed RED before fixes: overlapping/short-token masks, protected-target scope, mismatched quotes, recipe drift, hostile-CWD import, interruption cleanup and worker self-deadline. Deterministic old-code probe confirmed between-section expiry previously returned limit_exceeded. Focused current runtime/transport/security tests pass; final full suite, archives, re-review binding and PR state follow below.
+
+## Second review checkpoint and authoritative rendering boundary
+
+On 79666a8, Antigravity's targeted re-review returned success/clean for A1–A6. Claude Code accepted C2–C5 but identified a real C1 regression: a protected value newly inserted by a candidate was masked in replacement but not in revised_paragraph. It also found candidate coverage annotated with a generic label and the source recipe gate silently skipped when its generator was missing.
+
+Before another privacy correction, the host recorded the rendering authority: primary offsets classify original text; one protected-match function classifies every replacement/secondary field; revised paragraphs combine translated original spans with those same replacement-match spans. No downstream string replacement or independent mask state is introduced. A deterministic candidate fixture reproduced the leak before this correction. A preexisting manual [PROTECTED] marker fixture also reproduced remasking of marker characters; the shared matcher now excludes reserved markers. Candidate status is bound by the actual planning coverage key, including IDs with underscores. Source mode now requires the generator, while extracted payload validation still exits through its separate mode.
+
+All four added regressions were observed RED before their corresponding fixes. This checkpoint replaces the earlier provisional clean assertion for C1; final verification follows.

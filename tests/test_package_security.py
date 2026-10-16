@@ -53,6 +53,14 @@ class PackageSecurityTest(unittest.TestCase):
             self.assertNotEqual(run.returncode,0,run.stdout)
             self.assertIn('recipe',run.stdout+run.stderr)
 
+    def test_source_gate_requires_recipe_generator(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo=self.copy_package_fixture(Path(directory))
+            (repo/'scripts/build-jev-registry.py').unlink()
+            run=subprocess.run([sys.executable,'-B','scripts/validate-package.py'],cwd=repo,capture_output=True,text=True)
+            self.assertNotEqual(run.returncode,0,run.stdout)
+            self.assertIn('recipe',run.stdout+run.stderr)
+
     def run_packager(
         self,
         repo: Path,
