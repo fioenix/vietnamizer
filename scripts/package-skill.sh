@@ -34,15 +34,15 @@ RELEASE_ORG_ARCHIVE="$DIST/vietnamizer-claude-org.zip"
 
 cp -P "$ROOT/SKILL.md" "$ROOT/LICENSE" "$STAGE/"
 cp -RP "$ROOT/profiles" "$ROOT/references" "$ROOT/calibration" "$STAGE/"
-cp -RP "$ROOT/agents" "$ROOT/assets" "$STAGE/"
+cp -RP "$ROOT/agents" "$ROOT/assets" "$ROOT/jev" "$STAGE/"
 python3 "$ROOT/scripts/validate-package.py" --payload-root "$STAGE"
 
 # Cấu trúc gói: vietnamizer/SKILL.md cùng các thư mục con.
-( cd "$STAGE_PARENT" && zip -qr "$CANDIDATE_ARCHIVE" vietnamizer -x '*.DS_Store' )
+( cd "$STAGE_PARENT" && zip -qr "$CANDIDATE_ARCHIVE" vietnamizer -x '*.DS_Store' '*/__pycache__/*' '*.pyc' )
 python3 "$ROOT/scripts/validate-package.py" \
   --archive "$CANDIDATE_ARCHIVE" \
   --payload-root "$STAGE"
-( cd "$STAGE" && zip -qr "$CANDIDATE_ORG_ARCHIVE" . -x '*.DS_Store' )
+( cd "$STAGE" && zip -qr "$CANDIDATE_ORG_ARCHIVE" . -x '*.DS_Store' '*/__pycache__/*' '*.pyc' )
 python3 "$ROOT/scripts/validate-package.py" \
   --archive "$CANDIDATE_ORG_ARCHIVE" \
   --payload-root "$STAGE" \

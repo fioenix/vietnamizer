@@ -7,7 +7,7 @@ description: |
   cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
-  version: "0.9.8"
+  version: "0.10.0"
 ---
 
 # Vietnamizer
@@ -70,6 +70,7 @@ thật thuộc các nhóm trên, vẫn được biên tập bình thường. V�
 Luôn tuân theo chính sách và giới hạn của host; yêu cầu giữ nguyên ý không tạo quyền hỗ trợ
 hành vi bị cấm hoặc vượt qua biện pháp bảo vệ.
 
+0. Thực hiện nhánh key/Jev theo mục ngay dưới; chỉ gửi dữ liệu sau khi hoàn tất cổng thể loại và vùng bảo toàn.
 1. Đánh dấu vùng bảo toàn, đóng băng byte gốc của code, schema, dữ liệu có cấu trúc, bảng tham số,
    trích dẫn nguyên văn, tên riêng và ví dụ đang được bàn tới, rồi mới nhóm phần văn xuôi theo chức
    năng và người đọc. Tiêu đề hoặc độ dài tự nó không tạo một phần mới.
@@ -81,27 +82,25 @@ hành vi bị cấm hoặc vượt qua biện pháp bảo vệ.
 7. Bỏ những thay đổi không qua đủ năm quy tắc, khôi phục các vùng bảo toàn từ byte đã đóng băng và so sánh byte trước–sau, rồi viết bản cuối.
 8. **Đọc lại những câu vừa sửa.** Nếu nhiều chỗ cùng được thay bằng một từ, hãy kiểm tra từng chỗ theo nghĩa của câu. Giữ nguyên khi từ đó đúng, dù nó lặp lại nhiều lần. Chỉ sửa lại khi cùng một từ bị dùng máy móc cho những quan hệ nghĩa khác nhau hoặc được chọn chỉ vì nó đứng đầu danh sách gợi ý. Không đổi từ chỉ để tạo cảm giác đa dạng.
 
-## TypeSafe/Jev là lớp tăng cường tùy chọn
+## Jev tự động khi có key, core độc lập khi không có
 
-Quy trình trên chạy đầy đủ mà không cần TypeSafe, SDK, API key hoặc mạng. Gói Vietnamizer không
-chứa mã tích hợp TypeSafe. Có thể dùng lớp thẩm định khi hữu ích cho tác vụ hiện tại,
-host đã cung cấp skill TypeSafe chính chủ và có khả năng gọi dịch vụ được phép. Có skill hoặc
-credential không tự tạo quyền gửi văn bản. Đọc `references/typesafe-advisor.md` cho ranh giới
-thẩm định; việc cấu hình và credential thuộc skill TypeSafe, không thuộc Vietnamizer.
+Mỗi lượt gọi, sau cổng dữ liệu, đọc `references/typesafe-advisor.md` và chạy kiểm tra key cục bộ
+bằng `python3 -B -m jev status` từ thư mục skill đã cài. Chỉ kiểm biến do host cấp; không in key,
+quét file, tìm credential hay yêu cầu người dùng thiết lập dịch vụ.
 
-TypeSafe chỉ là phần bổ trợ, không phải dependency. Nếu harness không cung cấp skill này,
-bỏ qua im lặng và tiếp tục biên tập; không nhắc agent hoặc người dùng cài đặt, thiết lập hay tìm key.
+Không có key thì dùng đầy đủ quy trình core, không gọi API. Có key và quyền gửi dữ liệu thì
+**bắt buộc thử** runner đã đóng gói trước khi trả bản biên tập. Runner dùng `jev-1.14.0`, các
+định nghĩa sẵn cho đủ 55 pattern, nguyên đoạn và ngữ cảnh liên quan; chỉ chạy các pattern đúng
+cổng thể loại/profile và giữ vùng bảo toàn. LLM sinh candidate và bản cuối, Jev trả typed judgments.
 
-Chỉ cân nhắc Jev sau khi core đã gọi tên V20 `lexically_incomplete` hoặc
-`unnatural_collocation`, loại trừ vùng bảo toàn và tạo trước một đến ba candidate. Jev chỉ thẩm định
-bản gốc có cần sửa không, candidate có cải thiện đúng lỗi, giữ nghĩa, hợp giọng và an toàn hay không;
-không yêu cầu Jev sinh, nối hoặc sửa prose. Tín hiệu Jev chỉ hỗ trợ quyết định: host Agent vẫn chọn
-giữ hay sửa và viết bản cuối.
+Host không chạy được script, bị từ chối quyền gửi, API lỗi hoặc kết quả thiếu thì tiếp tục core
+và nêu đúng giới hạn khi có yêu cầu hoặc đã thử Jev; không mạo nhận *đã kiểm tra*. Có key không
+bảo đảm dịch vụ trả kết quả. Không dùng browser để thay evaluator hoặc vượt sandbox.
 
-Chỉ coi thẩm định đã thực hiện khi có kết quả hợp lệ cho đúng đoạn gốc và candidate hiện tại.
-Nếu thiếu khả năng gọi dịch vụ hoặc kết quả hợp lệ, tiếp tục quy trình core. Chỉ ghi *chưa kiểm tra*
-khi người dùng chủ động hỏi hoặc yêu cầu thẩm định bằng TypeSafe;
-không coi lỗi dịch vụ là `pass`, không mạo nhận có kết quả và không chặn việc biên tập.
+Đọc từng kết quả hợp lệ, mức bất định và từng candidate; dùng làm bằng chứng hỗ trợ năm chốt chặn.
+Không tự áp, loại hoặc hoàn edit theo điểm số. Nhãn acceptable không phủ quyết lỗi Agent chỉ ra
+được bằng chứng. Tín hiệu typography chỉ cho phép sửa khi cổng T1–T6 hiện hành cho phép; không
+lấy việc runner đã đánh giá làm quyền sửa ngoài phạm vi. Không suy tác giả AI từ kết quả.
 
 ## Năm quy tắc chốt chặn
 

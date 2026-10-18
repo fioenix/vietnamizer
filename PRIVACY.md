@@ -27,12 +27,18 @@ hiệu chuẩn cần một tác vụ bảo trì và quyền ghi file cụ thể.
 lưu phải thực hiện qua cơ chế của host; Vietnamizer không điều khiển hay bảo đảm thời hạn xóa
 của nền tảng đó.
 
-## TypeSafe tùy chọn đã có trên host
+## TypeSafe tự động khi host cấp key và quyền gửi
 
-Repo và các gói phân phối không chứa mã tích hợp TypeSafe. Khi Agent tận dụng skill
-TypeSafe chính chủ đã có trên host và người dùng đồng ý gửi dữ liệu, đoạn gốc, candidate và ngữ cảnh tối
-thiểu có thể được gửi tới TypeSafe. Vietnamizer không quản lý credential hoặc kết nối đó và
-không tự bật dịch vụ. Thiếu capability hoặc lỗi không chặn core.
+Các gói chứa runner Jev dùng Python standard library. Mỗi lượt skill kiểm sự hiện diện của key
+được host inject; không có key thì không gọi TypeSafe. Có key và quyền gửi dữ liệu thì skill
+phải thử đánh giá: nguyên đoạn, ngữ cảnh liên quan và candidate có thể được gửi tới
+`https://api.typesafe.ai/v1/systemone`. Key không tạo quyền gửi văn bản; host tiếp tục áp giới hạn
+dữ liệu, sandbox và sự đồng ý đã có. Người dùng có thể từ chối truyền dữ liệu và tiếp tục core.
+
+Runner không tìm key trong file/keychain, không tạo tài khoản/connector và không ghi key hoặc
+văn bản gốc vào telemetry. Output chứa ID, trạng thái, hash, typed judgments, model và usage;
+input JSON tạm do host tạo vẫn thuộc chính sách lưu dữ liệu của host. Vùng bảo toàn phải được
+đánh dấu/che trước khi gửi. API lỗi hoặc bị chặn không được coi là đã kiểm tra thành công.
 
 Maintainer không nhận hoặc lưu văn bản biên tập qua một máy chủ Vietnamizer, nên không có thời
 hạn lưu phía maintainer cho dữ liệu này. Thời hạn lưu, cách xóa và log phía Claude/Codex hoặc

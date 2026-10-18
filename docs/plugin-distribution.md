@@ -18,10 +18,13 @@ thứ hai. Các file trong `agents/` và `assets/` đi cùng skill để UI khô
 
 Tạo cả ba artifact bằng `python3 scripts/package-plugin.py`. `dist/` là output sinh ra, không
 commit. Plugin ZIP chỉ chứa public payload, MIT notice, nhận diện và manifest; không chứa Spec
-Kit, generated maintainer skills, CLI advisor, corpus evaluation hoặc credential.
+Kit, generated maintainer skills, corpus evaluation hoặc credential.
 
-Từ v0.9.7, repo cũng không còn advisor, SDK hoặc evaluation harness TypeSafe. Hướng dẫn
-được đóng gói chỉ mô tả cách tận dụng skill chính chủ đã có khi hữu ích và có quyền gửi dữ liệu.
+Từ v0.10.0, cả ba archive chứa cùng runner Python standard library và registry 55 pattern trong
+`jev/`. Host có key được inject và quyền gửi dữ liệu thì phải thử đánh giá qua Jev 1.14; không có
+key thì giữ workflow Markdown offline. Runner mới không dùng SDK hay mã từ các nghiên cứu
+001/002/005 đã dừng. Hợp đồng input, coverage, lỗi và quyền gửi nằm trong
+[typesafe-advisor.md](../references/typesafe-advisor.md).
 
 Catalog source trỏ tới root repo, vẫn gồm tooling maintainer và hồ sơ lịch sử. Validator local
 và inventory ZIP không thay thế portal Validate cho commit GitHub thực tế; không suy ra directory
@@ -45,7 +48,11 @@ Với Claude Code, cài xong mở session mới và kiểm `/vietnamizer:vietnam
 hoặc thông báo install thành công không tự chứng minh UI đã hiển thị hay invocation chạy được.
 
 Không đưa credential hoặc raw input của người dùng vào log kiểm. Profile thật của maintainer
-không phải fixture kiểm thử. Không gọi dịch vụ TypeSafe chỉ để kiểm plugin packaging.
+không phải fixture kiểm thử. Các lệnh kiểm packaging ở trên chạy offline, không cần gọi TypeSafe.
+Live smoke riêng phải có quyền gửi, dùng dữ liệu tổng hợp và credential injection đã được host
+cho phép. Chạy từ gói đã giải nén, đối chiếu bytes runtime với source, xác nhận model thực và
+coverage. Smoke thành công không chứng minh chất lượng biên tập tiếng Việt hay plugin đã nạp
+trong UI của mọi client.
 
 ## Nhận diện và listing
 
@@ -63,7 +70,7 @@ credential. Đây là tiêu chuẩn phân phối của Vietnamizer; không phả
 buộc cả bốn URL đối với mọi skills-only plugin. Kiểm riêng nội dung tiếng Anh và quyền sử dụng
 tài sản khi review; validator không suy ra được hai điều này từ định dạng.
 
-Không ghi đè gói 0.9.7 đã công bố bằng candidate 0.9.8. Kiểm gói mới, tích hợp source và phát
+Không ghi đè archive của phiên bản đã công bố bằng candidate mới. Kiểm gói mới, tích hợp source và phát
 hành phiên bản mới trước khi dùng nó để cập nhật listing. Scan, publisher verification và
 eligibility trên portal là các cổng riêng, không được thay bằng kết quả kiểm offline.
 

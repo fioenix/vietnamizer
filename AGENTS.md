@@ -20,7 +20,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
 | `references/bang-tra-cuu.md` | Bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán |
 | `references/bo-giai-phong-cach.md` | Năm chiều ngữ cảnh, thứ tự ưu tiên và registry trỏ tới bảy style card; không sở hữu pattern |
-| `references/typesafe-advisor.md` | Consent, authority và fallback khi tận dụng skill TypeSafe chính chủ đã có |
+| `references/typesafe-advisor.md` | Input, authority, coverage và fallback của runner Jev tự động |
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
 | `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
 | `README.md` | Hướng dẫn cài đặt, mô tả kiến trúc, danh mục pattern, nguồn và lịch sử phiên bản |
@@ -40,6 +40,8 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `PRIVACY.md`, `TERMS.md` | Thông tin dữ liệu và điều kiện dùng gói mã nguồn mở |
 | `SECURITY.md` | Ranh giới bảo mật và kênh báo lỗi riêng, không dùng Issues công khai |
 | `.github/ISSUE_TEMPLATE/` | Mẫu báo lỗi tối thiểu đã ẩn dữ liệu và đường dẫn báo bảo mật riêng |
+| `jev/` | Runner, transport, CLI và registry được đóng gói |
+| `scripts/build-jev-registry.py` | Sinh/kiểm định nghĩa 55 pattern từ nguồn canonical |
 | `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại |
 | `.specify/` | Cấu hình, template và script của Spec Kit; constitution trong `.specify/memory/constitution.md` chi phối spec, plan và implementation |
 | `.specify/LICENSE` | MIT notice của GitHub Spec Kit được vendor trong repo |
@@ -53,9 +55,11 @@ template, scripts, workflows, specs và evidence đã duyệt vẫn là source p
 
 ## TypeSafe và hồ sơ lịch sử
 
-Vietnamizer không chứa CLI, SDK hoặc harness TypeSafe. Chỉ tận dụng skill chính chủ đã được
-host cung cấp khi hữu ích và có quyền gửi dữ liệu; hợp đồng nằm trong
-`references/typesafe-advisor.md`. Không tái tạo mã tích hợp từ đặc tả cũ.
+Vietnamizer có runner Python standard library trong `jev/`, tự động thử khi host cấp key và
+quyền gửi dữ liệu; không có key thì core chạy độc lập. Hợp đồng nằm trong
+`references/typesafe-advisor.md`. Jev hỗ trợ LLM, không tự áp hoặc quyết định edit bằng điểm số.
+`jev/registry.json` là output được track; sửa recipe ở `scripts/build-jev-registry.py`, chạy sinh
+và `--check` khi thay nguồn canonical. Giữ parity runtime trong mọi archive.
 
 Các feature nghiên cứu 001, 002 và 005 cùng `eval/guard/` là hồ sơ lịch sử đã ngừng triển khai.
 Chúng không phải hướng dẫn chạy, không chứng minh hiệu quả cho workflow hiện hành và không

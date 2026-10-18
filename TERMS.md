@@ -10,7 +10,8 @@ bố. Skill hỗ trợ biên tập; không xác minh mọi dữ kiện, không t
 
 Claude, Codex và TypeSafe là dịch vụ riêng. Việc dùng chúng chịu điều kiện của từng nhà cung cấp;
 MIT License của repo không cấp tài khoản hoặc quota cho các dịch vụ đó. Quy trình cốt lõi không
-cần TypeSafe. Xem [thông tin quyền riêng tư](PRIVACY.md) trước khi bật advisor tùy chọn.
+cần TypeSafe. Xem [thông tin quyền riêng tư](PRIVACY.md) trước khi cho phép gửi văn bản tới TypeSafe; khi host cấp key và quyền gửi,
+skill tự động thử đánh giá. Không có key hoặc quyền gửi thì tiếp tục quy trình cốt lõi.
 
 Báo lỗi hoặc đề xuất sửa qua [GitHub Issues](https://github.com/fioenix/vietnamizer/issues).
 Chỉ gửi ví dụ tối thiểu đã ẩn dữ liệu theo [hướng dẫn đóng góp](CONTRIBUTING.md).
