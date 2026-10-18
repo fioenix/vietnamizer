@@ -8,7 +8,9 @@ không khôi phục các runtime nghiên cứu cũ.
 `008-sentence-coverage/spec.md` là spec mở rộng tách đoạn, tách câu tự động và đối soát coverage,
 giữ nguyên đoạn và ngữ cảnh liên quan cho từng câu. Owner đã duyệt spec ngày 16/10/2026;
 spec/plan/tasks đã được duyệt; source local đã qua kiểm chứng và review theo evidence/review trong cùng thư mục.
-Owner đã cho phép commit, push và draft PR sau review độc lập; xem evidence/review để đối chiếu trạng thái. Chưa merge, phát hành hoặc cập nhật skill dùng chung.
+PR #12 đã merge vào main tại `82c826d` ngày 18/10/2026; CI sau merge đã qua.
+Owner yêu cầu phát hành phần mở rộng này dưới phiên bản v0.10.5, thay cho nhãn source 0.11.0
+chưa công bố. Trạng thái release và bản cài dùng chung được xác minh riêng; không suy từ checkbox.
 
 Quyết định 005 ngày 03/10/2026 bỏ mã TypeSafe là lịch sử. Các feature 001, 002 và phần triển khai
 CLI của 005 đã ngừng dùng. Plan, tasks, quickstart,
