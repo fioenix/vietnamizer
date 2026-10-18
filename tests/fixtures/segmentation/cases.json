@@ -1,0 +1,1210 @@
+{
+  "version": "1",
+  "profile": "vi-spans-1",
+  "provenance": {
+    "source": "Synthetic Vietnamese sentences authored independently from contracts/segmentation.md; no scanner output consulted.",
+    "annotation": "Intended sentence and parent slices selected by fixture author; offsets computed by exact substring lookup only.",
+    "date": "2026-10-16",
+    "independent_annotation_check": "pending parent review; not claimed complete"
+  },
+  "cases": [
+    {
+      "id": "simple-period",
+      "text": "Tôi về. Bạn ở lại.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          7
+        ],
+        [
+          8,
+          18
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          18
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "crlf-physical-parents",
+      "text": "Tôi về.\r\nBạn ở lại.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          7
+        ],
+        [
+          9,
+          19
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          7
+        ],
+        [
+          9,
+          19
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "crlf-markdown-wrap",
+      "text": "Tôi về.\r\nBạn ở lại.",
+      "layout": "markdown",
+      "sentences": [
+        [
+          0,
+          7
+        ],
+        [
+          9,
+          19
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          19
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "title-ts",
+      "text": "TS. Lan đã đến. Cuộc họp bắt đầu.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          15
+        ],
+        [
+          16,
+          33
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          33
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "title-ths",
+      "text": "ThS. Hương trình bày. Mọi người nghe.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          21
+        ],
+        [
+          22,
+          37
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          37
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "title-pgs-gs",
+      "text": "PGS. Mai trao đổi với GS. Sơn. Buổi họp kết thúc.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          30
+        ],
+        [
+          31,
+          49
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          49
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "title-tp",
+      "text": "TP. Huế đón khách. Trời đẹp.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          18
+        ],
+        [
+          19,
+          28
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          28
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "multi-period-place",
+      "text": "Tôi từng ở TP.HCM. Nay tôi về nhà.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          18
+        ],
+        [
+          19,
+          34
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          34
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "abbreviation-no-continuation",
+      "text": "TS. Hôm nay chốt.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          17
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          17
+        ]
+      ],
+      "reason": "TS. has no determinate person-name continuation; do not infer a title from capitalization alone."
+    },
+    {
+      "id": "decimal-thousands",
+      "text": "Tỷ lệ là 99,17%. Số lượng là 1.000 người.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          16
+        ],
+        [
+          17,
+          41
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          41
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "version-date",
+      "text": "Bản 1.14.0 chạy từ 16/10/2026. Đã xong.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          30
+        ],
+        [
+          31,
+          39
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          39
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "dot-decimal-contrast",
+      "text": "Giá là 12.5 USD. Tôi đã trả.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          16
+        ],
+        [
+          17,
+          28
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          28
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "url-terminal-period",
+      "text": "Xem https://example.org/a.b. Đọc tiếp.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          28
+        ],
+        [
+          29,
+          38
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          38
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "url-internal-query",
+      "text": "Xem https://example.org/a.b?q=1.2 rồi báo tôi. Xong nhé.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          46
+        ],
+        [
+          47,
+          56
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          56
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "email-token",
+      "text": "Gửi tới lan.nguyen@example.org. Tôi sẽ đọc.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          31
+        ],
+        [
+          32,
+          43
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          43
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "url-ambiguous-closer",
+      "text": "Xem https://example.org/a(b). Mai tính.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          39
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          39
+        ]
+      ],
+      "reason": "Parentheses can belong to the URL or external punctuation; no authoritative URL boundary supplied."
+    },
+    {
+      "id": "ellipsis-internal",
+      "text": "Tôi... chưa biết.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          17
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          17
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "ellipsis-parent-end",
+      "text": "Tôi vẫn chờ…",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          12
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          12
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "ellipsis-ascii-parent-end",
+      "text": "Tôi vẫn chờ...",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          14
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          14
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "ellipsis-new-sentence-ambiguous",
+      "text": "Tôi chưa biết… Có lẽ mai.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          25
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          25
+        ]
+      ],
+      "reason": "Ellipsis before possible independent sentence."
+    },
+    {
+      "id": "ellipsis-minimal-region",
+      "text": "Tôi về. Tôi chưa biết… Có lẽ mai. Bạn cứ đi.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          7
+        ],
+        [
+          34,
+          44
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          44
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          8,
+          33
+        ]
+      ],
+      "reason": "Keep clear boundaries around the unresolved ellipsis interval."
+    },
+    {
+      "id": "ellipsis-override-two",
+      "text": "Tôi chưa biết… Có lẽ mai.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          14
+        ],
+        [
+          15,
+          25
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          25
+        ]
+      ],
+      "unresolved": false,
+      "boundary_overrides": [
+        14
+      ],
+      "boundary_override_reason": "Host confirms two utterances; endpoint is half-open in this exact source."
+    },
+    {
+      "id": "dialogue-two",
+      "text": "Anh nói: \"Đi thôi. Trễ rồi.\"",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          18
+        ],
+        [
+          19,
+          28
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          28
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "dialogue-attribution",
+      "text": "\"Xong chưa?\" cô hỏi.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          20
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          20
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "dialogue-attribution-contrast",
+      "text": "\"Xong chưa?\" Cô đứng dậy.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          12
+        ],
+        [
+          13,
+          25
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          25
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "nested-closers",
+      "text": "Cô đáp: «Anh nói “Đi thôi!”» Rồi cô bước đi.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          28
+        ],
+        [
+          29,
+          44
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          44
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "mixed-punctuation",
+      "text": "Được?! Đi thôi!",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          6
+        ],
+        [
+          7,
+          15
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          15
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "lowercase-after-question",
+      "text": "Xong chưa? chưa xong.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          10
+        ],
+        [
+          11,
+          21
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          21
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "lowercase-after-period",
+      "text": "Tôi về. bạn ở lại.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          18
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          18
+        ]
+      ],
+      "reason": "Lowercase continuation after period is unresolved in this conservative profile."
+    },
+    {
+      "id": "missing-period-space",
+      "text": "Tôi về.Bạn ở lại.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          17
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          17
+        ]
+      ],
+      "reason": "Missing separator after period."
+    },
+    {
+      "id": "unmatched-quote",
+      "text": "Anh nói: \"Đi thôi. Trễ rồi.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          27
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          27
+        ]
+      ],
+      "reason": "Unmatched opening quote."
+    },
+    {
+      "id": "parenthesis-independent",
+      "text": "Tôi về (Bạn ở lại. Tôi chờ nhé.) rồi tính.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          42
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          42
+        ]
+      ],
+      "reason": "Independent-sentence punctuation inside parentheses needs explicit host resolution."
+    },
+    {
+      "id": "trailing-fragment",
+      "text": "Tôi về",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          6
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          6
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "blank-lines-and-trailing",
+      "text": "Tôi về.\n\nBạn ở lại",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          7
+        ],
+        [
+          9,
+          18
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          7
+        ],
+        [
+          9,
+          18
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "abbreviation-end-ambiguous",
+      "text": "Danh sách gồm A, B, v.v. Hôm nay chốt.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          38
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          38
+        ]
+      ],
+      "reason": "v.v. is ambiguous at a potential sentence boundary."
+    },
+    {
+      "id": "example-abbreviation-ambiguous",
+      "text": "Có nhiều cách, v.d. Đi bộ.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          26
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          26
+        ]
+      ],
+      "reason": "v.d. cannot be assumed nonterminal at a possible sentence boundary."
+    },
+    {
+      "id": "initials-name",
+      "text": "N. V. An đã đến. Tôi mở cửa.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          16
+        ],
+        [
+          17,
+          28
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          28
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "initial-without-continuation",
+      "text": "Tôi đợi N. Ngày mai tính.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          25
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          25
+        ]
+      ],
+      "reason": "Standalone initial has no determinate name continuation."
+    },
+    {
+      "id": "decomposed-vowel",
+      "text": "Tôi về. Bạn ở lại.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          10
+        ],
+        [
+          11,
+          25
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          25
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "emoji-zwj-skin-tone",
+      "text": "Xong rồi 👩🏽‍💻! Đi thôi 🇻🇳.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          14
+        ],
+        [
+          15,
+          26
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          26
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "emoji-family",
+      "text": "Gia đình tới rồi 👨‍👩‍👧‍👦. Mời vào.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          25
+        ],
+        [
+          26,
+          34
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          34
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "list-continuation",
+      "text": "- Tôi về.\n  Bạn ở lại.\n- Mai gặp.",
+      "layout": "markdown",
+      "sentences": [
+        [
+          0,
+          9
+        ],
+        [
+          12,
+          22
+        ],
+        [
+          23,
+          33
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          22
+        ],
+        [
+          23,
+          33
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "numbered-list",
+      "text": "1. Tôi về.\n2. Bạn ở lại.",
+      "layout": "markdown",
+      "sentences": [
+        [
+          0,
+          10
+        ],
+        [
+          11,
+          24
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          10
+        ],
+        [
+          11,
+          24
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "markdown-soft-wrap",
+      "text": "Tôi sẽ về\nnhà. Bạn ở lại.",
+      "layout": "markdown",
+      "sentences": [
+        [
+          0,
+          14
+        ],
+        [
+          15,
+          25
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          25
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "physical-line-no-inference",
+      "text": "Tôi sẽ về\nnhà. Bạn ở lại.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          9
+        ],
+        [
+          10,
+          14
+        ],
+        [
+          15,
+          25
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          9
+        ],
+        [
+          10,
+          25
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "markdown-heading",
+      "text": "## Kế hoạch\n\nTôi về. Bạn ở lại.",
+      "layout": "markdown",
+      "sentences": [
+        [
+          13,
+          20
+        ],
+        [
+          21,
+          31
+        ]
+      ],
+      "parents": [
+        [
+          13,
+          31
+        ]
+      ],
+      "unresolved": false,
+      "structural_units": [
+        {
+          "kind": "heading",
+          "span": [
+            0,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "id": "markdown-inline-code",
+      "text": "Chạy `a.b()` rồi nghỉ. Mai làm.",
+      "layout": "markdown",
+      "sentences": [
+        [
+          0,
+          22
+        ],
+        [
+          23,
+          31
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          31
+        ]
+      ],
+      "unresolved": false,
+      "protected_spans": [
+        [
+          5,
+          12
+        ]
+      ]
+    },
+    {
+      "id": "markdown-fenced-code",
+      "text": "```py\nx = \"A. B.\"\n```\n\nTôi về.",
+      "layout": "markdown",
+      "sentences": [
+        [
+          23,
+          30
+        ]
+      ],
+      "parents": [
+        [
+          23,
+          30
+        ]
+      ],
+      "unresolved": false,
+      "structural_units": [
+        {
+          "kind": "code",
+          "span": [
+            0,
+            21
+          ]
+        }
+      ]
+    },
+    {
+      "id": "markdown-blockquote",
+      "text": "> Tôi về. Bạn ở lại.",
+      "layout": "markdown",
+      "sentences": [
+        [
+          0,
+          9
+        ],
+        [
+          10,
+          20
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          20
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "markdown-table",
+      "text": "| A | B |\n| --- | --- |\n| Một. | Hai. |",
+      "layout": "markdown",
+      "sentences": [],
+      "parents": [],
+      "unresolved": false,
+      "structural_units": [
+        {
+          "kind": "table",
+          "span": [
+            0,
+            39
+          ]
+        }
+      ]
+    },
+    {
+      "id": "whitespace-only",
+      "text": " \r\n\t",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [],
+      "unresolved": false
+    },
+    {
+      "id": "repeated-occurrences",
+      "text": "Tôi về. Tôi về.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          7
+        ],
+        [
+          8,
+          15
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          15
+        ]
+      ],
+      "unresolved": false
+    },
+    {
+      "id": "protected-middle",
+      "text": "Tôi giữ MÃ.A.B rồi về. Bạn chờ.",
+      "layout": "paragraph-lines",
+      "sentences": [
+        [
+          0,
+          22
+        ],
+        [
+          23,
+          31
+        ]
+      ],
+      "parents": [
+        [
+          0,
+          31
+        ]
+      ],
+      "unresolved": false,
+      "protected_spans": [
+        [
+          8,
+          14
+        ]
+      ]
+    },
+    {
+      "id": "protected-endpoint-unresolved",
+      "text": "Tôi nói Xong. Bạn chờ.",
+      "layout": "paragraph-lines",
+      "sentences": [],
+      "parents": [
+        [
+          0,
+          22
+        ]
+      ],
+      "unresolved": true,
+      "unresolved_regions": [
+        [
+          0,
+          22
+        ]
+      ],
+      "reason": "Potential endpoint occurs inside an opaque host span; keep unresolved rather than split protected content.",
+      "protected_spans": [
+        [
+          8,
+          17
+        ]
+      ]
+    }
+  ]
+}

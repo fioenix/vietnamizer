@@ -296,6 +296,34 @@ class DistributionTest(unittest.TestCase):
             self.assertEqual(run.returncode, 0, run.stderr)
             self.assertEqual(json.loads(run.stdout)["status"], "key_absent")
 
+    def test_all_archives_prepare_with_identical_runtime(self) -> None:
+        import os
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self.fixture(Path(temporary))
+            result = self.package(repo)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            for archive_name, prefix in [('vietnamizer.skill','vietnamizer'),
+                                         ('vietnamizer-claude-org.zip',''),
+                                         ('vietnamizer-plugin.zip','skills/vietnamizer')]:
+                out=Path(temporary)/archive_name.replace('.','_')
+                with zipfile.ZipFile(repo/'dist'/archive_name) as archive:
+                    archive.extractall(out)
+                skill=out/prefix
+                for source in (ROOT/'jev').iterdir():
+                    if source.is_file():
+                        self.assertEqual((skill/'jev'/source.name).read_bytes(),source.read_bytes())
+                doc={'schema_version':2,'source':{'id':'article','layout':'paragraph-lines','text':'Tôi về. Bạn ở lại.'},'defaults':{'profile':'blog'}}
+                env={k:v for k,v in os.environ.items() if k!='TYPESAFE_API_KEY'}
+                run=subprocess.run([sys.executable,'-B','-m','jev','prepare'],cwd=skill,
+                    input=json.dumps(doc),env=env,capture_output=True,text=True)
+                self.assertEqual(run.returncode,0,run.stderr)
+                data=json.loads(run.stdout)
+                self.assertEqual(data['counts']['sentences'],2)
+                self.assertFalse(data['evaluation_complete'])
+                run=subprocess.run([sys.executable,'-B','-m','jev','evaluate'],cwd=skill,
+                    env=env,capture_output=True,text=True)
+                self.assertEqual(json.loads(run.stdout)['status'],'key_absent')
+
 
 if __name__ == "__main__":
     unittest.main()

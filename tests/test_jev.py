@@ -38,7 +38,7 @@ class JevTest(unittest.TestCase):
             self.core = importlib.import_module('jev.core')
         except ImportError:
             self.fail('Jev runner is missing: automatic/offline behavior is not implemented')
-        self.doc = {'transmission_allowed': True, 'sections': [
+        self.doc = {'transmission_allowed': True, 'context_review': {'reviewed':True,'unresolved':[]}, 'sections': [
             {'id': 'p1', 'profile': 'blog', 'kind': 'prose',
              'text': 'Tao hiểu. Mày cứ làm đi.', 'context': ['Đây là trao đổi công việc.']}]}
         self.calls = []
@@ -72,7 +72,7 @@ class JevTest(unittest.TestCase):
         self.assertTrue(all(e['status'] == 'excluded' for e in result['coverage'] if e['pattern'].startswith('K')))
         self.assertTrue(any(e['pattern'] == 'V20' and e['status'] == 'jev_evaluated' for e in result['coverage']))
         self.assertEqual(self.calls[0]['state']['paragraph'], self.doc['sections'][0]['text'])
-        self.assertEqual(self.calls[0]['state']['related_paragraphs'], ['Đây là trao đổi công việc.'])
+        self.assertEqual([c['text'] for c in self.calls[0]['state']['related_paragraphs']], ['Đây là trao đổi công việc.'])
         self.assertNotIn('Tao hiểu', json.dumps(result, ensure_ascii=False))
         self.assertNotIn('test-key', json.dumps(result))
         self.assertTrue(result['judgments'])
@@ -170,7 +170,7 @@ class JevTest(unittest.TestCase):
         r = self.evaluate()
         self.assertEqual(r['status'], 'incomplete')
         self.assertEqual(self.calls, [])
-        self.assertTrue(any(e['status'] == 'limit_exceeded' for e in r['coverage']))
+        self.assertTrue(any(e['status'] == 'context_too_large' for e in r['coverage']))
 
     def test_registry_covers_exact_ids_and_canonical_exclusions(self):
         registry = self.core.load_registry()
@@ -278,7 +278,7 @@ class JevTest(unittest.TestCase):
         section.update(text='An nói thiếu rõ ràng.',protected_spans=[{'start':0,'end':2}],targets=[{'id':'s1','start':0,'end':2}])
         result=self.evaluate()
         coverage={e['pattern']:e for e in result['coverage']}
-        self.assertEqual(coverage['V20']['status'],'excluded')
+        self.assertEqual(coverage['V20']['status'],'jev_evaluated') # full mode fills uncovered sentence
         self.assertEqual(coverage['V13']['status'],'jev_evaluated')
         self.assertEqual(coverage['T3']['status'],'mechanically_checked')
 
@@ -290,8 +290,12 @@ class JevTest(unittest.TestCase):
 
     def test_elapsed_deadline_between_sections_is_not_size_limit(self):
         self.doc['sections'].append(dict(self.doc['sections'][0],id='p2'))
-        with patch('jev.core.time.monotonic',side_effect=[0,0,0,0,0,121]):
-            result=self.evaluate(only_pattern='V20')
+        ticks=[0.0]
+        def advance(payload,*_):
+            ticks[0]+=121
+            return response(payload)
+        with patch('jev.core.time.monotonic',side_effect=lambda:ticks[0]):
+            result=self.evaluate(only_pattern='V20',transport=advance)
         self.assertTrue(any(e['status']=='deadline_exceeded' for e in result['coverage']))
 
     def test_candidate_revised_paragraph_masks_inserted_protected_values(self):
@@ -305,7 +309,7 @@ class JevTest(unittest.TestCase):
         seen=[]
         def fail_second_guard(payload,*_):
             seen.append(payload);r=response(payload)
-            if len(seen)==6:r['model']='wrong'
+            if any(k.endswith('_new_claim') and k.startswith('edit_') for k in payload['questions']):r['model']='wrong'
             return r
         with patch('jev.core.MAX_QUESTIONS',1):
             result=self.evaluate(only_pattern='V20',transport=fail_second_guard)
@@ -315,7 +319,7 @@ class JevTest(unittest.TestCase):
     def test_related_context_preserves_preexisting_mask_markers(self):
         self.doc['sections'][0].update(text='E là biến.',protected_spans=[{'start':0,'end':1}],context=['Đã che [PROTECTED].'])
         self.evaluate(only_pattern='V20')
-        self.assertEqual(self.calls[0]['state']['related_paragraphs'],['Đã che [PROTECTED].'])
+        self.assertEqual([c['text'] for c in self.calls[0]['state']['related_paragraphs']],['Đã che [PROTECTED].'])
 
     def test_protected_value_enclosing_a_marker_is_still_masked(self):
         secret='Token: [PROTECTED] abc123'

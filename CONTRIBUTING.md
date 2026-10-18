@@ -34,7 +34,12 @@ Skill packager cần `zip` và `unzip`; plugin packager dựng tiếp một ZIP 
 Các archive nằm trong `dist/`. Mỗi archive phải có `LICENSE`,
 đúng public inventory và nội dung khớp source.
 
-Runner Jev mới nằm trong `jev/`, chỉ dùng Python standard library và key do host inject.
+Source 0.11.0 bổ sung `python3 -B -m jev prepare --input input.json` chạy offline, input v2 và
+coverage theo câu/pattern/recipe. Bộ ca tổng hợp ở `tests/fixtures/segmentation/` cần gán nhãn độc lập
+với scanner; không dùng corpus tự sinh từ output để chứng minh segmentation đúng. Các test context,
+ledger, nhiều batch, fault và package đều chạy offline. Source version này chưa được phát hành.
+
+Runner Jev nằm trong `jev/`, chỉ dùng Python standard library và key do host inject.
 Không lấy runtime từ nghiên cứu cũ hoặc thêm đường dẫn máy maintainer. Sau khi sửa recipe hoặc
 pattern canonical, chạy `python3 -B scripts/build-jev-registry.py` rồi kiểm `--check`. Registry
 được track và phải đồng bộ trong mọi archive. Chạy test runtime bằng
