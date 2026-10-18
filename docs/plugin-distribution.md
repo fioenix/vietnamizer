@@ -20,7 +20,7 @@ Tạo cả ba artifact bằng `python3 scripts/package-plugin.py`. `dist/` là o
 commit. Plugin ZIP chỉ chứa public payload, MIT notice, nhận diện và manifest; không chứa Spec
 Kit, generated maintainer skills, corpus evaluation hoặc credential.
 
-Source v0.11.0 chưa phát hành mở rộng cùng runtime với `preparation.py` và `coverage.py`: mọi archive
+Từ v0.10.5, runtime có thêm `preparation.py` và `coverage.py`: mọi archive
 phải chạy `prepare` offline và có bytes khớp source, ngoài kiểm no-key `evaluate`. Contract v2 giữ
 input cũ nhưng full evaluation đòi hỏi ranh giới/ngữ cảnh/công việc hoàn tất; đủ answer không tự
 chứng minh đủ context. Thay đổi source không tự cập nhật cache hoặc skill dùng chung.
