@@ -91,7 +91,7 @@ CALIBRATION_FILES = {
     "calibration/ca-kiem-thu.md",
 }
 EXACT_DIRECTORY_FILES = {
-    "jev": {f"jev/{name}" for name in ("__init__.py", "__main__.py", "core.py", "transport.py", "registry.json")},
+    "jev": {f"jev/{name}" for name in ("__init__.py", "__main__.py", "core.py", "transport.py", "preparation.py", "coverage.py", "registry.json")},
     "references": REFERENCE_FILES,
     "calibration": CALIBRATION_FILES,
     "agents": {"agents/openai.yaml"},

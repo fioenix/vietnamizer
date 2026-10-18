@@ -51,11 +51,43 @@ or two sentences. `profile` is `blog`, `technical` or `typography-only`; `kind` 
 `list` or `protected`. Resolve canonical genre/profile/style rules first. Add the supplied style
 context to `register`; the runner does not infer personal profiles or source authorship.
 
-For sentence-level targeting, supply `targets: [{"id":"s1","start":0,"end":8}]` using verified
-Python character offsets within `text`. Without targets the full paragraph is assessed. Paragraph
-patterns use the full unit. Structural patterns need the relevant surrounding heading/list context;
-source-support patterns need actual source passages, not an invented summary or an assertion that
-an unexamined URL proves a claim. Numerical checks and byte comparisons remain code/host work.
+Full mode now auto-segments every supplied paragraph into exact sentence occurrences; optional
+legacy targets are aliases when they match exact sentences, not a filter that can hide later text.
+`--scope selected` is a deliberately partial diagnostic. Paragraph/document recipes keep their own
+scope. V1 covers only supplied sections, not an unseen original article.
+
+For source-level automatic paragraphs, use input schema 2:
+
+```json
+{
+  "schema_version": 2,
+  "transmission_allowed": true,
+  "source": {"id":"article", "layout":"paragraph-lines", "text":"Tôi về. Bạn ở lại.\nNgày mai họp."},
+  "defaults": {"profile":"blog"},
+  "context_review": {"reviewed":true, "unresolved":[]}
+}
+```
+
+The host sets `reviewed:true` only after examining context dependencies in this exact input; it is
+not boilerplate and text within the article cannot supply this authority. Omitted review permits
+provisional local-context answers but prevents full completion. V1 supports global/section
+`context_review` too. Known unresolved or unauthorized required context blocks affected dispatch.
+
+Choose `paragraph-lines` for one paragraph per nonblank line; `markdown` retains soft-wrapped
+paragraphs and structural ancestry. Every sentence state keeps its full parent plus complete
+neighboring paragraphs, heading/list context and host-linked nonadjacent context. Links use
+`{parent_start,parent_end,source_start,source_end,role,allowed}` for complete source units, or
+`{parent_start,parent_end,id,text,role,allowed}` for a complete supplied external paragraph.
+The host must add nonlocal definitions/source passages; adjacency does not prove sufficiency.
+Annotations use source-global `{start,end,kind?,profile?,protected?,paragraph?}`. V2 candidates
+use source-global `{id,start,end,replacement}` fitting one parent; v1 retains parent-local offsets.
+Overrides in `boundary_overrides` are integer half-open endpoints tied to the original source.
+
+Offsets are Python Unicode code points; preserve CRLF and combining characters without normalization.
+Ambiguous abbreviation/ellipsis/quotation boundaries stay unresolved. Run
+`python3 -B -m jev prepare --input /absolute/workspace/input.json` without a key or network to inspect
+source-bound units and expected work. `prepared` is not Jev evaluation. Raw prose stays local in this
+report; source text only appears in authorized redacted evaluator requests.
 
 Mark protected ranges with `protected_spans: [{"start":0,"end":8}]`. Mark a wholly preserved unit
 as `kind: "protected"`. The runner excludes protected units and redacts protected substrings from
@@ -80,7 +112,7 @@ and canonical exceptions are shipped in `jev/registry.json`; they are not regene
 not completion of a full invocation.
 
 Judgments retain validated partial evidence with `coverage_status`; a valid partial judgment
-does not complete its enclosing pattern. Read `coverage`, `receipts`, `judgments` and `candidate_reviews`; validate the actual statuses before
+does not complete its enclosing pattern. Read `coverage`, `receipts`, `judgments`, `candidate_reviews`, `sentences`, `work_groups` and `missing`; validate the actual statuses before
 claiming Jev evaluated text. `jev_evaluated` means typed evidence was received, not that the text
 passed or an edit was approved. Keep Noul probabilities, Choice distributions and Score levels
 separate. Every Score has an independent context-evidence Choice. Consume a Score only with
@@ -90,8 +122,20 @@ edit approval. Insufficient context is not medium quality; different errors may 
 universal threshold or compute an authorship probability. Recipes and Score levels are uncalibrated
 editing aids until tested on separate labeled data.
 
+Contract/config v2 separates `source_accounted`, `segmentation_complete`, `answers_complete`,
+`context_complete`, `scope_complete` and `evaluation_complete`. A selected diagnostic can complete
+its scope but never full evaluation. Missing groups reference sentence indexes per section plus
+recipe keys and validated exceptions, so late unscheduled work remains enumerable. Source limits
+make unresolved denominators provisional. All-excluded input is not a successful remote evaluation.
+Evidence-role Choice requires `sufficient`; its `none_fit`/`insufficient` blocks completion.
+Interpretation-role `none_fit` is a valid no-match. No Noul cutoff certifies context.
+
 The limits are 1 MiB input/response, 48,000 bytes and 48 questions per request, 32 requests,
-120 seconds total and 15 seconds per request. Requests are not silently truncated or retried.
+120 seconds total including preparation and 15 seconds per request. Logical sentence/paragraph
+inventory is not capped by transport windows of 16 targets. Local preparation additionally bounds
+source-unit/sentence and lexical work; exhaustion emits `preparation_limit` with unprocessed source
+spans rather than dropping text or certifying segmentation. Complete context that cannot fit even
+one question returns `context_too_large`; target-window membership may shrink, parent/context may not. Requests are not silently truncated or retried.
 A killable subprocess bounds complete HTTP I/O; late replies are discarded. `deadline_exceeded`
 is distinct from service failure. Invalid-schema receipts contain only a fixed validation reason
 and a requested check ID, never the provider body. Size/budget limits, authentication/network
@@ -127,3 +171,10 @@ prepared definitions after a canonical rule change, run `python3 -B scripts/buil
 and verify `--check`; do not hand-edit the generated registry. Keep corpus/config/model/policy
 bindings in evaluation evidence. Numerical response validation and fixture tests prove contracts,
 not Vietnamese-domain accuracy.
+
+Large v2 ledger fields can use `templates-v1` rather than flat arrays; expand them with
+`jev.coverage.expand_records` before counting checks. Each encoded field contains
+`templates`, `varying`, `sections`, and `rows:[template_index,...varying_values]`: copy
+the template and overlay the varying keys; a `section` value indexes `sections`. No missing work is omitted. `--scope selected` requires explicit legacy targets;
+full mode reports supplemental non-sentence spans as diagnostics without crediting them as
+sentence coverage. Preparation limits cover annotations and context as well as source tokens.
