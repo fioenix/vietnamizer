@@ -104,20 +104,21 @@ về quyền, bật Cowork/Skills và chính sách phân phối.
 
 ### Codex plugin và Marketplace
 
-Catalog Codex dùng chung của Finolabs được công bố tại `fioenix/agybird` từ bản `v0.2.1`
-(tên máy `agybird`, `displayName` là `Finolabs`), gồm ba mục `agybird@agybird`,
-`vietnamizer@agybird` và `markmap-skills@agybird`:
+Catalog Codex dùng chung của Finolabs đặt tại nguồn `fioenix/agybird` với tên máy (marketplace
+name) phân biệt hoa–thường là `Finolabs` và `displayName` là `Finolabs` (đã hiệu chỉnh từ bản
+catalog dùng chung đầu tiên ở `agybird` `v0.2.1` vốn đặt tên máy là `agybird`). Catalog này gồm
+ba mục `agybird@Finolabs`, `vietnamizer@Finolabs` và `markmap-skills@Finolabs`:
 
 ```bash
 codex plugin marketplace add fioenix/agybird
-codex plugin add vietnamizer@agybird
+codex plugin add vietnamizer@Finolabs
 ```
 
 Khi kiểm thử từ bản clone cục bộ của `agybird`, có thể đăng ký bằng đường dẫn thư mục:
 
 ```bash
 codex plugin marketplace add /duong/dan/toi/agybird
-codex plugin add vietnamizer@agybird
+codex plugin add vietnamizer@Finolabs
 ```
 
 Repo này vẫn giữ `.agents/plugins/marketplace.json` độc lập (tên máy `vietnamizer`,
@@ -128,10 +129,11 @@ codex plugin marketplace add fioenix/vietnamizer
 codex plugin add vietnamizer@vietnamizer
 ```
 
-**Chuyển từ `vietnamizer@vietnamizer` sang `vietnamizer@agybird` và hoàn tác (rollback):**
-sao lưu cấu hình plugin/marketplace hiện tại của Codex trước khi đổi nguồn, sau đó thêm catalog
-`agybird`, cài `vietnamizer@agybird` và xác nhận skill nạp đúng rồi mới gỡ hoặc tắt đăng ký
-`vietnamizer@vietnamizer` cũ; không xóa thẳng dữ liệu khi chưa có bản sao lưu và chưa kiểm tra
+**Chuyển từ `vietnamizer@agybird` hoặc `vietnamizer@vietnamizer` sang `vietnamizer@Finolabs` và hoàn tác (rollback):**
+sao lưu cấu hình plugin/marketplace hiện tại của Codex trước khi đổi nguồn, sau đó đăng ký hoặc
+cập nhật catalog `Finolabs` từ `fioenix/agybird` (hoặc bản clone cục bộ của `agybird`), cài
+`vietnamizer@Finolabs` và xác nhận skill nạp đúng rồi mới gỡ hoặc tắt đăng ký `vietnamizer@agybird`
+hay `vietnamizer@vietnamizer` cũ; không xóa thẳng dữ liệu khi chưa có bản sao lưu và chưa kiểm tra
 xong bản thay thế. Nếu cần quay lại đường cũ, khôi phục từ bản sao lưu hoặc đăng ký lại nguồn
 độc lập `fioenix/vietnamizer` (hoặc bản clone cục bộ của repo này) và cài lại
 `vietnamizer@vietnamizer`.
@@ -561,9 +563,10 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 ## Lịch sử phiên bản
 
 - **0.10.6** (19/10/2026) – Cập nhật hướng dẫn cài đặt, kiểm thử và chuyển đổi hoặc hoàn tác sang
-  catalog Codex dùng chung của Finolabs tại `fioenix/agybird` (`vietnamizer@agybird`, công bố từ
-  `agybird` v0.2.1), đồng thời giữ catalog độc lập `vietnamizer@vietnamizer` để tương thích ngược.
-  Không đổi quy tắc biên tập hay hành vi runtime.
+  catalog Codex dùng chung của Finolabs tại `fioenix/agybird` (bản công bố đầu từ `agybird` v0.2.1
+  dùng `vietnamizer@agybird`; bản hiệu chỉnh định danh marketplace sau đó đổi tên máy sang đúng
+  chữ hoa–thường `Finolabs` với selector `vietnamizer@Finolabs`), đồng thời giữ catalog độc lập
+  `vietnamizer@vietnamizer` để tương thích ngược. Không đổi quy tắc biên tập hay hành vi runtime.
 
 - **0.10.5** – Tự tách đoạn/câu từ input nguồn, giữ vị trí và nguyên đoạn/ngữ cảnh;
   đối soát từng câu, pattern và rubric qua nhiều batch. CLI có `prepare` offline, contract v2 phân biệt
