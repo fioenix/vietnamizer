@@ -28,7 +28,8 @@ cho thấy bản gốc thật sự có vấn đề.
 ## Cài nhanh
 
 Tên mới từ bản **0.9.7**: Vietnamizer, định danh `vietnamizer` (trước đây là
-`vi-humanizer`). Bản hiện tại là **0.10.5**, mở rộng tách câu và coverage trên nền Jev tự động khi host cấp key và quyền gửi
+`vi-humanizer`). Bản hiện tại là **0.10.6**, đồng bộ hướng dẫn cài đặt với catalog Codex dùng
+chung của Finolabs tại `fioenix/agybird` và giữ nguyên tách câu, coverage trên nền Jev tự động khi host cấp key và quyền gửi
 dữ liệu; phát hành GitHub không đồng nghĩa được Directory chấp thuận.
 Asset của các release trước 0.9.7 vẫn mang tên
 `vi-humanizer.*` và chứa định danh cũ.
@@ -103,16 +104,42 @@ về quyền, bật Cowork/Skills và chính sách phân phối.
 
 ### Codex plugin và Marketplace
 
-Từ v0.9.7, repo có catalog Codex riêng bên cạnh catalog Claude Code:
+Catalog Codex dùng chung của Finolabs được công bố tại `fioenix/agybird` từ bản `v0.2.1`
+(tên máy `agybird`, `displayName` là `Finolabs`), gồm ba mục `agybird@agybird`,
+`vietnamizer@agybird` và `markmap-skills@agybird`:
+
+```bash
+codex plugin marketplace add fioenix/agybird
+codex plugin add vietnamizer@agybird
+```
+
+Khi kiểm thử từ bản clone cục bộ của `agybird`, có thể đăng ký bằng đường dẫn thư mục:
+
+```bash
+codex plugin marketplace add /duong/dan/toi/agybird
+codex plugin add vietnamizer@agybird
+```
+
+Repo này vẫn giữ `.agents/plugins/marketplace.json` độc lập (tên máy `vietnamizer`,
+`displayName` là `Vietnamizer`) để tương thích ngược và phục vụ kiểm tra gói tại chỗ:
 
 ```bash
 codex plugin marketplace add fioenix/vietnamizer
 codex plugin add vietnamizer@vietnamizer
 ```
 
-Trong ứng dụng hỗ trợ repo marketplace, chọn nguồn `vietnamizer` trong trang Plugins rồi cài
-plugin. Khả năng hiển thị tùy client; Skills CLI ở trên vẫn là đường cài độc lập. Catalog của
-repo không đồng nghĩa plugin đã được duyệt vào directory chính thức của OpenAI hoặc Anthropic.
+**Chuyển từ `vietnamizer@vietnamizer` sang `vietnamizer@agybird` và hoàn tác (rollback):**
+sao lưu cấu hình plugin/marketplace hiện tại của Codex trước khi đổi nguồn, sau đó thêm catalog
+`agybird`, cài `vietnamizer@agybird` và xác nhận skill nạp đúng rồi mới gỡ hoặc tắt đăng ký
+`vietnamizer@vietnamizer` cũ; không xóa thẳng dữ liệu khi chưa có bản sao lưu và chưa kiểm tra
+xong bản thay thế. Nếu cần quay lại đường cũ, khôi phục từ bản sao lưu hoặc đăng ký lại nguồn
+độc lập `fioenix/vietnamizer` (hoặc bản clone cục bộ của repo này) và cài lại
+`vietnamizer@vietnamizer`.
+
+Khả năng hiển thị tên nguồn `Finolabs` hoặc `Vietnamizer` và cách gom nhóm trong trang Plugins
+phụ thuộc từng bản client Codex; tài liệu này không khẳng định client đã tự gom nhóm trên UI
+hoặc đã cài đặt thực tế. Skills CLI ở trên vẫn là đường cài độc lập. Catalog của repo không đồng
+nghĩa plugin đã được duyệt vào directory chính thức của OpenAI hoặc Anthropic.
 
 Xem [hướng dẫn phân phối và kiểm thử](docs/plugin-distribution.md),
 [quyền riêng tư](PRIVACY.md) và [điều kiện sử dụng](TERMS.md).
@@ -532,6 +559,11 @@ Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tha
 Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
+
+- **0.10.6** (19/10/2026) – Cập nhật hướng dẫn cài đặt, kiểm thử và chuyển đổi hoặc hoàn tác sang
+  catalog Codex dùng chung của Finolabs tại `fioenix/agybird` (`vietnamizer@agybird`, công bố từ
+  `agybird` v0.2.1), đồng thời giữ catalog độc lập `vietnamizer@vietnamizer` để tương thích ngược.
+  Không đổi quy tắc biên tập hay hành vi runtime.
 
 - **0.10.5** – Tự tách đoạn/câu từ input nguồn, giữ vị trí và nguyên đoạn/ngữ cảnh;
   đối soát từng câu, pattern và rubric qua nhiều batch. CLI có `prepare` offline, contract v2 phân biệt
