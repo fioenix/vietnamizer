@@ -46,18 +46,28 @@ claude plugin validate .claude-plugin/plugin.json --strict
 npx --yes skills@1.5.20 add . --list
 ```
 
-`--check` không dựng archive. Cần kiểm thêm đường cài trên profile tạm: với đường dùng chung
-Finolabs, đăng ký marketplace từ `fioenix/agybird` (đã công bố từ `agybird` v0.2.1) hoặc bản
-clone cục bộ của repo đó rồi cài `vietnamizer@agybird`; với đường tương thích ngược độc lập tại
-repo này, đăng ký clone `vietnamizer` và cài `vietnamizer@vietnamizer`. Ở cả hai đường, kiểm
-plugin cache có manifest đúng version và skill nạp đúng tên. Khi thử chuyển từ
-`vietnamizer@vietnamizer` sang `vietnamizer@agybird`, phải sao lưu cấu hình/trạng thái đăng ký
-trước, xác nhận `vietnamizer@agybird` hoạt động rồi mới gỡ hoặc tắt nguồn cũ; nếu cần rollback
-thì khôi phục từ bản sao lưu hoặc đăng ký lại nguồn độc lập `vietnamizer`, không xóa dữ liệu
-không thể khôi phục. Với Codex có thể dùng app-server `skills/list` để kiểm discovery mà không
-gọi model. Với Claude Code, cài xong mở session mới và kiểm `/vietnamizer:vietnamizer`; metadata
-validator, việc sửa tài liệu hoặc thông báo install thành công không tự chứng minh UI đã hiển
-thị, đã gom nhóm theo `Finolabs` hay invocation chạy được.
+`--check` không dựng archive. Cần kiểm thêm đường cài trên profile tạm: với môi trường mới chưa có
+đăng ký `agybird` cũ, có thể đăng ký marketplace từ `fioenix/agybird` hoặc bản clone cục bộ đã có
+`"name": "Finolabs"` (`displayName` là `Finolabs`) rồi cài `vietnamizer@Finolabs`; với đường tương
+thích ngược độc lập tại repo này, đăng ký clone `vietnamizer` và cài `vietnamizer@vietnamizer`. Ở
+cả hai đường, kiểm plugin cache có manifest đúng version và skill nạp đúng tên. Khi chuyển từ bản
+dùng chung cũ `@agybird` (từ catalog `agybird` `v0.2.1` ban đầu) sang `@Finolabs`, không dùng lệnh
+`upgrade` trên `agybird` để đổi tên (vì `marketplace_upgrade.rs` từ chối khi `marketplace.name`
+tải về khác tên đã cấu hình) và không chạy lại `marketplace add` cùng URL Git `fioenix/agybird`
+trước khi gỡ nguồn cũ (vì có thể tái sử dụng nguồn `agybird` cũ). Thay vào đó, sao lưu cấu
+hình/trạng thái đăng ký trước, dùng một bản clone/checkout cục bộ riêng của `fioenix/agybird` đã
+cập nhật `"name": "Finolabs"` (ví dụ `git clone https://github.com/fioenix/agybird.git /path/to/finolabs-catalog`)
+để đăng ký marketplace `Finolabs` song song (side-by-side) với `agybird` cũ đã đăng ký qua Git, cài
+và xác nhận các plugin `@Finolabs` liên quan (`agybird@Finolabs`, `vietnamizer@Finolabs`,
+`markmap-skills@Finolabs`) hoạt động trước, rồi mới gỡ các selector `@agybird` cũ và marketplace
+`agybird` cũ bằng lệnh CLI được hỗ trợ; giữ đăng ký từ bản clone cục bộ là đủ dùng, không suy đoán
+cơ chế thay thế tại chỗ sang URL Git từ xa. Nếu cần rollback thì khôi phục từ bản sao lưu, dùng
+checkout `fioenix/agybird` tại tag `v0.2.1` (`@agybird`) hoặc đăng ký lại nguồn độc lập
+`vietnamizer` (`vietnamizer@vietnamizer`), không xóa dữ liệu không thể khôi phục. Với Codex có thể
+dùng app-server `skills/list` để kiểm discovery mà không gọi model. Với Claude Code, cài xong mở
+session mới và kiểm `/vietnamizer:vietnamizer`; metadata validator, việc sửa tài liệu hoặc thông
+báo install thành công không tự chứng minh UI đã hiển thị, đã gom nhóm theo `Finolabs` hay
+invocation chạy được.
 
 Không đưa credential hoặc raw input của người dùng vào log kiểm. Profile thật của maintainer
 không phải fixture kiểm thử. Các lệnh kiểm packaging ở trên chạy offline, không cần gọi TypeSafe.
@@ -133,15 +143,16 @@ Tài liệu và template hỗ trợ không nằm trong payload do scripts đóng
 submit hoặc checksum từ nguồn được xác nhận mới kết luận được. Không suy ra thiếu đường hỗ trợ
 là nguyên nhân chậm duyệt.
 
-Catalog Codex dùng chung của Finolabs nằm tại `fioenix/agybird` (đã công bố từ `agybird` v0.2.1;
-tên máy `agybird`, `displayName` là `Finolabs`, gồm ba mục `agybird@agybird`,
-`vietnamizer@agybird` và `markmap-skills@agybird`, có thể đăng ký từ GitHub hoặc bản clone cục
-bộ). Trong repo này, `.agents/plugins/marketplace.json` được giữ nguyên làm catalog độc lập một
-entry (`vietnamizer`, `displayName` là `Vietnamizer`) để tương thích ngược với
-`vietnamizer@vietnamizer` và đáp ứng kiểm tra của `scripts/package-plugin.py`; không đổi tên
-thành `Finolabs` và không nhân bản catalog ba mục tại đây. `.claude-plugin/marketplace.json`
-tiếp tục phục vụ Claude Code. Các catalog do maintainer kiểm soát giúp người dùng đăng ký nguồn
-và cài plugin, nhưng không phải dấu hiệu OpenAI hoặc Anthropic đã review hay bảo chứng plugin.
+Catalog Codex dùng chung của Finolabs nằm tại `fioenix/agybird` với tên máy đúng chữ hoa–thường
+`Finolabs` và `displayName` là `Finolabs`, gồm ba mục `agybird@Finolabs`, `vietnamizer@Finolabs`
+và `markmap-skills@Finolabs` (hiệu chỉnh từ bản catalog dùng chung đầu tiên ở `agybird` v0.2.1
+vốn dùng tên máy `agybird`; có thể đăng ký từ GitHub hoặc bản clone cục bộ). Trong repo này,
+`.agents/plugins/marketplace.json` được giữ nguyên làm catalog độc lập một entry (`vietnamizer`,
+`displayName` là `Vietnamizer`) để tương thích ngược với `vietnamizer@vietnamizer` và đáp ứng
+kiểm tra của `scripts/package-plugin.py`; không đổi tên thành `Finolabs` và không nhân bản
+catalog ba mục tại đây. `.claude-plugin/marketplace.json` tiếp tục phục vụ Claude Code. Các
+catalog do maintainer kiểm soát giúp người dùng đăng ký nguồn và cài plugin, nhưng không phải
+dấu hiệu OpenAI hoặc Anthropic đã review hay bảo chứng plugin.
 
 Gửi vào directory chính thức là bước riêng, cần quyền tài khoản publisher, kiểm lại yêu cầu
 submission tại thời điểm gửi và owner duyệt trước khi nộp. Không tạo MCP server, auth flow,

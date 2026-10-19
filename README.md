@@ -104,20 +104,24 @@ về quyền, bật Cowork/Skills và chính sách phân phối.
 
 ### Codex plugin và Marketplace
 
-Catalog Codex dùng chung của Finolabs được công bố tại `fioenix/agybird` từ bản `v0.2.1`
-(tên máy `agybird`, `displayName` là `Finolabs`), gồm ba mục `agybird@agybird`,
-`vietnamizer@agybird` và `markmap-skills@agybird`:
+Catalog Codex dùng chung của Finolabs đặt tại nguồn `fioenix/agybird` với tên máy
+(`marketplace.name`) phân biệt hoa–thường là `Finolabs` và `displayName` là `Finolabs` (đã hiệu
+chỉnh từ bản catalog dùng chung đầu tiên ở `agybird` `v0.2.1` vốn đặt tên máy là `agybird`).
+Catalog này gồm ba mục `agybird@Finolabs`, `vietnamizer@Finolabs` và `markmap-skills@Finolabs`.
+
+Với máy **chưa từng đăng ký** nguồn `agybird` cũ, có thể đăng ký trực tiếp từ GitHub rồi cài
+`vietnamizer@Finolabs`:
 
 ```bash
 codex plugin marketplace add fioenix/agybird
-codex plugin add vietnamizer@agybird
+codex plugin add vietnamizer@Finolabs
 ```
 
-Khi kiểm thử từ bản clone cục bộ của `agybird`, có thể đăng ký bằng đường dẫn thư mục:
+Hoặc đăng ký từ một bản checkout/clone cục bộ của `fioenix/agybird` đã có `"name": "Finolabs"`:
 
 ```bash
-codex plugin marketplace add /duong/dan/toi/agybird
-codex plugin add vietnamizer@agybird
+codex plugin marketplace add /path/to/finolabs-catalog
+codex plugin add vietnamizer@Finolabs
 ```
 
 Repo này vẫn giữ `.agents/plugins/marketplace.json` độc lập (tên máy `vietnamizer`,
@@ -128,13 +132,34 @@ codex plugin marketplace add fioenix/vietnamizer
 codex plugin add vietnamizer@vietnamizer
 ```
 
-**Chuyển từ `vietnamizer@vietnamizer` sang `vietnamizer@agybird` và hoàn tác (rollback):**
-sao lưu cấu hình plugin/marketplace hiện tại của Codex trước khi đổi nguồn, sau đó thêm catalog
-`agybird`, cài `vietnamizer@agybird` và xác nhận skill nạp đúng rồi mới gỡ hoặc tắt đăng ký
-`vietnamizer@vietnamizer` cũ; không xóa thẳng dữ liệu khi chưa có bản sao lưu và chưa kiểm tra
-xong bản thay thế. Nếu cần quay lại đường cũ, khôi phục từ bản sao lưu hoặc đăng ký lại nguồn
-độc lập `fioenix/vietnamizer` (hoặc bản clone cục bộ của repo này) và cài lại
-`vietnamizer@vietnamizer`.
+**Chuyển từ `@agybird` (`vietnamizer@agybird`) hoặc `vietnamizer@vietnamizer` sang `vietnamizer@Finolabs` và hoàn tác (rollback):**
+trong Codex (`marketplace_upgrade.rs`), lệnh `upgrade` sẽ báo lỗi khi `marketplace.name` tải về
+(`Finolabs`) khác với tên đã cấu hình (`agybird`), còn chạy lại `marketplace add` cùng URL Git
+`fioenix/agybird` trước khi gỡ đăng ký cũ có thể tái sử dụng lại nguồn `agybird` cũ. Vì vậy,
+không dùng lệnh `upgrade` trên `agybird` để đổi tên marketplace và không thêm đè cùng URL Git khi
+nguồn `agybird` cũ vẫn còn. Hãy làm theo thứ tự song song (side-by-side) sau:
+
+1. Sao lưu cấu hình và trạng thái đăng ký plugin/marketplace hiện tại của Codex.
+2. Chuẩn bị một bản clone/checkout cục bộ riêng của `fioenix/agybird` đã cập nhật (ví dụ
+   `git clone https://github.com/fioenix/agybird.git /path/to/finolabs-catalog`), kiểm tra
+   `.agents/plugins/marketplace.json` tại đó có `"name": "Finolabs"`, rồi đăng ký đường dẫn cục bộ
+   này để tạo marketplace `Finolabs` song song với `agybird` cũ:
+   ```bash
+   codex plugin marketplace add /path/to/finolabs-catalog
+   codex plugin add vietnamizer@Finolabs
+   ```
+   (Nếu máy đang dùng cả bộ ba trong catalog dùng chung, cài luôn `agybird@Finolabs` và
+   `markmap-skills@Finolabs` ở bước này.)
+3. Xác nhận `vietnamizer@Finolabs` (cùng các plugin `@Finolabs` liên quan) đã cài và nạp đúng
+   trước khi dọn nguồn cũ.
+4. Dùng lệnh CLI được hỗ trợ để gỡ các selector `@agybird` cũ (`vietnamizer@agybird`, v.v.) và gỡ
+   marketplace `agybird` cũ (hoặc `vietnamizer@vietnamizer` / marketplace `vietnamizer` nếu chuyển
+   từ bản độc lập). Giữ nguyên đăng ký từ bản clone cục bộ là đủ để sử dụng; không giả định cơ chế
+   thay thế tại chỗ sang URL Git từ xa nếu client chưa hỗ trợ.
+
+Nếu cần hoàn tác (rollback), khôi phục từ bản sao lưu ban đầu, hoặc checkout `fioenix/agybird` tại
+tag cố định `v0.2.1` (nơi `marketplace.name` vẫn là `agybird`) để đăng ký lại `vietnamizer@agybird`,
+hoặc dùng nguồn độc lập `fioenix/vietnamizer` với `vietnamizer@vietnamizer`.
 
 Khả năng hiển thị tên nguồn `Finolabs` hoặc `Vietnamizer` và cách gom nhóm trong trang Plugins
 phụ thuộc từng bản client Codex; tài liệu này không khẳng định client đã tự gom nhóm trên UI
@@ -561,9 +586,10 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
 ## Lịch sử phiên bản
 
 - **0.10.6** (19/10/2026) – Cập nhật hướng dẫn cài đặt, kiểm thử và chuyển đổi hoặc hoàn tác sang
-  catalog Codex dùng chung của Finolabs tại `fioenix/agybird` (`vietnamizer@agybird`, công bố từ
-  `agybird` v0.2.1), đồng thời giữ catalog độc lập `vietnamizer@vietnamizer` để tương thích ngược.
-  Không đổi quy tắc biên tập hay hành vi runtime.
+  catalog Codex dùng chung của Finolabs tại `fioenix/agybird` (bản công bố đầu từ `agybird` v0.2.1
+  dùng `vietnamizer@agybird`; bản hiệu chỉnh định danh marketplace sau đó đổi tên máy sang đúng
+  chữ hoa–thường `Finolabs` với selector `vietnamizer@Finolabs`), đồng thời giữ catalog độc lập
+  `vietnamizer@vietnamizer` để tương thích ngược. Không đổi quy tắc biên tập hay hành vi runtime.
 
 - **0.10.5** – Tự tách đoạn/câu từ input nguồn, giữ vị trí và nguyên đoạn/ngữ cảnh;
   đối soát từng câu, pattern và rubric qua nhiều batch. CLI có `prepare` offline, contract v2 phân biệt
