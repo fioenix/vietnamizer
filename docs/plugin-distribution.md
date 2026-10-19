@@ -46,11 +46,18 @@ claude plugin validate .claude-plugin/plugin.json --strict
 npx --yes skills@1.5.20 add . --list
 ```
 
-`--check` không dựng archive. Cần kiểm thêm đường cài trên profile tạm: thêm marketplace từ
-clone, cài `vietnamizer@vietnamizer`, kiểm plugin cache có manifest đúng version và skill nạp
-đúng tên. Với Codex có thể dùng app-server `skills/list` để kiểm discovery mà không gọi model.
-Với Claude Code, cài xong mở session mới và kiểm `/vietnamizer:vietnamizer`; metadata validator
-hoặc thông báo install thành công không tự chứng minh UI đã hiển thị hay invocation chạy được.
+`--check` không dựng archive. Cần kiểm thêm đường cài trên profile tạm: với đường dùng chung
+Finolabs, đăng ký marketplace từ `fioenix/agybird` (đã công bố từ `agybird` v0.2.1) hoặc bản
+clone cục bộ của repo đó rồi cài `vietnamizer@agybird`; với đường tương thích ngược độc lập tại
+repo này, đăng ký clone `vietnamizer` và cài `vietnamizer@vietnamizer`. Ở cả hai đường, kiểm
+plugin cache có manifest đúng version và skill nạp đúng tên. Khi thử chuyển từ
+`vietnamizer@vietnamizer` sang `vietnamizer@agybird`, phải sao lưu cấu hình/trạng thái đăng ký
+trước, xác nhận `vietnamizer@agybird` hoạt động rồi mới gỡ hoặc tắt nguồn cũ; nếu cần rollback
+thì khôi phục từ bản sao lưu hoặc đăng ký lại nguồn độc lập `vietnamizer`, không xóa dữ liệu
+không thể khôi phục. Với Codex có thể dùng app-server `skills/list` để kiểm discovery mà không
+gọi model. Với Claude Code, cài xong mở session mới và kiểm `/vietnamizer:vietnamizer`; metadata
+validator, việc sửa tài liệu hoặc thông báo install thành công không tự chứng minh UI đã hiển
+thị, đã gom nhóm theo `Finolabs` hay invocation chạy được.
 
 Không đưa credential hoặc raw input của người dùng vào log kiểm. Profile thật của maintainer
 không phải fixture kiểm thử. Các lệnh kiểm packaging ở trên chạy offline, không cần gọi TypeSafe.
@@ -126,9 +133,15 @@ Tài liệu và template hỗ trợ không nằm trong payload do scripts đóng
 submit hoặc checksum từ nguồn được xác nhận mới kết luận được. Không suy ra thiếu đường hỗ trợ
 là nguyên nhân chậm duyệt.
 
-`.agents/plugins/marketplace.json` và `.claude-plugin/marketplace.json` là catalog do maintainer
-kiểm soát. Người dùng có thể đăng ký repo và cài plugin; đây không phải dấu hiệu OpenAI hoặc
-Anthropic đã review hay bảo chứng plugin.
+Catalog Codex dùng chung của Finolabs nằm tại `fioenix/agybird` (đã công bố từ `agybird` v0.2.1;
+tên máy `agybird`, `displayName` là `Finolabs`, gồm ba mục `agybird@agybird`,
+`vietnamizer@agybird` và `markmap-skills@agybird`, có thể đăng ký từ GitHub hoặc bản clone cục
+bộ). Trong repo này, `.agents/plugins/marketplace.json` được giữ nguyên làm catalog độc lập một
+entry (`vietnamizer`, `displayName` là `Vietnamizer`) để tương thích ngược với
+`vietnamizer@vietnamizer` và đáp ứng kiểm tra của `scripts/package-plugin.py`; không đổi tên
+thành `Finolabs` và không nhân bản catalog ba mục tại đây. `.claude-plugin/marketplace.json`
+tiếp tục phục vụ Claude Code. Các catalog do maintainer kiểm soát giúp người dùng đăng ký nguồn
+và cài plugin, nhưng không phải dấu hiệu OpenAI hoặc Anthropic đã review hay bảo chứng plugin.
 
 Gửi vào directory chính thức là bước riêng, cần quyền tài khoản publisher, kiểm lại yêu cầu
 submission tại thời điểm gửi và owner duyệt trước khi nộp. Không tạo MCP server, auth flow,
