@@ -380,9 +380,9 @@ scripts/validate-package.py                   kiểm tra tính đồng bộ củ
 scripts/package-skill.sh                      tạo hai artifact cài đặt
 scripts/package-plugin.py                     kiểm metadata và tạo ZIP plugin hai nền tảng
 docs/plugin-distribution.md                   đường cài, kiểm thử và giới hạn publication
-scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy
+scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy; nguồn tín hiệu ưu tiên của registry
 jev/                                         runner Python và registry 55 pattern
-scripts/build-jev-registry.py                 sinh/kiểm registry từ nguồn canonical
+scripts/build-jev-registry.py                 sinh/kiểm registry và tín hiệu ưu tiên từ nguồn canonical
 .specify/                                     constitution, template và script của Spec Kit
 specs/                                        đặc tả, checklist, plan và task theo từng feature
 eval/guard/                                   hồ sơ corpus/config lịch sử đã ngừng dùng
