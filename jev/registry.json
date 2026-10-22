@@ -248,6 +248,14 @@
             "A pronounced instance substantially obstructing the relevant reading function."
           ]
         }
+      ],
+      "signals": [
+        "^\\*{0,2}(?:Trong quá trình)",
+        "^\\*{0,2}(?:Với sự)",
+        "^\\*{0,2}(?:Trên cơ sở)",
+        "^\\*{0,2}(?:Nhằm mục đích)",
+        "^\\*{0,2}(?:Tại thời điểm)",
+        "^\\*{0,2}(?:Trong khuôn khổ)"
       ]
     },
     {
@@ -310,6 +318,14 @@
             "A pronounced instance substantially obstructing the relevant reading function."
           ]
         }
+      ],
+      "signals": [
+        "Điều quan trọng cần",
+        "Điều đáng chú ý là",
+        "Cần lưu ý rằng",
+        "Cần nhấn mạnh rằng",
+        "Có thể thấy rằng",
+        "Không thể phủ nhận rằng"
       ]
     },
     {
@@ -346,6 +362,17 @@
             "A pronounced instance substantially obstructing the relevant reading function."
           ]
         }
+      ],
+      "signals": [
+        "^(?:Hơn nữa),",
+        "^(?:Ngoài ra),",
+        "^(?:Bên cạnh đó),",
+        "^(?:Đồng thời),",
+        "^(?:Mặt khác),",
+        "^(?:Tuy nhiên),",
+        "^(?:Do đó),",
+        "^(?:Vì vậy),",
+        "^(?:Nhìn chung),"
       ]
     },
     {
@@ -446,6 +473,10 @@
             "A pronounced instance substantially obstructing the relevant reading function."
           ]
         }
+      ],
+      "signals": [
+        "tiến hành thực hiện",
+        "thực hiện việc"
       ]
     },
     {
@@ -829,6 +860,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "signals": [
+        "—"
       ]
     },
     {
@@ -866,6 +900,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "signals": [
+        ", và "
       ]
     },
     {
@@ -894,6 +931,10 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "signals": [
+        "^#{1,6} [^\\n:]{2,50}: ",
+        "^[ \\t]*[-*] \\*\\*[^\\n*]+:\\*\\*"
       ]
     },
     {
