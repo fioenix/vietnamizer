@@ -75,3 +75,24 @@ print(json.dumps({'elapsed':elapsed,'peak':peak,'accounted':r['source_accounted'
                 self.assertTrue(measured['accounted'])
                 self.assertLess(measured['elapsed'],2)
                 self.assertLess(measured['peak'],128*1024*1024)
+    def test_dotted_identifier_tokens_stay_linear(self):
+        import json
+        import subprocess
+        import sys
+        child='''import json,sys,time,tracemalloc
+from jev.preparation import prepare_document
+doc=json.load(sys.stdin)
+tracemalloc.start(); start=time.monotonic()
+r=prepare_document(doc)
+elapsed=time.monotonic()-start
+_,peak=tracemalloc.get_traced_memory()
+print(json.dumps({'elapsed':elapsed,'peak':peak,'accounted':r['source_accounted']}))
+'''
+        # A failed identifier match must not retry every suffix of a giant token.
+        for text in ['a'*500000+'.b'+'é','ab.'*200000+'abé']:
+            with self.subTest(prefix=text[:5],length=len(text)):
+                result=subprocess.run([sys.executable,'-B','-c',child],input=json.dumps(raw(text)),text=True,capture_output=True,timeout=4,check=True)
+                measured=json.loads(result.stdout)
+                self.assertTrue(measured['accounted'])
+                self.assertLess(measured['elapsed'],2)
+                self.assertLess(measured['peak'],128*1024*1024)

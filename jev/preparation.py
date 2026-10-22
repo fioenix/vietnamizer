@@ -18,6 +18,8 @@ MAX_INVENTORY = 4096
 # Absolute per-phase work bound; it keeps pathological inputs far inside the deadline.
 WORK_LIMIT = 32768
 ID = re.compile(r'[A-Za-z][A-Za-z0-9_-]{0,63}\Z')
+# File names, domains and module paths: ASCII segments, each opened by a lowercase letter or digit.
+DOTTED_IDENTIFIER = re.compile(r'(?<![\w.-])[A-Za-z0-9_][A-Za-z0-9_-]*(?:\.[a-z0-9][A-Za-z0-9_-]*)+(?![\w-])')
 PROFILES = {'blog', 'technical', 'typography-only'}
 KINDS = {'prose', 'heading', 'list', 'protected'}
 
@@ -147,6 +149,12 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
             destination=core.split('](',1)[1]
             if destination.startswith(('https://','http://')):
                 left+=core.index('](')+2; core=destination
+            elif destination and not destination.startswith(('<','"')):
+                # A link destination is never prose, whatever its scheme.
+                offset=left+core.index('](')+2; closing=destination.find(')')
+                end=closing if closing>=0 else len(destination.rstrip('.,!?;:]}”»"'))
+                if end: lexical.append((a+offset,a+offset+end))
+                url_ambiguous = url_ambiguous or '(' in destination[:end]
         if core.startswith(('https://','http://')):
             end=len(core.rstrip('.,!?;:)]}”»"'))
             lexical.append((a+left,a+left+end))
@@ -166,6 +174,10 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
                 if not budget.take(): return unfinished('preparation_limit')
                 if any(c in numeric[0] for c in '.,/'):
                     lexical.append((a+numeric.start(),a+numeric.end()))
+        if '.' in word:
+            for dotted in DOTTED_IDENTIFIER.finditer(word):
+                if not budget.take(): return unfinished('preparation_limit')
+                lexical.append((a+dotted.start(),a+dotted.end()))
         for place in ('TP.HCM','TP.HN'):
             if core.startswith(place): lexical.append((a+left,a+left+len(place)))
         if core in ('v.v.','v.d.'):
@@ -236,7 +248,7 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
         punct=text[i:end_punct]; reason=None
         inside_paren=paren_depth>0
         paren_depth=max(0,paren_depth-text[end_punct:j].count(')'))
-        if not _safe(text,j,budget) or k<len(text) and (k==j or not _safe(text,k,budget)):
+        if not _safe(text,j,budget) or k<len(text) and k>j and not _safe(text,k,budget):
             reason='unsafe_boundary'
         # An override after a closing delimiter still owns this exact endpoint.
         if j in endpoints:
@@ -246,8 +258,13 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
                 spans.append((a,b,'unresolved' if uncertain else 'exact'))
                 if uncertain: unresolved.append({'start':a,'end':b,'reason':uncertain[0]})
             start=j; uncertain=[]; cursor=j; continue
+        if k==j<len(text):
+            # A comma, semicolon, colon or further terminal punctuation cannot open a sentence.
+            if text[k] in ',;:.!?…':
+                cursor=j; continue
+            reason=reason or 'ambiguous_separator'
         tail=text[max(start,i-64):i+1]
-        if re.search(r'\b(?:TS|ThS|PGS|GS|TP)\.$',tail) or tail.endswith(('v.v.','v.d.')) or re.search(r'\b[A-ZĐ]\.$',tail) and not inside(i-1): reason='ambiguous_abbreviation'
+        if re.search(r'\b(?:TS|ThS|PGS|GS|TP)\.$',tail) or tail.endswith(('v.v.','v.d.')) or re.search(r'(?<![^\s(\["“«‘])[a-z](?:\.[a-z])+\.$',tail) or re.search(r'\b[A-ZĐ]\.$',tail) and not inside(i-1): reason='ambiguous_abbreviation'
         if '…' in punct or '...' in punct:
             if k<len(text) and not text[k].islower(): reason='ambiguous_ellipsis'
             elif k<len(text):

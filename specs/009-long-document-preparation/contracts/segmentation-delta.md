@@ -16,6 +16,16 @@ A `(` inside a link destination keeps the existing whole-unit `ambiguous_url_clo
 `.` that ends an identifier at a real sentence end (`Xem example.dev. Tôi về.`) is still a candidate
 boundary, because the identifier stops before it.
 
+## Row 2 — abbreviations (extended during implementation, 2026-10-22)
+
+The dotted-identifier token also matches single-letter abbreviations such as `e.g` and `i.e`. Before
+this feature their internal dot left the region unresolved; with the token alone, `Dùng e.g. Python`
+would gain a false exact boundary after `e.g.`. A standalone run of single lowercase letters joined
+by dots and ending in `.` (`e.g.`, `i.e.`, `a.b.`) is therefore an ambiguous abbreviation at a
+possible sentence end, like `v.v.` and `v.d.`. "Standalone" means it follows whitespace, an opening
+bracket or quote, or the start of the scanned window, so a URL path such as
+`https://example.org/a.b.` keeps its existing boundary (corpus case `url-terminal-period`).
+
 ## Row 5 — terminal punctuation (narrowed exemption)
 
 After the punctuation run and any attached closing quotes or brackets:
@@ -42,7 +52,11 @@ After the punctuation run and any attached closing quotes or brackets:
 | `Xem example.dev. Tôi về.` | markdown | two exact sentences |
 | `Tôi về.bạn ở lại.` | markdown | unresolved, `ambiguous_separator` |
 | `Done.Next step.` | markdown | unresolved, `ambiguous_separator` |
+| `Dùng e.g. Python rồi chạy.` | markdown | unresolved, `ambiguous_abbreviation` |
+| `Nghĩa là i.e. Tôi về.` | markdown | unresolved, `ambiguous_abbreviation` |
+| `Xem [b](../a/b.md) rồi báo tôi.` | markdown | one exact sentence |
+| `Xem [a](b(c).md) nhé.` | markdown | unresolved, `ambiguous_url_closer` |
 | corpus `missing-period-space` (`Tôi về.Bạn ở lại.`) | paragraph-lines | unresolved, as before |
 
-All rows were observed on the planning prototype. The corpus keeps its 54 cases; only its `profile`
+The original rows were observed on the planning prototype; the four rows added during implementation were observed on the branch. The corpus keeps its 54 cases; only its `profile`
 field changes.
