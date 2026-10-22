@@ -1,0 +1,10 @@
+test_bullet_with_relative_link_and_trailing_colon_is_exact (test_red_baseline.RedBaseline.test_bullet_with_relative_link_and_trailing_colon_is_exact) ... FAIL
+test_long_markdown_crosses_scan_budget_without_preparation_limit (test_red_baseline.RedBaseline.test_long_markdown_crosses_scan_budget_without_preparation_limit) ... FAIL
+test_many_short_units_do_not_exhaust_metadata_budget (test_red_baseline.RedBaseline.test_many_short_units_do_not_exhaust_metadata_budget) ... FAIL
+test_quoted_question_followed_by_comma_is_not_a_boundary (test_red_baseline.RedBaseline.test_quoted_question_followed_by_comma_is_not_a_boundary) ... FAIL
+AssertionError: Lists differ: [{'start': 0, 'end': 72, 'reason': 'unsafe[48 chars]ae'}] != []
+AssertionError: 'preparation_limit' unexpectedly found in {'preparation_limit'}
+AssertionError: 0 not greater than 0
+AssertionError: Lists differ: [{'start': 0, 'end': 76, 'reason': 'unsafe[48 chars]a3'}] != []
+Ran 4 tests in 0.237s
+FAILED (failures=4)
