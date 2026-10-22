@@ -1,10 +1,20 @@
 # Independent synthetic segmentation corpus
 
-`cases.json` is an annotated acceptance seed for `vi-spans-1`, authored on 2026-10-16
+`cases.json` is an annotated acceptance seed for `vi-spans-2`, authored on 2026-10-16
 from `specs/008-sentence-coverage/contracts/segmentation.md`. It contains 54 cases:
 42 designated resolvable and 12 deliberately unresolved. The ellipsis override case is
 resolvable only with its supplied source-bound override. This is synthetic editorial
 prose, not an exported user article or a sample of Vietnamese usage frequencies.
+
+## Profile `vi-spans-2` (2026-10-22)
+
+Feature 009 renamed the profile from `vi-spans-1` to `vi-spans-2` because it changed boundary
+decisions: dotted ASCII identifiers and Markdown link destinations became lexical tokens,
+punctuation followed directly by `,` `;` `:` or more terminal punctuation stopped being a
+boundary, a missing separator is reported as `ambiguous_separator`, and standalone single-letter
+abbreviations such as `e.g.` are ambiguous like `v.v.`. See
+`specs/009-long-document-preparation/contracts/segmentation-delta.md`. No case text, span or label
+changed; all 54 cases keep their expected outcome under `vi-spans-2`.
 
 ## Annotation procedure and independence
 

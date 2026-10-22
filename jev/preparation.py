@@ -1,4 +1,4 @@
-"""Lossless, bounded source preparation using the conservative vi-spans-1 profile.
+"""Lossless, bounded source preparation using the conservative vi-spans-2 profile.
 
 All coordinates are Unicode code points. Source prose is internal state only.
 """
@@ -13,7 +13,7 @@ import unicodedata
 from .transport import encoded
 
 MAX_INPUT = 1024 * 1024
-PROFILE_VERSION = 'vi-spans-1'
+PROFILE_VERSION = 'vi-spans-2'
 MAX_INVENTORY = 4096
 # Absolute per-phase work bound; it keeps pathological inputs far inside the deadline.
 WORK_LIMIT = 32768

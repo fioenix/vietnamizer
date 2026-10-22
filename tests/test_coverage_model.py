@@ -26,3 +26,16 @@ class ModelTest(EvaluationCase):
         self.assertEqual(r['status'],'incomplete')
         self.assertEqual(r['receipts'][0]['status'],'cancelled')
         self.assertEqual(r['counts']['validated'],0)
+
+
+class ProfileBindingTest(unittest.TestCase):
+    def test_preparation_reports_current_profile(self):
+        from jev.preparation import prepare_document
+        self.assertEqual(prepare_document(raw())['segmentation_profile'],'vi-spans-2')
+
+    def test_manifest_digest_binds_the_profile(self):
+        from unittest.mock import patch
+        before=prepare(raw())['manifest_digest']
+        with patch('jev.preparation.PROFILE_VERSION','vi-spans-test'):
+            after=prepare(raw())['manifest_digest']
+        self.assertNotEqual(before,after)

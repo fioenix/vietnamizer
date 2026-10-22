@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "profile": "vi-spans-1",
+  "profile": "vi-spans-2",
   "provenance": {
     "source": "Synthetic Vietnamese sentences authored independently from contracts/segmentation.md; no scanner output consulted.",
     "annotation": "Intended sentence and parent slices selected by fixture author; offsets computed by exact substring lookup only.",
