@@ -18,8 +18,12 @@ MAX_INVENTORY = 4096
 # Absolute per-phase work bound; it keeps pathological inputs far inside the deadline.
 WORK_LIMIT = 32768
 ID = re.compile(r'[A-Za-z][A-Za-z0-9_-]{0,63}\Z')
-# File names, domains and module paths: ASCII segments, each opened by a lowercase letter or digit.
-DOTTED_IDENTIFIER = re.compile(r'(?<![\w.-])[A-Za-z0-9_][A-Za-z0-9_-]*(?:\.[a-z0-9][A-Za-z0-9_-]*)+(?![\w-])')
+# File names and domains: ASCII segments ending in a listed extension or TLD. Plain ASCII
+# Vietnamese words (anh.con, 2025.sau) and abbreviations (e.g.) must not match.
+IDENTIFIER_SUFFIXES = ('md','txt','py','js','ts','json','yaml','yml','toml','csv','html','css',
+                       'sh','sql','xml','pdf','png','jpg','svg','ipynb','dev','com','org','net','io','vn')
+DOTTED_IDENTIFIER = re.compile(r'(?<![\w.-])[A-Za-z0-9_][A-Za-z0-9_-]*(?:\.[a-z0-9][A-Za-z0-9_-]*)*'
+                               r'\.(?:'+'|'.join(IDENTIFIER_SUFFIXES)+r')(?![\w-])')
 PROFILES = {'blog', 'technical', 'typography-only'}
 KINDS = {'prose', 'heading', 'list', 'protected'}
 
@@ -134,7 +138,7 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
         if a<b: unresolved.append({'start':a,'end':b,'reason':reason})
         return spans,unresolved
     if expired(): return unfinished('preparation_deadline')
-    lexical=list(opaque); tokens=[]; url_ambiguous=False
+    lexical=list(opaque); soft=[]; tokens=[]; url_ambiguous=False
     # Reserve work for recognition and emitting a safe prefix before token exhaustion.
     token_allowance=max(1,budget.remaining//4); scan_end=len(text)
     # Token traversal is linear even for one 1MiB token without an email marker.
@@ -153,7 +157,7 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
                 # A link destination is never prose, whatever its scheme.
                 offset=left+core.index('](')+2; closing=destination.find(')')
                 end=closing if closing>=0 else len(destination.rstrip('.,!?;:]}”»"'))
-                if end: lexical.append((a+offset,a+offset+end))
+                if end: soft.append((a+offset,a+offset+end))
                 url_ambiguous = url_ambiguous or '(' in destination[:end]
         if core.startswith(('https://','http://')):
             end=len(core.rstrip('.,!?;:)]}”»"'))
@@ -177,7 +181,7 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
         if '.' in word:
             for dotted in DOTTED_IDENTIFIER.finditer(word):
                 if not budget.take(): return unfinished('preparation_limit')
-                lexical.append((a+dotted.start(),a+dotted.end()))
+                soft.append((a+dotted.start(),a+dotted.end()))
         for place in ('TP.HCM','TP.HN'):
             if core.startswith(place): lexical.append((a+left,a+left+len(place)))
         if core in ('v.v.','v.d.'):
@@ -205,7 +209,8 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
     ordinal=re.match(r'\s*\d+\.(?=\s)',text)
     if ordinal: lexical.append(ordinal.span())
     merged=[]
-    for a,b in sorted(lexical):
+    # Identifier and link-destination spans are opaque to boundary search but yield to overrides.
+    for a,b in sorted(lexical+soft):
         if merged and a<=merged[-1][1]: merged[-1]=(merged[-1][0],max(b,merged[-1][1]))
         else: merged.append((a,b))
     starts=[a for a,b in merged]
