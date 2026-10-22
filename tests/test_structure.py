@@ -47,6 +47,16 @@ class StructureTests(unittest.TestCase):
         self.assertTrue(any(t['boundary_status']=='exact' for t in sentences))
         self.assertIn('preparation_limit',{u['reason'] for u in got['unresolved']})
         self.assertEqual(len(text),max(u['end'] for u in got['unresolved']))
+    def test_whole_unit_ambiguity_spans_count_toward_inventory_cap(self):
+        from unittest.mock import patch
+        # Each unit returns one whole-unit unresolved span (unmatched quote), not a scanned sentence.
+        text='\n\n'.join(['Một "câu hỏi?']*3000)
+        with patch('jev.preparation.WORK_LIMIT',2**20):
+            got=prepare_document(raw(text))
+        sentences=[t for s in got['sections'] for t in s['sentences']]
+        self.assertLessEqual(len(got['sections'])+len(sentences),4096)
+        self.assertIn('preparation_limit',{u['reason'] for u in got['unresolved']})
+        self.assertEqual(len(text),max(u['end'] for u in got['unresolved']))
     def test_open_fence_is_unresolved(self):
         got=prepare_document(raw('```py\nSECRET = 1'))
         self.assertFalse(got['segmentation_complete'])

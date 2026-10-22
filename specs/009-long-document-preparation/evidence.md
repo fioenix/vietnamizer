@@ -328,3 +328,17 @@ counts and reason codes are recorded; no text from the note.
 SC-005 met: no `preparation_limit` and no `unsafe_boundary` region. The remaining
 `ambiguous_url_closer` region (a URL containing parentheses) is out of scope for this feature.
 `preparation_incomplete` reflects that one region, not a limit.
+
+## PR review fix — whole-unit spans and the inventory cap
+
+Automated review on PR #19 (commit `5420c8c`) found that `_scan` returned a whole-unit unresolved span
+(`unmatched_delimiter`, `ambiguous_url_closer`, `protected_boundary`) without charging the work budget
+or the inventory counter. Before the fix, 3,000 Markdown paragraphs of `Một "câu hỏi?` prepared as
+3,000 units plus 3,000 unresolved spans (6,000 against the 4,096 cap) with no `preparation_limit`;
+the old 4,096 metadata budget had hidden this. The fix charges that span through `emit()` and reports
+the unit as `preparation_limit` when the budget or cap is exhausted.
+
+- RED: `tests/test_structure.py` `test_whole_unit_ambiguity_spans_count_toward_inventory_cap` failed
+  with `6000 not less than or equal to 4096`.
+- GREEN: the test passes; full suite `Ran 201 tests`, `OK`; `validate-package.py` and
+  `build-jev-registry.py --check` exit 0.

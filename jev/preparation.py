@@ -233,6 +233,8 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
     if url_ambiguous: whole_reason='ambiguous_url_closer'
     if any(m.start()<b-a for a,b in opaque for m in re.finditer(r'[.!?…](?:[\"”»’)]*)\s+[A-ZĐÀ-Ỹ]',text[a:min(len(text),b+64)])): whole_reason='protected_boundary'
     if whole_reason:
+        # The whole-unit span is inventory too; without this charge it would bypass the cap.
+        if not emit(): return unfinished('preparation_limit')
         a,b=_trim(text,0,len(text))
         return [(a,b,'unresolved')],[{'start':a,'end':b,'reason':whole_reason}]
     # Searches jump across uninterpreted text in C; one giant alphabetic token
