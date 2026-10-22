@@ -55,6 +55,92 @@ code points (about 12,000–17,000 words) prepare fully. Adversarial metadata, s
 **Owner decision:** accepted on 2026-10-22, together with R3. This replaces the requested
 "length-scaled" wording with a raised absolute bound.
 
+### R2 addendum — charge the work that is actually done (proposed, 2026-10-22)
+
+**Status:** proposed after T007 was blocked; accepted by the owner on 2026-10-22 and implemented as T006a.
+
+**Finding:** T006 (`WORK_LIMIT = 32768`) left the two feature 008 tracemalloc assertions without
+margin on a loaded machine (evidence.md, T007: 6 of 6 repeat runs failed at least once, full suite
+`4.18 not less than 2.0`). R2's margin rested on one idle measurement (0.90 s). Profiling the
+`X. ` × 250,000 case without tracemalloc (24,577 scan units, 0.36 s) shows that the bound counts
+operations unevenly:
+
+- Each initial token such as `X.` is charged 1 unit in the second token pass, but its lookahead calls
+  `fullmatch` up to four more times (40,955 calls for 8,192 tokens).
+- Each terminal-punctuation event is charged 1 unit, but runs three anchored matches, two `_safe`
+  checks, a 64-character tail slice and up to two regex searches.
+
+So one unit costs far more on punctuation-dense input than on prose, and a bound sized for prose
+lets pathological input run 8× longer than before.
+
+**Proposal:** keep `WORK_LIMIT = 32768` and the token allowance of a quarter of the remaining budget,
+and charge:
+
+1. one extra unit per initials lookahead step (at most four per initial token);
+2. four units, instead of one, per terminal-punctuation event outside a lexical span (the
+   charge falls after the `inside()` and parenthesis checks, so dots inside URLs, numbers and,
+   after US2, dotted identifiers cost nothing extra).
+
+Exhaustion still reports `preparation_limit` with the classified prefix kept. This only changes
+how quickly hostile inputs reach the existing limit; no boundary decision changes.
+
+**Measurements** (prototype of the current branch plus this change, Apple M1 Pro, Python 3.15.0,
+load average 55–72; CPU seconds under tracemalloc, median of 3 interleaved rounds, so contention
+affects them less than wall time):
+
+| Input (one paragraph) | 4,096 (old) | 32,768, no charges | lookahead 1, event 2 | **lookahead 1, event 4** | lookahead 1, event 8 |
+|---|---:|---:|---:|---:|---:|
+| `X. ` × 250,000 | 0.123 | 0.993 | 0.226 | **0.250** | 0.228 |
+| `A. ` × 330,000 | 0.121 | 1.002 | 0.235 | **0.232** | 0.247 |
+| `Ab. ` × 240,000 | 0.218 | 0.931 | 0.899 | **0.746** | 0.473 |
+| `1.2/3,4 ` × 120,000 | 0.065 | 0.347 | 0.363 | **0.363** | 0.359 |
+| `ab.cd ` × 160,000 | 0.122 | 0.806 | 0.802 | **0.457** | 0.316 |
+
+Scan work used by ordinary inputs, as a share of 32,768 (none reach `preparation_limit`):
+
+| Input | No charges | Lookahead 1, event 4 | Lookahead 1, event 8 |
+|---|---:|---:|---:|
+| Reported private note (counts only) | 45% | 48% | 52% |
+| Synthetic long note (baseline) | 33% | 36% | 41% |
+| 10,000-word note (T004) | 55% | 62% | 71% |
+| One paragraph of 1,500 short sentences | 46% | 60% | 78% |
+
+A variant that also halved the token allowance (divisor 8) cut the 1,500-sentence paragraph off at
+1,025 sentences, so the allowance stays as it is.
+
+Feature 008 time tests, six repeats each in the same load window (wall time of the scaling test):
+
+- Code at `feed64d` (4,096): 6 of 6 passed, 0.16–0.35 s.
+- Proposal: 11 of 12 passed, 0.40–0.92 s; one run hit 3.33 s during a load spike.
+- Full suite on the proposal: `Ran 188 tests in 130.235s`, `OK` (scaling 0.436 s).
+
+**Why event cost 4:** the lookahead charge alone fixes the two 008 shapes (event cost 2 already gives
+0.23 s). Event cost 4 also cuts punctuation-dense lowercase input (`ab.cd`) by 43%, keeps the
+10,000-word note at 62% and the dense paragraph at 60%. Event cost 8 leaves only 22% headroom on the
+dense paragraph for a small further gain.
+
+**Residual risk, stated plainly:**
+- The two 008 shapes now cost about 2× the old code, not 1×. On a heavily loaded machine an
+  occasional run can still exceed 2 s (1 of 12 here); the old code never did in the same window.
+- `Ab. ` × 240,000 stays near 0.75 s CPU under tracemalloc. Its cost comes from the 4,096-item
+  inventory cap (one digest per sentence), not from work, and no feature 008 assertion covers it.
+- Idle-machine figures were not re-measured; the load during this session could not be controlled.
+
+**Rejected alternatives:**
+- Lowering `WORK_LIMIT` to 16,384: the 10,000-word note needs about 18,000–20,000 scan units, so SC-002 fails.
+- Halving the token allowance: breaks dense paragraphs (above).
+- Speeding up the scanner (precompiled patterns, fewer slices): useful, but a larger change to
+  hand-tuned code that feature 008 reviewed; it can follow separately.
+- Loosening the 2 s assertions: excluded by T007 and SC-003.
+
+**Proposed task changes if accepted:**
+- New T006a [US1] after T006: a deterministic RED test in `tests/test_preparation_limits.py` that the
+  charged scan work for 1,000 initial tokens (`X. `) is at least 4× that for 1,000 plain words
+  (implemented: 9,995 versus 2,001 units, 4.99×; before: 3,001 versus 2,001, 1.5×); then
+  add `_WorkBudget.take(amount)` and the two charges in `_scan` in `jev/preparation.py`.
+- T007 unchanged, rerun after T006a; record the full suite, the six-repeat timing loop for both
+  feature 008 time tests, and the load average.
+
 ## R3. Boundary rule for punctuation not followed by whitespace
 
 **Finding:** The first draft of FR-005 (any non-uppercase character after the punctuation is not a

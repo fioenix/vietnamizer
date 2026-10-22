@@ -19,7 +19,7 @@ file-disjoint work once its prerequisites are done.
 
 **Purpose**: Freeze the starting state before any runtime change.
 
-- [ ] T001 Create `specs/009-long-document-preparation/evidence.md` recording the starting revision (`feed64d` plus spec commits), Python version and machine, the output of `python3 -B -m unittest discover -s tests -t .` (184 tests), and the RED baseline output copied from `specs/009-long-document-preparation/baseline/red-output.txt` (4 tests, 4 failures). State the authority limits from the Approval line above.
+- [X] T001 Create `specs/009-long-document-preparation/evidence.md` recording the starting revision (`feed64d` plus spec commits), Python version and machine, the output of `python3 -B -m unittest discover -s tests -t .` (184 tests), and the RED baseline output copied from `specs/009-long-document-preparation/baseline/red-output.txt` (4 tests, 4 failures). State the authority limits from the Approval line above.
 
 **Checkpoint**: Starting state recorded; nothing in `jev/` or `tests/` changed yet.
 
@@ -30,8 +30,8 @@ file-disjoint work once its prerequisites are done.
 **Purpose**: Separate the 4,096 unit-plus-sentence cap from the work budget (research R5), so that
 raising the work bound in US1 cannot remove it. Blocks US1.
 
-- [ ] T002 Add a guard test to `tests/test_structure.py` that pins the inventory cap: a source whose units plus sentences exceed 4,096 keeps "at most 4,096 units plus emitted sentence spans (`MAX_INVENTORY`)", reports the remainder as `preparation_limit`, and keeps the classified prefix exact. This passes today only because the scan budget enforces the cap implicitly; record that in `evidence.md` instead of claiming a RED.
-- [ ] T003 In `jev/preparation.py`, introduce a `WORK_LIMIT = 4096` constant used by both work budgets (metadata and scan) in place of `MAX_INVENTORY`, and an explicit inventory counter: "Counted when a unit is inventoried; a sentence span (exact or unresolved) is emitted"; on exhaustion the "remainder of the current unit and every later unit reported as `preparation_limit`". Charge each emitted span to both the scan work budget and the inventory counter. Then extend T002 to patch `jev.preparation.WORK_LIMIT` to `2**20`, so only the cap can stop it, and show it fails with the counter removed and passes with it. Keep the full suite green; behavior is unchanged at this step.
+- [X] T002 Add a guard test to `tests/test_structure.py` that pins the inventory cap: a source whose units plus sentences exceed 4,096 keeps "at most 4,096 units plus emitted sentence spans (`MAX_INVENTORY`)", reports the remainder as `preparation_limit`, and keeps the classified prefix exact. This passes today only because the scan budget enforces the cap implicitly; record that in `evidence.md` instead of claiming a RED.
+- [X] T003 In `jev/preparation.py`, introduce a `WORK_LIMIT = 4096` constant used by both work budgets (metadata and scan) in place of `MAX_INVENTORY`, and an explicit inventory counter: "Counted when a unit is inventoried; a sentence span (exact or unresolved) is emitted"; on exhaustion the "remainder of the current unit and every later unit reported as `preparation_limit`". Charge each emitted span to both the scan work budget and the inventory counter. Then extend T002 to patch `jev.preparation.WORK_LIMIT` to `2**20`, so only the cap can stop it, and show it fails with the counter removed and passes with it. Keep the full suite green; behavior is unchanged at this step.
 
 **Checkpoint**: The cap is enforced by its own counter; behavior on every existing test is unchanged.
 
@@ -46,13 +46,14 @@ and every feature 008 time and memory assertion passes unchanged.
 
 ### Tests for User Story 1 ⚠️ write first, confirm they fail
 
-- [ ] T004 [P] [US1] Move `test_long_markdown_crosses_scan_budget_without_preparation_limit` and `test_many_short_units_do_not_exhaust_metadata_budget` from `specs/009-long-document-preparation/baseline/test_red_baseline.py` into `tests/test_preparation_limits.py` with their helpers, and add a synthetic 10,000-word Markdown note for SC-002 that must be `prepared` with zero `preparation_limit` regions. It must contain "headings, nested lists, tables, links, numbers and a code block": `#`–`###` headings, bullets nested at least two levels, at least one `|`-table, absolute and relative links, tokens such as `91,4%`, `1.000`, `v0.4.19`, `p50/p95`, and one fenced block annotated as protected. For the 10,000-word note, also assert that the reported unit and sentence counts equal counts fixed by hand from the generator (units per repeated section × sections, sentences per section × sections), not counts read back from the scanner. Confirm all three fail with `preparation_limit`.
-- [ ] T005 [P] [US1] In `tests/test_review_boundaries.py`, grow the fixture of `test_scan_limit_keeps_classified_exact_prefix_and_context` from `'Tôi về. '*1100` (1,100 sentences) to `'Tôi về. '*4200` (4,200 sentences), so it reaches the 4,096 inventory cap after the bound rises (research R5; `*2100` would prepare completely). Add an assertion that the unresolved reason is `preparation_limit`. Keep every existing assertion, including that `SECRET_AFTER_LIMIT` is never sent.
+- [X] T004 [P] [US1] Move `test_long_markdown_crosses_scan_budget_without_preparation_limit` and `test_many_short_units_do_not_exhaust_metadata_budget` from `specs/009-long-document-preparation/baseline/test_red_baseline.py` into `tests/test_preparation_limits.py` with their helpers, and add a synthetic 10,000-word Markdown note for SC-002 that must be `prepared` with zero `preparation_limit` regions. It must contain "headings, nested lists, tables, links, numbers and a code block": `#`–`###` headings, bullets nested at least two levels, at least one `|`-table, absolute and relative links, tokens such as `91,4%`, `1.000`, `v0.4.19`, `p50/p95`, and one fenced block annotated as protected. For the 10,000-word note, also assert that the reported unit and sentence counts equal counts fixed by hand from the generator (units per repeated section × sections, sentences per section × sections), not counts read back from the scanner. Confirm all three fail with `preparation_limit`.
+- [X] T005 [P] [US1] In `tests/test_review_boundaries.py`, grow the fixture of `test_scan_limit_keeps_classified_exact_prefix_and_context` from `'Tôi về. '*1100` (1,100 sentences) to `'Tôi về. '*4200` (4,200 sentences), so it reaches the 4,096 inventory cap after the bound rises (research R5; `*2100` would prepare completely). Add an assertion that the unresolved reason is `preparation_limit`. Keep every existing assertion, including that `SECRET_AFTER_LIMIT` is never sent.
 
 ### Implementation for User Story 1
 
-- [ ] T006 [US1] In `jev/preparation.py`, set `WORK_LIMIT = 32768`, the absolute bound "used separately for the metadata phase and the scan phase" (research R2). Do not add a length term. Keep `MAX_INVENTORY = 4096` as the inventory cap from T003. Pass T004 and T005.
-- [ ] T007 [US1] Run `tests/test_structure.py`, `tests/test_coverage_scaling.py`, `tests/test_preparation_limits.py` and the full suite with no change to any time or memory limit (SC-003). Before any US2 change, also run `tests/test_preparation.py` and confirm the 54 corpus cases keep identical spans after T006, which shows that raising the bound alone leaves spans unchanged (US3 scenario 2). Record timings of the `X. ` × 250,000 tracemalloc cases and the full output in `specs/009-long-document-preparation/evidence.md`. If any 008 time assertion fails, stop and report instead of loosening it.
+- [X] T006 [US1] In `jev/preparation.py`, set `WORK_LIMIT = 32768`, the absolute bound "used separately for the metadata phase and the scan phase" (research R2). Do not add a length term. Keep `MAX_INVENTORY = 4096` as the inventory cap from T003. Pass T004 and T005.
+- [X] T006a [US1] Added 2026-10-22 after T007 was blocked (research R2 addendum, owner-accepted). First add a deterministic RED test to `tests/test_preparation_limits.py`: the scan work charged for 1,000 initial tokens (`X. `) is at least 4× the work charged for 1,000 plain words (the charges give 4.99×; the old code gives 1.5×, and an exact 5× threshold would sit on the boundary). Then, in `jev/preparation.py`, let `_WorkBudget.take` accept an amount and charge "one extra unit per initials lookahead step" and "four units, instead of one, per terminal-punctuation event outside a lexical span" (after the `inside()` and parenthesis checks). Keep `WORK_LIMIT = 32768` and the quarter-of-remaining token allowance. Pass the new test and T004–T005.
+- [X] T007 [US1] Run `tests/test_structure.py`, `tests/test_coverage_scaling.py`, `tests/test_preparation_limits.py` and the full suite with no change to any time or memory limit (SC-003). Before any US2 change, also run `tests/test_preparation.py` and confirm the 54 corpus cases keep identical spans after T006, which shows that raising the bound alone leaves spans unchanged (US3 scenario 2). Record timings of the `X. ` × 250,000 tracemalloc cases and the full output in `specs/009-long-document-preparation/evidence.md`. If any 008 time assertion fails, stop and report instead of loosening it.
 
 **Checkpoint**: US1 complete. Long notes prepare fully; boundary rules are still `vi-spans-1`.
 
@@ -113,7 +114,7 @@ when the profile constant changes.
 
 - **Setup (T001)**: none.
 - **Foundational (T002 → T003)**: after T001. Blocks US1, because raising the work bound without an explicit cap would break `tests/test_structure.py:36`.
-- **US1 (T004–T007)**: after T003.
+- **US1 (T004–T007, including T006a)**: after T003. T006a follows T006 and precedes T007.
 - **US2 (T008–T013)**: after T001. Independent of US1 in behavior, but T010–T012 edit `jev/preparation.py`, the same file as T003 and T006, so do them after T006 or in a separate worktree with a planned merge.
 - **US3 (T014–T016)**: after US2, because the profile name changes because boundary decisions change.
 - **Polish (T017–T021)**: after all stories. T021 needs the owner.
@@ -154,5 +155,5 @@ Task: "T009 dotted-identifier linearity test in tests/test_structure.py"
 
 ## Notes
 
-- Requirement coverage: FR-001/FR-002 → T004, T006; FR-003 → T006, T007, T009; FR-004 → existing deadline tests, T007; FR-005/FR-006/FR-008 → T008, T010; FR-007 → T008, T011, T012; FR-009 → T014–T016; FR-010 → T013; FR-011 → T004, T008, T018; FR-012 → no task changes request limits, checked in T020 review; FR-013 → T017; FR-014 → T002, T003.
-- SC-001 → T018; SC-002 → T004; SC-003 → T007, T009; SC-004 → T005, T013, T019; SC-005 → T021.
+- Requirement coverage: FR-001/FR-002 → T004, T006; FR-003 → T006, T006a, T007, T009; FR-004 → existing deadline tests, T007; FR-005/FR-006/FR-008 → T008, T010; FR-007 → T008, T011, T012; FR-009 → T014–T016; FR-010 → T013; FR-011 → T004, T008, T018; FR-012 → no task changes request limits, checked in T020 review; FR-013 → T017; FR-014 → T002, T003.
+- SC-001 → T018; SC-002 → T004; SC-003 → T006a, T007, T009; SC-004 → T005, T013, T019; SC-005 → T021.
