@@ -105,3 +105,24 @@ class LongDocumentTest(unittest.TestCase):
         self.assertEqual(r['unresolved'],[])
         self.assertEqual(len(r['units']),7*sections+2) # plus title and fence
         self.assertEqual(r['counts']['sentences'],6*sections)
+
+
+class WorkChargeTest(unittest.TestCase):
+    def scan_work(self, text):
+        from unittest.mock import patch
+        import jev.preparation as P
+        used=[]
+        original=P._scan
+        def recording(text,opaque,overrides,deadline,budget,inventory=None):
+            before=budget.remaining
+            result=original(text,opaque,overrides,deadline,budget,inventory)
+            used.append(before-budget.remaining)
+            return result
+        with patch.object(P,'_scan',recording):
+            P.prepare_document(markdown(text))
+        return sum(used)
+
+    def test_initials_and_punctuation_cost_more_than_plain_words(self):
+        initials=self.scan_work('X. '*1000)
+        plain=self.scan_work('chữ '*1000)
+        self.assertGreaterEqual(initials,4*plain)

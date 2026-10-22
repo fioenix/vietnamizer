@@ -109,9 +109,9 @@ class _WorkBudget:
             raise _PreparationStopped('preparation_limit')
         self.remaining -= amount
 
-    def take(self):
-        if self.remaining <= 0: return False
-        self.remaining -= 1
+    def take(self, amount=1):
+        if self.remaining < amount: return False
+        self.remaining -= amount
         return True
 
 
@@ -183,6 +183,7 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
         if re.fullmatch(r'[A-ZĐ]\.',word):
             j=index; initials=0
             while j<len(tokens) and initials<4 and re.fullmatch(r'[A-ZĐ]\.',tokens[j][2]):
+                if not budget.take(): return unfinished('preparation_limit')
                 initials+=1; j+=1
             if j<len(tokens):
                 continuation=tokens[j][2].rstrip('.,!?;:)]}”»"')
@@ -229,6 +230,8 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
         if text[i]=='(': paren_depth+=1; continue
         if text[i]==')': paren_depth=max(0,paren_depth-1); continue
         if text[i] not in '.!?…': continue
+        # A boundary decision runs several anchored matches; charge it accordingly.
+        if not budget.take(3): return unfinished('preparation_limit',spans,start,unresolved)
         end_punct=punctuation.match(text,i).end(); j=closers.match(text,end_punct).end(); k=whitespace.match(text,j).end()
         punct=text[i:end_punct]; reason=None
         inside_paren=paren_depth>0
