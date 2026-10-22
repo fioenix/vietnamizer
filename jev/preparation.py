@@ -217,8 +217,17 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
     def inside(n):
         index=bisect.bisect_right(starts,n)-1
         return index>=0 and n<merged[index][1]
+    # Merge only on strict overlap: an endpoint shared by adjacent spans lies inside neither.
+    hard=[]
+    for a,b in sorted(lexical):
+        if hard and a<hard[-1][1]: hard[-1]=(hard[-1][0],max(b,hard[-1][1]))
+        else: hard.append((a,b))
+    hard_starts=[a for a,b in hard]
     for n in overrides:
-        if not _safe(text,n) or any(a<n<b for a,b in lexical): _bad()
+        if expired(): return unfinished('preparation_deadline')
+        if not budget.take(): return unfinished('preparation_limit')
+        index=bisect.bisect_left(hard_starts,n)-1
+        if not _safe(text,n) or index>=0 and n<hard[index][1]: _bad()
     whole_reason=None
     if text.count('"')%2 or text.count('“')!=text.count('”') or text.count('«')!=text.count('»'): whole_reason='unmatched_delimiter'
     if url_ambiguous: whole_reason='ambiguous_url_closer'
@@ -486,7 +495,10 @@ def _prepare(doc,deadline):
         source='\n'.join(s['text'] for s in sections)
     overrides=doc.get('boundary_overrides',[])
     if not isinstance(overrides,list) or any(type(n) is not int or not 0<n<=len(source) or not _safe(source,n,budget) for n in overrides) or len(set(overrides))!=len(overrides): _bad()
-    if any(not any(s['source_start']<n<=s['source_end'] for s in sections) for n in overrides): _bad()
+    section_starts=[s['source_start'] for s in sections]; ordered=sorted(overrides)
+    for n in ordered:
+        index=bisect.bisect_left(section_starts,n)-1
+        if index<0 or n>sections[index]['source_end']: _bad()
     source_digest=hashlib.sha256(source.encode()).hexdigest()
     unresolved=[]; cursor=0
     budget.consume(len(sections))
@@ -500,7 +512,7 @@ def _prepare(doc,deadline):
         s['editable']=bool(s['text'].strip()) and not (s.get('_unprocessed') or s['kind']=='protected' or opaque==[(0,len(s['text']))])
         for c in s.get('candidates',[]):
             if s['kind']=='protected' or any(c['start']<y and c['end']>x for x,y in opaque): _bad()
-        local=[n-a for n in overrides if a<n<=b]
+        local=[n-a for n in ordered[bisect.bisect_right(ordered,a):bisect.bisect_right(ordered,b)]]
         if local and s['kind'] not in ('prose','list'): _bad()
         s['_scan_opaque']=opaque; s['_scan_overrides']=local
         s['context_reviewed'],s['context_unresolved']=_review(s.get('context_review')) if 'context_review' in s else (reviewed,list(pending))
@@ -582,6 +594,8 @@ def _prepare(doc,deadline):
         owners[0]['context_unresolved']=[x for x in owners[0]['context_unresolved'] if x!='host_context_unresolved']+p
     for s in sections:
         s['contexts'].sort(key=lambda x:(x.get('source_start',len(source)),x['id']))
+    # Hash the overrides once: binding the full list into every sentence id costs sentences×overrides.
+    overrides_digest=_digest(overrides)
     # No classification work follows scanning: scan exhaustion cannot erase a safe prefix.
     scan_budget=_WorkBudget(WORK_LIMIT,deadline)
     inventory=_WorkBudget(max(0,MAX_INVENTORY-len(sections)))
@@ -596,7 +610,7 @@ def _prepare(doc,deadline):
                 spans=[]; problems=[{'start':0,'end':len(s['text']),'reason':error.reason}]
         else: spans=[]; problems=[]
         aliases={(t['start'],t['end']):t['id'] for t in s.get('targets',[])}
-        s['sentences']=[{'id':'s_'+_digest([sourceid,source_digest,s['kind'],a+x,a+y,PROFILE_VERSION,overrides])[:24],'aliases':([aliases[(x,y)]] if (x,y) in aliases else []),'start':x,'end':y,'boundary_status':status} for x,y,status in spans]
+        s['sentences']=[{'id':'s_'+_digest([sourceid,source_digest,s['kind'],a+x,a+y,PROFILE_VERSION,overrides_digest])[:24],'aliases':([aliases[(x,y)]] if (x,y) in aliases else []),'start':x,'end':y,'boundary_status':status} for x,y,status in spans]
         for p in problems: unresolved.append(dict(p,start=a+p['start'],end=a+p['end'],section=s['id']))
     return {'sections':sections,'source_scope':'source_document' if raw else 'provided_sections','source_digest':hashlib.sha256(source.encode()).hexdigest(),'source_accounted':True,'segmentation_complete':not unresolved,'unresolved':unresolved,'partition':partition,'source':source,'segmentation_profile':PROFILE_VERSION}
 

@@ -75,6 +75,29 @@ print(json.dumps({'elapsed':elapsed,'peak':peak,'accounted':r['source_accounted'
                 self.assertTrue(measured['accounted'])
                 self.assertLess(measured['elapsed'],2)
                 self.assertLess(measured['peak'],128*1024*1024)
+    def test_many_overrides_validate_quickly(self):
+        import json
+        import subprocess
+        import sys
+        # Wall time without tracemalloc: this guards work per override, not allocation.
+        child='''import json,sys,time
+from jev.preparation import prepare_document
+doc=json.load(sys.stdin)
+start=time.monotonic()
+r=prepare_document(doc)
+print(json.dumps({'elapsed':time.monotonic()-start,'accounted':r['source_accounted']}))
+'''
+        run='x'*20002+'.'
+        # Many lexical spans and overrides in one parent; then many parents (and so many sentences)
+        # before the overrides, which must not multiply work per sentence.
+        for head in ('1.5 '*8000,'1.5\n\n'*1000,'1.5\n\n'*3000):
+            text=head+run
+            doc=raw(text,boundary_overrides=[len(head)+1+i for i in range(20000)])
+            with self.subTest(parents=head.count('\n\n')+1):
+                result=subprocess.run([sys.executable,'-B','-c',child],input=json.dumps(doc),text=True,capture_output=True,timeout=10,check=True)
+                measured=json.loads(result.stdout)
+                self.assertTrue(measured['accounted'])
+                self.assertLess(measured['elapsed'],2)
     def test_dotted_identifier_tokens_stay_linear(self):
         import json
         import subprocess
