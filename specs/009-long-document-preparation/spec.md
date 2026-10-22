@@ -168,10 +168,12 @@ identity), and that sentence spans change only where the delta rules of User Sto
   `unsafe_boundary`. Today these cases report `unsafe_boundary`; the corpus checks only that they
   stay unresolved.
 - **FR-007**: The destination of an inline link `[label](destination)` MUST be treated as opaque for
-  boundary decisions, whatever its scheme, including relative paths. Dotted ASCII identifiers such as
-  file names, domains and module paths (`so-sanh-ban-cu.md`, `example.dev`, `jev.core`; each segment
-  after a dot starts with a lowercase ASCII letter or digit) MUST be recognized as lexical tokens, like
-  URLs and decimals already are.
+  boundary decisions, whatever its scheme, including relative paths. Dotted ASCII identifiers whose
+  last segment is an allowlisted file extension or domain suffix (`so-sanh-ban-cu.md`, `example.dev`,
+  `main.py`; list in the contract delta) MUST be recognized as lexical tokens, like URLs and decimals
+  already are. A host boundary override inside an identifier or link destination MUST win; one inside
+  any other lexical span stays `invalid_input`. (Narrowed on 2026-10-22 by owner decision after review
+  finding S1: plain-ASCII Vietnamese words such as `anh.con` must not merge across a missing space.)
 - **FR-008**: The `unsafe_boundary` reason MUST be reserved for boundaries that would split a user-
   perceived character (grapheme cluster, CRLF pair, combining sequence, emoji sequence).
 - **FR-009**: Because FR-005 to FR-007 change boundary decisions, the segmentation profile identifier

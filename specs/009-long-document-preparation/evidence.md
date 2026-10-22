@@ -195,3 +195,115 @@ Machine idle during these runs (load average 6–7 on 8 cores).
   where the US2 rules apply.
 - Full suite: `Ran 196 tests in 65.231s`, `OK` (load average about 14; scaling 0.321 s).
   `python3 scripts/validate-package.py`: valid, 55 patterns.
+
+## T017–T019 — documentation, baseline and package checks
+
+- T017: `references/typesafe-advisor.md` limits paragraph now states the absolute work bound per
+  preparation phase, the 4,096 units-plus-sentences cap, that ordinary notes of up to 10,000 words
+  prepare fully while notes of roughly 12,000–17,000 words or more (or punctuation-dense text) may
+  still hit `preparation_limit`, that full preparation does not mean full evaluation, and the
+  `ambiguous_separator` reason.
+- T018: RED baseline command (quickstart section 1): `Ran 4 tests`, `OK`. The baseline file's
+  docstring now says it is superseded by `LongDocumentTest` and `SegmentationDeltaTests`.
+- T019 (load average about 13):
+  - Full suite: `Ran 196 tests in 43.169s`, `OK`; scaling 0.285 s.
+  - `python3 scripts/validate-package.py`: exit 0, "Gói vietnamizer v0.10.6 hợp lệ, gồm 55 pattern".
+  - `python3 -B scripts/build-jev-registry.py --check`: exit 0, "55 pattern definitions match
+    canonical sources" (registry unchanged, no regeneration).
+  - `python3 scripts/package-plugin.py`: exit 0, "Plugin archive validated" and "Distribution
+    metadata valid for Codex and Claude Code". It rebuilt all three archives in the git-ignored
+    `dist/`, replacing the local builds from 2026-10-19; nothing in `dist/` is committed.
+  - Archive parity: `jev/preparation.py`, `jev/coverage.py`, `jev/registry.json` and
+    `references/typesafe-advisor.md` are byte-identical (SHA-256) to the source in
+    `vietnamizer.skill`, `vietnamizer-claude-org.zip` and `vietnamizer-plugin.zip`; none of the
+    archives contains `tests/` or `specs/`.
+  - Smoke test from the extracted `vietnamizer.skill`: `python3 -B -m jev prepare` on a synthetic
+    Markdown note with `README.md`, `jev.core`, a relative link and `"xong chưa?",` returned
+    `prepared`, 2 sentences, no unresolved region, exit 0.
+
+## T020 — independent code and security review
+
+Reviewer: a separate read-only agent, given `git diff feed64d..HEAD -- jev/`, the tests, spec,
+research and both segmentation contracts; it worked in a throwaway copy, contacted no service and
+read no credentials. Every finding below was reproduced again in this session before recording.
+
+| ID | Severity | Finding | Reproduction (old `feed64d` → current branch) | Disposition |
+|---|---|---|---|---|
+| B1 | Blocking | `DOTTED_IDENTIFIER` swallows single-letter chains, so capitalised or non-standalone abbreviations get a false exact boundary | `Dùng E.g. Python rồi chạy.`: old `ambiguous_abbreviation` → new two exact sentences; same for `Gọi I.e. Tôi về.`, `Ví dụ:e.g. Python chạy.`, `Dùng 'e.g. Python rồi.` | Fix required before merge: exclude chains of single-letter segments from the identifier token, so they keep the conservative path; add these four cases as tests |
+| S1 | Should-fix | Plain-ASCII Vietnamese words and digits with a missing space are certified as one merged sentence, and a host boundary override inside an identifier or link destination now fails the whole document with `invalid_input` | `Tôi gặp anh.con mèo chạy.` and `Năm 2025.sau đó tôi về.`: old unresolved → new one exact sentence. Override `[12]` on the first: old two exact sentences → new `invalid_input`; override `[10]` in `Xem [a](b.md) nhé. Tôi về.`: same | Owner decision: R3 accepted merging unaccented typos, but many Vietnamese words are plain ASCII, so the trade-off is broader than recorded. The override regression is a defect either way |
+| S2 | Should-fix (robustness) | Override validation `any(a<n<b for a,b in lexical)` is quadratic, uncharged and never checks the deadline; more lexical spans now make it larger | 4,000 overrides: old 0.03 s → new 1.08 s; 8,000: old 0.00 s → new 3.30 s. Reviewer: about 32,000 overrides in a 384 KB input ran 39.4 s, and 14–16 s with a 5 s deadline | Fix required: validate with bisect over sorted spans, charge work and check the deadline per override; precompute section owners |
+| N1 | Nit | The 64-character tail window can start mid-run, so very long single-letter chains may be marked ambiguous | conservative only | Accept |
+| N2 | Nit | An unclosed destination strips fewer trailing characters than it could | only more lexical, never a false boundary | Accept |
+
+Checked without issue (reviewer and this session): partition reconstruction with quotes, brackets,
+emphasis and multiple links per token; overrides still win at both endpoint positions; inventory
+cap; no catastrophic backtracking in the new patterns (1 MiB inputs under 0.1 s); only
+`invalid_input` escapes; diagnostics carry offsets and reasons, not protected text; `jev/core.py`
+has no consumer of the old reason strings and both `Ledger` call sites receive `segmentation_profile`.
+
+Status: review done and recorded. B1 and S2 need fixes; S1 needs an owner decision. Feature 009 is
+not ready to merge until B1 and S2 are fixed and S1 is decided.
+
+## T022–T024 — review fixes (owner decision on S1)
+
+The owner chose to narrow the dotted-identifier token to a suffix allowlist and to let host
+overrides win inside identifier and link-destination spans, and asked for B1 and S2 to be fixed
+test-first.
+
+- T022 RED, `tests/test_preparation.py`: 8 tests, `FAILED (failures=7, errors=1)`:
+  `Tôi gặp anh.con mèo chạy.`, `Năm 2025.sau đó tôi về.`, `Mở jev.core nhé.` were certified exact;
+  `Dùng E.g.`, `Gọi I.e.`, `Ví dụ:e.g.`, `Dùng 'e.g.` were certified exact; the README.md override
+  raised `ValueError: invalid_input`.
+- T022 change in `jev/preparation.py`: `DOTTED_IDENTIFIER` now requires a last segment from
+  `IDENTIFIER_SUFFIXES` (md, txt, py, js, ts, json, yaml, yml, toml, csv, html, css, sh, sql, xml,
+  pdf, png, jpg, svg, ipynb, dev, com, org, net, io, vn). Identifier and link-destination spans go to
+  a `soft` list: still opaque for boundary search, but excluded from override validation. B1 is fixed
+  by the same narrowing, since single-letter chains no longer match.
+- Two existing tests changed as a consequence, both recorded in the contract delta: the `jev.core`
+  row became `main.py` (module paths are no longer recognized), and the `e.g.`/`i.e.` test now
+  expects `ambiguous_separator` (the inner dot is reported first; still unresolved). The final-dot
+  abbreviation rule is still needed: with it removed in a scratch copy, `Python rồi chạy.` after
+  `e.g.` was certified exact.
+- T023 RED, `test_many_overrides_validate_quickly` in `tests/test_structure.py` (20,000 overrides,
+  tracemalloc, 2 s limit): one parent with 8,000 number spans timed out after 10 s
+  (`TimeoutExpired`); 3,001 parents took 4.46 s.
+- T023 change: override validation merges hard lexical spans on strict overlap only (an endpoint
+  shared by adjacent spans stays outside both), finds the candidate span by bisect, and charges one
+  work unit and checks the deadline per override. Section ownership and per-section override lists
+  use bisect over sorted overrides. After: 0.645 s and 0.531 s; both end in `preparation_limit`
+  because overrides are now charged as work. Overrides inside a number (`Bản 1.5 xong.`, override 6)
+  or a URL (override 26) still raise `invalid_input`; one inside `a.md` splits there.
+- T024: contract delta updated (allowlist, host override precedence, changed and added rows); spec
+  FR-007 and research R3 note the narrowing. Full suite: `Ran 200 tests in 49.672s`, `OK` (load
+  average 14–19; scaling 0.348 s). RED baseline file: `Ran 4 tests`, `OK`. `validate-package.py`,
+  `build-jev-registry.py --check` and `package-plugin.py`: exit 0. All three rebuilt archives in the
+  git-ignored `dist/` hold byte-identical `jev/preparation.py`, `jev/coverage.py`, `jev/registry.json`
+  and `references/typesafe-advisor.md`.
+- Open: T021 (owner-only private-note check) should run on this final code, since the allowlist
+  changes which tokens in a real note are recognized.
+
+### T023 follow-up found while committing (2026-10-22)
+
+While building the atomic commits, the full suite at the T023 stage failed once under load
+(load average about 24–31, other processes using about 270% CPU): `7.09 not less than 2` (1 parent)
+and `3.70 not less than 2` (3,001 parents). Run alone it passed. Investigation:
+
+- Timing of the T023 scenarios under tracemalloc, four runs each at load about 25: 0.67–0.99 s
+  (1 parent) and 0.65–1.35 s (3,001 parents); a 10,000-override variant took up to 1.35 s. Too
+  little margin against 2 s.
+- A 1,001-parent scenario exposed a second quadratic cost: with both the old and the T023 code it
+  ran over 30 s. Profiling showed `json.dumps` called 4,097 times for 0.78 s of 1.03 s at only 4,000
+  overrides: every sentence id hashed the full override list (`_digest([...,overrides])`), so the
+  cost was sentences × overrides. Feature 008 had this too, but its 4,096 work bound kept both
+  counts small.
+- Test first: the 1,001-parent case was added to `test_many_overrides_validate_quickly` and failed
+  (`TimeoutExpired` after 10 s). Fix: compute `overrides_digest` once and bind it into each sentence
+  id. The binding is equivalent, and sentence ids already change with `vi-spans-2`.
+- Without tracemalloc the new code takes 0.04–0.14 s in all three scenarios, against 5.1–10.2 s or
+  more than 20 s for the pre-T023 code (load 18–26). With tracemalloc the remaining 1.3–2.6 s for
+  1,001 parents was allocation overhead, not override work (0.19 s under cProfile alone). The test
+  now measures wall time without tracemalloc, because it guards work per override, not memory;
+  the other tracemalloc tests are unchanged.
+- At commit `1841b48`: full suite `Ran 200 tests in 78.715s`, `OK`. Afterwards
+  `validate-package.py`, `build-jev-registry.py --check` and `package-plugin.py` exited 0, the three
+  rebuilt archives hold byte-identical changed files, and the RED baseline file passes (4 tests).

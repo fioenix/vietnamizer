@@ -5,6 +5,9 @@ Run from the repository root:
 
 All four tests fail on v0.10.6 / jev-1.14.0. Implementation tasks move each case into
 `tests/` before changing `jev/`. This file is evidence, not part of the shipped suite.
+
+Superseded: all four cases now live in `tests/test_preparation_limits.py` (LongDocumentTest)
+and `tests/test_preparation.py` (SegmentationDeltaTests), and pass there and here.
 """
 import unittest
 

@@ -156,6 +156,11 @@ and a lowercase continuation after a period leave the interval unresolved.
    digits, `_` or `-`, then one or more `.segment` parts, each starting with a lowercase ASCII letter
    or digit, not touching another word character. This covers `so-sanh-ban-cu.md`, `example.dev` and
    `jev.core`. It does not match `Tôi về.Bạn`, `về.bạn` or `Done.Next`, which stay unresolved.
+   *Superseded after review (2026-10-22):* the independent review showed that plain-ASCII Vietnamese
+   words (`anh.con`) and digits (`2025.sau`) also match, and that host overrides inside identifiers
+   failed with `invalid_input`. By owner decision the last segment must now be an allowlisted file
+   extension or domain suffix, and overrides win inside identifiers and link destinations; see
+   `contracts/segmentation-delta.md` and evidence T020–T024. `jev.core` is no longer recognized.
 
 Every other case of punctuation followed directly by a letter keeps an unresolved region, now with
 the reason `ambiguous_separator` instead of `unsafe_boundary` (FR-006, FR-008).

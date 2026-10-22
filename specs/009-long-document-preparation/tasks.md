@@ -100,11 +100,21 @@ when the profile constant changes.
 
 ## Phase 6: Polish & cross-cutting
 
-- [ ] T017 [P] Update the limits paragraph of `references/typesafe-advisor.md` (research R7): each preparation phase has an absolute work bound, one invocation inventories at most 4,096 units and sentences, notes of roughly 12,000–17,000 words or more may still report `preparation_limit`, and `ambiguous_separator` is a reason code. Do not promise full remote evaluation of a long document.
-- [ ] T018 Run the RED baseline command from `specs/009-long-document-preparation/quickstart.md` section 1 and confirm 4 passes; mark `specs/009-long-document-preparation/baseline/test_red_baseline.py` in its docstring as superseded by the cases in `tests/`.
-- [ ] T019 Run quickstart sections 2–4: full suite, `python3 scripts/validate-package.py`, `python3 scripts/package-plugin.py`, and `python3 -B scripts/build-jev-registry.py --check`; confirm archive parity for `jev/preparation.py` and `jev/coverage.py`. Record outputs in `specs/009-long-document-preparation/evidence.md`. Do not commit generated `dist/` output.
-- [ ] T020 Request an independent code and security review of the final diff (untrusted input parsing: regex linearity, work bound, inventory cap, no protected text in diagnostics); record findings and dispositions in `specs/009-long-document-preparation/evidence.md`.
+- [X] T017 [P] Update the limits paragraph of `references/typesafe-advisor.md` (research R7): each preparation phase has an absolute work bound, one invocation inventories at most 4,096 units and sentences, notes of roughly 12,000–17,000 words or more may still report `preparation_limit`, and `ambiguous_separator` is a reason code. Do not promise full remote evaluation of a long document.
+- [X] T018 Run the RED baseline command from `specs/009-long-document-preparation/quickstart.md` section 1 and confirm 4 passes; mark `specs/009-long-document-preparation/baseline/test_red_baseline.py` in its docstring as superseded by the cases in `tests/`.
+- [X] T019 Run quickstart sections 2–4: full suite, `python3 scripts/validate-package.py`, `python3 scripts/package-plugin.py`, and `python3 -B scripts/build-jev-registry.py --check`; confirm archive parity for `jev/preparation.py` and `jev/coverage.py`. Record outputs in `specs/009-long-document-preparation/evidence.md`. Do not commit generated `dist/` output.
+- [X] T020 Request an independent code and security review of the final diff (untrusted input parsing: regex linearity, work bound, inventory cap, no protected text in diagnostics); record findings and dispositions in `specs/009-long-document-preparation/evidence.md`.
 - [ ] T021 Owner-only (SC-005): the owner runs `python3 -B -m jev prepare` on the private reported note and records only counts and reason codes in `specs/009-long-document-preparation/evidence.md`. Expected: no `preparation_limit` and no `unsafe_boundary`.
+
+### Review fixes (added 2026-10-22 after T020; owner decision on S1)
+
+The owner chose to narrow the dotted-identifier token to a suffix allowlist and to let host
+boundary overrides win inside identifier and link-destination spans. B1 and S2 are fixed test-first.
+
+- [X] T022 [US2] RED tests in `tests/test_preparation.py`: (S1) `Tôi gặp anh.con mèo chạy.`, `Năm 2025.sau đó tôi về.` and `Mở jev.core nhé.` stay unresolved; (B1) `Dùng E.g. Python rồi chạy.`, `Gọi I.e. Tôi về.`, `Ví dụ:e.g. Python chạy.` and `Dùng 'e.g. Python rồi.` certify no exact sentence; (overrides) an override inside `README.md` and the override `[10]` in `Xem [a](b.md) nhé. Tôi về.` split there instead of raising `invalid_input`. Then, in `jev/preparation.py`, limit `DOTTED_IDENTIFIER` to tokens whose last segment is an allowlisted file extension or TLD, and validate overrides only against hard lexical spans (opaque, URL, email, number, place, abbreviation, initials, ordinal), so identifier and link-destination spans yield to an override.
+- [X] T023 [US2] RED test in `tests/test_structure.py`: 20,000 overrides against about 8,000 lexical spans in one parent, and across 1,001 and 3,001 parents, prepare in under 2 s (wall time, no tracemalloc; added during commit, see evidence). Then make override validation linear-logarithmic (bisect over sorted spans merged only on strict overlap), charge one work unit and check the deadline per override, find each override's section by bisect, and bind sentence ids to one digest of the overrides in `jev/preparation.py`.
+- [X] T024 [US2] Update `specs/009-long-document-preparation/contracts/segmentation-delta.md` (allowlist, override precedence, changed rows), rerun the full suite and package checks, and record results in `specs/009-long-document-preparation/evidence.md`.
+
 
 ---
 
@@ -118,6 +128,7 @@ when the profile constant changes.
 - **US2 (T008–T013)**: after T001. Independent of US1 in behavior, but T010–T012 edit `jev/preparation.py`, the same file as T003 and T006, so do them after T006 or in a separate worktree with a planned merge.
 - **US3 (T014–T016)**: after US2, because the profile name changes because boundary decisions change.
 - **Polish (T017–T021)**: after all stories. T021 needs the owner.
+- **Review fixes (T022–T024)**: after T020; T022 → T023 → T024 (same file). T021 runs after T024.
 
 ### Within each story
 
