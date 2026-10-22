@@ -104,7 +104,7 @@ when the profile constant changes.
 - [X] T018 Run the RED baseline command from `specs/009-long-document-preparation/quickstart.md` section 1 and confirm 4 passes; mark `specs/009-long-document-preparation/baseline/test_red_baseline.py` in its docstring as superseded by the cases in `tests/`.
 - [X] T019 Run quickstart sections 2–4: full suite, `python3 scripts/validate-package.py`, `python3 scripts/package-plugin.py`, and `python3 -B scripts/build-jev-registry.py --check`; confirm archive parity for `jev/preparation.py` and `jev/coverage.py`. Record outputs in `specs/009-long-document-preparation/evidence.md`. Do not commit generated `dist/` output.
 - [X] T020 Request an independent code and security review of the final diff (untrusted input parsing: regex linearity, work bound, inventory cap, no protected text in diagnostics); record findings and dispositions in `specs/009-long-document-preparation/evidence.md`.
-- [ ] T021 Owner-only (SC-005): the owner runs `python3 -B -m jev prepare` on the private reported note and records only counts and reason codes in `specs/009-long-document-preparation/evidence.md`. Expected: no `preparation_limit` and no `unsafe_boundary`.
+- [X] T021 Owner-only (SC-005): the owner runs `python3 -B -m jev prepare` on the private reported note and records only counts and reason codes in `specs/009-long-document-preparation/evidence.md`. Expected: no `preparation_limit` and no `unsafe_boundary`.
 
 ### Review fixes (added 2026-10-22 after T020; owner decision on S1)
 

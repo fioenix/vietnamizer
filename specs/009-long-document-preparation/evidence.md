@@ -307,3 +307,24 @@ and `3.70 not less than 2` (3,001 parents). Run alone it passed. Investigation:
 - At commit `1841b48`: full suite `Ran 200 tests in 78.715s`, `OK`. Afterwards
   `validate-package.py`, `build-jev-registry.py --check` and `package-plugin.py` exited 0, the three
   rebuilt archives hold byte-identical changed files, and the RED baseline file passes (4 tests).
+
+## T021 — owner check on the private reported note (SC-005)
+
+Run by the owner on 2026-10-22 at `c08b438`, local `prepare` only, no key and no network. Only
+counts and reason codes are recorded; no text from the note.
+
+- The note has changed since the opening session: 49,602 code points now (48,400 at the start;
+  58,567 bytes against 57,110). Counts are therefore not directly comparable with the prototype run.
+- Input built as in the opening session (technical profile, the first ```` ```text ```` fence annotated as
+  protected, context reviewed).
+- First attempt reported `invalid_input` because the session scratchpad, including the old
+  `input.json`, had been removed; the CLI reports an unreadable input file as `invalid_input`. Not a
+  feature 009 defect; noted as a possible separate improvement.
+- Result: `preparation_incomplete`, 281 units, 382 sentences, unresolved reasons
+  `{'ambiguous_url_closer': 1}`.
+- Before feature 009 (opening session, earlier version of the note): 168 `preparation_limit` regions,
+  1 `unsafe_boundary`, 94 sentences.
+
+SC-005 met: no `preparation_limit` and no `unsafe_boundary` region. The remaining
+`ambiguous_url_closer` region (a URL containing parentheses) is out of scope for this feature.
+`preparation_incomplete` reflects that one region, not a limit.
