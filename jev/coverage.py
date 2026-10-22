@@ -4,6 +4,9 @@ from .transport import encoded
 
 ROLES = {'violation': 'violation', 'interpretation': 'interpretation',
          'evidence': 'evidence', 'degree': 'degree'}
+# A missing group reports its most specific reason; budget exhaustion is the least specific.
+PRECEDENCE = ['invalid_response', 'deadline_exceeded', 'cancelled', 'authentication_failed', 'service_failed',
+              'permission_blocked', 'context_unresolved', 'context_too_large', 'budget_exhausted', 'incomplete']
 
 
 def fingerprint(value):
@@ -70,6 +73,10 @@ class Ledger:
                                     'recipes': [{'key': x} for x in ('meaning','new_claim','improvement','voice')],
                                     'entry': review, 'reason': None})
         self.mechanical = int(mechanical_needed)
+        # Priority tiers 1-3 per (group, subject); every other check is tier 4. Reasons per check
+        # record why a planned check failed; unplanned checks take their group's reason.
+        self.tier = {}
+        self.key_reason = {}
         self.by_section={}
         for i,g in enumerate(self.groups):
             self.by_section.setdefault(g['section'],[]).append((i,g))
@@ -91,6 +98,36 @@ class Ledger:
             if g['scope']=='candidate':
                 for r in g['recipes']:
                     yield (i,0,r['key'])
+
+    def assign_tiers(self, focus, signals, editable, deadline=None):
+        """1 candidate review, 2 host focus span, 3 local signal in the subject, 4 everything else.
+
+        Past the deadline the remaining checks stay tier 4; planning then stops on the same deadline.
+        """
+        import re, time
+        sections = {s['id']: s for s in self.sections}
+        compiled = {pid: [re.compile(x, re.M) for x in xs] for pid, xs in signals.items()}
+        hits = {}
+        for i, g in enumerate(self.groups):
+            if g['scope'] == 'candidate':
+                self.tier[(i, 0)] = 1
+                continue
+            if deadline is not None and time.monotonic() >= deadline:
+                continue
+            section = sections[g['section']]; base = section.get('source_start', 0); pid = g['pattern']
+            if pid in compiled and (section['id'], pid) not in hits:
+                text = editable(section)
+                hits[(section['id'], pid)] = [m.span() for c in compiled[pid] for m in c.finditer(text)]
+            found = hits.get((section['id'], pid), [])
+            for n, subject in enumerate(g['subjects']):
+                a, b = (0, len(section['text'])) if subject is None else (subject['start'], subject['end'])
+                if any(x < base + b and y > base + a and (names is None or pid in names) for x, y, names in focus):
+                    self.tier[(i, n)] = 2
+                elif any(x < b and y > a for x, y in found):
+                    self.tier[(i, n)] = 3
+
+    def tier_of(self, i, n):
+        return self.tier.get((i, n), 4)
 
     def required(self, g):
         return len(g['subjects'])*len(g['recipes'])
@@ -130,7 +167,7 @@ class Ledger:
             for n in range(len(g['subjects'])):
                 if any(q['key']=='evidence' for q in g['recipes']) and (i,n,'evidence') not in self.outcomes:
                     context_bad.add((g['section'],g['scope'],n,g['pattern']))
-            if g['reason'] in ('context_too_large','context_unresolved','permission_blocked'):
+            if g['reason'] in ('context_too_large','context_unresolved','permission_blocked') or g.get('oversized'):
                 context_bad.add((g['section'],g['scope'],-1,g['pattern']))
         missing=[]
         for i,g in enumerate(self.groups):
@@ -138,12 +175,21 @@ class Ledger:
             if done==total:
                 status='jev_evaluated'
             else:
-                status=g['reason'] or 'incomplete'
+                by_reason={};by_tier={}
+                for n in range(len(g['subjects'])):
+                    tier=str(self.tier_of(i,n))
+                    for q in g['recipes']:
+                        key=(i,n,q['key'])
+                        if key in self.outcomes:continue
+                        why=self.key_reason.get(key) or g['reason'] or 'incomplete'
+                        by_reason[why]=by_reason.get(why,0)+1;by_tier[tier]=by_tier.get(tier,0)+1
+                status=min(by_reason,key=lambda r:(PRECEDENCE.index(r) if r in PRECEDENCE else len(PRECEDENCE)-2,r))
                 missing.append({'group':i,'section':g['section'],'pattern':g['pattern'],
                                 'scope':g['scope'],'subject_range':[0,len(g['subjects'])],
                                 'recipe_keys':[q['key'] for q in g['recipes']],
                                 'validated_keys':validated_keys.get(i,[]),
-                                'missing':total-done,'reason':status})
+                                'missing':total-done,'reason':status,
+                                'missing_by_reason':by_reason,'missing_by_tier':by_tier})
             g['entry'].update(status=status,scheduled=total,validated=done)
         statuses={(e['section'],e.get('pattern','edit_'+e.get('candidate',''))):e['status']
                   for e in self.coverage+self.candidate_reviews}

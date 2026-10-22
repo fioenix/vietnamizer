@@ -391,6 +391,8 @@ def _prepare(doc,deadline):
         budget.consume(len(records))
     review=doc.get('context_review')
     if isinstance(review,dict) and isinstance(review.get('unresolved'),list):budget.consume(len(review['unresolved']))
+    evaluation=doc.get('evaluation')
+    if isinstance(evaluation,dict) and isinstance(evaluation.get('focus'),list):budget.consume(len(evaluation['focus']))
     reviewed,pending=_review(review)
     if raw:
         if 'sections' in doc: _bad()

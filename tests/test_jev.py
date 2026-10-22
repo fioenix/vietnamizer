@@ -193,7 +193,7 @@ class JevTest(unittest.TestCase):
         self.assertEqual(len(self.calls), 32)
         self.assertEqual(r['status'], 'incomplete')
         self.assertEqual(len(r['coverage']), 1760)
-        self.assertTrue(any(e['status'] == 'limit_exceeded' for e in r['coverage']))
+        self.assertTrue(any(e['status'] == 'budget_exhausted' for e in r['coverage']))
 
     def test_protected_substring_is_redacted_from_related_context(self):
         section = self.doc['sections'][0]
