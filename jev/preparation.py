@@ -1,4 +1,4 @@
-"""Lossless, bounded source preparation using the conservative vi-spans-1 profile.
+"""Lossless, bounded source preparation using the conservative vi-spans-2 profile.
 
 All coordinates are Unicode code points. Source prose is internal state only.
 """
@@ -13,9 +13,17 @@ import unicodedata
 from .transport import encoded
 
 MAX_INPUT = 1024 * 1024
-PROFILE_VERSION = 'vi-spans-1'
+PROFILE_VERSION = 'vi-spans-2'
 MAX_INVENTORY = 4096
+# Absolute per-phase work bound; it keeps pathological inputs far inside the deadline.
+WORK_LIMIT = 32768
 ID = re.compile(r'[A-Za-z][A-Za-z0-9_-]{0,63}\Z')
+# File names and domains: ASCII segments ending in a listed extension or TLD. Plain ASCII
+# Vietnamese words (anh.con, 2025.sau) and abbreviations (e.g.) must not match.
+IDENTIFIER_SUFFIXES = ('md','txt','py','js','ts','json','yaml','yml','toml','csv','html','css',
+                       'sh','sql','xml','pdf','png','jpg','svg','ipynb','dev','com','org','net','io','vn')
+DOTTED_IDENTIFIER = re.compile(r'(?<![\w.-])[A-Za-z0-9_][A-Za-z0-9_-]*(?:\.[a-z0-9][A-Za-z0-9_-]*)*'
+                               r'\.(?:'+'|'.join(IDENTIFIER_SUFFIXES)+r')(?![\w-])')
 PROFILES = {'blog', 'technical', 'typography-only'}
 KINDS = {'prose', 'heading', 'list', 'protected'}
 
@@ -107,13 +115,13 @@ class _WorkBudget:
             raise _PreparationStopped('preparation_limit')
         self.remaining -= amount
 
-    def take(self):
-        if self.remaining <= 0: return False
-        self.remaining -= 1
+    def take(self, amount=1):
+        if self.remaining < amount: return False
+        self.remaining -= amount
         return True
 
 
-def _scan(text, opaque, overrides, deadline, budget):
+def _scan(text, opaque, overrides, deadline, budget, inventory=None):
     """Linear token dispatch, then source-bound punctuation decisions.
 
     Regex searches only partition whitespace or find simple digit/punctuation runs.
@@ -121,6 +129,8 @@ def _scan(text, opaque, overrides, deadline, budget):
     an expensive suffix at every character position. All phases share one budget.
     """
     def expired(): return deadline is not None and time.monotonic() >= deadline
+    # Each emitted span costs work and one inventory slot.
+    def emit(): return budget.take() and (inventory is None or inventory.take())
     def unfinished(reason, spans=None, start=0, unresolved=None):
         spans=[] if spans is None else spans
         unresolved=[] if unresolved is None else unresolved
@@ -128,7 +138,7 @@ def _scan(text, opaque, overrides, deadline, budget):
         if a<b: unresolved.append({'start':a,'end':b,'reason':reason})
         return spans,unresolved
     if expired(): return unfinished('preparation_deadline')
-    lexical=list(opaque); tokens=[]; url_ambiguous=False
+    lexical=list(opaque); soft=[]; tokens=[]; url_ambiguous=False
     # Reserve work for recognition and emitting a safe prefix before token exhaustion.
     token_allowance=max(1,budget.remaining//4); scan_end=len(text)
     # Token traversal is linear even for one 1MiB token without an email marker.
@@ -143,6 +153,12 @@ def _scan(text, opaque, overrides, deadline, budget):
             destination=core.split('](',1)[1]
             if destination.startswith(('https://','http://')):
                 left+=core.index('](')+2; core=destination
+            elif destination and not destination.startswith(('<','"')):
+                # A link destination is never prose, whatever its scheme.
+                offset=left+core.index('](')+2; closing=destination.find(')')
+                end=closing if closing>=0 else len(destination.rstrip('.,!?;:]}”»"'))
+                if end: soft.append((a+offset,a+offset+end))
+                url_ambiguous = url_ambiguous or '(' in destination[:end]
         if core.startswith(('https://','http://')):
             end=len(core.rstrip('.,!?;:)]}”»"'))
             lexical.append((a+left,a+left+end))
@@ -162,6 +178,10 @@ def _scan(text, opaque, overrides, deadline, budget):
                 if not budget.take(): return unfinished('preparation_limit')
                 if any(c in numeric[0] for c in '.,/'):
                     lexical.append((a+numeric.start(),a+numeric.end()))
+        if '.' in word:
+            for dotted in DOTTED_IDENTIFIER.finditer(word):
+                if not budget.take(): return unfinished('preparation_limit')
+                soft.append((a+dotted.start(),a+dotted.end()))
         for place in ('TP.HCM','TP.HN'):
             if core.startswith(place): lexical.append((a+left,a+left+len(place)))
         if core in ('v.v.','v.d.'):
@@ -179,6 +199,7 @@ def _scan(text, opaque, overrides, deadline, budget):
         if re.fullmatch(r'[A-ZĐ]\.',word):
             j=index; initials=0
             while j<len(tokens) and initials<4 and re.fullmatch(r'[A-ZĐ]\.',tokens[j][2]):
+                if not budget.take(): return unfinished('preparation_limit')
                 initials+=1; j+=1
             if j<len(tokens):
                 continuation=tokens[j][2].rstrip('.,!?;:)]}”»"')
@@ -188,20 +209,32 @@ def _scan(text, opaque, overrides, deadline, budget):
     ordinal=re.match(r'\s*\d+\.(?=\s)',text)
     if ordinal: lexical.append(ordinal.span())
     merged=[]
-    for a,b in sorted(lexical):
+    # Identifier and link-destination spans are opaque to boundary search but yield to overrides.
+    for a,b in sorted(lexical+soft):
         if merged and a<=merged[-1][1]: merged[-1]=(merged[-1][0],max(b,merged[-1][1]))
         else: merged.append((a,b))
     starts=[a for a,b in merged]
     def inside(n):
         index=bisect.bisect_right(starts,n)-1
         return index>=0 and n<merged[index][1]
+    # Merge only on strict overlap: an endpoint shared by adjacent spans lies inside neither.
+    hard=[]
+    for a,b in sorted(lexical):
+        if hard and a<hard[-1][1]: hard[-1]=(hard[-1][0],max(b,hard[-1][1]))
+        else: hard.append((a,b))
+    hard_starts=[a for a,b in hard]
     for n in overrides:
-        if not _safe(text,n) or any(a<n<b for a,b in lexical): _bad()
+        if expired(): return unfinished('preparation_deadline')
+        if not budget.take(): return unfinished('preparation_limit')
+        index=bisect.bisect_left(hard_starts,n)-1
+        if not _safe(text,n) or index>=0 and n<hard[index][1]: _bad()
     whole_reason=None
     if text.count('"')%2 or text.count('“')!=text.count('”') or text.count('«')!=text.count('»'): whole_reason='unmatched_delimiter'
     if url_ambiguous: whole_reason='ambiguous_url_closer'
     if any(m.start()<b-a for a,b in opaque for m in re.finditer(r'[.!?…](?:[\"”»’)]*)\s+[A-ZĐÀ-Ỹ]',text[a:min(len(text),b+64)])): whole_reason='protected_boundary'
     if whole_reason:
+        # The whole-unit span is inventory too; without this charge it would bypass the cap.
+        if not emit(): return unfinished('preparation_limit')
         a,b=_trim(text,0,len(text))
         return [(a,b,'unresolved')],[{'start':a,'end':b,'reason':whole_reason}]
     # Searches jump across uninterpreted text in C; one giant alphabetic token
@@ -217,7 +250,7 @@ def _scan(text, opaque, overrides, deadline, budget):
         if i+1 in endpoints:
             a,b=_trim(text,start,i+1)
             if a<b:
-                if not budget.take(): return unfinished('preparation_limit',spans,start,unresolved)
+                if not emit(): return unfinished('preparation_limit',spans,start,unresolved)
                 spans.append((a,b,'unresolved' if uncertain else 'exact'))
                 if uncertain: unresolved.append({'start':a,'end':b,'reason':uncertain[0]})
             start=i+1; uncertain=[]; cursor=i+1; continue
@@ -225,22 +258,29 @@ def _scan(text, opaque, overrides, deadline, budget):
         if text[i]=='(': paren_depth+=1; continue
         if text[i]==')': paren_depth=max(0,paren_depth-1); continue
         if text[i] not in '.!?…': continue
+        # A boundary decision runs several anchored matches; charge it accordingly.
+        if not budget.take(3): return unfinished('preparation_limit',spans,start,unresolved)
         end_punct=punctuation.match(text,i).end(); j=closers.match(text,end_punct).end(); k=whitespace.match(text,j).end()
         punct=text[i:end_punct]; reason=None
         inside_paren=paren_depth>0
         paren_depth=max(0,paren_depth-text[end_punct:j].count(')'))
-        if not _safe(text,j,budget) or k<len(text) and (k==j or not _safe(text,k,budget)):
+        if not _safe(text,j,budget) or k<len(text) and k>j and not _safe(text,k,budget):
             reason='unsafe_boundary'
         # An override after a closing delimiter still owns this exact endpoint.
         if j in endpoints:
             a,b=_trim(text,start,j)
             if a<b:
-                if not budget.take(): return unfinished('preparation_limit',spans,start,unresolved)
+                if not emit(): return unfinished('preparation_limit',spans,start,unresolved)
                 spans.append((a,b,'unresolved' if uncertain else 'exact'))
                 if uncertain: unresolved.append({'start':a,'end':b,'reason':uncertain[0]})
             start=j; uncertain=[]; cursor=j; continue
+        if k==j<len(text):
+            # A comma, semicolon, colon or further terminal punctuation cannot open a sentence.
+            if text[k] in ',;:.!?…':
+                cursor=j; continue
+            reason=reason or 'ambiguous_separator'
         tail=text[max(start,i-64):i+1]
-        if re.search(r'\b(?:TS|ThS|PGS|GS|TP)\.$',tail) or tail.endswith(('v.v.','v.d.')) or re.search(r'\b[A-ZĐ]\.$',tail) and not inside(i-1): reason='ambiguous_abbreviation'
+        if re.search(r'\b(?:TS|ThS|PGS|GS|TP)\.$',tail) or tail.endswith(('v.v.','v.d.')) or re.search(r'(?<![^\s(\["“«‘])[a-z](?:\.[a-z])+\.$',tail) or re.search(r'\b[A-ZĐ]\.$',tail) and not inside(i-1): reason='ambiguous_abbreviation'
         if '…' in punct or '...' in punct:
             if k<len(text) and not text[k].islower(): reason='ambiguous_ellipsis'
             elif k<len(text):
@@ -252,14 +292,14 @@ def _scan(text, opaque, overrides, deadline, budget):
         if reason: uncertain.append(reason); cursor=j; continue
         a,b=_trim(text,start,j)
         if a<b:
-            if not budget.take(): return unfinished('preparation_limit',spans,start,unresolved)
+            if not emit(): return unfinished('preparation_limit',spans,start,unresolved)
             status='unresolved' if uncertain else 'exact'; spans.append((a,b,status))
             if uncertain: unresolved.append({'start':a,'end':b,'reason':uncertain[0]})
         start=j; uncertain=[]; cursor=j
     a,b=_trim(text,start,len(text))
     if scan_end<len(text): uncertain.append('preparation_limit')
     if a<b:
-        if not budget.take(): return unfinished('preparation_limit',spans,start,unresolved)
+        if not emit(): return unfinished('preparation_limit',spans,start,unresolved)
         status='unresolved' if uncertain else 'exact'; spans.append((a,b,status))
         if uncertain: unresolved.append({'start':a,'end':b,'reason':uncertain[0]})
     return spans,unresolved
@@ -343,7 +383,7 @@ def _prepare(doc,deadline):
     raw=doc.get('schema_version')==2
     if 'schema_version' in doc and (type(doc['schema_version']) is not int or doc['schema_version'] not in (1,2)): _bad()
     annotations=[]; source=''; sourceid='legacy'; sections=[]; partition=[]
-    budget=_WorkBudget(MAX_INVENTORY,deadline)
+    budget=_WorkBudget(WORK_LIMIT,deadline)
     budget.check()
     for field in ('annotations','candidates','context_links','context_reviews','boundary_overrides'):
         records=doc.get(field,[])
@@ -457,7 +497,10 @@ def _prepare(doc,deadline):
         source='\n'.join(s['text'] for s in sections)
     overrides=doc.get('boundary_overrides',[])
     if not isinstance(overrides,list) or any(type(n) is not int or not 0<n<=len(source) or not _safe(source,n,budget) for n in overrides) or len(set(overrides))!=len(overrides): _bad()
-    if any(not any(s['source_start']<n<=s['source_end'] for s in sections) for n in overrides): _bad()
+    section_starts=[s['source_start'] for s in sections]; ordered=sorted(overrides)
+    for n in ordered:
+        index=bisect.bisect_left(section_starts,n)-1
+        if index<0 or n>sections[index]['source_end']: _bad()
     source_digest=hashlib.sha256(source.encode()).hexdigest()
     unresolved=[]; cursor=0
     budget.consume(len(sections))
@@ -471,7 +514,7 @@ def _prepare(doc,deadline):
         s['editable']=bool(s['text'].strip()) and not (s.get('_unprocessed') or s['kind']=='protected' or opaque==[(0,len(s['text']))])
         for c in s.get('candidates',[]):
             if s['kind']=='protected' or any(c['start']<y and c['end']>x for x,y in opaque): _bad()
-        local=[n-a for n in overrides if a<n<=b]
+        local=[n-a for n in ordered[bisect.bisect_right(ordered,a):bisect.bisect_right(ordered,b)]]
         if local and s['kind'] not in ('prose','list'): _bad()
         s['_scan_opaque']=opaque; s['_scan_overrides']=local
         s['context_reviewed'],s['context_unresolved']=_review(s.get('context_review')) if 'context_review' in s else (reviewed,list(pending))
@@ -553,20 +596,23 @@ def _prepare(doc,deadline):
         owners[0]['context_unresolved']=[x for x in owners[0]['context_unresolved'] if x!='host_context_unresolved']+p
     for s in sections:
         s['contexts'].sort(key=lambda x:(x.get('source_start',len(source)),x['id']))
+    # Hash the overrides once: binding the full list into every sentence id costs sentences×overrides.
+    overrides_digest=_digest(overrides)
     # No classification work follows scanning: scan exhaustion cannot erase a safe prefix.
-    scan_budget=_WorkBudget(MAX_INVENTORY,deadline)
+    scan_budget=_WorkBudget(WORK_LIMIT,deadline)
+    inventory=_WorkBudget(max(0,MAX_INVENTORY-len(sections)))
     for s in sections:
         a=s['source_start']
         if s.get('_unprocessed') or s.get('_unsupported'):
             spans=[]; problems=[{'start':0,'end':len(s['text']),'reason':'preparation_limit' if s.get('_unprocessed') else 'unsupported_structure'}]
         elif s['kind'] in ('prose','list'):
             try:
-                spans,problems=_scan(s['text'],s['_scan_opaque'],s['_scan_overrides'],deadline,scan_budget)
+                spans,problems=_scan(s['text'],s['_scan_opaque'],s['_scan_overrides'],deadline,scan_budget,inventory)
             except _PreparationStopped as error:
                 spans=[]; problems=[{'start':0,'end':len(s['text']),'reason':error.reason}]
         else: spans=[]; problems=[]
         aliases={(t['start'],t['end']):t['id'] for t in s.get('targets',[])}
-        s['sentences']=[{'id':'s_'+_digest([sourceid,source_digest,s['kind'],a+x,a+y,PROFILE_VERSION,overrides])[:24],'aliases':([aliases[(x,y)]] if (x,y) in aliases else []),'start':x,'end':y,'boundary_status':status} for x,y,status in spans]
+        s['sentences']=[{'id':'s_'+_digest([sourceid,source_digest,s['kind'],a+x,a+y,PROFILE_VERSION,overrides_digest])[:24],'aliases':([aliases[(x,y)]] if (x,y) in aliases else []),'start':x,'end':y,'boundary_status':status} for x,y,status in spans]
         for p in problems: unresolved.append(dict(p,start=a+p['start'],end=a+p['end'],section=s['id']))
     return {'sections':sections,'source_scope':'source_document' if raw else 'provided_sections','source_digest':hashlib.sha256(source.encode()).hexdigest(),'source_accounted':True,'segmentation_complete':not unresolved,'unresolved':unresolved,'partition':partition,'source':source,'segmentation_profile':PROFILE_VERSION}
 

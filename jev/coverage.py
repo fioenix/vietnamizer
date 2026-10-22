@@ -20,7 +20,7 @@ class Ledger:
         self.candidate_reviews = []
         self.mechanical = 0
         binding = {'source': prepared['source_digest'], 'input':prepared.get('binding_digest'), 'registry': fingerprint(registry),
-                   'model': model, 'profile_version': 'vi-spans-1', 'config': '2',
+                   'model': model, 'profile_version': prepared['segmentation_profile'], 'config': '2',
                    'scope': only_pattern, 'selected': selected}
         self.manifest_digest = fingerprint(binding)
         mechanical_needed = False

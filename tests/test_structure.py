@@ -36,6 +36,27 @@ class StructureTests(unittest.TestCase):
         got=prepare_document(doc)
         self.assertFalse(got['segmentation_complete'])
         self.assertLessEqual(len(got['sections'])+sum(len(s['sentences']) for s in got['sections']),4096)
+    def test_inventory_cap_keeps_prefix_and_reports_remainder(self):
+        from unittest.mock import patch
+        text='\n\n'.join(' '.join('Đi.' for _ in range(100)) for _ in range(50))
+        # Ample work, so only the inventory cap can stop preparation.
+        with patch('jev.preparation.WORK_LIMIT',2**20):
+            got=prepare_document(raw(text))
+        sentences=[t for s in got['sections'] for t in s['sentences']]
+        self.assertLessEqual(len(got['sections'])+len(sentences),4096)
+        self.assertTrue(any(t['boundary_status']=='exact' for t in sentences))
+        self.assertIn('preparation_limit',{u['reason'] for u in got['unresolved']})
+        self.assertEqual(len(text),max(u['end'] for u in got['unresolved']))
+    def test_whole_unit_ambiguity_spans_count_toward_inventory_cap(self):
+        from unittest.mock import patch
+        # Each unit returns one whole-unit unresolved span (unmatched quote), not a scanned sentence.
+        text='\n\n'.join(['Một "câu hỏi?']*3000)
+        with patch('jev.preparation.WORK_LIMIT',2**20):
+            got=prepare_document(raw(text))
+        sentences=[t for s in got['sections'] for t in s['sentences']]
+        self.assertLessEqual(len(got['sections'])+len(sentences),4096)
+        self.assertIn('preparation_limit',{u['reason'] for u in got['unresolved']})
+        self.assertEqual(len(text),max(u['end'] for u in got['unresolved']))
     def test_open_fence_is_unresolved(self):
         got=prepare_document(raw('```py\nSECRET = 1'))
         self.assertFalse(got['segmentation_complete'])
@@ -59,6 +80,50 @@ print(json.dumps({'elapsed':elapsed,'peak':peak,'accounted':r['source_accounted'
 '''
         for text in ['a'*49000,'7'*49000,'X. '*250000]:
             with self.subTest(prefix=text[:5]):
+                result=subprocess.run([sys.executable,'-B','-c',child],input=json.dumps(raw(text)),text=True,capture_output=True,timeout=4,check=True)
+                measured=json.loads(result.stdout)
+                self.assertTrue(measured['accounted'])
+                self.assertLess(measured['elapsed'],2)
+                self.assertLess(measured['peak'],128*1024*1024)
+    def test_many_overrides_validate_quickly(self):
+        import json
+        import subprocess
+        import sys
+        # Wall time without tracemalloc: this guards work per override, not allocation.
+        child='''import json,sys,time
+from jev.preparation import prepare_document
+doc=json.load(sys.stdin)
+start=time.monotonic()
+r=prepare_document(doc)
+print(json.dumps({'elapsed':time.monotonic()-start,'accounted':r['source_accounted']}))
+'''
+        run='x'*20002+'.'
+        # Many lexical spans and overrides in one parent; then many parents (and so many sentences)
+        # before the overrides, which must not multiply work per sentence.
+        for head in ('1.5 '*8000,'1.5\n\n'*1000,'1.5\n\n'*3000):
+            text=head+run
+            doc=raw(text,boundary_overrides=[len(head)+1+i for i in range(20000)])
+            with self.subTest(parents=head.count('\n\n')+1):
+                result=subprocess.run([sys.executable,'-B','-c',child],input=json.dumps(doc),text=True,capture_output=True,timeout=10,check=True)
+                measured=json.loads(result.stdout)
+                self.assertTrue(measured['accounted'])
+                self.assertLess(measured['elapsed'],2)
+    def test_dotted_identifier_tokens_stay_linear(self):
+        import json
+        import subprocess
+        import sys
+        child='''import json,sys,time,tracemalloc
+from jev.preparation import prepare_document
+doc=json.load(sys.stdin)
+tracemalloc.start(); start=time.monotonic()
+r=prepare_document(doc)
+elapsed=time.monotonic()-start
+_,peak=tracemalloc.get_traced_memory()
+print(json.dumps({'elapsed':elapsed,'peak':peak,'accounted':r['source_accounted']}))
+'''
+        # A failed identifier match must not retry every suffix of a giant token.
+        for text in ['a'*500000+'.b'+'é','ab.'*200000+'abé']:
+            with self.subTest(prefix=text[:5],length=len(text)):
                 result=subprocess.run([sys.executable,'-B','-c',child],input=json.dumps(raw(text)),text=True,capture_output=True,timeout=4,check=True)
                 measured=json.loads(result.stdout)
                 self.assertTrue(measured['accounted'])

@@ -132,10 +132,15 @@ Interpretation-role `none_fit` is a valid no-match. No Noul cutoff certifies con
 
 The limits are 1 MiB input/response, 48,000 bytes and 48 questions per request, 32 requests,
 120 seconds total including preparation and 15 seconds per request. Logical sentence/paragraph
-inventory is not capped by transport windows of 16 targets. Local preparation additionally bounds
-source-unit/sentence and lexical work; exhaustion emits `preparation_limit` with unprocessed source
-spans rather than dropping text or certifying segmentation. Complete context that cannot fit even
-one question returns `context_too_large`; target-window membership may shrink, parent/context may not. Requests are not silently truncated or retried.
+inventory is not capped by transport windows of 16 targets. Local preparation additionally has an
+absolute work bound for its metadata phase and another for its scan phase, and records at most
+4,096 units plus sentences per invocation. Ordinary notes of up to 10,000 words prepare fully;
+notes of roughly 12,000–17,000 words or more, or punctuation-dense text, may still exhaust a bound.
+Exhaustion emits `preparation_limit` with unprocessed source spans rather than dropping text or
+certifying segmentation. Full preparation does not mean full evaluation: request limits still
+apply, and a long note usually needs more checks than one invocation sends. Punctuation directly
+followed by a letter outside a recognized token stays unresolved as `ambiguous_separator`.
+Complete context that cannot fit even one question returns `context_too_large`; target-window membership may shrink, parent/context may not. Requests are not silently truncated or retried.
 A killable subprocess bounds complete HTTP I/O; late replies are discarded. `deadline_exceeded`
 is distinct from service failure. Invalid-schema receipts contain only a fixed validation reason
 and a requested check ID, never the provider body. Size/budget limits, authentication/network
