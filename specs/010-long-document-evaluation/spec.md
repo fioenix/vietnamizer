@@ -16,7 +16,11 @@ long documents only reach evaluation once feature 009's preparation fixes are in
 during planning on 2026-10-22: research R5 binds previous answers per check instead of per document,
 so FR-011, a User Story 3 scenario, SC-005 and one edge case now accept a changed document and
 re-plan only its changed units. The owner accepted this deviation on 2026-10-22 and authorized
-`speckit-tasks`.
+`speckit-tasks`. Scope narrowed by the owner on 2026-10-22, after tasks: this feature delivers User
+Stories 1, 4 and 5 only. User Story 2 (plan before spending) and User Story 3 (no repeated checks
+across runs), with FR-007–FR-013, SC-001 and SC-005, are deferred until a host actually runs
+several invocations on one note; their text stays as the design record. Until then an
+`evaluation.previous` object is `invalid_input`.
 
 **Input**: Open the next feature for the evaluation limits: request preflight, breadth-first
 scheduling, chunked or resumable evaluation, continuing after an invalid response, and host
@@ -118,6 +122,8 @@ receipts that tiers were served in order.
 
 ### User Story 2 - Know what a budget buys before spending it (Priority: P1)
 
+**Deferred** by the owner on 2026-10-22: not in this feature's delivery scope; kept for a later feature.
+
 Before any request, the host runs the network-free preparation step with the same budget and
 priorities and learns which units and checks of each tier the run would reach, how many checks full
 evaluation would need, and how many remain uncovered. The host can tell the user what one run will
@@ -145,6 +151,8 @@ priorities; evaluate them with a fake transport that answers validly; compare th
 ---
 
 ### User Story 3 - Do not pay twice for the same check (Priority: P2)
+
+**Deferred** by the owner on 2026-10-22: not in this feature's delivery scope; kept for a later feature.
 
 A host that already ran one evaluation and has the user's authority for another passes the previous
 report in. The new run skips every check that already has a validated answer for the same bindings
@@ -269,7 +277,7 @@ priorities and the partial-result report; the package validator still passes.
 - **FR-006**: Every check not sent because the budget ran out MUST be reported missing with reason
   `budget_exhausted`; the report MUST give, per tier, the checks planned, answered and missing.
 
-**Plan (User Story 2)**
+**Plan (User Story 2) — deferred**
 
 - **FR-007**: Preparation MUST accept the same budget and priorities and report, without network
   access, the planned requests per tier, the units reached, the checks required for full evaluation
@@ -280,7 +288,7 @@ priorities and the partial-result report; the package validator still passes.
   when preparation is incomplete, and MUST list units that fit no request as unreachable.
 - **FR-010**: Planning MUST stay within the existing preparation deadline and work bounds.
 
-**Previous report (User Story 3)**
+**Previous report (User Story 3) — deferred**
 
 - **FR-011**: The runner MUST accept a previous report only when its registry, model, segmentation
   profile and configuration bindings match the current run and it comes from a full-scope run;

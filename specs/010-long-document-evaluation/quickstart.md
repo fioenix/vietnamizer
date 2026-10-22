@@ -27,7 +27,7 @@ Expected: every test passes. Two pre-existing tests change with the contract, an
 `limit_exceeded` assertion in `tests/test_jev.py` (now `budget_exhausted`, research R7). Time,
 memory, privacy and limit assertions keep their thresholds.
 
-## 3. Plan equals run (SC-001)
+## 3. Plan equals run (SC-001) — deferred with User Story 2
 
 For the ~1,000, ~6,000 and ~12,100-word synthetic notes, each with no `evaluation` object, with a
 budget of 8, and with focus spans plus candidate edits: compare `prepare`'s `priority.plan` with the
@@ -43,6 +43,9 @@ must be identical.
 - No `evaluation` object, ~1,000-word note: validated answers in at least 30 units.
 
 ## 5. Chained runs and invalid replies (SC-005, SC-006)
+
+The chained-run and previous-block items are deferred with User Story 3; until then any
+`evaluation.previous` is `invalid_input`. The invalid-reply items apply.
 
 - Two runs, the second given the first report's `answered_checks`: no reuse key in both runs' `own`
   lists; the second report counts only its own answers and lists skipped checks as

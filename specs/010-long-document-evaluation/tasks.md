@@ -4,7 +4,9 @@
 [contract delta](contracts/evaluation-contract.md), [quickstart](quickstart.md).
 **Branch**: `codex/010-long-document-evaluation`
 **Approval**: The owner accepted the research R5 deviation and authorized task generation on
-2026-10-22. This file is a backlog. Implementation, commits, push, merge, release and any live
+2026-10-22. Scope narrowed by the owner on 2026-10-22: deliver Setup, Foundational, US1, US4, US5 and
+Polish; US2 (T013–T014) and US3 (T015–T017) are deferred and stay listed as the design record. This
+file is a backlog. Implementation, commits, push, merge, release and any live
 service run each need separate owner authorization. Check a box only for verified work.
 
 **Tests**: Required by constitution gate 1. Every behavioral change follows a test that fails first
@@ -66,7 +68,7 @@ object, at least 30 units get validated answers.
 
 ---
 
-## Phase 4: User Story 2 — Know what a budget buys before spending it (Priority: P1)
+## Phase 4: User Story 2 — Know what a budget buys before spending it (Priority: P1) — deferred
 
 **Goal**: Network-free `prepare` returns the same plan `evaluate` will follow.
 
@@ -75,17 +77,17 @@ always-valid fake-transport run, with and without an `evaluation` object.
 
 ### Tests for User Story 2 ⚠️ write first, confirm they fail
 
-- [ ] T013 [US2] In `tests/test_evaluation_plan.py`, add RED tests: for the ~1,000, ~6,000 and ~12,100-word notes, each with no `evaluation` object, with budget 8, and with focus spans plus candidate edits, `prepare` returns `priority.plan` entries `{unit, start, end, tier, questions, tiers}` whose sequence equals the run's receipts (SC-001), and `priority.tiers` gives `planned` and `unplanned` per tier, which sum to the checks required after skipped previous answers (FR-007); a note whose preparation is incomplete yields a plan marked provisional; a unit whose context fits no request is listed as unreachable and gets no entry; no plan or priority value contains a fragment of the source text; `prepare` makes no transport call and needs no key; with the deadline expiring during planning (patch `jev.core.time.monotonic`), `evaluate` sends no request and both commands report the plan built so far with `deadline_exceeded` on every unplanned check (FR-010). Bound the 12,100-word case with a 30 s subprocess timeout and record the measured time in `evidence.md`.
+- [ ] T013 [US2] Deferred (owner, 2026-10-22; not in scope). In `tests/test_evaluation_plan.py`, add RED tests: for the ~1,000, ~6,000 and ~12,100-word notes, each with no `evaluation` object, with budget 8, and with focus spans plus candidate edits, `prepare` returns `priority.plan` entries `{unit, start, end, tier, questions, tiers}` whose sequence equals the run's receipts (SC-001), and `priority.tiers` gives `planned` and `unplanned` per tier, which sum to the checks required after skipped previous answers (FR-007); a note whose preparation is incomplete yields a plan marked provisional; a unit whose context fits no request is listed as unreachable and gets no entry; no plan or priority value contains a fragment of the source text; `prepare` makes no transport call and needs no key; with the deadline expiring during planning (patch `jev.core.time.monotonic`), `evaluate` sends no request and both commands report the plan built so far with `deadline_exceeded` on every unplanned check (FR-010). Bound the 12,100-word case with a 30 s subprocess timeout and record the measured time in `evidence.md`.
 
 ### Implementation for User Story 2
 
-- [ ] T014 [US2] In `jev/core.py` `prepare`, build the payload builder and planner from the prepared document without key or network and add the `priority` block with `plan`, per-tier `planned` and `unplanned`, `provisional` and `unreachable`, using exactly the planner `evaluate` uses. Keep the existing `prepare` fields. Pass T013.
+- [ ] T014 [US2] Deferred (owner, 2026-10-22; not in scope). In `jev/core.py` `prepare`, build the payload builder and planner from the prepared document without key or network and add the `priority` block with `plan`, per-tier `planned` and `unplanned`, `provisional` and `unreachable`, using exactly the planner `evaluate` uses. Keep the existing `prepare` fields. Pass T013.
 
 **Checkpoint**: US2 complete. A host can read what a budget buys before any request.
 
 ---
 
-## Phase 5: User Story 3 — Do not pay twice for the same check (Priority: P2)
+## Phase 5: User Story 3 — Do not pay twice for the same check (Priority: P2) — deferred
 
 **Goal**: A run given an earlier `answered_checks` block skips checks already answered for an
 unchanged unit state and re-plans everything else.
@@ -95,12 +97,12 @@ editing one unit between them re-plans only that unit.
 
 ### Tests for User Story 3 ⚠️ write first, confirm they fail
 
-- [ ] T015 [P] [US3] Create `tests/test_evaluation_previous.py` with RED tests: chained runs send no check twice and the second report counts only its own answers, listing skipped checks as `answered_previously` with `priority.skipped_previous` (SC-005); after editing one unit's text between runs, that unit's checks are planned again and no unchanged unit's answered check is; a changed register, context or candidate replacement re-plans the affected checks; a third run given the second block skips keys from both runs (`carried`); a block with another model, registry digest, `config_version`, `segmentation_profile`, a non-`full` `scope`, an `own` key not listed under its `receipts`, an `encoding` other than `answered-checks-v1`, a key that is not 16 lowercase hex digits or repeats across `own` and `carried`, more than 1,536 `own` keys, a `receipts` index out of range or naming one key twice, or a malformed `previous_digest` is `invalid_input` with zero transport calls; `own` holds at most 1,536 keys of 16 hex digits; `previous_digest` names the accepted block; without focus or candidates, the second run's tier 4 requests go to units the first run did not reach before any unit it reached (SC-005).
+- [ ] T015 [P] [US3] Deferred (owner, 2026-10-22; not in scope). Create `tests/test_evaluation_previous.py` with RED tests: chained runs send no check twice and the second report counts only its own answers, listing skipped checks as `answered_previously` with `priority.skipped_previous` (SC-005); after editing one unit's text between runs, that unit's checks are planned again and no unchanged unit's answered check is; a changed register, context or candidate replacement re-plans the affected checks; a third run given the second block skips keys from both runs (`carried`); a block with another model, registry digest, `config_version`, `segmentation_profile`, a non-`full` `scope`, an `own` key not listed under its `receipts`, an `encoding` other than `answered-checks-v1`, a key that is not 16 lowercase hex digits or repeats across `own` and `carried`, more than 1,536 `own` keys, a `receipts` index out of range or naming one key twice, or a malformed `previous_digest` is `invalid_input` with zero transport calls; `own` holds at most 1,536 keys of 16 hex digits; `previous_digest` names the accepted block; without focus or candidates, the second run's tier 4 requests go to units the first run did not reach before any unit it reached (SC-005).
 
 ### Implementation for User Story 3
 
-- [ ] T016 [US3] In `jev/coverage.py` (with the builder from T003), compute reuse keys as "`sha256(encoded([model, pattern_entry_digest, recipe_key, unit_state_digest, subject]))[:16]` hex", where `unit_state_digest` covers "the redacted unit state without `targets` or `edits`" and `subject` is "the redacted target text with its unit-local offsets, the candidate state, or `null` for paragraph scope". Compute keys only for checks being planned or answered.
-- [ ] T017 [US3] In `jev/core.py`, accept `evaluation.previous` under the rules of research R5, the contract table and the data model's untrusted-input rules, validating and matching keys in linear time with a set and checking the deadline, remove checks whose key is in the block's `own` or `carried` lists before tier assignment, and add the `answered_checks` block (`encoding: answered-checks-v1`, `model`, `registry_digest`, `config_version`, `segmentation_profile`, `scope`, `own`, `carried`, `receipts`, `previous_digest`) to `evaluate` reports. Never count `carried` keys as answered and never start another run. Pass T015.
+- [ ] T016 [US3] Deferred (owner, 2026-10-22; not in scope). In `jev/coverage.py` (with the builder from T003), compute reuse keys as "`sha256(encoded([model, pattern_entry_digest, recipe_key, unit_state_digest, subject]))[:16]` hex", where `unit_state_digest` covers "the redacted unit state without `targets` or `edits`" and `subject` is "the redacted target text with its unit-local offsets, the candidate state, or `null` for paragraph scope". Compute keys only for checks being planned or answered.
+- [ ] T017 [US3] Deferred (owner, 2026-10-22; not in scope). In `jev/core.py`, accept `evaluation.previous` under the rules of research R5, the contract table and the data model's untrusted-input rules, validating and matching keys in linear time with a set and checking the deadline, remove checks whose key is in the block's `own` or `carried` lists before tier assignment, and add the `answered_checks` block (`encoding: answered-checks-v1`, `model`, `registry_digest`, `config_version`, `segmentation_profile`, `scope`, `own`, `carried`, `receipts`, `previous_digest`) to `evaluate` reports. Never count `carried` keys as answered and never start another run. Pass T015.
 
 **Checkpoint**: US3 complete. Chained runs avoid repeats without claiming merged coverage.
 
@@ -132,7 +134,7 @@ partial-run report.
 **Independent Test**: Read `references/typesafe-advisor.md` against SC-008; the package validator
 passes.
 
-- [ ] T020 [US5] In `references/typesafe-advisor.md`, add a section on exit codes (0 for `evaluated`, `key_absent`, `prepared`; 2 for every other status; JSON on standard output in both cases), the `evaluation` object (`requests`, `focus`, `previous`), reading `priority.plan` before spending, the reasons `budget_exhausted`, `invalid_response` (stop at the third) and `answered_previously`, passing back only `answered_checks`, the limit of about 28 chained runs before carried keys fill the 1 MiB input, and what to tell the user for a partial run (counts per tier, what was not checked, not "checked by Jev", ask before spending more). Update the limits paragraph so it no longer implies one depth-first pass. Do not change `SKILL.md`. Run `python3 scripts/validate-package.py`.
+- [ ] T020 [US5] In `references/typesafe-advisor.md`, add a section on exit codes (0 for `evaluated`, `key_absent`, `prepared`; 2 for every other status; JSON on standard output in both cases), the `evaluation` object (`requests`, `focus`; `previous` is not supported yet and is `invalid_input`), reading the `priority` summary after a run, the reasons `budget_exhausted` and `invalid_response` (stop at the third), and what to tell the user for a partial run (counts per tier, what was not checked, not "checked by Jev", ask before spending more). Update the limits paragraph so it no longer implies one depth-first pass. Do not change `SKILL.md`. Run `python3 scripts/validate-package.py`.
 
 **Checkpoint**: All user stories complete.
 
@@ -140,8 +142,8 @@ passes.
 
 ## Phase 8: Polish & cross-cutting
 
-- [ ] T021 Run quickstart sections 2–6: full suite, `python3 -B scripts/build-jev-registry.py --check`, `python3 scripts/validate-package.py`, `python3 scripts/package-plugin.py`; confirm the rebuilt archives hold byte-identical copies of the changed `jev/` files, `jev/registry.json` and `references/typesafe-advisor.md`. Rerun `specs/010-long-document-evaluation/baseline/measure_reach.py` and record before/after units reached. Record outputs in `specs/010-long-document-evaluation/evidence.md`. Do not commit `dist/`.
-- [ ] T022 Request an independent code and security review of the final diff covering untrusted input (`evaluation` object, `previous` block, focus spans), regex linearity of signals, budget enforcement, no source prose in plan, priority or answered-checks fields, and the two intended contract changes (invalid-reply continuation, `budget_exhausted`); record findings and dispositions in `specs/010-long-document-evaluation/evidence.md`.
+- [ ] T021 Run quickstart sections 2, 4, the invalid-reply items of 5, and 6 (section 3 and the chained-run items belong to the deferred US2 and US3): full suite, `python3 -B scripts/build-jev-registry.py --check`, `python3 scripts/validate-package.py`, `python3 scripts/package-plugin.py`; confirm the rebuilt archives hold byte-identical copies of the changed `jev/` files, `jev/registry.json` and `references/typesafe-advisor.md`. Rerun `specs/010-long-document-evaluation/baseline/measure_reach.py` and record before/after units reached. Record outputs in `specs/010-long-document-evaluation/evidence.md`. Do not commit `dist/`.
+- [ ] T022 Request an independent code and security review of the final diff covering untrusted input (`evaluation` object, focus spans, rejection of `previous`), regex linearity of signals, budget enforcement, no source prose in plan, priority or answered-checks fields, and the two intended contract changes (invalid-reply continuation, `budget_exhausted`); record findings and dispositions in `specs/010-long-document-evaluation/evidence.md`.
 - [ ] T023 Optional, owner-only: with the owner's spend approval, one live run on synthetic text with a small budget to confirm the plan matches live receipts; record only counts, reasons and digests in `evidence.md`.
 - [ ] T024 Update the `scripts/scan-tells.sh` and `scripts/build-jev-registry.py` rows in `AGENTS.md` and the matching lines of the repository tree in `README.md` (around the `scripts/scan-tells.sh` entry): `scan-tells.sh` is no longer review-only, because its expressions, filtered against `SKILL.md`, become the registry's tier 3 signals; editing it or a canonical pattern section requires `python3 -B scripts/build-jev-registry.py` and `--check`. Do not change the README version history. Run `python3 scripts/validate-package.py`. Depends on T008.
 
@@ -156,7 +158,8 @@ passes.
   in the `priority` block.
 - **US4 (T018–T019)** depends only on Foundational, but shares `jev/core.py` with US1–US3, so run it
   after the story currently editing `jev/core.py`, not alongside it.
-- **US5 (T020)** after US1–US4, because it documents their final fields.
+- **US5 (T020)** after US1 and US4, because it documents their final fields. US2 and US3 are
+  deferred and not prerequisites of anything in scope.
 - **Polish (T021–T024)** last. T024 needs only T008 and may run any time after it.
 
 Within each story: tests first and failing, then implementation, then the story's checkpoint.
@@ -181,6 +184,6 @@ Example after T004:
 
 - **MVP**: Setup, Foundational and US1. A host gets tier-ordered work within a budget and an honest
   report; this alone moves the ~1,000-word note from 9 to at least 30 units reached per run.
-- **Next**: US2 (plan before spending), then US4 (small, high value for live runs), then US3.
+- **Next**: US4 (small, high value for live runs), then US5 and Polish. US2 and US3 are deferred.
 - **Last**: US5 documentation and Polish.
 - Stop at each checkpoint, run the full suite, and record evidence before the next story.

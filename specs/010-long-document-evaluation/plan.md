@@ -5,7 +5,10 @@
 **Input**: Spec 010 with all clarifications answered by the owner on 2026-10-22 (budget X, priority
 order 1→4, previous report only to avoid repeats, stop after 3 invalid replies). The owner authorized
 `speckit-plan`, accepted the R5 deviation and authorized `speckit-tasks` on 2026-10-22.
-Implementation, merge and release are not authorized.
+Implementation, merge and release are not authorized. Scope narrowed by the owner on 2026-10-22:
+deliver User Stories 1, 4 and 5; User Story 2 (the plan report of item 1 in `prepare`) and User Story 3
+(item 5, reuse keys and `answered_checks`) are deferred. The planner stays shared and static, because
+User Story 1 needs it; only its exposure in `prepare` is deferred.
 
 ## Summary
 
