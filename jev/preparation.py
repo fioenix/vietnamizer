@@ -15,7 +15,8 @@ from .transport import encoded
 MAX_INPUT = 1024 * 1024
 PROFILE_VERSION = 'vi-spans-1'
 MAX_INVENTORY = 4096
-WORK_LIMIT = 4096
+# Absolute per-phase work bound; it keeps pathological inputs far inside the deadline.
+WORK_LIMIT = 32768
 ID = re.compile(r'[A-Za-z][A-Za-z0-9_-]{0,63}\Z')
 PROFILES = {'blog', 'technical', 'typography-only'}
 KINDS = {'prose', 'heading', 'list', 'protected'}

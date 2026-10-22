@@ -47,9 +47,10 @@ class ReviewedBoundaries(EvaluationCase):
         self.assertTrue(edits)
         self.assertTrue(all('phải giữ' in e['revised_paragraph'] for e in edits))
     def test_scan_limit_keeps_classified_exact_prefix_and_context(self):
-        d=raw('Tôi về. '*1100+'\n```\nSECRET_AFTER_LIMIT\n```');d['source']['layout']='markdown'
+        d=raw('Tôi về. '*4200+'\n```\nSECRET_AFTER_LIMIT\n```');d['source']['layout']='markdown'
         p=prepare_document(d)
         self.assertFalse(p['segmentation_complete'])
+        self.assertIn('preparation_limit',{u['reason'] for u in p['unresolved']})
         self.assertTrue(p['sections'])
         self.assertTrue(any(t['boundary_status']=='exact' for s in p['sections'] for t in s['sentences']))
         self.evaluate(d,only_pattern='V1')
