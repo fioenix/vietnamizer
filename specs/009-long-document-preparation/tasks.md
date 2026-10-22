@@ -69,15 +69,15 @@ expected spans and reasons on short synthetic inputs.
 
 ### Tests for User Story 2 ⚠️ write first, confirm they fail
 
-- [ ] T008 [P] [US2] Add RED tests to `tests/test_preparation.py`, one per row of `specs/009-long-document-preparation/contracts/segmentation-delta.md`, including the two baseline cases moved from `specs/009-long-document-preparation/baseline/test_red_baseline.py`. Assert exact spans and reason codes: no `unsafe_boundary` for a missing separator, and `ambiguous_separator` for `Tôi về.bạn ở lại.` and `Done.Next step.`.
-- [ ] T009 [P] [US2] Add a linearity test to `tests/test_structure.py` for the dotted-identifier recognizer: one giant token of the form `'a'*N + '.b' + 'é'` and a token of many dotted segments that ends in a non-ASCII letter, both near the input size limit, must finish under the existing 2 s tracemalloc bound used in `test_huge_tokens_have_linear_marker_dispatch`.
+- [X] T008 [P] [US2] Add RED tests to `tests/test_preparation.py`, one per row of `specs/009-long-document-preparation/contracts/segmentation-delta.md`, including the two baseline cases moved from `specs/009-long-document-preparation/baseline/test_red_baseline.py`. Assert exact spans and reason codes: no `unsafe_boundary` for a missing separator, and `ambiguous_separator` for `Tôi về.bạn ở lại.` and `Done.Next step.`.
+- [X] T009 [P] [US2] Add a linearity test to `tests/test_structure.py` for the dotted-identifier recognizer: one giant token of the form `'a'*N + '.b' + 'é'` and a token of many dotted segments that ends in a non-ASCII letter, both near the input size limit, must finish under the existing 2 s tracemalloc bound used in `test_huge_tokens_have_linear_marker_dispatch`.
 
 ### Implementation for User Story 2
 
-- [ ] T010 [US2] In `_scan` in `jev/preparation.py`, after the punctuation run and closers: if the next character is one of `,` `;` `:` `.` `!` `?` `…`, it is "**not a boundary**; continue scanning". Any other character outside a recognized token is "**unresolved**, reason `ambiguous_separator`". Use `unsafe_boundary` only when a boundary would split a grapheme cluster, CRLF pair, combining or emoji sequence (FR-008).
-- [ ] T011 [US2] In `jev/preparation.py`, add the dotted ASCII identifier lexical token: "ASCII letters, digits, `_` or `-`, then one or more `.` segments, each starting with a lowercase ASCII letter or digit; not touching another word character on either side". Run it only on tokens that contain `.`. Pass T009.
-- [ ] T012 [US2] In `jev/preparation.py`, treat a Markdown link destination as opaque: "text directly after `](` up to the first `)`, any scheme including relative paths; not the `<...>` or quoted form". A `(` inside the destination keeps the whole-unit `ambiguous_url_closer` reason. Pass T008.
-- [ ] T013 [US2] Run `tests/test_preparation.py` (54 corpus cases, unchanged labels) and the full suite; record the output in `specs/009-long-document-preparation/evidence.md`. Any corpus disagreement is recorded for the owner, never fixed by relabelling (FR-010).
+- [X] T010 [US2] In `_scan` in `jev/preparation.py`, after the punctuation run and closers: if the next character is one of `,` `;` `:` `.` `!` `?` `…`, it is "**not a boundary**; continue scanning". Any other character outside a recognized token is "**unresolved**, reason `ambiguous_separator`". Use `unsafe_boundary` only when a boundary would split a grapheme cluster, CRLF pair, combining or emoji sequence (FR-008).
+- [X] T011 [US2] In `jev/preparation.py`, add the dotted ASCII identifier lexical token: "ASCII letters, digits, `_` or `-`, then one or more `.` segments, each starting with a lowercase ASCII letter or digit; not touching another word character on either side". Run it only on tokens that contain `.`. Pass T009.
+- [X] T012 [US2] In `jev/preparation.py`, treat a Markdown link destination as opaque: "text directly after `](` up to the first `)`, any scheme including relative paths; not the `<...>` or quoted form". A `(` inside the destination keeps the whole-unit `ambiguous_url_closer` reason. Pass T008.
+- [X] T013 [US2] Run `tests/test_preparation.py` (54 corpus cases, unchanged labels) and the full suite; record the output in `specs/009-long-document-preparation/evidence.md`. Any corpus disagreement is recorded for the owner, never fixed by relabelling (FR-010).
 
 **Checkpoint**: US2 complete. Boundary decisions changed, so US3 must land before integration.
 
@@ -90,9 +90,9 @@ expected spans and reasons on short synthetic inputs.
 **Independent Test**: Preparation reports `vi-spans-2`, and the coverage manifest digest changes
 when the profile constant changes.
 
-- [ ] T014 [P] [US3] Add RED tests to `tests/test_coverage_model.py`: `prepare_document` reports `segmentation_profile == 'vi-spans-2'`, and patching `jev.preparation.PROFILE_VERSION` changes the coverage `manifest_digest` (today `jev/coverage.py:23` hard-codes `'vi-spans-1'`).
-- [ ] T015 [US3] Set `PROFILE_VERSION = 'vi-spans-2'` and update the module docstring in `jev/preparation.py`; make `jev/coverage.py` bind the manifest to the imported `PROFILE_VERSION` instead of the literal. Pass T014.
-- [ ] T016 [P] [US3] Change the `profile` field to `vi-spans-2` in `tests/fixtures/segmentation/cases.json` and describe the delta in `tests/fixtures/segmentation/README.md` (link `specs/009-long-document-preparation/contracts/segmentation-delta.md`; state that no case label changed).
+- [X] T014 [P] [US3] Add RED tests to `tests/test_coverage_model.py`: `prepare_document` reports `segmentation_profile == 'vi-spans-2'`, and patching `jev.preparation.PROFILE_VERSION` changes the coverage `manifest_digest` (today `jev/coverage.py:23` hard-codes `'vi-spans-1'`).
+- [X] T015 [US3] Set `PROFILE_VERSION = 'vi-spans-2'` and update the module docstring in `jev/preparation.py`; make `jev/coverage.py` bind the manifest to the profile instead of the literal. Pass T014. (Implemented by reading `prepared['segmentation_profile']`, so the manifest records the profile actually used; an import-time copy of the constant would not follow it.)
+- [X] T016 [P] [US3] Change the `profile` field to `vi-spans-2` in `tests/fixtures/segmentation/cases.json` and describe the delta in `tests/fixtures/segmentation/README.md` (link `specs/009-long-document-preparation/contracts/segmentation-delta.md`; state that no case label changed).
 
 **Checkpoint**: All three stories complete.
 

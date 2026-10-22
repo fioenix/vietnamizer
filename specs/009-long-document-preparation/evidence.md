@@ -139,3 +139,59 @@ The owner reduced machine load. A wait loop held the run until the 1-minute load
 T007 passes: every feature 008 time and memory assertion holds unchanged, with the current branch
 at 0.2–0.3 s against a 2 s limit. The load-spike failures above remain recorded as a risk on heavily
 loaded machines.
+
+## T008–T013 — US2 boundary exemptions
+
+Machine idle during these runs (load average 6–7 on 8 cores).
+
+- T008 RED: `SegmentationDeltaTests` in `tests/test_preparation.py`, one case per contract row, with
+  expected sentence texts written from the contract (not read from the scanner). Before any change:
+  `Ran 4 tests`, `FAILED (failures=12)`; every failure reported `unsafe_boundary` (for example
+  `(['Xem example.dev.', 'Tôi về.'], []) != (['Tôi về.'], ['unsafe_boundary'])`). The corpus passed.
+  The two baseline cases from `baseline/test_red_baseline.py` are rows of this test.
+- T009: `test_dotted_identifier_tokens_stay_linear` in `tests/test_structure.py` (`'a'*500000+'.b'+'é'`
+  and `'ab.'*200000+'abé'`, tracemalloc, 2 s limit). It passed before T011 because no recognizer
+  existed, so it is a guard. Proof that it detects a regression: with a deliberately naive pattern
+  without the lookbehind, preparation took 3.58 s at 20,003 code points and 13.92 s at 40,003
+  (quadratic); the guard's 500,002-code-point input would fail. With the real pattern: `OK`.
+- T010: missing separator now reports `ambiguous_separator`; `,` `;` `:` and further terminal
+  punctuation after the closers are not a boundary. The exemption sits after the boundary-override
+  check, so an explicit override at that endpoint still wins. After T010: 6 failures left, all
+  needing T011–T012.
+- T011: `DOTTED_IDENTIFIER` lexical token, one work unit per match.
+- Regression found and fixed during T011, with a test first: the token made `Dùng e.g. Python rồi
+  chạy.` split into two exact sentences, where `HEAD` left it unresolved (`unsafe_boundary`, checked
+  by running the `HEAD` module). New test `test_single_letter_dotted_abbreviation_stays_ambiguous`
+  failed (`(['Dùng e.g.', 'Python rồi chạy.'], [])`). Fix: a standalone run of single lowercase letters
+  joined by dots (`e.g.`, `i.e.`) is `ambiguous_abbreviation`, like `v.v.`/`v.d.`. A first version also
+  matched the URL path in corpus case `url-terminal-period` (`[[0, 28], [29, 38]] != []`); requiring
+  the abbreviation to follow whitespace or an opener fixed it. Recorded in
+  `contracts/segmentation-delta.md` (row 2). This extends the accepted contract; the owner accepted it on 2026-10-22.
+- T012: Markdown link destinations of any scheme are opaque; a `(` inside keeps `ambiguous_url_closer`.
+- T013: `tests.test_preparation`: `Ran 5 tests`, `OK` (54 corpus cases, no label changed).
+  Full suite: `Ran 194 tests in 36.681s`, `OK`. RED baseline file: `Ran 4 tests`, `OK`.
+  008 time tests plus the new guard, three repeats: all `OK`, scaling 0.281–0.318 s (0.198–0.224 s
+  before US2; the identifier search on dotted tokens adds about 40% on `X. `×250,000, still far under 2 s).
+- Not yet done: US3 (profile `vi-spans-2`) must land before integration, because boundary decisions
+  changed under the `vi-spans-1` name.
+
+## T014–T016 — US3 profile `vi-spans-2`
+
+- The owner accepted the single-letter abbreviation extension (contract delta, row 2) on 2026-10-22.
+- T014 RED: `ProfileBindingTest` in `tests/test_coverage_model.py`. Before the change:
+  `AssertionError: 'vi-spans-1' != 'vi-spans-2'`, and the manifest digest stayed identical when
+  `jev.preparation.PROFILE_VERSION` was patched (`'7b5d4dc3…' == '7b5d4dc3…'`), because
+  `jev/coverage.py` hard-coded `'vi-spans-1'`.
+- T015: `PROFILE_VERSION = 'vi-spans-2'` and docstring in `jev/preparation.py`. `jev/coverage.py`
+  now binds `prepared['segmentation_profile']`. Deviation from the task wording: importing the
+  constant into `coverage.py` would copy it at import time, so the manifest would not follow the
+  profile actually used. Both `Ledger(...)` call sites in `jev/core.py` pass `prepare_document` output,
+  which always carries `segmentation_profile`. `tests.test_coverage_model`: `Ran 5 tests`, `OK`.
+- T016: `tests/fixtures/segmentation/cases.json` `profile` set to `vi-spans-2`; the README describes
+  the delta. No case text, span or label changed (54 cases).
+- US3 independent test, current branch versus the `HEAD` module on one Markdown input: profiles
+  `vi-spans-1` → `vi-spans-2`; the two unaffected sentences keep spans (11, 18) and (19, 29) and both
+  get new IDs; the list item with `[ghi chú](ghi-chu.md)` changes from `unresolved` to `exact`, which is
+  where the US2 rules apply.
+- Full suite: `Ran 196 tests in 65.231s`, `OK` (load average about 14; scaling 0.321 s).
+  `python3 scripts/validate-package.py`: valid, 55 patterns.
