@@ -15,6 +15,7 @@ from .transport import encoded
 MAX_INPUT = 1024 * 1024
 PROFILE_VERSION = 'vi-spans-1'
 MAX_INVENTORY = 4096
+WORK_LIMIT = 4096
 ID = re.compile(r'[A-Za-z][A-Za-z0-9_-]{0,63}\Z')
 PROFILES = {'blog', 'technical', 'typography-only'}
 KINDS = {'prose', 'heading', 'list', 'protected'}
@@ -113,7 +114,7 @@ class _WorkBudget:
         return True
 
 
-def _scan(text, opaque, overrides, deadline, budget):
+def _scan(text, opaque, overrides, deadline, budget, inventory=None):
     """Linear token dispatch, then source-bound punctuation decisions.
 
     Regex searches only partition whitespace or find simple digit/punctuation runs.
@@ -121,6 +122,8 @@ def _scan(text, opaque, overrides, deadline, budget):
     an expensive suffix at every character position. All phases share one budget.
     """
     def expired(): return deadline is not None and time.monotonic() >= deadline
+    # Each emitted span costs work and one inventory slot.
+    def emit(): return budget.take() and (inventory is None or inventory.take())
     def unfinished(reason, spans=None, start=0, unresolved=None):
         spans=[] if spans is None else spans
         unresolved=[] if unresolved is None else unresolved
@@ -217,7 +220,7 @@ def _scan(text, opaque, overrides, deadline, budget):
         if i+1 in endpoints:
             a,b=_trim(text,start,i+1)
             if a<b:
-                if not budget.take(): return unfinished('preparation_limit',spans,start,unresolved)
+                if not emit(): return unfinished('preparation_limit',spans,start,unresolved)
                 spans.append((a,b,'unresolved' if uncertain else 'exact'))
                 if uncertain: unresolved.append({'start':a,'end':b,'reason':uncertain[0]})
             start=i+1; uncertain=[]; cursor=i+1; continue
@@ -235,7 +238,7 @@ def _scan(text, opaque, overrides, deadline, budget):
         if j in endpoints:
             a,b=_trim(text,start,j)
             if a<b:
-                if not budget.take(): return unfinished('preparation_limit',spans,start,unresolved)
+                if not emit(): return unfinished('preparation_limit',spans,start,unresolved)
                 spans.append((a,b,'unresolved' if uncertain else 'exact'))
                 if uncertain: unresolved.append({'start':a,'end':b,'reason':uncertain[0]})
             start=j; uncertain=[]; cursor=j; continue
@@ -252,14 +255,14 @@ def _scan(text, opaque, overrides, deadline, budget):
         if reason: uncertain.append(reason); cursor=j; continue
         a,b=_trim(text,start,j)
         if a<b:
-            if not budget.take(): return unfinished('preparation_limit',spans,start,unresolved)
+            if not emit(): return unfinished('preparation_limit',spans,start,unresolved)
             status='unresolved' if uncertain else 'exact'; spans.append((a,b,status))
             if uncertain: unresolved.append({'start':a,'end':b,'reason':uncertain[0]})
         start=j; uncertain=[]; cursor=j
     a,b=_trim(text,start,len(text))
     if scan_end<len(text): uncertain.append('preparation_limit')
     if a<b:
-        if not budget.take(): return unfinished('preparation_limit',spans,start,unresolved)
+        if not emit(): return unfinished('preparation_limit',spans,start,unresolved)
         status='unresolved' if uncertain else 'exact'; spans.append((a,b,status))
         if uncertain: unresolved.append({'start':a,'end':b,'reason':uncertain[0]})
     return spans,unresolved
@@ -343,7 +346,7 @@ def _prepare(doc,deadline):
     raw=doc.get('schema_version')==2
     if 'schema_version' in doc and (type(doc['schema_version']) is not int or doc['schema_version'] not in (1,2)): _bad()
     annotations=[]; source=''; sourceid='legacy'; sections=[]; partition=[]
-    budget=_WorkBudget(MAX_INVENTORY,deadline)
+    budget=_WorkBudget(WORK_LIMIT,deadline)
     budget.check()
     for field in ('annotations','candidates','context_links','context_reviews','boundary_overrides'):
         records=doc.get(field,[])
@@ -554,14 +557,15 @@ def _prepare(doc,deadline):
     for s in sections:
         s['contexts'].sort(key=lambda x:(x.get('source_start',len(source)),x['id']))
     # No classification work follows scanning: scan exhaustion cannot erase a safe prefix.
-    scan_budget=_WorkBudget(MAX_INVENTORY,deadline)
+    scan_budget=_WorkBudget(WORK_LIMIT,deadline)
+    inventory=_WorkBudget(max(0,MAX_INVENTORY-len(sections)))
     for s in sections:
         a=s['source_start']
         if s.get('_unprocessed') or s.get('_unsupported'):
             spans=[]; problems=[{'start':0,'end':len(s['text']),'reason':'preparation_limit' if s.get('_unprocessed') else 'unsupported_structure'}]
         elif s['kind'] in ('prose','list'):
             try:
-                spans,problems=_scan(s['text'],s['_scan_opaque'],s['_scan_overrides'],deadline,scan_budget)
+                spans,problems=_scan(s['text'],s['_scan_opaque'],s['_scan_overrides'],deadline,scan_budget,inventory)
             except _PreparationStopped as error:
                 spans=[]; problems=[{'start':0,'end':len(s['text']),'reason':error.reason}]
         else: spans=[]; problems=[]

@@ -36,6 +36,17 @@ class StructureTests(unittest.TestCase):
         got=prepare_document(doc)
         self.assertFalse(got['segmentation_complete'])
         self.assertLessEqual(len(got['sections'])+sum(len(s['sentences']) for s in got['sections']),4096)
+    def test_inventory_cap_keeps_prefix_and_reports_remainder(self):
+        from unittest.mock import patch
+        text='\n\n'.join(' '.join('Đi.' for _ in range(100)) for _ in range(50))
+        # Ample work, so only the inventory cap can stop preparation.
+        with patch('jev.preparation.WORK_LIMIT',2**20):
+            got=prepare_document(raw(text))
+        sentences=[t for s in got['sections'] for t in s['sentences']]
+        self.assertLessEqual(len(got['sections'])+len(sentences),4096)
+        self.assertTrue(any(t['boundary_status']=='exact' for t in sentences))
+        self.assertIn('preparation_limit',{u['reason'] for u in got['unresolved']})
+        self.assertEqual(len(text),max(u['end'] for u in got['unresolved']))
     def test_open_fence_is_unresolved(self):
         got=prepare_document(raw('```py\nSECRET = 1'))
         self.assertFalse(got['segmentation_complete'])
