@@ -1,5 +1,9 @@
 # Bằng chứng phân phối plugin — 03/10/2026
 
+> Snapshot lịch sử, không phải trạng thái readiness hiện tại. Xem
+> [cập nhật OpenAI ngày 23/10/2026](openai-marketplace-assessment-2026-10-23.md): owner báo
+> portal tạm ngừng nhận thêm skills-only; chưa kiểm độc lập, không suy thành chính sách vĩnh viễn.
+
 ## Phạm vi và trạng thái
 
 Version chuẩn: **0.9.7, chưa phát hành**. Thay đổi bổ sung nhận diện, metadata, catalog và

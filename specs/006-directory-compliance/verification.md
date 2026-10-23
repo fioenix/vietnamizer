@@ -54,8 +54,12 @@ run. The owner's earlier waived native/Claude/fallback tests were not reopened o
 ## Remaining publication gates
 
 Integrate this patch through the repository's PR/CI process and publish the updated privacy page.
-The privacy URL currently points to remote main, not these uncommitted local changes.
-Then use the matching new ZIP for portal review. Publisher verification, category confirmation,
+At the time of this snapshot, the privacy URL pointed to remote main, not the uncommitted local changes.
+These are historical release gates, not current permission to submit. See the
+[2026-10-23 intake assessment](../../docs/openai-marketplace-assessment-2026-10-23.md):
+the owner reported that the portal is not accepting more skills-only submissions at this time.
+Resume only with current intake evidence and owner authorization for the specific submission.
+Then use the matching versioned ZIP for review. Publisher verification, category confirmation,
 security/privacy scans and skills-only eligibility still require direct portal evidence.
 No claim is made that English listing text alone resolves the reported category finding.
 

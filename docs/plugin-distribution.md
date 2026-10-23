@@ -1,5 +1,13 @@
 # Phân phối plugin vietnamizer
 
+## Trạng thái OpenAI ngày 23/10/2026
+
+Owner báo portal hiển thị “We are not accepting more skills-only submissions at this time.”
+Tạm dừng chuẩn bị gửi Vietnamizer theo đường skills-only; thông báo chưa được kiểm độc lập và
+không xác lập lệnh cấm toàn cầu hoặc vĩnh viễn. Hỗ trợ định dạng, cài từ catalog riêng, portal
+nhận hồ sơ và Directory approval là các trạng thái riêng. Xem
+[bằng chứng và điều kiện tiếp tục](openai-marketplace-assessment-2026-10-23.md).
+
 Bằng chứng kiểm tên mới: [rename-vietnamizer-2026-10-03.md](rename-vietnamizer-2026-10-03.md).
 Báo cáo [plugin-readiness-2026-10-03.md](plugin-readiness-2026-10-03.md) ghi snapshot tên cũ trước migration.
 
@@ -19,6 +27,11 @@ thứ hai. Các file trong `agents/` và `assets/` đi cùng skill để UI khô
 Tạo cả ba artifact bằng `python3 scripts/package-plugin.py`. `dist/` là output sinh ra, không
 commit. Plugin ZIP chỉ chứa public payload, MIT notice, nhận diện và manifest; không chứa Spec
 Kit, generated maintainer skills, corpus evaluation hoặc credential.
+
+Trước khi chạy script, sao lưu các archive hiện có và SHA-256 vào một thư mục local mới trong
+`output/`. Script thay thế các tên cố định trong `dist/`; nó không giữ lịch sử thay cho maintainer.
+README và `docs/` không nằm trong payload. Chỉ sửa tài liệu ngoài payload thì giữ archive hiện có;
+sửa tài liệu trong payload phải dựng lại rồi đối chiếu inventory, CRC, version và bytes với source.
 
 Từ v0.10.5, runtime có thêm `preparation.py` và `coverage.py`: mọi archive
 phải chạy `prepare` offline và có bytes khớp source, ngoài kiểm no-key `evaluate`. Contract v2 giữ
@@ -154,8 +167,9 @@ catalog ba mục tại đây. `.claude-plugin/marketplace.json` tiếp tục ph�
 catalog do maintainer kiểm soát giúp người dùng đăng ký nguồn và cài plugin, nhưng không phải
 dấu hiệu OpenAI hoặc Anthropic đã review hay bảo chứng plugin.
 
-Gửi vào directory chính thức là bước riêng, cần quyền tài khoản publisher, kiểm lại yêu cầu
-submission tại thời điểm gửi và owner duyệt trước khi nộp. Không tạo MCP server, auth flow,
+Gửi vào directory chính thức là bước riêng. Với OpenAI, chỉ tiếp tục sau khi có bằng chứng portal
+nhận hồ sơ này hoặc xác nhận phù hợp từ OpenAI, kiểm lại yêu cầu hiện hành, quyền publisher và
+owner duyệt lần gửi cụ thể. Local validation không gỡ chặn intake. Không tạo MCP server, auth flow,
 screenshots giả hoặc capability không có thật chỉ để lấp trường metadata.
 
 Việc gửi Anthropic đang tạm dừng theo quyết định của owner ngày 04/10/2026. Người dùng vẫn có

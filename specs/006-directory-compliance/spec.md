@@ -43,3 +43,27 @@ host-provided TypeSafe contract. Do not overwrite the published 0.9.7 artifacts.
   that scope after classification; personal preferences still do not enter the shared log.
 
 These are acceptance cases, not claims that a model evaluation has already passed.
+
+## Documentation maintenance — 2026-10-23
+
+The owner requested a current intake review and a provisional MCP product assessment, with no
+prototype, commit, push, PR, upload, submission, publication, tooling install or shared-setting change.
+This bounded documentation follow-up preserves the historical 0.9.8 agreement and verification;
+it does not reopen that implementation or authorize an MCP feature.
+
+Acceptance: distinguish official format support from owner-reported portal intake; correct current
+entry points and historical resume guidance; date evidence and resume conditions; compare genuine
+server capabilities with existing skill behavior and primary-source prior art; record the product
+recommendation as pending owner acceptance. Verify only changed docs and traced packaging consumers;
+rebuild only if shipped payload changes, preserving superseded local artifacts first.
+
+Current evidence and the product decision are owned by
+[the dated assessment](../../docs/openai-marketplace-assessment-2026-10-23.md).
+
+### Owner acceptance and integration authority — 2026-10-23
+
+The owner accepted retaining skills-only, doing no MCP work, and keeping OpenAI submissions
+paused. This resolves the provisional product decision above. The owner subsequently authorized
+commit, PR creation and merge after green CI; this replaces the earlier local-only restriction
+for documentation integration. Required review gates remain. It does not authorize a prototype,
+portal upload/submission, publication, tooling installation or shared-setting changes.
