@@ -126,7 +126,7 @@ After the fixes: `Ran 227 tests`, `OK`; `build-jev-registry.py --check`, `valida
 
 ## Open
 
-- T023 owner-only synthetic live run: not done.
+- T023 owner-only synthetic live run: done on 2026-10-23 (section below).
 - T013–T017 (User Stories 2 and 3) remain deferred by the owner.
 
 ## PR #20 review fix — focus over protected text
@@ -141,3 +141,21 @@ the unit's protected spans.
   inside the second one's inline code, budget 1) sent its only request to the second paragraph.
 - GREEN: the request goes to the first paragraph and tier 2 plans nothing; full suite
   `Ran 228 tests`, `OK`; `build-jev-registry.py --check` and `validate-package.py` exit 0.
+
+## T023 — synthetic live run
+
+On 2026-10-23 the owner approved the spend for one live run. Input: synthetic text only (an H1, the
+lone line `Trạng thái: đang xử lý` and two copies of `SECTION` from
+`tests/test_preparation_limits.py`; 981 characters), `evaluation.requests` = 2. Runner at
+`codex/012-standalone-label-lines` `20d3bb7` (features 010–012). Only counts, reasons and digests
+are recorded.
+
+- `python3 -B -m jev status`: `key_available`. `python3 -B -m jev evaluate --input <synthetic>`:
+  exit 2, status `incomplete`, as expected with a budget of 2.
+- Counts: 17 sentences, 1,555 checks required, 82 validated, 1 mechanical, 1,472 not completed.
+  `priority`: budget 2, not capped; tier 4 planned 82, answered 82, missing 1,472; tiers 1–3 planned
+  nothing (no candidates, focus or signals in this text).
+- Receipts: 2, both `validated`, 41 questions each, model requested and actual `jev-1.14.0`;
+  request digests `216342cd…`, `1f5abfa5…`; manifest `4a2e49ce…`; registry `d7ef49ab3729…`.
+- Plan versus live: the same input evaluated with a fake transport produced the same two sections,
+  the same request digests and the same check counts, so the static plan matches the live receipts.
