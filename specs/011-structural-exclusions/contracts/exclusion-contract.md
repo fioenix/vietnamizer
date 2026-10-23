@@ -29,6 +29,9 @@ pattern not in the table. Typography-only, protected and inactive-profile gates 
 | `Nhãn: giá trị` alone, or a single such list item | no (prose) |
 | label containing digits, comma, terminal punctuation, link, code or emphasis | no |
 | text ending in `:` with no value (`Nhóm đã thử ba cách sau:`) | no |
+| label ending in `rằng` or `là` (`Cần lưu ý rằng:`), bold or plain | no (review finding T022-2) |
+| adjacent items with different marker kinds (`-` then `1.`) | not one field list (T022-3) |
+| bold label with digits, comma, punctuation or a link | no (T022 note) |
 
 Only the first sentence of a recognized item is `label_value`.
 
@@ -40,5 +43,9 @@ Only the first sentence of a recognized item is `label_value`.
 | `coverage[].status`/`reason` | `excluded` with `sign_absent` or `structure_excluded` when every subject is excluded |
 | `counts.required`, `uncompleted` | exclude excluded subjects |
 | `sentences[].required` | per-sentence sum over including groups |
+| `missing[].subject_positions`, `validated_keys` | indexes among the unit's subjects; `subject_range` only when a group covers every subject (T022-1) |
+
+A subject that shows one of the pattern's own canonical signs (registry `signals`) is not excluded by
+structure. `--scope selected` evaluates the host's explicit targets without structure exclusions.
 
 No new field carries source text.
