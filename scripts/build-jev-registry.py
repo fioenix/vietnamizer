@@ -141,8 +141,48 @@ for _ident in ('B8','K7'):
   'ambiguous_claim_or_scope':'The target claim or evidence relation is ambiguous. Missing source evidence belongs to insufficient, not inferred truth.'}
 
 
+def _alternatives(expression):
+    """Top-level alternatives, with one capturing group of plain alternatives split into variants."""
+    parts=[];depth=0;current=''
+    for i,ch in enumerate(expression):
+        escaped=i>0 and expression[i-1]=='\\'
+        if ch=='(' and not escaped:depth+=1
+        if ch==')' and not escaped:depth-=1
+        if ch=='|' and depth==0:
+            parts.append(current);current='';continue
+        current+=ch
+    parts.append(current)
+    variants=[]
+    for part in parts:
+        group=re.fullmatch(r'(.*?)\(([^()]*)\)(.*)',part)
+        if group and '|' in group.group(2):
+            variants.extend(group.group(1)+'(?:'+x+')'+group.group(3) for x in group.group(2).split('|'))
+        else:
+            variants.append(part)
+    return variants
+
+
+def signals(skill_text):
+    """Tier 3 ordering signals: scan-tells.sh alternatives that their own SKILL.md section supports."""
+    sections={m.group(1):m.group(0) for m in re.finditer(r'^### ([VT]\d+)\..*?(?=^### |\Z)',skill_text,re.M|re.S)}
+    kept={};dropped=[]
+    for line in (ROOT/'scripts/scan-tells.sh').read_text(encoding='utf-8').splitlines():
+        m=re.match(r"""scan "([VTBK]\d+) [^"]*" '([^']*)'""",line.strip())
+        if not m:continue
+        # grep matches line by line: keep that in Python, or `\s`/`[^x]` cross newlines and backtrack.
+        expression=m.group(2).replace('[[:space:]]',r'[ \t]').replace('[^','[^\\n')
+        ident=m.group(1)
+        for variant in _alternatives(expression):
+            re.compile(variant,re.M)
+            # Grounding ignores line anchors and case: the section quotes signs inside sentences.
+            if re.search(variant.lstrip('^'),sections.get(ident,''),re.I):kept.setdefault(ident,[]).append(variant)
+            else:dropped.append((ident,variant))
+    return kept,dropped
+
+
 def build():
     entries = []
+    kept,_ = signals((ROOT/'SKILL.md').read_text(encoding='utf-8'))
     for source in ['SKILL.md','profiles/blog-ca-nhan/rules.md','profiles/ky-thuat-doanh-nghiep/rules.md']:
         text = (ROOT/source).read_text()
         matches = list(re.finditer(r'^### ([VTBK]\d+)\. (.+)$', text, re.M))
@@ -160,6 +200,7 @@ def build():
                 qs.append({'key':'evidence','type':'choice','instructions':f'Can the supplied context establish the intended meaning, reference, audience and exceptions needed to judge this issue? {RECIPES[ident]}','criteria':{'sufficient':'The necessary context is supplied; the issue may be present or absent.','insufficient':'A necessary fact, intended referent or context is missing.','none_fit':'These context dispositions do not fit the supplied evidence.'}})
                 qs.append({'key':'degree','type':'score','instructions':f'Rate ONLY the degree of the specific issue described in this question, not overall writing quality: {RECIPES[ident]} Context insufficiency is not a middle score.','criteria':['No established instance of this issue in the target context.','A slight instance; little effect on the relevant reading function.','A clear instance affecting the relevant reading function.','A pronounced instance substantially obstructing the relevant reading function.']})
             entries.append({'id':ident,'title':title,'source':source,'scope':scope,'mode':'mechanical' if ident=='T3' else 'semantic','no_flag':no_flag,'questions':[] if ident=='T3' else qs})
+            if ident in kept:entries[-1]['signals']=kept[ident]
     expected = {f'{p}{i}' for p,n in [('V',25),('T',6),('B',17),('K',7)] for i in range(1,n+1)}
     assert len(entries)==55 and {e['id'] for e in entries}==expected==set(RECIPES)
     return {'version':'1','model':'jev-1.14.0','patterns':entries}
@@ -168,6 +209,8 @@ def build():
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('--check',action='store_true'); args=parser.parse_args()
     target=ROOT/'jev/registry.json'; content=json.dumps(build(),ensure_ascii=False,indent=2)+'\n'
+    for ident,variant in signals((ROOT/'SKILL.md').read_text(encoding='utf-8'))[1]:
+        print(f'signal not in canonical {ident} section, not shipped: {variant}')
     if args.check:
         if not target.exists() or target.read_text()!=content:
             raise SystemExit('Registry is stale; run scripts/build-jev-registry.py')

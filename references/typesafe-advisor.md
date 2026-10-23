@@ -138,7 +138,10 @@ absolute work bound for its metadata phase and another for its scan phase, and r
 notes of roughly 12,000–17,000 words or more, or punctuation-dense text, may still exhaust a bound.
 Exhaustion emits `preparation_limit` with unprocessed source spans rather than dropping text or
 certifying segmentation. Full preparation does not mean full evaluation: request limits still
-apply, and a long note usually needs more checks than one invocation sends. Punctuation directly
+apply, and a long note usually needs far more checks than one invocation sends (a ~6,000-word
+technical note needs about 44,000; one invocation answers about 1,300). The runner plans every
+request before sending and spends the budget by priority, as described under "Request budget and
+partial runs" below. Punctuation directly
 followed by a letter outside a recognized token stays unresolved as `ambiguous_separator`.
 Complete context that cannot fit even one question returns `context_too_large`; target-window membership may shrink, parent/context may not. Requests are not silently truncated or retried.
 A killable subprocess bounds complete HTTP I/O; late replies are discarded. `deadline_exceeded`
@@ -147,6 +150,40 @@ and a requested check ID, never the provider body. Size/budget limits, authentic
 errors or invalid responses leave explicit non-pass
 coverage. Continue core on failure and disclose that Jev was incomplete; do not repeat calls merely
 to obtain a favorable judgment. An offline fallback is not a successful Jev run.
+
+### Request budget and partial runs
+
+An optional top-level `evaluation` object sets the budget and priorities:
+`{"requests": 8, "focus": [{"start": 1200, "end": 1340, "patterns": ["V11", "T4"]}]}`.
+`requests` is the request budget for this invocation (an integer of at least 1; values above 32
+are capped and reported as `budget_capped`; absent means 32). `focus` lists at most 256 source-global
+spans (schema 2 only), each optionally limited to registry pattern IDs. `previous` is not supported
+yet and is `invalid_input`; any malformed field is `invalid_input` before a request is sent.
+
+Every request carries one unit, so a budget of X reaches at most X units. The runner plans all
+requests first, in this order: (1) review checks of candidate edits; (2) checks overlapping a focus
+span; (3) checks of a pattern whose local signal (derived from `scripts/scan-tells.sh` and kept only
+where the canonical rule text supports it) occurs in the subject; (4) everything else, giving each
+unreached unit one request before any unit gets a second. A request opened for one tier is filled
+with the same unit's next checks. The order is a maintainer decision, not a measured optimum.
+
+An invalid reply loses only its own batch (`invalid_response`) and the run continues; the third
+invalid reply stops it and marks the remaining planned work `invalid_response`. Authentication or
+service failure, cancellation and the deadline still stop at once. Nothing is retried.
+
+Read `priority` after a run: `budget`, `budget_capped`, `tiers` (planned, answered and missing
+checks per tier), `units_reached` and `invalid_replies`. Every judgment carries its `tier`; every
+`missing` record carries `missing_by_reason` and `missing_by_tier`, and `budget_exhausted` marks
+checks the budget did not reach. After a run stops early, planned checks it did not send carry the
+stop reason (for example `authentication_failed`) and work outside the budget stays
+`budget_exhausted`; read the receipts for the stop before suggesting a larger budget. When a run
+covers part of a note, tell the user the counts per
+tier and what was not checked, do not describe the note as checked by Jev, and ask before spending
+another run.
+
+`python3 -B -m jev` exits 0 for `evaluated`, `key_absent` and `prepared`, and 2 for every other
+status (`incomplete`, `preparation_incomplete`, `permission_denied`, `invalid_input` and the rest).
+The JSON report is written to standard output in both cases.
 
 ## Propose edits and retain five safeguards
 

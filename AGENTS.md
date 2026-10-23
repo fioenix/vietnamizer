@@ -41,8 +41,8 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `SECURITY.md` | Ranh giới bảo mật và kênh báo lỗi riêng, không dùng Issues công khai |
 | `.github/ISSUE_TEMPLATE/` | Mẫu báo lỗi tối thiểu đã ẩn dữ liệu và đường dẫn báo bảo mật riêng |
 | `jev/` | Runner, transport, CLI và registry được đóng gói |
-| `scripts/build-jev-registry.py` | Sinh/kiểm định nghĩa 55 pattern từ nguồn canonical |
-| `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại |
+| `scripts/build-jev-registry.py` | Sinh/kiểm định nghĩa 55 pattern từ nguồn canonical, kèm tín hiệu ưu tiên lấy từ `scripts/scan-tells.sh` |
+| `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại; biểu thức nào khớp với mục pattern trong `SKILL.md` cũng thành tín hiệu xếp thứ tự chấm trong `jev/registry.json` |
 | `.specify/` | Cấu hình, template và script của Spec Kit; constitution trong `.specify/memory/constitution.md` chi phối spec, plan và implementation |
 | `.specify/LICENSE` | MIT notice của GitHub Spec Kit được vendor trong repo |
 | `specs/` | Đặc tả, checklist, plan và task của từng feature; Spec Kit là nguồn chuẩn cho các artifact này |
@@ -66,7 +66,7 @@ Vietnamizer có runner Python standard library trong `jev/`, tự động thử 
 quyền gửi dữ liệu; không có key thì core chạy độc lập. Hợp đồng nằm trong
 `references/typesafe-advisor.md`. Jev hỗ trợ LLM, không tự áp hoặc quyết định edit bằng điểm số.
 `jev/registry.json` là output được track; sửa recipe ở `scripts/build-jev-registry.py`, chạy sinh
-và `--check` khi thay nguồn canonical. Giữ parity runtime trong mọi archive.
+và `--check` khi thay nguồn canonical hoặc `scripts/scan-tells.sh`. Giữ parity runtime trong mọi archive.
 
 Các feature nghiên cứu 001, 002 và 005 cùng `eval/guard/` là hồ sơ lịch sử đã ngừng triển khai.
 Chúng không phải hướng dẫn chạy, không chứng minh hiệu quả cho workflow hiện hành và không
