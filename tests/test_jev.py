@@ -337,6 +337,31 @@ class JevTest(unittest.TestCase):
         self.assertEqual(run.returncode, 0, run.stderr)
         self.assertEqual(json.loads(run.stdout)['status'], 'key_absent')
 
+    def test_cli_unreadable_input_has_its_own_status(self):
+        # Feature 013 User Story 2: a missing file is not a malformed document.
+        env = dict(os.environ, TYPESAFE_API_KEY='fake')
+        with tempfile.TemporaryDirectory() as tmp:
+            missing = str(Path(tmp) / 'missing.json')
+            bad = Path(tmp) / 'bad.json'; bad.write_text('{not json', encoding='utf-8')
+            for command, path, status in (('evaluate', missing, 'input_unreadable'),
+                                          ('prepare', missing, 'input_unreadable'),
+                                          ('evaluate', str(bad), 'invalid_input'),
+                                          ('prepare', str(bad), 'invalid_input')):
+                with self.subTest(command=command, status=status):
+                    run = subprocess.run([sys.executable, '-B', '-m', 'jev', command, '--input', path], cwd=ROOT,
+                                         env=env, capture_output=True, text=True, timeout=60)
+                    self.assertEqual(run.returncode, 2, run.stderr)
+                    self.assertEqual(json.loads(run.stdout), {'status': status})
+            if os.name == 'posix':
+                # Feature 013 review: a closed standard input is unreadable input, not a crash.
+                run = subprocess.run([sys.executable, '-B', '-m', 'jev', 'prepare'], cwd=ROOT, env=env,
+                                     capture_output=True, text=True, timeout=60, preexec_fn=lambda: os.close(0))
+                self.assertEqual((run.returncode, json.loads(run.stdout or 'null')), (2, {'status': 'input_unreadable'}))
+            env.pop('TYPESAFE_API_KEY')
+            run = subprocess.run([sys.executable, '-B', '-m', 'jev', 'evaluate', '--input', missing], cwd=ROOT,
+                                 env=env, capture_output=True, text=True, timeout=60)
+            self.assertEqual(json.loads(run.stdout)['status'], 'key_absent')
+
 
 if __name__ == '__main__':
     unittest.main()
