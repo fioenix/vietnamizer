@@ -290,7 +290,7 @@
       "source": "SKILL.md",
       "scope": "target",
       "mode": "semantic",
-      "no_flag": "câu dẫn thật sự thay đổi cách hiểu, chẳng hạn báo trước một ngoại lệ, kết luận hoặc dữ kiện trái với phần trước. *Điều này có nghĩa là* cũng hợp lệ khi phần sau diễn giải một khái niệm khó.",
+      "no_flag": "câu dẫn thật sự thay đổi cách hiểu, chẳng hạn báo trước một ngoại lệ, kết luận hoặc dữ kiện trái với phần trước. *Điều này có nghĩa là* cũng hợp lệ khi phần sau diễn giải một khái niệm khó. Không áp dụng pattern này cho tiêu đề, dòng nhãn–giá trị (*Ngày: 22/10/2026*), ô bảng, chú thích ảnh, mục lục và mục checklist, vì đó là nhãn, tên mục hoặc việc cần làm chứ không phải câu dẫn trước thông tin.",
       "questions": [
         {
           "key": "violation",

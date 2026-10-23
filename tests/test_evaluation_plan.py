@@ -33,9 +33,12 @@ class RequestSequenceCharacterizationTest(unittest.TestCase):
         units = [u['id'] for u in prepare(doc)['units']]
         report, sent = run(doc)
         sequence = [(units.index(r['section']), len(r['question_ids'])) for r in report['receipts']]
-        self.assertEqual(sequence, [(i, 42) for i in range(32)])
+        # V11's longer Không flag text (feature 011 rule edit) adds bytes to the questions of units
+        # with sentences, which now pack 41; heading units keep 42 (before the edit: 42 everywhere).
+        headings = {0, 7, 14, 21, 28}
+        self.assertEqual(sequence, [(i, 42 if i in headings else 41) for i in range(32)])
         self.assertEqual(len(sent), 32)
-        self.assertEqual(report['counts']['validated'], 1344)
+        self.assertEqual(report['counts']['validated'], 1317)
         self.assertEqual(collections.Counter(m['reason'] for m in expand_records(report['missing'])),
                          {'budget_exhausted': 2069})
 
