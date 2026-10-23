@@ -33,14 +33,15 @@ class RequestSequenceCharacterizationTest(unittest.TestCase):
         units = [u['id'] for u in prepare(doc)['units']]
         report, sent = run(doc)
         sequence = [(units.index(r['section']), len(r['question_ids'])) for r in report['receipts']]
-        # V11's longer Không flag text (feature 011 rule edit) adds bytes to the questions of units
-        # with sentences, which now pack 41; heading units keep 42 (before the edit: 42 everywhere).
+        # Feature 011: heading units (0, 7, 14, 21, 28) lost T4, V2, V3, V5, V11 and V14, and
+        # V11's longer Không flag text adds bytes to every request, so units pack 41 questions and
+        # headings 40; before 011 every request held 42 (1,344 answers, 2,069 missing).
         headings = {0, 7, 14, 21, 28}
-        self.assertEqual(sequence, [(i, 42 if i in headings else 41) for i in range(32)])
+        self.assertEqual(sequence, [(i, 40 if i in headings else 41) for i in range(32)])
         self.assertEqual(len(sent), 32)
-        self.assertEqual(report['counts']['validated'], 1317)
+        self.assertEqual(report['counts']['validated'], 1307)
         self.assertEqual(collections.Counter(m['reason'] for m in expand_records(report['missing'])),
-                         {'budget_exhausted': 2069})
+                         {'budget_exhausted': 1924})
 
 
 if __name__ == '__main__':

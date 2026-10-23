@@ -56,6 +56,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "excluded_structures": [
+        "heading"
       ]
     },
     {
@@ -84,6 +87,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "excluded_structures": [
+        "heading"
       ]
     },
     {
@@ -141,6 +147,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "excluded_structures": [
+        "heading"
       ]
     },
     {
@@ -326,6 +335,10 @@
         "Cần nhấn mạnh rằng",
         "Có thể thấy rằng",
         "Không thể phủ nhận rằng"
+      ],
+      "excluded_structures": [
+        "heading",
+        "label_value"
       ]
     },
     {
@@ -437,6 +450,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "excluded_structures": [
+        "heading"
       ]
     },
     {
@@ -903,7 +919,8 @@
       ],
       "signals": [
         ", và "
-      ]
+      ],
+      "gate": ",\\s+và\\s"
     },
     {
       "id": "T5",
