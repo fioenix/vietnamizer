@@ -1,5 +1,8 @@
 # Kiểm local trước khi phát hành — 2026-10-03
 
+> Snapshot lịch sử. Kết quả local dưới đây không chứng minh portal đang nhận hồ sơ. Xem
+> [trạng thái intake OpenAI ngày 23/10/2026](openai-marketplace-assessment-2026-10-23.md).
+
 Phạm vi lượt này: Codex, bản local 0.9.7 chưa phát hành. Không chạy agent từ terminal,
 không commit, push hoặc submit. Claude được tạm gác theo yêu cầu của maintainer.
 

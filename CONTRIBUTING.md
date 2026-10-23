@@ -34,6 +34,13 @@ Skill packager cần `zip` và `unzip`; plugin packager dựng tiếp một ZIP 
 Các archive nằm trong `dist/`. Mỗi archive phải có `LICENSE`,
 đúng public inventory và nội dung khớp source.
 
+Trước khi dựng lại, sao lưu archive hiện có cùng SHA-256 vào một thư mục local mới trong
+`output/`; giữ nguyên asset đã phát hành. README, `docs/`, `CONTRIBUTING.md` và `AGENTS.md`
+không thuộc payload hiện tại, nên chỉ sửa những file đó không cần dựng lại archive. Nếu sửa
+file được đóng gói, dùng quy trình trên rồi đối chiếu inventory, CRC, version và bytes với source.
+Đóng gói thành công không chứng minh quyền gửi hoặc Directory approval. Trạng thái intake OpenAI
+và điều kiện tiếp tục nằm trong [báo cáo ngày 23/10/2026](docs/openai-marketplace-assessment-2026-10-23.md).
+
 Từ v0.10.5, runner bổ sung `python3 -B -m jev prepare --input input.json` chạy offline, input v2 và
 coverage theo câu/pattern/recipe. Bộ ca tổng hợp ở `tests/fixtures/segmentation/` cần gán nhãn độc lập
 với scanner; không dùng corpus tự sinh từ output để chứng minh segmentation đúng. Các test context,

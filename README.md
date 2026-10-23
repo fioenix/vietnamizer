@@ -35,6 +35,14 @@ Asset của các release trước 0.9.7 vẫn mang tên
 `vi-humanizer.*` và chứa định danh cũ.
 Xem [hướng dẫn chuyển tên](docs/rename-vietnamizer-2026-10-03.md).
 
+**OpenAI Marketplace, cập nhật 23/10/2026:** owner báo portal hiển thị “We are not accepting more
+skills-only submissions at this time.” Vietnamizer giữ gói skills-only; việc chuẩn bị gửi OpenAI
+đang tạm dừng theo bằng chứng intake này. Tài liệu OpenAI vẫn hỗ trợ định dạng skills-only nhưng
+không chứng minh tài khoản được nhận hồ sơ hoặc plugin được Directory chấp thuận. Chưa kiểm độc
+lập thông báo trên portal; không suy thành chính sách toàn cầu hoặc vĩnh viễn. Các đường cài từ
+repo và gói riêng vẫn tách biệt với việc duyệt Directory. Xem
+[bằng chứng, điều kiện tiếp tục và đánh giá MCP](docs/openai-marketplace-assessment-2026-10-23.md).
+
 ### Codex và các agent dùng Skills CLI
 
 ```bash
@@ -200,6 +208,9 @@ python3 scripts/package-plugin.py
 
 Kết quả là `dist/vietnamizer-plugin.zip`, có hai manifest và một skill trong
 `skills/vietnamizer/`. Script tạo gói từ source chuẩn; không bảo trì bản Markdown thứ hai.
+Đây là gói để cài và kiểm tra riêng, không phải xác nhận OpenAI đang nhận submission.
+Trước khi dựng lại, giữ bản sao và SHA-256 của archive bị thay thế; không dùng candidate local
+cùng version để ghi đè asset đã phát hành. Xem [quy trình đóng gói](docs/plugin-distribution.md).
 
 ### Cài thủ công
 
@@ -380,6 +391,7 @@ scripts/validate-package.py                   kiểm tra tính đồng bộ củ
 scripts/package-skill.sh                      tạo hai artifact cài đặt
 scripts/package-plugin.py                     kiểm metadata và tạo ZIP plugin hai nền tảng
 docs/plugin-distribution.md                   đường cài, kiểm thử và giới hạn publication
+docs/openai-marketplace-assessment-2026-10-23.md  bằng chứng intake OpenAI và đề xuất sản phẩm MCP
 scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy; nguồn tín hiệu ưu tiên của registry
 jev/                                         runner Python và registry 55 pattern
 scripts/build-jev-registry.py                 sinh/kiểm registry và tín hiệu ưu tiên từ nguồn canonical
