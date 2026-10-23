@@ -193,11 +193,15 @@ whose editable text (protected spans blanked, compared in NFC) contains its cano
 `,\s+và\s`; other subjects are listed in the coverage entry's `excluded_subjects` with reason
 `sign_absent`. Patterns whose own **Không flag** excludes a structure as a whole skip it with reason
 `structure_excluded` and the structure kind: headings skip V2, V3, V5 and V14. A label–value line is
-recognized only as a bold label (`**Nhãn:** giá trị`) or a plain label item inside a list of at least
-two adjacent label items with the same marker kind and indent; a lone `Nhãn: giá trị` line stays
-prose, and a label of anything but letters and spaces, or one ending in `rằng` or `là`, is not a
-label. Headings and label–value lines also skip V11, unless the subject shows one of V11's own
-canonical signs. When every subject of a pattern is excluded, its coverage entry is `excluded` with
+recognized as a bold label (`**Nhãn:** giá trị`), a plain label item inside a list of at least two
+adjacent label items with the same marker kind and indent, or a sentence that starts with a bold or
+plain label and stands alone on its lines: it starts at a line start (after any list marker or
+indentation), ends at a line end and shares no line with another sentence. So `Trạng thái: đang xử
+lý` on its own line is a label–value line, while `Tao đo lại. Kết luận: tao sai.` on one line is
+prose. A label of anything but letters and spaces, one ending in `rằng` or `là`, or one with no value
+after the colon is not a label. A line starting with `>` is never a label line, but a quote's lazy
+continuation line without `>` is read as prose. Headings and label–value lines also skip V11, unless
+the subject shows one of V11's own canonical signs. When every subject of a pattern is excluded, its coverage entry is `excluded` with
 that reason, and a single-pattern run on such text reports `incomplete` (all excluded). Excluded
 checks are not required. `missing` records name subjects by their index among the unit's subjects in
 `subject_positions` (and `validated_keys`); `subject_range` appears only when a group covers every

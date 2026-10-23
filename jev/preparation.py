@@ -669,12 +669,20 @@ PLAIN_LABEL = re.compile(r'([^\W\d_]+(?: [^\W\d_]+)*): +\S')
 LEAD_IN = re.compile(r'(?:^| )(?:rằng|là)\Z', re.I)
 
 
-def _mark_label_values(sections):
-    """Mark the first sentence of explicit label–value items (feature 011, research R3).
+def _standalone(text,sentence,first_list_sentence):
+    """A sentence that starts at a line start, ends at a line end and so shares no line (012 Q1: A)."""
+    start,end=sentence['start'],sentence['end'];line_end=text.find('\n',end)
+    before=text[text.rfind('\n',0,start)+1:start];after=text[end:line_end if line_end>=0 else len(text)]
+    return (first_list_sentence or not before.strip()) and not after.strip()
 
-    Recognized: a bold label at the start of a list item or line, or a plain label at the start of a
-    list item inside a run of at least two adjacent items of the same list that all have a label.
-    Anything else stays prose; there is no tuned threshold.
+
+def _mark_label_values(sections):
+    """Mark label–value sentences recognized from explicit structure; there is no tuned threshold.
+
+    Feature 011 (research R3): the first sentence of a list item or line with a bold label, or of a
+    plain label item inside a run of at least two adjacent items of the same list that all have a
+    label. Feature 012: any sentence of a prose or list section that starts with a bold or plain label
+    and stands alone on its lines. Anything else stays prose.
     """
     forms=[];families=[]
     for s in sections:
@@ -692,6 +700,16 @@ def _mark_label_values(sections):
                         and sections[j].get('_indent')==s.get('_indent'))
             if not (same_list(i-1) or same_list(i+1)):continue
         s['sentences'][0]['structure']='label_value'
+    for s in sections:
+        if s['kind'] not in ('prose','list'):continue
+        text=s['text'];marker=LIST_MARKER.match(text) if s['kind']=='list' else None
+        for k,t in enumerate(s['sentences']):
+            if 'structure' in t or t['boundary_status']!='exact':continue
+            first=k==0 and marker is not None and t['start']==0
+            if not _standalone(text,t,first):continue
+            at=marker.end() if first else t['start']
+            label=BOLD_LABEL.match(text,at) or PLAIN_LABEL.match(text,at)
+            if label and not LEAD_IN.search(label.group(1)):t['structure']='label_value'
 
 
 def _limited(doc,reason):

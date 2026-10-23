@@ -140,6 +140,19 @@ check when the list changes; the ledger matches them case-insensitively.
   `jev/coverage.py`, `jev/preparation.py`, `jev/registry.json`, `SKILL.md` and
   `references/typesafe-advisor.md`. `dist/` is not committed.
 
+## T023 part b — owner review
+
+On 2026-10-23, after the merge of PR #21, the owner rated 28 synthetic colon lines, shown without
+context and without the runner's classification: 18 *Được* (the colon is fine), 8 *Nên sửa* and 2
+*Phân vân*; the final V11 sentence was rated fine. Against the runner, every line matched or erred in
+the safe direction (V11 asked on a line the owner treats as a label), except two lead-ins such as
+`Tóm lại:` and `Vậy thì sao:` standing next to each other in a list, which the runner treated as
+labels. The owner then stated a rule by position: a colon sentence that stands alone as a paragraph
+is a label; inside a paragraph it mostly is not. The ratings, the rule and its classification are in
+`calibration/LOG.md` (entry "dấu hai chấm trong dòng nhãn và giữa đoạn văn"); the change to label
+recognition is feature 012. The R3 forms (bold labels, field lists of at least two items) were not
+rejected; 012 widens them.
+
 ## Open
 
-- T023 part b (owner review of the label fixtures and the final V11 wording).
+- None for this feature; label recognition by position continues in feature 012.
