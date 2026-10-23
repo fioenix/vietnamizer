@@ -174,6 +174,18 @@ EXCLUSIONS = {
             'label_value': 'dòng nhãn–giá trị (*Ngày: 22/10/2026*)'},
 }
 
+# A structure exclusion never hides a subject that shows one of the pattern's canonical signs. The
+# full sign list is quoted from **Dấu hiệu** (the priority signals are only a subset); `X` stands
+# for any wording on the same line.
+APPLICABILITY_SIGNS = {
+    'V11': 'Điều quan trọng cần lưu ý là, Điều đáng chú ý là, Điều này có nghĩa là, Cần lưu ý rằng, '
+           'Cần nhấn mạnh rằng, Có thể thấy rằng, Không thể phủ nhận rằng, Việc X là điều cần thiết',
+}
+
+
+def _sign_pattern(phrase):
+    return r'[^\n]{1,200}?'.join(re.escape(part) for part in phrase.split('X'))
+
 
 def signals(skill_text, root=ROOT):
     """Tier 3 ordering signals: scan-tells.sh alternatives that their own SKILL.md section supports."""
@@ -224,6 +236,11 @@ def build(root=ROOT):
                     if phrase not in no_flag:
                         raise ValueError(f'{ident} {structure} exclusion lost its canonical phrase')
                 entries[-1]['excluded_structures']=sorted(EXCLUSIONS[ident])
+            if ident in APPLICABILITY_SIGNS:
+                sign = re.search(r'\*\*Dấu hiệu:\*\*(.*?)\n\*\*', block, re.S)
+                if not sign or '*'+APPLICABILITY_SIGNS[ident]+'*' not in sign.group(1):
+                    raise ValueError(f'{ident} applicability signs no longer match its canonical sign list')
+                entries[-1]['applicability_signs']=[_sign_pattern(x) for x in APPLICABILITY_SIGNS[ident].split(', ')]
     expected = {f'{p}{i}' for p,n in [('V',25),('T',6),('B',17),('K',7)] for i in range(1,n+1)}
     assert len(entries)==55 and {e['id'] for e in entries}==expected==set(RECIPES)
     return {'version':'1','model':'jev-1.14.0','patterns':entries}

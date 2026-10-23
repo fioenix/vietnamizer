@@ -81,7 +81,7 @@ class Ledger:
                     if structures:
                         # Structures the pattern's own Không flag excludes as a whole (registry, R1). A
                         # subject that shows one of the pattern's own canonical signs is still asked.
-                        signs = [re.compile(x, re.M) for x in p.get('signals', [])]
+                        signs = [re.compile(x, re.I) for x in p.get('applicability_signs', [])]
                         editable = _editable(section)
                         def skipped(t):
                             kind = 'heading' if structural else t.get('structure')

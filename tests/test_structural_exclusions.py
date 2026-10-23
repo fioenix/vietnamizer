@@ -197,6 +197,14 @@ class ReviewFixTest(unittest.TestCase):
         report, _ = run(markdown(text))
         self.assertIn('V11', {j['coverage_key'] for j in report['judgments']})
 
+    def test_every_canonical_v11_sign_keeps_v11_on_a_label_line(self):
+        # PR #21 review: the priority signals are a subset; exclusion must use V11's full sign list.
+        for value in ('Điều này có nghĩa là số liệu có thể lệch.',
+                      'việc kiểm tra lại toàn bộ dữ liệu là điều cần thiết.'):
+            with self.subTest(value=value):
+                report, _ = run(markdown('**Lưu ý:** ' + value + '\n'))
+                self.assertIn('V11', {j['coverage_key'] for j in report['judgments']})
+
     def test_lead_in_labels_and_mixed_lists_are_not_field_lists(self):
         from tests.test_label_value import first_sentence_structures
         for block in ('- Cần lưu ý rằng: số liệu có thể lệch\n- Có thể thấy rằng: hiệu năng tăng',

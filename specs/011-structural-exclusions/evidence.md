@@ -120,6 +120,17 @@ V20 still run on headings; positions mapping in `checks`, `finalize` and per-sen
 tiers consistent; no new prose in reports; requests only lose targets; regexes linear (under 35 ms on
 1 MB); every quoted phrase is guarded by `build()`.
 
+## PR #21 review fix — complete V11 signs
+
+Automated review on PR #21 (commit `d713c87`) found that the structure-exclusion override used the
+priority `signals`, a subset of V11's canonical signs: `**Lưu ý:** Điều này có nghĩa là …` and
+`… việc kiểm tra lại … là điều cần thiết` lost V11. The generator now quotes V11's whole **Dấu hiệu**
+list into `applicability_signs` (eight patterns; `X` becomes a bounded same-line gap) and fails the
+check when the list changes; the ledger matches them case-insensitively.
+
+- RED: both label-line cases lacked V11; the registry had no `applicability_signs`.
+- GREEN: both keep V11; the build check fails when a sign is edited out of `SKILL.md`.
+
 ## T020 and checks
 
 - `references/typesafe-advisor.md`: `excluded_subjects`, `sign_absent`, `structure_excluded`, the

@@ -45,7 +45,8 @@ Only the first sentence of a recognized item is `label_value`.
 | `sentences[].required` | per-sentence sum over including groups |
 | `missing[].subject_positions`, `validated_keys` | indexes among the unit's subjects; `subject_range` only when a group covers every subject (T022-1) |
 
-A subject that shows one of the pattern's own canonical signs (registry `signals`) is not excluded by
-structure. `--scope selected` evaluates the host's explicit targets without structure exclusions.
+A subject that shows one of the pattern's own canonical signs is not excluded by structure. The full
+sign list is generated from **Dấu hiệu** as registry `applicability_signs` (matched case-insensitively);
+the priority `signals` are only a subset and are not used for this (PR #21 review). `--scope selected` evaluates the host's explicit targets without structure exclusions.
 
 No new field carries source text.

@@ -339,6 +339,16 @@
       "excluded_structures": [
         "heading",
         "label_value"
+      ],
+      "applicability_signs": [
+        "Điều\\ quan\\ trọng\\ cần\\ lưu\\ ý\\ là",
+        "Điều\\ đáng\\ chú\\ ý\\ là",
+        "Điều\\ này\\ có\\ nghĩa\\ là",
+        "Cần\\ lưu\\ ý\\ rằng",
+        "Cần\\ nhấn\\ mạnh\\ rằng",
+        "Có\\ thể\\ thấy\\ rằng",
+        "Không\\ thể\\ phủ\\ nhận\\ rằng",
+        "Việc\\ [^\\n]{1,200}?\\ là\\ điều\\ cần\\ thiết"
       ]
     },
     {

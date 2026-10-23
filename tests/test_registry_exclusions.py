@@ -48,6 +48,12 @@ class RegistryExclusionTest(unittest.TestCase):
             with self.subTest(phrase=phrase), self.assertRaises(ValueError):
                 self.build_with(phrase, 'đã bị sửa')
 
+    def test_structure_excluded_patterns_carry_their_full_signs(self):
+        signs = registry()['V11'].get('applicability_signs', [])
+        self.assertEqual(len(signs), 8)
+        with self.assertRaises(ValueError):
+            self.build_with('Điều này có nghĩa là, Cần lưu ý rằng', 'Cần lưu ý rằng')
+
 
 if __name__ == '__main__':
     unittest.main()
