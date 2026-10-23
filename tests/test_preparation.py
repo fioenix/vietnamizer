@@ -26,6 +26,48 @@ def segments(text, layout='markdown', overrides=None):
     return exact,sorted({u['reason'] for u in got['unresolved']})
 
 
+class LinkParenthesisTests(unittest.TestCase):
+    """Feature 013 User Story 1: addresses with parentheses (CommonMark, GFM extended autolinks)."""
+    def test_resolvable_forms_are_exact(self):
+        cases={
+            'Xem [bài](https://vi.wikipedia.org/wiki/Foo_(bar)) để biết thêm. Câu sau.\n':
+                ['Xem [bài](https://vi.wikipedia.org/wiki/Foo_(bar)) để biết thêm.','Câu sau.'],
+            'Xem tài liệu (https://example.org/a) nhé. Câu sau.\n':
+                ['Xem tài liệu (https://example.org/a) nhé.','Câu sau.'],
+            '(xem [bài](https://x.org/a_(b))). Câu sau.\n':
+                ['(xem [bài](https://x.org/a_(b))).','Câu sau.'],
+        }
+        for text,expected in cases.items():
+            with self.subTest(text=text):
+                self.assertEqual((expected,[]),segments(text))
+
+    def test_escaped_parentheses_do_not_close_a_destination(self):
+        # Feature 013 review: CommonMark backslash escapes; `\\)` never closes the link.
+        cases={
+            'Xem [a](https://x.org/a\\)b.) Nam nói vậy.\n':['Xem [a](https://x.org/a\\)b.) Nam nói vậy.'],
+            'Xem [a](b\\)c.) Nam nói vậy.\n':['Xem [a](b\\)c.) Nam nói vậy.'],
+            'Xem [a](https://x.org/a\\).Html) nhé. Câu sau.\n':['Xem [a](https://x.org/a\\).Html) nhé.','Câu sau.'],
+        }
+        for text,expected in cases.items():
+            with self.subTest(text=text):
+                self.assertEqual((expected,[]),segments(text))
+
+    def test_unbalanced_forms_and_bare_urls_with_parentheses_stay_ambiguous(self):
+        # A bare URL keeping a parenthesis stays ambiguous, as the independently annotated fixture
+        # `url-ambiguous-closer` labels it; only a link destination is settled by CommonMark.
+        for text in ('Xem [bài](https://x.org/a(b) để biết. Câu sau.\n','Xem https://x.org/a(b để biết. Câu sau.\n',
+                     'Xem https://vi.wikipedia.org/wiki/Foo_(bar) để biết thêm. Câu sau.\n'):
+            with self.subTest(text=text):
+                self.assertEqual(([],['ambiguous_url_closer']),segments(text))
+
+    def test_long_parenthesis_tokens_stay_bounded(self):
+        import time
+        for text in ('Xem [a](' + '(' * 400000 + ' nhé.\n','Xem https://x.org/' + ')' * 400000 + ' nhé.\n'):
+            with self.subTest(text=text[:12]):
+                started=time.monotonic(); segments(text)
+                self.assertLess(time.monotonic()-started,5)
+
+
 class SegmentationDeltaTests(unittest.TestCase):
     """Reference cases of specs/009-long-document-preparation/contracts/segmentation-delta.md."""
     def test_rows_that_stay_whole(self):
@@ -58,8 +100,9 @@ class SegmentationDeltaTests(unittest.TestCase):
             with self.subTest(text=text):
                 self.assertEqual(([],['ambiguous_separator']),segments(text))
 
-    def test_parenthesis_inside_destination_keeps_url_closer_rule(self):
-        self.assertEqual(([],['ambiguous_url_closer']),segments('Xem [a](b(c).md) nhé.\n'))
+    def test_balanced_parenthesis_inside_destination_is_exact(self):
+        # Feature 013 FR-001 (CommonMark): balanced parentheses belong to the destination.
+        self.assertEqual((['Xem [a](b(c).md) nhé.'],[]),segments('Xem [a](b(c).md) nhé.\n'))
 
     def test_plain_ascii_words_with_missing_space_stay_unresolved(self):
         # Only allowlisted file extensions and TLDs make a dotted token lexical.

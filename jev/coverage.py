@@ -2,6 +2,7 @@
 import hashlib
 import re
 import unicodedata
+from .core import editable_text
 from .transport import encoded
 
 ROLES = {'violation': 'violation', 'interpretation': 'interpretation',
@@ -13,14 +14,6 @@ PRECEDENCE = ['invalid_response', 'deadline_exceeded', 'cancelled', 'authenticat
 
 def fingerprint(value):
     return hashlib.sha256(encoded(value)).hexdigest()
-
-
-def _editable(section):
-    """Unit text with protected spans blanked, as the mechanical checks read it."""
-    text = section['text']
-    for span in sorted(section.get('protected_spans', []), key=lambda x: x['start'], reverse=True):
-        text = text[:span['start']] + ' ' * (span['end'] - span['start']) + text[span['end']:]
-    return text
 
 
 class Ledger:
@@ -39,6 +32,11 @@ class Ledger:
         mechanical_needed = False
         self.subject_count = {}
         for section in self.sections:
+            unit_editable = []
+            def editable():
+                # The runner's one editable-text helper, computed at most once per unit.
+                if not unit_editable: unit_editable.append(editable_text(section))
+                return unit_editable[0]
             subjects = section['sentences']
             structural = not selected and not subjects and section['kind']=='heading'
             if structural:
@@ -82,10 +80,10 @@ class Ledger:
                         # Structures the pattern's own Không flag excludes as a whole (registry, R1). A
                         # subject that shows one of the pattern's own canonical signs is still asked.
                         signs = [re.compile(x, re.I) for x in p.get('applicability_signs', [])]
-                        editable = _editable(section)
+                        text = editable()
                         def skipped(t):
                             kind = 'heading' if structural else t.get('structure')
-                            return kind in structures and not any(c.search(editable[t['start']:t['end']]) for c in signs)
+                            return kind in structures and not any(c.search(text[t['start']:t['end']]) for c in signs)
                         def structure(t):
                             return 'heading' if structural else t.get('structure')
                         kept = [(pos, t) for pos, t in zip(positions, group_subjects) if not skipped(t)]
@@ -95,9 +93,9 @@ class Ledger:
                     if p.get('gate') and group_subjects:
                         # The canonical sign must occur in the subject's editable text (NFC, so a
                         # decomposed `và` still counts; offsets and requests stay unnormalized).
-                        gate = re.compile(p['gate']); editable = _editable(section)
+                        gate = re.compile(p['gate']); text = editable()
                         kept = [(pos, t) for pos, t in zip(positions, group_subjects)
-                                if gate.search(unicodedata.normalize('NFC', editable[t['start']:t['end']]))]
+                                if gate.search(unicodedata.normalize('NFC', text[t['start']:t['end']]))]
                         excluded.extend({'subject': t['id'], 'reason': 'sign_absent'}
                                         for t in group_subjects if all(t is not k for _, k in kept))
                         positions = [pos for pos, _ in kept]; group_subjects = [t for _, t in kept]

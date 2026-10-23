@@ -19,7 +19,12 @@ def main():
     try:
         if args.input:
             with open(args.input,'rb') as stream:data=stream.read(MAX_INPUT+1)
+        elif sys.stdin is None: raise OSError('standard input is closed')
         else:data=sys.stdin.buffer.read(MAX_INPUT+1)
+    except OSError:
+        # A missing or unreadable file is not a malformed document (feature 013).
+        print(json.dumps({'status':'input_unreadable'}));return 2
+    try:
         if len(data)>MAX_INPUT: raise ValueError('invalid_input')
         document=json.loads(data)
         result=prepare(document) if args.command=='prepare' else evaluate(document,only_pattern=args.pattern,scope=args.scope)

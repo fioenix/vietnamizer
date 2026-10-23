@@ -143,6 +143,13 @@ technical note needs about 44,000; one invocation answers about 1,300). The runn
 request before sending and spends the budget by priority, as described under "Request budget and
 partial runs" below. Punctuation directly
 followed by a letter outside a recognized token stays unresolved as `ambiguous_separator`.
+Link destinations and bare `http(s)` URLs are opaque to boundary search. A Markdown link
+destination ends at the `)` that balances its own parentheses (CommonMark), so
+`[bài](https://vi.wikipedia.org/wiki/Foo_(bar))` segments normally; a destination that never
+balances keeps the whole unit unresolved as `ambiguous_url_closer`. A bare URL drops trailing
+punctuation and unmatched trailing `)` (GitHub's extended autolink rule), so `(https://example.org/a)`
+closes the prose parenthesis; a bare URL that still contains a parenthesis stays
+`ambiguous_url_closer`.
 Complete context that cannot fit even one question returns `context_too_large`; target-window membership may shrink, parent/context may not. Requests are not silently truncated or retried.
 A killable subprocess bounds complete HTTP I/O; late replies are discarded. `deadline_exceeded`
 is distinct from service failure. Invalid-schema receipts contain only a fixed validation reason
@@ -202,8 +209,10 @@ subject. `--scope selected` evaluates the host's explicit targets as given, with
 exclusions.
 
 `python3 -B -m jev` exits 0 for `evaluated`, `key_absent` and `prepared`, and 2 for every other
-status (`incomplete`, `preparation_incomplete`, `permission_denied`, `invalid_input` and the rest).
-The JSON report is written to standard output in both cases.
+status (`incomplete`, `preparation_incomplete`, `permission_denied`, `invalid_input`,
+`input_unreadable` and the rest). `input_unreadable` means the `--input` file or standard input could
+not be read; `invalid_input` means it was read but is not a valid document. The JSON report is written
+to standard output in both cases.
 
 ## Propose edits and retain five safeguards
 
