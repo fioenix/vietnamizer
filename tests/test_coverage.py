@@ -41,9 +41,10 @@ class CoverageTest(EvaluationCase):
         r=self.evaluate()
         self.assertEqual(r['status'],'evaluated')
         self.assertTrue(r['evaluation_complete'])
-        # Registry-derived profile baseline independently recorded in plan: 82/câu+36/đoạn+T3
-        self.assertEqual(r['counts']['required'],201)
-        self.assertEqual(r['counts']['validated'],200)
+        # Registry-derived profile baseline independently recorded in plan: 82/câu+36/đoạn+T3,
+        # less T4's two recipes per sentence: neither sentence contains `, và` (feature 011 gate).
+        self.assertEqual(r['counts']['required'],197)
+        self.assertEqual(r['counts']['validated'],196)
         self.assertEqual(r['counts']['mechanical'],1)
         self.assertEqual(len(r['sentences']),2)
         self.assertTrue(all(s['answers_complete'] for s in r['sentences']))

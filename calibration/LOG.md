@@ -536,3 +536,42 @@ bằng chứng thuộc K. Nguồn, trích dẫn hoặc giải thưởng được
 
 **Quyết định trước khi triển khai:** khóa sáu nhãn AUTH; dự kiến mở rộng B8 và thêm K7, kèm câu phân
 vai hai chiều. Nếu không tách được hai chức năng thì `defer`, không tạo hai nguồn chuẩn trùng nhau.
+
+---
+
+## 2026-10-23 · ghi chú kỹ thuật dài (kế hoạch đo hiệu năng)
+
+**Nguồn:** lượt chạy runner Jev trên một ghi chú kỹ thuật riêng tư của chủ repo, khoảng 8.600 từ,
+giọng mày–tao. Ghi chú không được đưa vào repo; các dòng dưới đây là văn bản tổng hợp có cùng cấu
+trúc với hai dòng bị flag.
+
+**Đoạn bị flag:**
+> `# Kế hoạch đo hiệu năng`
+> `- Ngày: 22/10/2026 (Asia/Ho_Chi_Minh)` (mục đầu của một danh sách trường, mục sau là `- Người viết: Fio`)
+
+**Điểm quan sát:** V11 0,58 trên tiêu đề và 0,72 trên dòng ngày. Cùng lượt đó, T4 0,58 và 0,50 dù
+không dòng nào có `, và`. Phần T4 do runner xử lý bằng cổng dấu hiệu, không cần sửa quy tắc.
+
+**Bản đối chiếu:** giữ nguyên cả hai dòng. Tiêu đề và dòng nhãn–giá trị đều đúng; không có câu dẫn
+nào để bỏ.
+
+**Khác biệt gọi tên được:**
+
+| # | Khác biệt | Phân loại | Quyết định |
+|---|---|---|---|
+| 1 | V11 flag một tiêu đề: tiêu đề không có câu dẫn đứng trước thông tin | Pattern sửa nhầm | Thêm tiêu đề vào **Không flag** của V11 |
+| 2 | V11 flag một dòng nhãn–giá trị: nhãn là tên trường, không phải câu dẫn | Pattern sửa nhầm | Thêm dòng nhãn–giá trị vào **Không flag** của V11 |
+| 3 | Ô bảng, chú thích ảnh, mục lục và mục checklist chưa có ca quan sát | Quy tắc do người bản ngữ nêu (nguồn 4 trong `AGENTS.md`); chủ repo đã xác nhận cả bốn ví dụ ngày 23/10/2026 | Thêm vào **Không flag** của V11 |
+
+**Ví dụ cho mục 3** (văn bản tổng hợp; V11 không được flag vì đây là nhãn hoặc tiêu đề, không phải
+câu dẫn trước thông tin):
+
+- Ô bảng, tiêu đề cột: `| Hạng mục | Điểm cần lưu ý |`
+- Chú thích ảnh: `*Hình 3. Những điểm cần lưu ý trong quy trình nhập kho*`
+- Mục lục: `4. Những điều cần lưu ý khi chạy lại phép đo`
+- Mục checklist: `- [ ] Cần lưu ý: sao lưu dữ liệu trước khi chạy lại`
+
+**Ghi chú:** n=1 cho mục 1 và 2, nhưng lỗi gọi tên được và kiểm tra lại được, nên đủ để thêm trường
+hợp loại trừ theo giao thức. Mục 3 dựa trên đối chiếu với **Không flag** của V14, chưa phải quan sát
+thật; chủ repo, người bản ngữ, đã xác nhận cả bốn quy tắc và ví dụ ngày 23/10/2026, trước khi sửa
+`SKILL.md`.

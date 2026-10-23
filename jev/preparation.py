@@ -616,7 +616,40 @@ def _prepare(doc,deadline):
         aliases={(t['start'],t['end']):t['id'] for t in s.get('targets',[])}
         s['sentences']=[{'id':'s_'+_digest([sourceid,source_digest,s['kind'],a+x,a+y,PROFILE_VERSION,overrides_digest])[:24],'aliases':([aliases[(x,y)]] if (x,y) in aliases else []),'start':x,'end':y,'boundary_status':status} for x,y,status in spans]
         for p in problems: unresolved.append(dict(p,start=a+p['start'],end=a+p['end'],section=s['id']))
+    _mark_label_values(sections)
     return {'sections':sections,'source_scope':'source_document' if raw else 'provided_sections','source_digest':hashlib.sha256(source.encode()).hexdigest(),'source_accounted':True,'segmentation_complete':not unresolved,'unresolved':unresolved,'partition':partition,'source':source,'segmentation_profile':PROFILE_VERSION}
+
+
+LIST_MARKER = re.compile(r'[ \t]*(?:[-*+]|\d+[.)])[ \t]+')
+# A label is letters and single spaces only; one ending in `rằng` or `là` introduces a clause.
+BOLD_LABEL = re.compile(r'\*\*([^\W\d_]+(?: [^\W\d_]+)*)(?::\*\*|\*\*:)[ \t]+\S')
+PLAIN_LABEL = re.compile(r'([^\W\d_]+(?: [^\W\d_]+)*): +\S')
+LEAD_IN = re.compile(r'(?:^| )(?:rằng|là)\Z', re.I)
+
+
+def _mark_label_values(sections):
+    """Mark the first sentence of explicit label–value items (feature 011, research R3).
+
+    Recognized: a bold label at the start of a list item or line, or a plain label at the start of a
+    list item inside a run of at least two adjacent items of the same list that all have a label.
+    Anything else stays prose; there is no tuned threshold.
+    """
+    forms=[];families=[]
+    for s in sections:
+        text=s['text'];marker=LIST_MARKER.match(text) if s['kind']=='list' else None
+        body=text[marker.end():] if marker else text
+        bold=BOLD_LABEL.match(body);plain=marker and PLAIN_LABEL.match(body)
+        forms.append('bold' if bold and not LEAD_IN.search(bold.group(1)) else
+                     'plain' if plain and not LEAD_IN.search(plain.group(1)) else None)
+        families.append(None if not marker else 'bullet' if marker.group(0).strip()[0] in '-*+' else 'ordered')
+    for i,s in enumerate(sections):
+        if not forms[i] or not s['sentences'] or s['sentences'][0]['boundary_status']!='exact':continue
+        if forms[i]=='plain':
+            def same_list(j):
+                return (0<=j<len(sections) and forms[j] and sections[j]['kind']=='list' and families[j]==families[i]
+                        and sections[j].get('_indent')==s.get('_indent'))
+            if not (same_list(i-1) or same_list(i+1)):continue
+        s['sentences'][0]['structure']='label_value'
 
 
 def _limited(doc,reason):

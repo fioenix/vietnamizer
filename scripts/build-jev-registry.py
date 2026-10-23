@@ -162,11 +162,36 @@ def _alternatives(expression):
     return variants
 
 
-def signals(skill_text):
+# Applicability taken from canonical text: each entry quotes the phrase that justifies it, and the
+# build fails when the phrase leaves the pattern's own section (feature 011, research R1-R2).
+GATES = {'T4': r',\s+và\s'}
+EXCLUSIONS = {
+    'V2': {'heading': 'tít, sapo'},
+    'V3': {'heading': 'Không áp dụng pattern này cho tiêu đề, nhãn, mục lục hoặc ô bảng'},
+    'V5': {'heading': 'tiêu đề, bảng biểu'},
+    'V14': {'heading': 'tít, sapo, chú thích ảnh, nhãn nút, mục lục, ô bảng, checklist'},
+    'V11': {'heading': 'Không áp dụng pattern này cho tiêu đề, dòng nhãn–giá trị',
+            'label_value': 'dòng nhãn–giá trị (*Ngày: 22/10/2026*)'},
+}
+
+# A structure exclusion never hides a subject that shows one of the pattern's canonical signs. The
+# full sign list is quoted from **Dấu hiệu** (the priority signals are only a subset); `X` stands
+# for any wording on the same line.
+APPLICABILITY_SIGNS = {
+    'V11': 'Điều quan trọng cần lưu ý là, Điều đáng chú ý là, Điều này có nghĩa là, Cần lưu ý rằng, '
+           'Cần nhấn mạnh rằng, Có thể thấy rằng, Không thể phủ nhận rằng, Việc X là điều cần thiết',
+}
+
+
+def _sign_pattern(phrase):
+    return r'[^\n]{1,200}?'.join(re.escape(part) for part in phrase.split('X'))
+
+
+def signals(skill_text, root=ROOT):
     """Tier 3 ordering signals: scan-tells.sh alternatives that their own SKILL.md section supports."""
     sections={m.group(1):m.group(0) for m in re.finditer(r'^### ([VT]\d+)\..*?(?=^### |\Z)',skill_text,re.M|re.S)}
     kept={};dropped=[]
-    for line in (ROOT/'scripts/scan-tells.sh').read_text(encoding='utf-8').splitlines():
+    for line in (root/'scripts/scan-tells.sh').read_text(encoding='utf-8').splitlines():
         m=re.match(r"""scan "([VTBK]\d+) [^"]*" '([^']*)'""",line.strip())
         if not m:continue
         # grep matches line by line: keep that in Python, or `\s`/`[^x]` cross newlines and backtrack.
@@ -180,11 +205,11 @@ def signals(skill_text):
     return kept,dropped
 
 
-def build():
+def build(root=ROOT):
     entries = []
-    kept,_ = signals((ROOT/'SKILL.md').read_text(encoding='utf-8'))
+    kept,_ = signals((root/'SKILL.md').read_text(encoding='utf-8'),root)
     for source in ['SKILL.md','profiles/blog-ca-nhan/rules.md','profiles/ky-thuat-doanh-nghiep/rules.md']:
-        text = (ROOT/source).read_text()
+        text = (root/source).read_text()
         matches = list(re.finditer(r'^### ([VTBK]\d+)\. (.+)$', text, re.M))
         for i, m in enumerate(matches):
             ident, title = m.groups()
@@ -201,6 +226,21 @@ def build():
                 qs.append({'key':'degree','type':'score','instructions':f'Rate ONLY the degree of the specific issue described in this question, not overall writing quality: {RECIPES[ident]} Context insufficiency is not a middle score.','criteria':['No established instance of this issue in the target context.','A slight instance; little effect on the relevant reading function.','A clear instance affecting the relevant reading function.','A pronounced instance substantially obstructing the relevant reading function.']})
             entries.append({'id':ident,'title':title,'source':source,'scope':scope,'mode':'mechanical' if ident=='T3' else 'semantic','no_flag':no_flag,'questions':[] if ident=='T3' else qs})
             if ident in kept:entries[-1]['signals']=kept[ident]
+            if ident in GATES:
+                sign = re.search(r'\*\*Dấu hiệu:\*\*(.*?)\n\*\*', block, re.S)
+                if not sign or '`'+GATES[ident]+'`' not in sign.group(1):
+                    raise ValueError(f'{ident} gate is not stated in its canonical sign')
+                entries[-1]['gate']=GATES[ident]
+            if ident in EXCLUSIONS:
+                for structure,phrase in EXCLUSIONS[ident].items():
+                    if phrase not in no_flag:
+                        raise ValueError(f'{ident} {structure} exclusion lost its canonical phrase')
+                entries[-1]['excluded_structures']=sorted(EXCLUSIONS[ident])
+            if ident in APPLICABILITY_SIGNS:
+                sign = re.search(r'\*\*Dấu hiệu:\*\*(.*?)\n\*\*', block, re.S)
+                if not sign or '*'+APPLICABILITY_SIGNS[ident]+'*' not in sign.group(1):
+                    raise ValueError(f'{ident} applicability signs no longer match its canonical sign list')
+                entries[-1]['applicability_signs']=[_sign_pattern(x) for x in APPLICABILITY_SIGNS[ident].split(', ')]
     expected = {f'{p}{i}' for p,n in [('V',25),('T',6),('B',17),('K',7)] for i in range(1,n+1)}
     assert len(entries)==55 and {e['id'] for e in entries}==expected==set(RECIPES)
     return {'version':'1','model':'jev-1.14.0','patterns':entries}

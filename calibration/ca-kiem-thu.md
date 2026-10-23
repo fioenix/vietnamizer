@@ -37,6 +37,21 @@ Ca 2, 3, 4 và 8 là ca chống sửa quá tay.
 | 3 | Kịch bản dự báo nhu cầu quý sau, ghi rõ là dự báo | Không flag | Phỏng đoán là nội dung được yêu cầu |
 | 4 | Bài nghiên cứu có mục giới hạn nghiên cứu | Không flag | Thể loại yêu cầu nêu giới hạn |
 
+## V11, câu dẫn không mang thêm thông tin
+
+| # | Đầu vào | Mong đợi | Vì sao |
+|---|---|---|---|
+| 1 | Đoạn văn: *“Điều quan trọng cần lưu ý là hệ thống chỉ đồng bộ 15 phút một lần.”* | Bỏ khung dẫn, giữ thông tin | Khung chỉ báo trước, không nói thêm gì |
+| 2 | Heading *“# Kế hoạch đo hiệu năng”* | Không flag | Tiêu đề không có câu dẫn đứng trước thông tin |
+| 3 | Danh sách trường *“- Ngày: 22/10/2026”*, *“- Người viết: Fio”* | Không flag | Dòng nhãn–giá trị; nhãn là tên trường |
+| 4 | Tiêu đề cột trong bảng: *“Điểm cần lưu ý”* | Không flag | Ô bảng là nhãn |
+| 5 | Chú thích ảnh *“Hình 3. Những điểm cần lưu ý trong quy trình nhập kho”* | Không flag | Chú thích ảnh đặt tên cho hình |
+| 6 | Mục lục có dòng *“4. Những điều cần lưu ý khi chạy lại phép đo”* | Không flag | Mục lục nhắc lại tên mục |
+| 7 | Checklist *“- [ ] Cần lưu ý: sao lưu dữ liệu trước khi chạy lại”* | Không flag | Mục checklist là việc cần làm, không phải câu dẫn |
+
+Ca 2–7 là ca chống sửa quá tay. Ca 4–7 dựa trên quy tắc do chủ repo xác nhận ngày 23/10/2026, ghi
+trong `calibration/LOG.md`.
+
 ## Nhãn và dòng liệt kê rút gọn
 
 | # | Đầu vào | Mong đợi | Vì sao |

@@ -1,5 +1,7 @@
 """Compact source-bound work accounting. No edit policy or prose generation."""
 import hashlib
+import re
+import unicodedata
 from .transport import encoded
 
 ROLES = {'violation': 'violation', 'interpretation': 'interpretation',
@@ -11,6 +13,14 @@ PRECEDENCE = ['invalid_response', 'deadline_exceeded', 'cancelled', 'authenticat
 
 def fingerprint(value):
     return hashlib.sha256(encoded(value)).hexdigest()
+
+
+def _editable(section):
+    """Unit text with protected spans blanked, as the mechanical checks read it."""
+    text = section['text']
+    for span in sorted(section.get('protected_spans', []), key=lambda x: x['start'], reverse=True):
+        text = text[:span['start']] + ' ' * (span['end'] - span['start']) + text[span['end']:]
+    return text
 
 
 class Ledger:
@@ -27,11 +37,13 @@ class Ledger:
                    'scope': only_pattern, 'selected': selected}
         self.manifest_digest = fingerprint(binding)
         mechanical_needed = False
+        self.subject_count = {}
         for section in self.sections:
             subjects = section['sentences']
             structural = not selected and not subjects and section['kind']=='heading'
             if structural:
                 subjects=[{'id':'unit','start':0,'end':len(section['text'])}]
+            self.subject_count[section['id']] = len(subjects)
             for p in registry:
                 pid = p['id']
                 if only_pattern and pid != only_pattern:
@@ -57,13 +69,45 @@ class Ledger:
                     mechanical_needed = True
                     continue
                 target_scope = p['scope'] == 'target'
-                group_subjects = subjects if target_scope else [None]
+                # Each group owns its subject list; `positions` maps them back to the unit's subjects.
+                group_subjects = list(subjects) if target_scope else [None]
                 if not group_subjects:
                     entry.update(status='excluded', reason='no_exact_editable_targets')
                     continue
+                positions = list(range(len(group_subjects)))
+                if target_scope:
+                    entry['excluded_subjects'] = excluded = []
+                    structures = set(p.get('excluded_structures', ()))
+                    if structures:
+                        # Structures the pattern's own Không flag excludes as a whole (registry, R1). A
+                        # subject that shows one of the pattern's own canonical signs is still asked.
+                        signs = [re.compile(x, re.I) for x in p.get('applicability_signs', [])]
+                        editable = _editable(section)
+                        def skipped(t):
+                            kind = 'heading' if structural else t.get('structure')
+                            return kind in structures and not any(c.search(editable[t['start']:t['end']]) for c in signs)
+                        def structure(t):
+                            return 'heading' if structural else t.get('structure')
+                        kept = [(pos, t) for pos, t in zip(positions, group_subjects) if not skipped(t)]
+                        excluded.extend({'subject': t['id'], 'reason': 'structure_excluded', 'structure': structure(t)}
+                                        for t in group_subjects if skipped(t))
+                        positions = [pos for pos, _ in kept]; group_subjects = [t for _, t in kept]
+                    if p.get('gate') and group_subjects:
+                        # The canonical sign must occur in the subject's editable text (NFC, so a
+                        # decomposed `và` still counts; offsets and requests stay unnormalized).
+                        gate = re.compile(p['gate']); editable = _editable(section)
+                        kept = [(pos, t) for pos, t in zip(positions, group_subjects)
+                                if gate.search(unicodedata.normalize('NFC', editable[t['start']:t['end']]))]
+                        excluded.extend({'subject': t['id'], 'reason': 'sign_absent'}
+                                        for t in group_subjects if all(t is not k for _, k in kept))
+                        positions = [pos for pos, _ in kept]; group_subjects = [t for _, t in kept]
+                    if not group_subjects:
+                        entry.update(status='excluded', reason=excluded[0]['reason'])
+                        continue
                 self.groups.append({'section': section['id'], 'pattern': pid,
                                     'scope': ('unit' if structural else 'sentence') if target_scope else 'paragraph',
-                                    'subjects': group_subjects, 'recipes': p['questions'],
+                                    'subjects': group_subjects, 'positions': positions,
+                                    'recipes': p['questions'],
                                     'pattern_data': p, 'entry': entry, 'reason': None})
             for c in section.get('candidates', []):
                 review = {'section': section['id'], 'candidate': c['id'], 'status': 'pending'}
@@ -87,11 +131,14 @@ class Ledger:
             if g['scope']=='paragraph':
                 for r in g['recipes']:
                     yield (i,0,r['key'])
-        # Subject lists are shared, not duplicated per pattern.
+        # Sentence by sentence across patterns; a group skips the subjects it excludes.
         sentence_groups = [(i,g) for i,g in groups if g['scope'] in ('sentence','unit')]
-        count = len(sentence_groups[0][1]['subjects']) if sentence_groups else 0
-        for n in range(count):
+        index = {i: {pos: n for n, pos in enumerate(g['positions'])} for i,g in sentence_groups}
+        for pos in range(self.subject_count.get(section_id,0)):
             for i,g in sentence_groups:
+                n = index[i].get(pos)
+                if n is None:
+                    continue
                 for r in g['recipes']:
                     yield (i,n,r['key'])
         for i,g in groups:
@@ -173,11 +220,11 @@ class Ledger:
             answer=outcome['answer']
             role=ROLES.get(r,'candidate')
             if answer['type']=='choice' and (answer.get('choice')=='insufficient' or role=='evidence' and answer.get('choice')!='sufficient'):
-                context_bad.add((g['section'],g['scope'],n,g['pattern']))
+                context_bad.add((g['section'],g['scope'],g['positions'][n] if 'positions' in g else n,g['pattern']))
         for i,g in enumerate(self.groups):
             for n in range(len(g['subjects'])):
                 if any(q['key']=='evidence' for q in g['recipes']) and (i,n,'evidence') not in self.outcomes:
-                    context_bad.add((g['section'],g['scope'],n,g['pattern']))
+                    context_bad.add((g['section'],g['scope'],g['positions'][n] if 'positions' in g else n,g['pattern']))
             if g['reason'] in ('context_too_large','context_unresolved','permission_blocked') or g.get('oversized'):
                 context_bad.add((g['section'],g['scope'],-1,g['pattern']))
         missing=[]
@@ -195,10 +242,15 @@ class Ledger:
                         why=self.key_reason.get(key) or g['reason'] or 'incomplete'
                         by_reason[why]=by_reason.get(why,0)+1;by_tier[tier]=by_tier.get(tier,0)+1
                 status=min(by_reason,key=lambda r:(PRECEDENCE.index(r) if r in PRECEDENCE else len(PRECEDENCE)-2,r))
-                missing.append({'group':i,'section':g['section'],'pattern':g['pattern'],
-                                'scope':g['scope'],'subject_range':[0,len(g['subjects'])],
+                # Subjects are named by their index among the unit's subjects, not the group's own.
+                positions=g.get('positions',list(range(len(g['subjects']))))
+                record={'group':i,'section':g['section'],'pattern':g['pattern'],'scope':g['scope']}
+                if positions==list(range(self.subject_count.get(g['section'],len(positions)))) or g['scope'] in ('paragraph','candidate'):
+                    record['subject_range']=[0,len(g['subjects'])]
+                record['subject_positions']=positions
+                missing.append({**record,
                                 'recipe_keys':[q['key'] for q in g['recipes']],
-                                'validated_keys':validated_keys.get(i,[]),
+                                'validated_keys':[[positions[n],r] for n,r in validated_keys.get(i,[])],
                                 'missing':total-done,'reason':status,
                                 'missing_by_reason':by_reason,'missing_by_tier':by_tier})
             g['entry'].update(status=status,scheduled=total,validated=done)
@@ -217,8 +269,12 @@ class Ledger:
         sentences=[]
         for s in self.sections:
             relevant=[g for _,g in self.by_section.get(s['id'],[]) if g['scope']=='sentence']
-            per=sum(len(g['recipes']) for g in relevant)
+            per_position={}
+            for g in relevant:
+                for pos in g['positions']:
+                    per_position[pos]=per_position.get(pos,0)+len(g['recipes'])
             for n,t in enumerate(s['sentences']):
+                per=per_position.get(n,0)
                 done=sentence_counts.get((s['id'],t['id']),0)
                 context_ok=s.get('context_reviewed',False) and not s.get('context_unresolved')
                 context_ok=context_ok and not any(x[0]==s['id'] and (x[1]!='sentence' or x[2] in (-1,n)) for x in context_bad)

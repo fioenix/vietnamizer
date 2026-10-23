@@ -56,6 +56,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "excluded_structures": [
+        "heading"
       ]
     },
     {
@@ -84,6 +87,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "excluded_structures": [
+        "heading"
       ]
     },
     {
@@ -141,6 +147,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "excluded_structures": [
+        "heading"
       ]
     },
     {
@@ -290,7 +299,7 @@
       "source": "SKILL.md",
       "scope": "target",
       "mode": "semantic",
-      "no_flag": "câu dẫn thật sự thay đổi cách hiểu, chẳng hạn báo trước một ngoại lệ, kết luận hoặc dữ kiện trái với phần trước. *Điều này có nghĩa là* cũng hợp lệ khi phần sau diễn giải một khái niệm khó.",
+      "no_flag": "câu dẫn thật sự thay đổi cách hiểu, chẳng hạn báo trước một ngoại lệ, kết luận hoặc dữ kiện trái với phần trước. *Điều này có nghĩa là* cũng hợp lệ khi phần sau diễn giải một khái niệm khó. Không áp dụng pattern này cho tiêu đề, dòng nhãn–giá trị (*Ngày: 22/10/2026*), ô bảng, chú thích ảnh, mục lục và mục checklist, vì đó là nhãn, tên mục hoặc việc cần làm chứ không phải câu dẫn trước thông tin.",
       "questions": [
         {
           "key": "violation",
@@ -326,6 +335,20 @@
         "Cần nhấn mạnh rằng",
         "Có thể thấy rằng",
         "Không thể phủ nhận rằng"
+      ],
+      "excluded_structures": [
+        "heading",
+        "label_value"
+      ],
+      "applicability_signs": [
+        "Điều\\ quan\\ trọng\\ cần\\ lưu\\ ý\\ là",
+        "Điều\\ đáng\\ chú\\ ý\\ là",
+        "Điều\\ này\\ có\\ nghĩa\\ là",
+        "Cần\\ lưu\\ ý\\ rằng",
+        "Cần\\ nhấn\\ mạnh\\ rằng",
+        "Có\\ thể\\ thấy\\ rằng",
+        "Không\\ thể\\ phủ\\ nhận\\ rằng",
+        "Việc\\ [^\\n]{1,200}?\\ là\\ điều\\ cần\\ thiết"
       ]
     },
     {
@@ -437,6 +460,9 @@
             "insufficient": "The supplied evidence cannot resolve this interpretation."
           }
         }
+      ],
+      "excluded_structures": [
+        "heading"
       ]
     },
     {
@@ -903,7 +929,8 @@
       ],
       "signals": [
         ", và "
-      ]
+      ],
+      "gate": ",\\s+và\\s"
     },
     {
       "id": "T5",

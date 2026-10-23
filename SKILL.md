@@ -229,7 +229,7 @@ Các pattern V1–V25 được kiểm tra trước các pattern trong profile. C
 **Dấu hiệu:** *Điều quan trọng cần lưu ý là, Điều đáng chú ý là, Điều này có nghĩa là, Cần lưu ý rằng, Cần nhấn mạnh rằng, Có thể thấy rằng, Không thể phủ nhận rằng, Việc X là điều cần thiết*.
 **Vì sao:** các khung này thường chỉ báo trước rằng thông tin sắp tới quan trọng, đáng chú ý hoặc có ý nghĩa, nhưng không nói thêm điều gì. Khi bỏ khung mà nội dung vẫn nguyên vẹn, câu nên đi thẳng vào thông tin.
 **Sửa:** *"Điều quan trọng cần lưu ý là hệ thống chỉ đồng bộ 15 phút một lần. Điều này có nghĩa là số liệu có thể lệch."* → *"Hệ thống chỉ đồng bộ 15 phút một lần, nên số liệu có thể bị sai lệch."*
-**Không flag:** câu dẫn thật sự thay đổi cách hiểu, chẳng hạn báo trước một ngoại lệ, kết luận hoặc dữ kiện trái với phần trước. *Điều này có nghĩa là* cũng hợp lệ khi phần sau diễn giải một khái niệm khó.
+**Không flag:** câu dẫn thật sự thay đổi cách hiểu, chẳng hạn báo trước một ngoại lệ, kết luận hoặc dữ kiện trái với phần trước. *Điều này có nghĩa là* cũng hợp lệ khi phần sau diễn giải một khái niệm khó. Không áp dụng pattern này cho tiêu đề, dòng nhãn–giá trị (*Ngày: 22/10/2026*), ô bảng, chú thích ảnh, mục lục và mục checklist, vì đó là nhãn, tên mục hoặc việc cần làm chứ không phải câu dẫn trước thông tin.
 
 ### V12. Lặp từ nối ở đầu câu
 
