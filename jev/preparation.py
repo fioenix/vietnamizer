@@ -121,6 +121,38 @@ class _WorkBudget:
         return True
 
 
+def _closing_parenthesis(destination, budget):
+    """Index of the `)` that closes a link destination, -1 if none; None when the budget runs out."""
+    if '(' not in destination and '\\' not in destination:
+        return destination.find(')') # no extra work charged without nesting or escapes
+    depth=0
+    # A backslash escape is consumed whole, so `\)` and `\(` never count (CommonMark).
+    for match in re.finditer(r'\\.|[()]',destination):
+        if not budget.take(): return None
+        if match[0][0]=='\\': continue
+        if match[0]=='(': depth+=1
+        elif depth: depth-=1
+        else: return match.start()
+    return -1
+
+
+def _bare_url_end(url, budget):
+    """GFM extended autolink: trailing punctuation and unmatched trailing `)` are not part of the URL.
+
+    Returns the URL length, or None when the budget runs out.
+    """
+    opens=url.count('('); closes=url.count(')')
+    if not opens and not closes: return len(url.rstrip('.,!?;:]}”»"'))
+    end=len(url)
+    while end:
+        if not budget.take(): return None
+        char=url[end-1]
+        if char in '.,!?;:]}”»"': end-=1
+        elif char==')' and closes>opens: end-=1; closes-=1
+        else: break
+    return end
+
+
 def _scan(text, opaque, overrides, deadline, budget, inventory=None):
     """Linear token dispatch, then source-bound punctuation decisions.
 
@@ -149,20 +181,30 @@ def _scan(text, opaque, overrides, deadline, budget, inventory=None):
         if not budget.take(): return unfinished('preparation_limit')
         a,b=match.span(); word=match[0]; tokens.append((a,b,word))
         left=len(word)-len(word.lstrip('"“«(\u2018[')); core=word[left:]
+        linked=False
         if '](' in core:
             destination=core.split('](',1)[1]
+            # The link closes at the `)` that balances the destination's own parentheses (CommonMark).
+            closing=_closing_parenthesis(destination,budget)
+            if closing is None: return unfinished('preparation_limit')
             if destination.startswith(('https://','http://')):
-                left+=core.index('](')+2; core=destination
+                left+=core.index('](')+2; core=destination; linked=True
+                end=closing if closing>=0 else len(core.rstrip('.,!?;:)]}”»"'))
+                lexical.append((a+left,a+left+end))
+                url_ambiguous = url_ambiguous or closing<0 and '(' in core
             elif destination and not destination.startswith(('<','"')):
                 # A link destination is never prose, whatever its scheme.
-                offset=left+core.index('](')+2; closing=destination.find(')')
+                offset=left+core.index('](')+2
                 end=closing if closing>=0 else len(destination.rstrip('.,!?;:]}”»"'))
                 if end: soft.append((a+offset,a+offset+end))
-                url_ambiguous = url_ambiguous or '(' in destination[:end]
-        if core.startswith(('https://','http://')):
-            end=len(core.rstrip('.,!?;:)]}”»"'))
+                url_ambiguous = url_ambiguous or closing<0 and '(' in destination[:end]
+        if not linked and core.startswith(('https://','http://')):
+            end=_bare_url_end(core,budget)
+            if end is None: return unfinished('preparation_limit')
             lexical.append((a+left,a+left+end))
-            url_ambiguous = url_ambiguous or '(' in core or (')' in core and '](' not in word)
+            # A parenthesis kept inside a bare URL stays ambiguous (fixture `url-ambiguous-closer`);
+            # only an unmatched trailing `)` is settled, as the closer of the prose parenthesis.
+            url_ambiguous = url_ambiguous or '(' in core[:end] or ')' in core[:end]
         if '@' in word:
             email=word.strip('"“«(\u2018[.,!?;:)]}”»"')
             if email.count('@')==1:
