@@ -85,6 +85,18 @@ class EvaluationInputTest(unittest.TestCase):
         self.assertEqual(requests_of(plain), requests_of(focused))
 
 
+    def test_focus_inside_inline_code_does_not_promote_its_unit(self):
+        text = 'Tôi về nhà sớm.\n\nBạn chạy lệnh `foo` rồi ở lại.\n'
+        start = text.index('foo')
+        doc = markdown(text, evaluation={'requests': 1, 'focus': [{'start': start, 'end': start + 3}]})
+        units = prepare(markdown(text))['units']
+        report, sent = run(doc)
+        self.assertEqual(len(sent), 1)
+        self.assertEqual(report['receipts'][0]['section'], units[0]['id'],
+                         'a span only over protected text must not change the work selected')
+        self.assertEqual(report['priority']['tiers']['2']['planned'], 0)
+
+
 class TierOrderTest(unittest.TestCase):
     def test_candidates_then_focus_before_lower_tiers(self):
         doc = note()

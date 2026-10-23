@@ -128,3 +128,16 @@ After the fixes: `Ran 227 tests`, `OK`; `build-jev-registry.py --check`, `valida
 
 - T023 owner-only synthetic live run: not done.
 - T013–T017 (User Stories 2 and 3) remain deferred by the owner.
+
+## PR #20 review fix — focus over protected text
+
+Automated review on PR #20 (commit `a344d0a`) found that a focus span lying entirely inside an
+inline protected range (inline code) still promoted the surrounding sentence and paragraph checks
+to tier 2, against the contract row "focus span only over protected text — accepted; adds no
+checks". Tier 2 now requires the focus span and the subject to share at least one code point outside
+the unit's protected spans.
+
+- RED: `test_focus_inside_inline_code_does_not_promote_its_unit` (two paragraphs, focus on `foo`
+  inside the second one's inline code, budget 1) sent its only request to the second paragraph.
+- GREEN: the request goes to the first paragraph and tier 2 plans nothing; full suite
+  `Ran 228 tests`, `OK`; `build-jev-registry.py --check` and `validate-package.py` exit 0.

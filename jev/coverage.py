@@ -119,9 +119,20 @@ class Ledger:
                 text = editable(section)
                 hits[(section['id'], pid)] = [m.span() for c in compiled[pid] for m in c.finditer(text)]
             found = hits.get((section['id'], pid), [])
+            protected = sorted((p['start'], p['end']) for p in section.get('protected_spans', []))
+            def has_editable(lo, hi):
+                # True when [lo, hi) holds at least one code point outside the unit's protected spans.
+                cursor = lo
+                for pa, pb in protected:
+                    if pb <= cursor: continue
+                    if pa > cursor: return cursor < hi
+                    cursor = pb
+                    if cursor >= hi: return False
+                return cursor < hi
             for n, subject in enumerate(g['subjects']):
                 a, b = (0, len(section['text'])) if subject is None else (subject['start'], subject['end'])
-                if any(x < base + b and y > base + a and (names is None or pid in names) for x, y, names in focus):
+                if any(has_editable(max(x - base, a), min(y - base, b)) and (names is None or pid in names)
+                       for x, y, names in focus):
                     self.tier[(i, n)] = 2
                 elif any(x < b and y > a for x, y in found):
                     self.tier[(i, n)] = 3
