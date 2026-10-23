@@ -172,8 +172,9 @@ class V11RuleTest(unittest.TestCase):
             patterns, excluded = asked(report, unit)
             self.assertNotIn('V11', patterns)
             self.assertEqual([x['reason'] for x in excluded['V11']], ['structure_excluded'])
-        patterns, _ = asked(report, lone_date)
-        self.assertIn('V11', patterns, 'a lone plain label line stays prose (research R3)')
+        patterns, excluded = asked(report, lone_date)
+        self.assertNotIn('V11', patterns, 'a plain label line standing alone is a label (feature 012, Q1: A)')
+        self.assertEqual([x['reason'] for x in excluded['V11']], ['structure_excluded'])
         self.assertNotIn('T4', patterns)
         self.assertIn('V11', asked(report, prose)[0])
 
@@ -197,6 +198,14 @@ class ReviewFixTest(unittest.TestCase):
         report, _ = run(markdown(text))
         self.assertIn('V11', {j['coverage_key'] for j in report['judgments']})
 
+    def test_v11_sign_on_a_standalone_plain_label_line_is_still_asked(self):
+        # Feature 012 SC-003: the sign override also covers labels recognized by position.
+        from tests.test_label_value import sentence_structures
+        text = 'Lưu ý: Điều này có nghĩa là số liệu có thể lệch.'
+        self.assertEqual(sentence_structures(text), [(text, 'label_value')])
+        report, _ = run(markdown(text + '\n'))
+        self.assertIn('V11', {j['coverage_key'] for j in report['judgments']})
+
     def test_every_canonical_v11_sign_keeps_v11_on_a_label_line(self):
         # PR #21 review: the priority signals are a subset; exclusion must use V11's full sign list.
         for value in ('Điều này có nghĩa là số liệu có thể lệch.',
@@ -209,11 +218,13 @@ class ReviewFixTest(unittest.TestCase):
         from tests.test_label_value import first_sentence_structures
         for block in ('- Cần lưu ý rằng: số liệu có thể lệch\n- Có thể thấy rằng: hiệu năng tăng',
                       '- Câu hỏi đặt ra là: đo lại hay không\n- Kết luận là: chưa',
-                      '- Ngày: 22/10/2026\n\n1. Bước: chạy lại',
                       '- **Bước 1, 2.:** làm lại\n- **[Ngày](x):** hôm nay'):
             with self.subTest(block=block[:30]):
                 for _, structures in first_sentence_structures(block):
                     self.assertNotIn('label_value', structures)
+        # Feature 012: items of different list kinds are not one field list, but each stands alone.
+        self.assertEqual([s for _, s in first_sentence_structures('- Ngày: 22/10/2026\n\n1. Bước: chạy lại')],
+                         [['label_value'], ['label_value']])
 
 
 GUARD_HEADING = 'c2d015b56141ee79'
