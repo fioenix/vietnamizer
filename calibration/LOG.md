@@ -575,3 +575,44 @@ câu dẫn trước thông tin):
 hợp loại trừ theo giao thức. Mục 3 dựa trên đối chiếu với **Không flag** của V14, chưa phải quan sát
 thật; chủ repo, người bản ngữ, đã xác nhận cả bốn quy tắc và ví dụ ngày 23/10/2026, trước khi sửa
 `SKILL.md`.
+
+---
+
+## 2026-10-23 · dấu hai chấm trong dòng nhãn và giữa đoạn văn
+
+**Nguồn:** chủ repo, người bản ngữ, duyệt bộ ví dụ dòng nhãn của feature 011 (task T023, phần b).
+Agent đưa ra 28 dòng tổng hợp có dấu hai chấm, không kèm ngữ cảnh và không cho biết runner xử lý
+thế nào. Chủ repo chấm từng dòng là *Được* (dấu hai chấm hợp lệ, không cần sửa), *Nên sửa* hoặc
+*Phân vân*, rồi nêu một quy tắc theo vị trí của câu.
+
+**Kết quả chấm:**
+
+| Kết quả | Dòng |
+|---|---|
+| Được (18) | 12 dòng trong danh sách trường hoặc có nhãn in đậm (`- Ngày: 22/10/2026`, `* Chi phí: khoảng 1.200.000 đồng mỗi tháng`, `**Đầu vào:** file CSV xuất từ hệ thống kho`…); `Trạng thái: đang xử lý`; `- Người phụ trách: chị Lan`; `- Ghi chú: chưa tính phí.`; `Kết luận: tao sai.`; `Nhóm đã thử ba cách sau:`; ``- Lệnh `jev`: chạy prepare`` |
+| Nên sửa (8) | `Tóm lại: chưa nên phát hành.`; `Nói cách khác: hệ thống chưa ổn định.`; `Vậy thì sao: chẳng ai đọc cả.`; `Lý do rất đơn giản: hệ thống chạy chậm hơn dự kiến.`; `Lúc 9 giờ sáng: hệ thống báo lỗi.`; `Sau ba lần thử, nhóm rút ra một bài học: phải đo trên dữ liệu thật.`; `Kết quả lệch khoảng ±10% so với bản cũ: mày đừng so trực tiếp.`; `Điều quan trọng cần lưu ý là: hệ thống chỉ đồng bộ 15 phút một lần.` |
+| Phân vân (2) | `- Bộ 3: chạy lại`; `- Có hai việc cần làm trước:` |
+
+Câu cuối trong mục **Không flag** của V11 được chấm là ổn, không cần sửa.
+
+**Quy tắc chủ repo nêu:**
+
+1. Câu có dấu hai chấm đứng riêng thành một đoạn là dạng liệt kê, nên phần trước dấu hai chấm là
+   nhãn.
+2. Câu có dấu hai chấm nằm trong một đoạn văn thì phần lớn không phải nhãn và không nên dùng dấu hai
+   chấm. Trường hợp hợp lệ là khi sau dấu hai chấm là một chuỗi liệt kê viết liền, các ý ngăn bằng
+   dấu chấm phẩy thay vì xuống dòng.
+
+**Khác biệt gọi tên được:**
+
+| # | Khác biệt | Phân loại | Quyết định |
+|---|---|---|---|
+| 1 | Runner của feature 011 chỉ nhận dòng nhãn khi nhãn in đậm hoặc khi danh sách có ít nhất hai mục nhãn liền nhau. `Trạng thái: đang xử lý` đứng riêng vẫn bị hỏi V11, còn hai câu dẫn như `Tóm lại:` và `Vậy thì sao:` đứng cạnh nhau trong danh sách lại được coi là nhãn | Quy tắc do người bản ngữ nêu (nguồn 4 trong `AGENTS.md`), kèm các ví dụ ở trên | Feature 012 nhận dòng nhãn theo vị trí của câu. Không sửa `SKILL.md`, vì **Không flag** của V11 đã nêu dòng nhãn–giá trị |
+| 2 | Dấu hai chấm đứng sau từ nối hoặc trạng ngữ, ở chỗ cần dấu phẩy: *Tóm lại: chưa nên phát hành* → *Tóm lại, chưa nên phát hành*; tương tự với `Nói cách khác:` và `Lúc 9 giờ sáng:` | Hiện tượng mới. T5 chỉ bắt nhãn thừa, V11 chỉ bắt câu dẫn rỗng; chưa pattern nào gọi tên lỗi này. Mới có một nguồn | Ghi nhận, chưa thêm pattern. Cần thêm mẫu độc lập |
+| 3 | Dấu hai chấm giữa đoạn, đứng sau một mệnh đề đầy đủ mà phần sau không phải chuỗi liệt kê: `…nhóm rút ra một bài học: phải đo trên dữ liệu thật.` | Quy tắc 2 chặt hơn chuẩn phổ thông: bài “Dấu hai chấm” trong SGK Tiếng Việt 4, tập 1 cũng dùng dấu hai chấm để báo phần giải thích cho phần đứng trước (đối chiếu qua trang lời giải, chưa xem bản gốc) | Không đưa vào quy tắc chung. Nếu chỉ áp dụng cho một thể loại hoặc văn bản của một người thì xử lý ở profile hoặc hồ sơ văn phong |
+| 4 | `Vậy thì sao:` và `Lý do rất đơn giản:` là câu dẫn nhưng không có trong **Dấu hiệu** của V11 | Có thể là chỗ V11 bỏ sót; mới có một nguồn | Ghi nhận, chưa mở rộng **Dấu hiệu** |
+
+**Ghi chú:** theo quy tắc 1, các câu như `Tóm lại: chưa nên phát hành.` khi đứng riêng thành một đoạn
+cũng là dạng liệt kê nên không còn được hỏi V11. Đây là hệ quả trực tiếp của quy tắc 1; lỗi dấu câu ở
+những dòng này thuộc khác biệt 2 chứ không thuộc V11. Dòng nào chứa một trong các dấu hiệu chuẩn của
+V11, như `Điều quan trọng cần lưu ý là:`, vẫn luôn được hỏi V11.
