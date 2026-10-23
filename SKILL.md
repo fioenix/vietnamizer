@@ -7,7 +7,7 @@ description: |
   cấu trúc câu, xưng hô, chêm tiếng Anh tùy tiện trong câu và typography.
 license: MIT
 metadata:
-  version: "0.10.6"
+  version: "0.11.0"
 ---
 
 # Vietnamizer

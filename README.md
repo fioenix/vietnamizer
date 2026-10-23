@@ -28,9 +28,9 @@ cho thấy bản gốc thật sự có vấn đề.
 ## Cài nhanh
 
 Tên mới từ bản **0.9.7**: Vietnamizer, định danh `vietnamizer` (trước đây là
-`vi-humanizer`). Bản hiện tại là **0.10.6**, đồng bộ hướng dẫn cài đặt với catalog Codex dùng
-chung của Finolabs tại `fioenix/agybird` và giữ nguyên tách câu, coverage trên nền Jev tự động khi host cấp key và quyền gửi
-dữ liệu; phát hành GitHub không đồng nghĩa được Directory chấp thuận.
+`vi-humanizer`). Bản hiện tại là **0.11.0**. Ở bản này, runner Jev đọc trọn ghi chú Markdown dài, dùng
+số lượt gọi theo thứ tự ưu tiên và không hỏi những câu mà chính quy tắc đã trả lời. Jev vẫn chỉ chạy
+khi host cấp key và quyền gửi dữ liệu. Phát hành trên GitHub không có nghĩa là Directory đã chấp thuận.
 Asset của các release trước 0.9.7 vẫn mang tên
 `vi-humanizer.*` và chứa định danh cũ.
 Xem [hướng dẫn chuyển tên](docs/rename-vietnamizer-2026-10-03.md).
@@ -584,6 +584,23 @@ Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tha
 Các pattern tiếng Việt được xây dựng riêng cho repo này.
 
 ## Lịch sử phiên bản
+
+- **0.11.0** (23/10/2026) – Runner Jev đọc trọn ghi chú dài và chỉ hỏi những chỗ cần hỏi. Trên một
+  ghi chú kỹ thuật khoảng 8.600 từ, bước chuẩn bị không còn vùng `preparation_limit` nào (trước đó
+  có 168 vùng). Input có thể đặt số lượt gọi (`evaluation.requests`, từ 1 đến 32) và vùng cần ưu
+  tiên (`focus`). Runner lập kế hoạch trước khi gửi và dùng số lượt theo thứ tự: candidate, vùng host
+  chỉ định, tín hiệu từ `scripts/scan-tells.sh`, rồi rải đều. Vì vậy 32 lượt gọi chạm tới 32 đơn vị
+  thay vì 9. Báo cáo có thêm khối `priority`. Phần chưa chấm vì hết lượt mang lý do
+  `budget_exhausted`, thay cho `limit_exceeded`. Một lượt chạy dừng sau ba phản hồi lỗi. T4 chỉ được
+  hỏi khi câu có `, và`. Pattern nào có **Không flag** loại trừ cả một cấu trúc thì không được hỏi
+  trên cấu trúc đó: tiêu đề bỏ qua V2, V3, V5, V11 và V14, dòng nhãn–giá trị bỏ qua V11, trừ khi câu
+  có dấu hiệu chuẩn của chính pattern. Dòng nhãn–giá trị gồm nhãn in đậm, danh sách trường và câu có
+  nhãn đứng riêng trên dòng. Coverage thêm `excluded_subjects`, `subject_positions` cùng hai lý do
+  `sign_absent` và `structure_excluded`. Mục **Không flag** của V11 thêm tiêu đề, dòng nhãn–giá trị,
+  ô bảng, chú thích ảnh, mục lục và mục checklist, dựa trên bằng chứng trong `calibration/LOG.md`
+  ngày 23/10/2026. Link Markdown có ngoặc đơn trong địa chỉ được chia câu bình thường. CLI báo
+  `input_unreadable` khi không đọc được input. Host đang đọc `limit_exceeded` cần chuyển sang
+  `budget_exhausted`.
 
 - **0.10.6** (19/10/2026) – Cập nhật hướng dẫn cài đặt, kiểm thử và chuyển đổi hoặc hoàn tác sang
   catalog Codex dùng chung của Finolabs tại `fioenix/agybird` (bản công bố đầu từ `agybird` v0.2.1
