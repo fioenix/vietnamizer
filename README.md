@@ -603,8 +603,8 @@ Các pattern tiếng Việt được xây dựng riêng cho repo này.
   tiên (`focus`). Runner lập kế hoạch trước khi gửi và dùng số lượt theo thứ tự: candidate, vùng host
   chỉ định, tín hiệu từ `scripts/scan-tells.sh`, rồi rải đều. Vì vậy 32 lượt gọi chạm tới 32 đơn vị
   thay vì 9. Báo cáo có thêm khối `priority`. Phần chưa chấm vì hết lượt mang lý do
-  `budget_exhausted`, thay cho `limit_exceeded`. Một lượt chạy dừng sau ba phản hồi lỗi. T4 chỉ được
-  hỏi khi câu có `, và`. Pattern nào có **Không flag** loại trừ cả một cấu trúc thì không được hỏi
+  `budget_exhausted`, thay cho `limit_exceeded`. Một lượt chạy dừng ở phản hồi không hợp lệ thứ ba,
+  còn mọi lỗi khác thì dừng ngay. T4 chỉ được hỏi khi câu có `, và`. Pattern nào có **Không flag** loại trừ cả một cấu trúc thì không được hỏi
   trên cấu trúc đó: tiêu đề bỏ qua V2, V3, V5, V11 và V14, dòng nhãn–giá trị bỏ qua V11, trừ khi câu
   có dấu hiệu chuẩn của chính pattern. Dòng nhãn–giá trị gồm nhãn in đậm, danh sách trường và câu có
   nhãn đứng riêng trên dòng. Coverage thêm `excluded_subjects`, `subject_positions` cùng hai lý do
