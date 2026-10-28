@@ -143,7 +143,7 @@ class PilotContracts(unittest.TestCase):
         code="import subprocess,sys;subprocess.run([sys.executable,'-c',"+repr(child)+"])"
         started=time.monotonic()
         with self.assertRaises(subprocess.TimeoutExpired) as caught:
-            self.p.execute([sys.executable,'-c',code],'',Path('/private/tmp'),os.environ.copy(),0.5)
+            self.p.execute([sys.executable,'-c',code],'',Path(tempfile.gettempdir()),os.environ.copy(),0.5)
         self.assertIn('CHILD_STARTED',caught.exception.stdout)
         self.assertLess(time.monotonic()-started,3)
 
