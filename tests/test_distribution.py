@@ -19,7 +19,7 @@ class DistributionTest(unittest.TestCase):
         repo.mkdir()
         for relative in (
             "SKILL.md", "LICENSE", "README.md", "profiles", "references", "calibration",
-            "agents", "assets", "jev", "scripts", ".claude-plugin", ".codex-plugin",
+            "agents", "assets", "jev", "scripts", "docs", ".claude-plugin", ".codex-plugin",
             ".agents/plugins", ".plugin-skills", ".gitignore",
         ):
             source = ROOT / relative
@@ -38,6 +38,45 @@ class DistributionTest(unittest.TestCase):
             [sys.executable, "scripts/package-plugin.py"], cwd=repo,
             capture_output=True, text=True, check=False,
         )
+
+    def documentation_fixture(self, destination: Path) -> Path:
+        repo = self.fixture(destination)
+        docs = repo / "docs"
+        docs.mkdir(exist_ok=True)
+        for name in ("patterns.md", "style-and-voice.md", "changelog.md"):
+            path = docs / name
+            if not path.exists():
+                path.write_text((repo / "README.md").read_text())
+        return repo
+
+    def test_relocated_pattern_inventory_still_rejects_missing_pattern(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self.documentation_fixture(Path(temporary))
+            path = repo / "docs/patterns.md"
+            path.write_text("\n".join(line for line in path.read_text().splitlines()
+                                      if not line.startswith("| V1 |")) + "\n")
+            self.assertNotEqual(self.package(repo).returncode, 0)
+
+    def test_relocated_changelog_still_rejects_stale_version(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self.documentation_fixture(Path(temporary))
+            path = repo / "docs/changelog.md"
+            path.write_text(path.read_text().replace("- **0.13.2**", "- **0.13.1**", 1))
+            self.assertNotEqual(self.package(repo).returncode, 0)
+
+    def test_relocated_style_guide_still_rejects_missing_card(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self.documentation_fixture(Path(temporary))
+            path = repo / "docs/style-and-voice.md"
+            path.write_text(path.read_text().replace("`ke-trai-nghiem`", "`missing-card`"))
+            self.assertNotEqual(self.package(repo).returncode, 0)
+
+    def test_root_readme_must_link_to_relocated_catalog(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            repo = self.documentation_fixture(Path(temporary))
+            path = repo / "README.md"
+            path.write_text(path.read_text().replace("docs/patterns.md", "docs/missing-catalog.md"))
+            self.assertNotEqual(self.package(repo).returncode, 0)
 
     def test_metadata_rejects_missing_or_unsafe_support_link(self) -> None:
         for value in (None, "", "http://example.com/help", "https://user:password@example.com/help"):

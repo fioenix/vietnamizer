@@ -173,7 +173,7 @@ owner duyệt lần gửi cụ thể. Local validation không gỡ chặn intake
 screenshots giả hoặc capability không có thật chỉ để lấp trường metadata.
 
 Việc gửi Anthropic đang tạm dừng theo quyết định của owner ngày 04/10/2026. Người dùng vẫn có
-thể [tự thêm marketplace của repo hoặc upload plugin](../README.md#claude-web-và-claude-desktop-thêm-marketplace)
+thể [tự thêm marketplace của repo hoặc upload plugin](installation.md#claude-web-và-claude-desktop-thêm-marketplace)
 theo gói và chính sách của Claude; không cần chờ listing chính thức.
 
 Khi tiếp tục gửi Anthropic, dùng [developer portal](https://claude.ai/directory/manage) và chọn

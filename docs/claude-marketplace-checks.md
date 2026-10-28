@@ -2,7 +2,7 @@
 
 **Tạm dừng gửi duyệt theo quyết định của owner ngày 04/10/2026.** Owner không tiếp tục bước
 đăng ký gói trả phí để submit lúc này. Tập trung phân phối qua marketplace của repo và gói
-upload; xem [hướng dẫn tự cài](../README.md#claude-web-và-claude-desktop-thêm-marketplace).
+upload; xem [hướng dẫn tự cài](installation.md#claude-web-và-claude-desktop-thêm-marketplace).
 Checklist dưới đây là tài liệu tham khảo khi mở lại việc gửi duyệt, không phải công việc đang chạy.
 
 Đường cài marketplace riêng không đồng nghĩa được Anthropic niêm yết. Chạy CLI validator,
@@ -74,7 +74,7 @@ bộ không miễn review của Anthropic hoặc chứng minh hiệu quả so v�
 
 ## Prompt và tài khoản thử cho reviewer
 
-[Ba prompt trong README](../README.md#ba-prompt-dùng-thử-trên-claude) là nguồn duy nhất cho
+[Ba prompt trong hướng dẫn sử dụng](usage.md#ba-prompt-dùng-thử-trên-claude) là nguồn duy nhất cho
 input và tiêu chí mong đợi: hoàn chỉnh ý, giữ câu tự nhiên và giữ byte code. Đây là mẫu thử,
 không phải kết quả model. Không cần tài khoản Vietnamizer vì plugin không có backend riêng.
 Nếu portal yêu cầu test account, giải thích điều này và cung cấp các prompt giả lập; không
