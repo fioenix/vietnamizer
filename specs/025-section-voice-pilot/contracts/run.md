@@ -1,0 +1,3 @@
+# Runcontract
+
+52fixednativeCLIstarts,no retries/resampling; fullraw/errorsretained. Freezeinput/code/version beforeinference;all32Codexfreshsessions. Subscriptiononly2existingblindjudges. No product/historicalfile/Forms mutation. Codecapturemustbeself-contained. Checkquoteexistence/schema separatelyfromsemanticreasonvalidity. Sealedtables/figures reproduceofflinewithoutproviders.

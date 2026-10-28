@@ -1,6 +1,6 @@
 ---
 name: vietnamizer
-description: Biên tập văn bản tiếng Việt đọc khô cứng, bị dịch sát hoặc cần rà cách dùng từ, cấu trúc và giọng văn; giữ nguyên thông tin và giọng người viết.
+description: Biên tập văn bản tiếng Việt đọc khô cứng, bị dịch sát hoặc cần rà cách dùng từ, cấu trúc và giọng văn; giữ nguyên thông tin, mặc định giữ giọng gốc và theo giọng mẫu khi được yêu cầu rõ.
 ---
 
 # vietnamizer plugin adapter

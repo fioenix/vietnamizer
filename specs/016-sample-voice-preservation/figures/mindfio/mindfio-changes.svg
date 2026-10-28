@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1120" height="520" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1120 520" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1120" height="520"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-520)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1120" height="520" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="30" y="484" style="font-family: MindfioUnicode; font-size: 19px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,968) scale(1,-1)">Mindfio: mức thay đổi trước và sau biên tập</text>
+			<text x="30" y="459" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,918) scale(1,-1)">Mỗi ô là một bài × một chế độ; M01 áp cổng thể loại văn chương. Màu đậm chỉ có nghĩa sửa nhiều hơn.</text>
+			<text x="30" y="24" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,48) scale(1,-1)">4 bài · 1 lần sinh/bài/chế độ · Cùng Codex gpt-6.1-sol / medium (yêu cầu) · Chưa có nhãn chất lượng của chủ nhân.</text>
+			<text x="85" y="410" style="font-family: MindfioUnicode; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,820) scale(1,-1)">A. Mức thay đổi ký tự</text>
+			<text x="85" y="375" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,750) scale(1,-1)">Prompt + hồ sơ</text>
+			<text x="229" y="375" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,750) scale(1,-1)">Core</text>
+			<text x="373" y="375" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,750) scale(1,-1)">Skill + hồ sơ</text>
+			<text x="37" y="325" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,650) scale(1,-1)">M01</text>
+			<rect x="81" y="315" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,98%,100%); fill-rule: evenodd;"/>
+			<text x="95" y="326" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,652) scale(1,-1)">0,26%</text>
+			<rect x="225" y="315" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,98%,100%); fill-rule: evenodd;"/>
+			<text x="239" y="326" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,652) scale(1,-1)">0,31%</text>
+			<rect x="369" y="315" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,98%,100%); fill-rule: evenodd;"/>
+			<text x="383" y="326" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,652) scale(1,-1)">0,33%</text>
+			<text x="37" y="277" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,554) scale(1,-1)">M02</text>
+			<rect x="81" y="267" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(92%,94%,100%); fill-rule: evenodd;"/>
+			<text x="95" y="278" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,556) scale(1,-1)">2,23%</text>
+			<rect x="225" y="267" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(93%,96%,100%); fill-rule: evenodd;"/>
+			<text x="239" y="278" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,556) scale(1,-1)">1,72%</text>
+			<rect x="369" y="267" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(93%,96%,100%); fill-rule: evenodd;"/>
+			<text x="383" y="278" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,556) scale(1,-1)">1,72%</text>
+			<text x="37" y="229" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,458) scale(1,-1)">M04</text>
+			<rect x="81" y="219" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,98%,100%); fill-rule: evenodd;"/>
+			<text x="95" y="230" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">0,25%</text>
+			<rect x="225" y="219" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,98%,100%); fill-rule: evenodd;"/>
+			<text x="239" y="230" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">0,42%</text>
+			<rect x="369" y="219" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(95%,98%,100%); fill-rule: evenodd;"/>
+			<text x="383" y="230" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">0,62%</text>
+			<text x="37" y="181" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,362) scale(1,-1)">M05</text>
+			<rect x="81" y="171" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(94%,97%,100%); fill-rule: evenodd;"/>
+			<text x="95" y="182" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,364) scale(1,-1)">1,13%</text>
+			<rect x="225" y="171" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(94%,96%,100%); fill-rule: evenodd;"/>
+			<text x="239" y="182" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,364) scale(1,-1)">1,49%</text>
+			<rect x="369" y="171" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(95%,97%,100%); fill-rule: evenodd;"/>
+			<text x="383" y="182" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,364) scale(1,-1)">0,83%</text>
+			<text x="615" y="410" style="font-family: MindfioUnicode; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,820) scale(1,-1)">B. Độ dài thay đổi</text>
+			<text x="615" y="375" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,750) scale(1,-1)">Prompt + hồ sơ</text>
+			<text x="759" y="375" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,750) scale(1,-1)">Core</text>
+			<text x="903" y="375" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,750) scale(1,-1)">Skill + hồ sơ</text>
+			<text x="567" y="325" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,650) scale(1,-1)">M01</text>
+			<rect x="611" y="315" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,99%,100%); fill-rule: evenodd;"/>
+			<text x="625" y="326" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,652) scale(1,-1)">&lt;0,1%</text>
+			<rect x="755" y="315" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,99%,100%); fill-rule: evenodd;"/>
+			<text x="769" y="326" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,652) scale(1,-1)">-0,19%</text>
+			<rect x="899" y="315" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,98%,100%); fill-rule: evenodd;"/>
+			<text x="913" y="326" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,652) scale(1,-1)">-0,23%</text>
+			<text x="567" y="277" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,554) scale(1,-1)">M02</text>
+			<rect x="611" y="267" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,98%,100%); fill-rule: evenodd;"/>
+			<text x="625" y="278" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,556) scale(1,-1)">-0,46%</text>
+			<rect x="755" y="267" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(95%,97%,100%); fill-rule: evenodd;"/>
+			<text x="769" y="278" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,556) scale(1,-1)">-0,88%</text>
+			<rect x="899" y="267" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(95%,97%,100%); fill-rule: evenodd;"/>
+			<text x="913" y="278" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,556) scale(1,-1)">-0,93%</text>
+			<text x="567" y="229" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,458) scale(1,-1)">M04</text>
+			<rect x="611" y="219" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,99%,100%); fill-rule: evenodd;"/>
+			<text x="625" y="230" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">0,20%</text>
+			<rect x="755" y="219" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,99%,100%); fill-rule: evenodd;"/>
+			<text x="769" y="230" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">-0,15%</text>
+			<rect x="899" y="219" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(96%,99%,100%); fill-rule: evenodd;"/>
+			<text x="913" y="230" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,460) scale(1,-1)">-0,05%</text>
+			<text x="567" y="181" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,362) scale(1,-1)">M05</text>
+			<rect x="611" y="171" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(94%,97%,100%); fill-rule: evenodd;"/>
+			<text x="625" y="182" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,364) scale(1,-1)">1,14%</text>
+			<rect x="755" y="171" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(94%,97%,100%); fill-rule: evenodd;"/>
+			<text x="769" y="182" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,364) scale(1,-1)">1,17%</text>
+			<rect x="899" y="171" width="136" height="35" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(94%,97%,100%); fill-rule: evenodd;"/>
+			<text x="913" y="182" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,364) scale(1,-1)">1,14%</text>
+			<text x="30" y="83" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,166) scale(1,-1)">A = 1 − SequenceMatcher ratio trên ký tự Unicode; autojunk=False, tính cả khoảng trắng. Không phải khoảng cách ngữ nghĩa.</text>
+			<text x="30" y="61" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,122) scale(1,-1)">B = (số ký tự sau − số ký tự trước) / số ký tự trước. Không có CI/p-value; số sửa nhiều hơn không chứng minh chất lượng tốt hơn.</text>
+		</g>
+	</g>
+</svg>

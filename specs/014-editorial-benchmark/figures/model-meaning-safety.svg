@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="960" height="500" preserveAspectRatio="xMinYMin meet" viewBox="0 0 960 500" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="960" height="500"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-500)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="960" height="500" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="35" y="462" style="font-family: Helvetica; font-size: 20px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,924) scale(1,-1)">Observed meaning violations by judge</text>
+			<text x="35" y="440" style="font-family: Helvetica; font-size: 12px;fill: rgb(59%,31%,76%); stroke:none;" transform="translate(0,880) scale(1,-1)">MODEL-ASSESSED / EXPLORATORY</text>
+			<text x="35" y="419" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,838) scale(1,-1)">Points show k/n documents; 95%Wilson interval is per judge. Uncertain/missing are separate.</text>
+			<path d="M 310,75 L 310,375 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="302" y="56" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,112) scale(1,-1)">0%</text>
+			<path d="M 420,75 L 420,375 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="412.0" y="56" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,112) scale(1,-1)">25%</text>
+			<path d="M 530,75 L 530,375 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="522.0" y="56" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,112) scale(1,-1)">50%</text>
+			<path d="M 640,75 L 640,375 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="632.0" y="56" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,112) scale(1,-1)">75%</text>
+			<path d="M 750,75 L 750,375 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="742" y="56" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,112) scale(1,-1)">100%</text>
+			<text x="35" y="360" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,720) scale(1,-1)">M1 | Bare prompt</text>
+			<path d="M 361.948214,363 L 524.682824,363 Z" style="stroke: rgb(59%,31%,76%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="425.7894736842105" cy="363" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="770" y="360" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,720) scale(1,-1)">5/19  ?0  missing1</text>
+			<text x="35" y="324" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,648) scale(1,-1)">M1 | Ordinary prompt</text>
+			<path d="M 310,327 L 383.998859,327 Z" style="stroke: rgb(59%,31%,76%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="310.0" cy="327" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="770" y="324" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,648) scale(1,-1)">0/19  ?0  missing1</text>
+			<text x="35" y="288" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,576) scale(1,-1)">M1 | Vietnamizer core</text>
+			<path d="M 314.114877,291 L 418.410417,291 Z" style="stroke: rgb(59%,31%,76%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="333.1578947368421" cy="291" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="770" y="288" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,576) scale(1,-1)">1/19  ?0  missing1</text>
+			<text x="35" y="252" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,504) scale(1,-1)">M1 | Vietnamizer + Jev</text>
+			<path d="M 310,255 L 383.998859,255 Z" style="stroke: rgb(59%,31%,76%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="310.0" cy="255" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="770" y="252" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,504) scale(1,-1)">0/19  ?0  missing1</text>
+			<text x="35" y="216" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,432) scale(1,-1)">M2 | Bare prompt</text>
+			<path d="M 374.009988,219 L 538.34804,219 Z" style="stroke: rgb(59%,31%,76%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="442.0" cy="219" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="770" y="216" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,432) scale(1,-1)">6/20  ?0  missing0</text>
+			<text x="35" y="180" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,360) scale(1,-1)">M2 | Ordinary prompt</text>
+			<path d="M 310,183 L 380.89507,183 Z" style="stroke: rgb(59%,31%,76%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="310.0" cy="183" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="770" y="180" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,360) scale(1,-1)">0/20  ?0  missing0</text>
+			<text x="35" y="144" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,288) scale(1,-1)">M2 | Vietnamizer core</text>
+			<path d="M 313.907837,147 L 413.897725,147 Z" style="stroke: rgb(59%,31%,76%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="332.0" cy="147" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="770" y="144" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,288) scale(1,-1)">1/20  ?0  missing0</text>
+			<text x="35" y="108" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,216) scale(1,-1)">M2 | Vietnamizer + Jev</text>
+			<path d="M 310,111 L 380.89507,111 Z" style="stroke: rgb(59%,31%,76%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="310.0" cy="111" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="770" y="108" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,216) scale(1,-1)">0/20  ?0  missing0</text>
+			<text x="35" y="24" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,48) scale(1,-1)">20 synthetic documents; fixed Codex judges; human reviews pending. No general superiority claim.</text>
+		</g>
+	</g>
+</svg>

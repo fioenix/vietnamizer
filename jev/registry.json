@@ -8,17 +8,17 @@
       "source": "SKILL.md",
       "scope": "target",
       "mode": "semantic",
-      "no_flag": "hành động đang diễn ra hoặc lặp lại (*\"Tôi đọc tài liệu mỗi sáng\"*), mô tả chức năng (*\"Hệ thống xử lý yêu cầu HTTP\"*), câu lệnh và quy trình từng bước (*\"Nhấn nút, chọn tệp, tải lên\"*).",
+      "no_flag": "hành động đang diễn ra hoặc lặp lại (*\"Tôi đọc tài liệu mỗi sáng\"*), mô tả chức năng (*\"Hệ thống xử lý yêu cầu HTTP\"*), câu lệnh và quy trình từng bước (*\"Nhấn nút, chọn tệp, tải lên\"*). Giữ câu rút gọn khi ngữ cảnh đủ rõ hoặc mạch văn cho thấy sự bỏ lửng có chức năng. V1 không cho phép tự điền đối tượng của động từ, chọn riêng một đối tượng trong nhiều khả năng hoặc kéo dài câu chỉ để đủ khuôn; đọc mục Phân biệt câu ngắn có chủ ý với câu thiếu từ.",
       "questions": [
         {
           "key": "violation",
           "type": "noul",
-          "instructions": "Does the intended result, capability or direction of the action require a missing complement such as được or ra? Distinguish deliberate refusal from inability."
+          "instructions": "Does the intended result, capability or direction of the action require a missing complement such as được or ra? Distinguish deliberate refusal from inability. Preserve context-licensed ellipsis and intentional fragments; do not select an object from several possible referents merely to complete a sentence."
         },
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does the intended result, capability or direction of the action require a missing complement such as được or ra? Distinguish deliberate refusal from inability.",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does the intended result, capability or direction of the action require a missing complement such as được or ra? Distinguish deliberate refusal from inability. Preserve context-licensed ellipsis and intentional fragments; do not select an object from several possible referents merely to complete a sentence.",
           "criteria": {
             "ongoing_action": "ongoing action",
             "deliberate_refusal": "deliberate refusal",
@@ -651,7 +651,7 @@
       "source": "SKILL.md",
       "scope": "target",
       "mode": "semantic",
-      "no_flag": "từ đơn hợp lệ đúng nghĩa (*đi, ăn, vui, buồn, đẹp, sạch*). Giữ *rời* trong *rời công ty, rời vị trí, tách rời, bộ phận rời*; giữ *rà* trong *rà lại tài liệu, rà kỹ, rà một lượt, rà kế hoạch một lần nữa*; các nghĩa chuyên biệt như *rà mìn, rà sóng, rà kim, máy bay rà thấp*; và cách nói nội bộ như *rà code, rà log* khi mẫu giọng cho phép. Với các cặp như *đẹp / đẹp đẽ, sạch / sạch sẽ*, thêm tiếng thứ hai chỉ là lựa chọn phong cách. Thuật ngữ rút gọn theo quy ước ngành và văn phong tối giản có chủ ý cũng không flag; riêng với dòng liệt kê và nhãn, đọc mục *Phân biệt câu ngắn có chủ ý với câu thiếu từ* trước khi bỏ qua, vì tối giản không có nghĩa là được cắt bổ ngữ hoặc cắt tiếng thứ hai của từ hai tiếng.",
+      "no_flag": "từ đơn hợp lệ đúng nghĩa (*đi, ăn, vui, buồn, đẹp, sạch*). Giữ *rời* trong *rời công ty, rời vị trí, tách rời, bộ phận rời*; giữ *rà* trong *rà lại tài liệu, rà kỹ, rà một lượt, rà kế hoạch một lần nữa*; các nghĩa chuyên biệt như *rà mìn, rà sóng, rà kim, máy bay rà thấp*; và cách nói nội bộ như *rà code, rà log* khi mẫu giọng cho phép. Với các cặp như *đẹp / đẹp đẽ, sạch / sạch sẽ*, thêm tiếng thứ hai chỉ là lựa chọn phong cách. Thuật ngữ rút gọn theo quy ước ngành và văn phong tối giản có chủ ý cũng không flag; riêng với dòng liệt kê và nhãn, đọc mục *Phân biệt câu ngắn có chủ ý với câu thiếu từ* trước khi bỏ qua, vì tối giản không cho phép bỏ thành phần mà ý câu thực sự cần hoặc cắt tiếng bắt buộc của một từ hai tiếng.",
       "questions": [
         {
           "key": "violation",
@@ -861,21 +861,21 @@
     },
     {
       "id": "T2",
-      "title": "Em dash và gạch ngang chú thích giữa câu",
+      "title": "Gạch ngang làm sai hoặc mờ quan hệ ý",
       "source": "SKILL.md",
       "scope": "target",
       "mode": "semantic",
-      "no_flag": "đây là chỗ khác hẳn bản tiếng Anh. `–` (en dash) là **gạch ngang chuẩn của tiếng Việt** và có bốn chức năng hợp lệ, tất cả đều giữ nguyên: mở lời thoại đầu dòng, mở đầu mục liệt kê, nối cặp tên riêng (*quan hệ Việt – Trung*, *tuyến Hà Nội – Lào Cai*), nối khoảng (*quý I – quý II*, *2020 – 2025*). Gạch nối không khoảng trắng trong phiên âm (*Lê-nin*, *vắc-xin*) và mã số. Cấm en dash sẽ phá địa danh và mọi lời thoại, đó là hỏng nội dung, không phải hỏng phong cách.",
+      "no_flag": "dấu dùng đúng chức năng và không trái quy chuẩn đã giao: điểm ngắt, chú thích hoặc bỏ lửng có chủ ý vẫn rõ nghĩa và hợp giọng; lời thoại đầu dòng, đầu mục liệt kê, cặp tên riêng (*quan hệ Việt – Trung*), khoảng (*2020 – 2025*), gạch nối phiên âm hoặc mã số. Vùng bảo toàn giữ nguyên byte, kể cả dấu. Không coi dấu hai chấm hoặc dấu phẩy luôn tốt hơn gạch ngang; quy chuẩn trình bày cũng không cho phép đổi nghĩa.",
       "questions": [
         {
           "key": "violation",
           "type": "noul",
-          "instructions": "Is a dash used contrary to the canonical typography rule, excluding protected text, valid en-dash ranges, dialogue and name pairs?"
+          "instructions": "Does the dash obscure an evidenced relation or conflict with an explicit supplied style requirement? Character identity or frequency alone is not a defect. Preserve intentional pauses, clause boundaries, protected text, valid ranges, dialogue and name pairs; a replacement must not invent an explanatory relation."
         },
         {
           "key": "interpretation",
           "type": "choice",
-          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Is a dash used contrary to the canonical typography rule, excluding protected text, valid en-dash ranges, dialogue and name pairs?",
+          "instructions": "Classify the target expression’s own function or source-support relation, not whether a violation hypothesis is supported. Which supplied interpretation fits the target in context? Does the dash obscure an evidenced relation or conflict with an explicit supplied style requirement? Character identity or frequency alone is not a defect. Preserve intentional pauses, clause boundaries, protected text, valid ranges, dialogue and name pairs; a replacement must not invent an explanatory relation.",
           "criteria": {
             "incidental_aside": "incidental aside",
             "range": "range",
@@ -897,7 +897,7 @@
       "source": "SKILL.md",
       "scope": "target",
       "mode": "mechanical",
-      "no_flag": "toàn văn bản nhất quán một kiểu, dù cong hay thẳng. `«...»` trong bản dịch từ tiếng Pháp hoặc Nga. Ngoặc lồng. Code, JSON, chuỗi kỹ thuật.",
+      "no_flag": "toàn văn bản nhất quán một kiểu, dù cong hay thẳng. `«...»` trong bản dịch từ tiếng Pháp hoặc Nga. Ngoặc lồng. Code, JSON, chuỗi kỹ thuật. Trích dẫn nguyên văn hoặc phần chưa rõ chức năng vẫn thuộc vùng bảo toàn, không đổi cả dấu; với thuật ngữ chỉ đặt trong ngoặc để nhấn mạnh, T3 chỉ cho thống nhất kiểu ngoặc, không tự đổi nội dung.",
       "questions": []
     },
     {
@@ -1171,7 +1171,7 @@
       "source": "profiles/blog-ca-nhan/rules.md",
       "scope": "target",
       "mode": "semantic",
-      "no_flag": "câu hỏi thật, tức là người viết để nó treo hoặc trả lời bằng một câu bất ngờ. FAQ, ở đó cấu trúc hỏi đáp là thể loại.",
+      "no_flag": "câu hỏi thật; FAQ; câu hỏi giải thích hoặc đề mục hỏi định hướng đúng phần trả lời đã có, kể cả khi câu trả lời không bất ngờ. Ví dụ `Cache dùng để làm gì?` có chức năng trong bài kỹ thuật và mẫu cùng mục đích. Không bỏ chỉ vì mang dạng `X là gì?`; khi theo mẫu, đề mục hỏi có căn cứ vẫn chịu chốt nghĩa/phạm vi của root.",
       "questions": [
         {
           "key": "violation",
@@ -1360,7 +1360,7 @@
       "source": "profiles/blog-ca-nhan/rules.md",
       "scope": "paragraph",
       "mode": "semantic",
-      "no_flag": "ba thành phần là danh sách dữ kiện thật (ba chi nhánh, ba giai đoạn, ba điều khoản). Ranh giới: nhịp ba mang **thông tin** thì giữ, nhịp ba mang **nhạc điệu** thì cắt.",
+      "no_flag": "ba thành phần là danh sách dữ kiện thật (ba chi nhánh, ba giai đoạn, ba điều khoản). Nhịp ba mang thông tin hoặc sắc thái có chủ ý thì giữ; nhạc điệu tự nó không đủ để xóa một thành phần.",
       "questions": [
         {
           "key": "violation",
@@ -1498,7 +1498,7 @@
       "source": "profiles/blog-ca-nhan/rules.md",
       "scope": "paragraph",
       "mode": "semantic",
-      "no_flag": "đây là chỗ rủi ro cao nhất của cả skill. **Không được suy đoán tuổi tác hay vai vế để áp xưng hô.** Ngữ cảnh không cho biết quan hệ thì giữ nguyên và ghi chú cho người dùng tự chọn. Đổi *bạn* thành *em* khi không biết vai vế có thể xúc phạm người nhận. Tài liệu hướng dẫn, UX copy, giáo trình, quảng cáo đại chúng dùng *bạn* là quy ước hợp lệ. Bài học thuật dùng *chúng tôi* cho nhóm tác giả là đúng chuẩn.",
+      "no_flag": "đây là chỗ rủi ro cao nhất của cả skill. **Không được suy đoán tuổi tác hay vai vế để áp xưng hô.** Ngữ cảnh không cho biết quan hệ thì giữ nguyên và ghi chú cho người dùng tự chọn. Đổi *bạn* thành *em* khi không biết vai vế có thể xúc phạm người nhận. Tài liệu hướng dẫn, UX copy, giáo trình, quảng cáo đại chúng dùng *bạn* là quy ước hợp lệ. Bài học thuật dùng *chúng tôi* cho nhóm tác giả là đúng chuẩn. `Bạn chọn tệp. Sau đó chúng ta cùng xem kết quả.` có hai chức năng hợp lệ; mẫu đúng phạm vi hỗ trợ cách dùng này không tạo đồng thuận giả.",
       "questions": [
         {
           "key": "violation",

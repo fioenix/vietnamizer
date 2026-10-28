@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="960" height="460" preserveAspectRatio="xMinYMin meet" viewBox="0 0 960 460" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="960" height="460"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-460)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="960" height="460" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="35" y="422" style="font-family: Helvetica; font-size: 20px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,844) scale(1,-1)">Blinded editing preferences</text>
+			<text x="35" y="400" style="font-family: Helvetica; font-size: 12px;fill: rgb(59%,31%,76%); stroke:none;" transform="translate(0,800) scale(1,-1)">MODEL-ASSESSED / EXPLORATORY</text>
+			<text x="35" y="379" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,758) scale(1,-1)">Each row has 40 planned dependent judge votes; ties, abstentions and missing labels remain visible.</text>
+			<text x="35" y="330" style="font-family: Helvetica; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,660) scale(1,-1)">Vietnamizer + Jev vs Vietnamizer core</text>
+			<rect x="35" y="300" width="44.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="39" y="307" style="font-family: Helvetica; font-size: 10px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,614) scale(1,-1)">2</text>
+			<rect x="79.0" y="300" width="814.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(52%,54%,76%); fill-rule: evenodd;"/>
+			<text x="83.0" y="307" style="font-family: Helvetica; font-size: 10px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,614) scale(1,-1)">37</text>
+			<rect x="893.0" y="300" width="22.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,75%,75%); fill-rule: evenodd;"/>
+			<text x="897.0" y="307" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,614) scale(1,-1)">1</text>
+			<text x="35" y="283" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,566) scale(1,-1)">win: 2 | tie: 37 | loss: 0 | uncertain: 0 | missing: 1</text>
+			<text x="35" y="245" style="font-family: Helvetica; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,490) scale(1,-1)">Vietnamizer core vs Ordinary prompt</text>
+			<rect x="35" y="215" width="330.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="39" y="222" style="font-family: Helvetica; font-size: 10px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,444) scale(1,-1)">15</text>
+			<rect x="365.0" y="215" width="462.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(52%,54%,76%); fill-rule: evenodd;"/>
+			<text x="369.0" y="222" style="font-family: Helvetica; font-size: 10px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,444) scale(1,-1)">21</text>
+			<rect x="827.0" y="215" width="66.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="831.0" y="222" style="font-family: Helvetica; font-size: 10px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,444) scale(1,-1)">3</text>
+			<rect x="893.0" y="215" width="22.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,75%,75%); fill-rule: evenodd;"/>
+			<text x="897.0" y="222" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,444) scale(1,-1)">1</text>
+			<text x="35" y="198" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,396) scale(1,-1)">win: 15 | tie: 21 | loss: 3 | uncertain: 0 | missing: 1</text>
+			<text x="35" y="160" style="font-family: Helvetica; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,320) scale(1,-1)">Vietnamizer core vs Bare prompt</text>
+			<rect x="35" y="130" width="440.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="39" y="137" style="font-family: Helvetica; font-size: 10px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,274) scale(1,-1)">20</text>
+			<rect x="475.0" y="130" width="418.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(52%,54%,76%); fill-rule: evenodd;"/>
+			<text x="479.0" y="137" style="font-family: Helvetica; font-size: 10px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,274) scale(1,-1)">19</text>
+			<rect x="893.0" y="130" width="22.0" height="23" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,75%,75%); fill-rule: evenodd;"/>
+			<text x="897.0" y="137" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,274) scale(1,-1)">1</text>
+			<text x="35" y="113" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,226) scale(1,-1)">win: 20 | tie: 19 | loss: 0 | uncertain: 0 | missing: 1</text>
+			<rect x="35" y="55" width="12" height="12" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="53" y="57" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,114) scale(1,-1)">win</text>
+			<rect x="185" y="55" width="12" height="12" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(52%,54%,76%); fill-rule: evenodd;"/>
+			<text x="203" y="57" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,114) scale(1,-1)">tie</text>
+			<rect x="335" y="55" width="12" height="12" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(59%,31%,76%); fill-rule: evenodd;"/>
+			<text x="353" y="57" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,114) scale(1,-1)">loss</text>
+			<rect x="485" y="55" width="12" height="12" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(52%,82%,88%); fill-rule: evenodd;"/>
+			<text x="503" y="57" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,114) scale(1,-1)">uncertain</text>
+			<rect x="635" y="55" width="12" height="12" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(75%,75%,75%); fill-rule: evenodd;"/>
+			<text x="653" y="57" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,114) scale(1,-1)">missing</text>
+			<text x="35" y="24" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,48) scale(1,-1)">20 synthetic documents; fixed Codex judges; human reviews pending. No general superiority claim.</text>
+		</g>
+	</g>
+</svg>

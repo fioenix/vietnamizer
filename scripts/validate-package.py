@@ -83,6 +83,7 @@ PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration
 REFERENCE_FILES = {
     "references/bang-tra-cuu.md",
     "references/bo-giai-phong-cach.md",
+    "references/giu-giong-tu-mau.md",
     "references/han-viet-thuan-viet.md",
     "references/typesafe-advisor.md",
 }

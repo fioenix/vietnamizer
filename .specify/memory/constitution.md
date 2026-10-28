@@ -1,10 +1,12 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.1 -> 2.0.0
-- Owner approval: 2026-10-16, spec 007; active Jev-informed host editing authorized.
-- Replace mandatory shadow-only introduction with bounded advisory use under the five safeguards.
-- Numerical automatic edit acceptance/rejection/reversion still requires holdout evidence.
-- Offline operation, data minimization and non-pass service failures remain mandatory.
+- Version change: 2.0.0 -> 2.1.0 (MINOR: explicit, bounded reference-voice editing).
+- Owner approval: 2026-10-28, “Chốt, triển khai ... tách giữ giọng gốc và theo giọng mẫu,
+  cho phép đổi cấu trúc nhưng giữ nghĩa.”
+- Modified principle II: distinguish pattern-backed correction from requested style edits.
+- No principles, meaning safeguards, protected spans or offline constraints removed.
+- No template/command source changes. Feature implementation is a separate Spec Kit phase.
+- Deferred intent: implement the approved voice-intent workflow through speckit-specify/plan/tasks/implement.
 -->
 # Constitution của vi-humanizer
 
@@ -21,9 +23,11 @@ lựa chọn phong cách không tự trở thành bằng chứng. Nguồn bên n
 
 Mỗi edit MUST giữ dữ kiện, chủ thể, thời điểm, quan hệ nhân quả, mức chắc chắn, mức cam kết,
 thứ tự, quan hệ đồng thời, thể loại và giọng ổn định của bản gốc, trừ khi yêu cầu hiện tại của
-người dùng chủ động thay đổi một yếu tố. Edit không gọi tên được pattern hoặc không loại trừ
-được mục **Không flag** MUST bị bỏ hoặc chuyển cho người xem. Bản viết lại trôi chảy nhưng đổi
-nghĩa vẫn là lỗi.
+người dùng chủ động thay đổi một yếu tố. Sửa lỗi ngôn ngữ MUST gọi tên được pattern và loại trừ mục **Không flag**. Khi người dùng
+chủ động yêu cầu theo giọng mẫu, điều chỉnh phong cách MAY đổi cấu trúc câu đúng nếu có căn cứ
+trong mẫu đúng phạm vi và giữ mọi bất biến về nghĩa, thể loại cùng vùng bảo toàn. Điều chỉnh
+này MUST được phân biệt với sửa lỗi; có mẫu đơn thuần không cấp quyền chuyển giọng. Edit thiếu
+căn cứ tương ứng MUST bị bỏ hoặc chuyển cho người xem. Bản trôi chảy nhưng đổi nghĩa vẫn là lỗi.
 
 ### III. Tách quy tắc chung khỏi profile thể loại
 
@@ -89,4 +93,4 @@ không tương thích một principle, MINOR khi thêm hoặc mở rộng govern
 Mọi spec và review MUST kiểm tra các principle này. Complexity không truy ngược được tới outcome
 hoặc acceptance criterion MUST bị bỏ.
 
-**Version**: 2.0.0 | **Ratified**: 2026-09-26 | **Last Amended**: 2026-10-16
+**Version**: 2.1.0 | **Ratified**: 2026-09-26 | **Last Amended**: 2026-10-28

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="960" height="600" preserveAspectRatio="xMinYMin meet" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="960" height="600"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-600)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="960" height="600" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="35" y="562" style="font-family: Helvetica; font-size: 20px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1124) scale(1,-1)">Paired changes relative to comparator</text>
+			<text x="35" y="540" style="font-family: Helvetica; font-size: 12px;fill: rgb(59%,31%,76%); stroke:none;" transform="translate(0,1080) scale(1,-1)">MODEL-ASSESSED / EXPLORATORY</text>
+			<text x="35" y="519" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1038) scale(1,-1)">95% document-cluster percentile bootstrap; both judges kept together; undefined/excluded sources counted.</text>
+			<path d="M 420,75 L 420,480 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="408.0" y="60" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,120) scale(1,-1)">-100</text>
+			<path d="M 517.5,75 L 517.5,480 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="505.5" y="60" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,120) scale(1,-1)">-50</text>
+			<path d="M 615,75 L 615,480 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="603.0" y="60" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,120) scale(1,-1)">0</text>
+			<path d="M 712.5,75 L 712.5,480 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="700.5" y="60" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,120) scale(1,-1)">50</text>
+			<path d="M 810,75 L 810,480 Z" style="stroke: rgb(85%,85%,85%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="798.0" y="60" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,120) scale(1,-1)">100</text>
+			<text x="420" y="37" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,74) scale(1,-1)">Difference (percentage points; a - b); positive = more of the named metric</text>
+			<text x="35" y="472" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,944) scale(1,-1)">precision | Vietnamizer core</text>
+			<text x="825" y="472" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,944) scale(1,-1)">n=11/20</text>
+			<path d="M 615,475 L 615,475 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="615.0" cy="475" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="440" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,880) scale(1,-1)">recall | Vietnamizer core</text>
+			<text x="825" y="440" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,880) scale(1,-1)">n=6/20</text>
+			<path d="M 615,443 L 615,443 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="615.0" cy="443" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="408" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,816) scale(1,-1)">meaning_violation | Vietnamizer core</text>
+			<text x="825" y="408" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,816) scale(1,-1)">n=19/20</text>
+			<path d="M 584.210526,411 L 615,411 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="604.7368421052631" cy="411" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="376" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,752) scale(1,-1)">unnecessary_edit | Vietnamizer core</text>
+			<text x="825" y="376" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,752) scale(1,-1)">n=19/20</text>
+			<path d="M 615,379 L 615,379 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="615.0" cy="379" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="344" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,688) scale(1,-1)">precision | Ordinary prompt</text>
+			<text x="825" y="344" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,688) scale(1,-1)">n=11/20</text>
+			<path d="M 630.616883,347 L 683.798701,347 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="657.2077922077922" cy="347" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="312" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,624) scale(1,-1)">recall | Ordinary prompt</text>
+			<text x="825" y="312" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,624) scale(1,-1)">n=6/20</text>
+			<path d="M 615,315 L 615,315 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="615.0" cy="315" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="280" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,560) scale(1,-1)">meaning_violation | Ordinary prompt</text>
+			<text x="825" y="280" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,560) scale(1,-1)">n=19/20</text>
+			<path d="M 615,283 L 645.789474,283 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="625.2631578947369" cy="283" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="248" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,496) scale(1,-1)">unnecessary_edit | Ordinary prompt</text>
+			<text x="825" y="248" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,496) scale(1,-1)">n=19/20</text>
+			<path d="M 486.710526,251 L 568.815789,251 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="527.7631578947369" cy="251" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="216" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,432) scale(1,-1)">precision | Bare prompt</text>
+			<text x="825" y="216" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,432) scale(1,-1)">n=11/20</text>
+			<path d="M 638.636364,219 L 723.459957,219 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="679.3387445887446" cy="219" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="184" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,368) scale(1,-1)">recall | Bare prompt</text>
+			<text x="825" y="184" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,368) scale(1,-1)">n=6/20</text>
+			<path d="M 615,187 L 615,187 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="615.0" cy="187" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="152" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,304) scale(1,-1)">meaning_violation | Bare prompt</text>
+			<text x="825" y="152" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,304) scale(1,-1)">n=19/20</text>
+			<path d="M 532.894737,155 L 604.736842,155 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="573.9473684210526" cy="155" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="120" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,240) scale(1,-1)">unnecessary_edit | Bare prompt</text>
+			<text x="825" y="120" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,240) scale(1,-1)">n=19/20</text>
+			<path d="M 507.236842,123 L 584.210526,123 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="548.2894736842105" cy="123" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="35" y="505" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1010) scale(1,-1)">Top 4 rows: Jev - core; next 4: core - ordinary; final 4: core - bare.</text>
+			<text x="35" y="24" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,48) scale(1,-1)">20 synthetic documents; fixed Codex judges; human reviews pending. No general superiority claim.</text>
+		</g>
+	</g>
+</svg>

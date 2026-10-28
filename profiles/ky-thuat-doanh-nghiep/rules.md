@@ -2,6 +2,8 @@
 
 Đọc file này sau `SKILL.md` khi văn bản là README, SOP nội bộ, đặc tả, tài liệu doanh nghiệp, giáo trình, đề án môn học hoặc nghiên cứu khoa học.
 
+Blog chuyên môn có tác giả hiện diện được chọn profile theo `SKILL.md`, không chỉ vì chủ đề là kỹ thuật. Khi phần này thực sự là README, SOP hoặc tài liệu tra cứu, chế độ theo mẫu vẫn giữ các giới hạn của profile dưới đây; chỉ áp đặc tính mẫu tương thích.
+
 Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V25 và bảy pattern riêng K1–K7.
 
 Sau khi chọn profile này, dùng registry `references/bo-giai-phong-cach.md` để đọc đúng một card

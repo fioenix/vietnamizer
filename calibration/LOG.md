@@ -616,3 +616,117 @@ Câu cuối trong mục **Không flag** của V11 được chấm là ổn, khô
 cũng là dạng liệt kê nên không còn được hỏi V11. Đây là hệ quả trực tiếp của quy tắc 1; lỗi dấu câu ở
 những dòng này thuộc khác biệt 2 chứ không thuộc V11. Dòng nào chứa một trong các dấu hiệu chuẩn của
 V11, như `Điều quan trọng cần lưu ý là:`, vẫn luôn được hỏi V11.
+
+---
+
+## 2026-10-26 · giữ hành động, thuật ngữ và phạm vi sửa trong benchmark công khai
+
+**Nguồn và mức bằng chứng:** bộ public-ai-v1, revision Vietverse
+`6b4e4a86e3b399318ac4fe91b2bbe64501037f40`, đầu ra Codex yêu cầu gpt-6.1-sol/medium
+với Vietnamizer0.11.0. Nguồn và đầu ra đều do AI tạo; nhận xét và bản đối chiếu dưới
+đây do host đề xuất, chưa phải văn bản người bản ngữ viết lại hoặc nhãn người chấm
+độc lập. Fio duyệt tác vụ hiệu chuẩn ngày26/10, không mặc nhiên xác nhận từng nhãn là
+bản vàng. Không thêm pattern ngôn ngữ từ các quan sát này; chỉ làm rõ các chốt chặn
+đã có. Hash nguyên bản/đầu ra và file kết quả giữ tại
+`artifacts/015-benchmark-calibration-20261026/observations.json`.
+
+**Thể loại:** câu trả lời giải thích đối thoại; phải giữ giọng và thông tin, không trả
+lời lại câu hỏi hoặc thay quyết định thực hành của người viết.
+
+| Ca | Trước → đầu ra quan sát | Khác biệt và phân loại | Bản đối chiếu / quyết định |
+|---|---|---|---|
+| R020 | `pha **nước mắm ớt tỏi để riêng từng bát**, khách tự điều chỉnh độ cay` → `pha **nước mắm, để riêng ớt và tỏi trong từng bát**, khách tự điều chỉnh độ cay` | Bản gốc mơ hồ về thứ được để riêng; bản sửa quyết định để riêng cả tỏi. Rủi ro vi phạm chốt2–4, không phải pattern mới | Giữ cụm mơ hồ hoặc hỏi thứ cần để riêng; không tự chọn cách làm. Chưa kết luận chắc bản sửa trái ý tác giả vì chưa có xác nhận ý định |
+| R015 | `file`, `điện thoại/laptop`, `game online` → `tệp`, `điện thoại hoặc máy tính xách tay`, `trò chơi trực tuyến` | Lựa chọn từ phụ thuộc người đọc; chưa đủ bằng chứng gọi đây là lỗi ngôn ngữ hoặc sửa nhầm chắc chắn | V19 phải có bằng chứng về người đọc/giọng trước khi dịch đồng loạt. Khi chưa rõ thì giữ cách dùng ổn định trong nguồn; nếu người dùng yêu cầu thuần Việt thì vẫn thực hiện |
+| R001 | `Cùng một "sức đẩy" … — y như đường ống nước…` được đổi dấu và viết lại trong nhánh core, nhưng nhánh có Jev giữ nguyên đoạn | Thay `—` phù hợp trigger T2 hiện hành, không tự chứng minh sửa quá tay. Các thay từ xung quanh cần lý do riêng | T2 chỉ cho phép đổi dấu hoặc cấu trúc tối thiểu, không trao quyền viết lại từ ngữ/quan hệ ý. Giữ trigger và ngoại lệ en dash hiện có |
+| R011 | `tự do chọn môn sẽ phát huy` → `tự do chọn môn sẽ phát huy tác dụng` | Host nhận xét thêm thành phần làm rõ nghĩa trong ngữ cảnh này; prompt thường cũng làm được | Thêm ca hồi quy dương cho bổ ngữ phù hợp, kèm ca `phát huy năng lực` phải giữ. Không suy lợi ích riêng của skill từ ca này |
+| R013 | `điểm chuẩn năm nay của con` → `điểm thi năm nay của con` | Host nhận xét sai đối tượng thuật ngữ trong ngữ cảnh so điểm người dự thi với ngưỡng trường | Ca dương phải kèm ngữ cảnh điểm thi cá nhân đã rõ; khi nguồn thật sự nói ngưỡng tuyển sinh thì giữ `điểm chuẩn` |
+
+**Jev:** R001 có status incomplete, scope_complete=false và candidate_reviews rỗng.
+Advice chứa phán đoán first-pass trên nguồn, không phải phép so sánh chấp nhận hai bản
+sửa. Prompt lịch sử đã ghi advisory/no automatic edit policy. Chưa có bằng chứng code
+runner phủ quyết edit hoặc một ngưỡng gây hồi quy; không đổi runtime hay điểm cắt từ
+khác biệt một đầu ra. Làm rõ host phải tiếp tục rà core, kể cả nhãn acceptable, điểm
+violation thấp, hoặc phần chưa kiểm. Xem trace của feature015.
+
+**Ranh giới dữ liệu:** cả20nguồn public-ai-v1 đã được dùng để hiệu chuẩn kể từ quyết
+định này. Với các phiên bản sửa từ đây, chúng là tập phát triển/hồi quy, không còn là
+holdout độc lập để quảng bá chất lượng. Giữ nguyên các đợt0.11.0 và báo cáo lịch sử;
+không sửa output/manifest/Forms hoặc gọi lại model để tạo bằng chứng thuận lợi.
+
+---
+
+## 2026-10-27 · giữ ý định, câu rút gọn và chức năng dấu câu từ Mindfio
+
+**Nguồn và mức bằng chứng:** bốn bài công khai Mindfio đã được AI biên tập theo xác
+nhận của chủ nhân; bản sửa quan sát từ pilot source 0.12.0, Codex CLI 0.164.0, yêu
+cầu gpt-6.1-sol/medium, backend chưa được chứng thực. Phân tích và kỳ vọng dưới đây
+do host đề xuất, không phải bản tác giả viết lại hoặc nhãn ngôn ngữ độc lập. Chủ
+nhân duyệt hướng triển khai ngày 27/10, không mặc nhiên xác nhận từng nhãn là bản
+vàng. Đây là hiệu chỉnh chốt bảo toàn, không thêm pattern hoặc sở thích cá nhân.
+Trích đoạn/hash/ngữ cảnh gốc giữ trong `artifacts/017-mindfio-run-20261027-v2/`,
+phân tích sâu trong `artifacts/017-mindfio-deep-review-20261027/`; nguồn trước sửa và
+ánh xạ ca nằm tại `artifacts/017-meaning-rhythm-calibration-20261027/`.
+
+| Ca và thể loại | Trước → bản sửa quan sát | Khác biệt, phân loại và quyết định |
+| --- | --- | --- |
+| M05, blog suy ngẫm | `Mà chạy để tránh đối diện.` → core thêm `với sự trống rỗng ấy` | Đoạn trước nêu sợ bỏ lỡ, sợ bị đánh giá và sợ khoảng trống. Chọn riêng một đối tượng có nguy cơ thu hẹp ý và mất nhịp; chưa có nhãn ý định tác giả. Làm rõ ngoại lệ V1/câu rút gọn, giữ khi ngữ cảnh đủ và không có lý do sửa cụ thể |
+| M02, blog suy ngẫm | `kỳ vọng cái gì cũng muốn làm` → core `kỳ vọng có thể làm mọi thứ`; bản có hồ sơ `kỳ vọng làm được mọi thứ` | Câu gốc vướng nhưng chưa cho phép quyết thay ý định thành năng lực. Mở rộng chốt giữ nghĩa để đối chiếu muốn/có thể/phải và phạm vi đối tượng; giữ phần chưa rõ hoặc hỏi khi cần |
+| M01, lời tựa văn chương | `Cosmos. — Niết Bàn` → core `Cosmos: Niết Bàn.` | Dấu hai chấm có thể gắn thêm quan hệ giải thích; chưa rõ tác giả định gắn nghĩa nào. T2 phải kiểm chức năng và quan hệ trước/sau, không suy giữ từ là giữ nghĩa |
+| M05, blog suy ngẫm | `Tất cả – chỉ khác là...` → core `Tất cả, chỉ khác là...` | Hai cách có thể đều hợp lệ nhưng điểm ngắt khác nhau. Đây là ca bảo toàn khi chưa chỉ ra lỗi, không phải luật cấm dấu phẩy hoặc sở thích áp cho mọi người |
+| M02, blog suy ngẫm | `Điều mình mình thật sự hướng đến` → cả ba nhánh bỏ một `mình` | Ca dương gõ lặp, không đổi ý; đối chứng cũng sửa được nên không dùng làm lợi ích riêng của skill |
+| M02, blog suy ngẫm | `"wake-up call"` → bản có hồ sơ `“wake-up call”` | Chỉ đổi dấu, chưa chứng minh lỗi nghĩa. Phân biệt thuật ngữ được nhấn với trích dẫn nguyên văn; T3 chỉ thống nhất dấu ở phần được phép, không đổi chữ bên trong |
+| M02, hai đoạn liền | Hai đoạn cùng mở `Thay vì cố gắng...`, cùng chuyển sang dùng ngôn ngữ của người khác | Có nét nghĩa riêng ở đoạn sau; chỉ là ứng viên rà mạch đoạn, không nhãn lỗi hoặc quyền xóa tự động. Pilot chỉ nhận bản cuối và đóng băng rộng các chuỗi ngoặc nên chưa đo đầy đủ kỹ năng biên tập cấu trúc |
+
+**Ranh giới:** không suy ý định cá nhân, không chấm `xủ quẻ`/`gieo quẻ` thành lỗi khi
+chưa có đối chứng. MR01–MR12 gồm ca từ nguồn thật và phản ví dụ tổng hợp, là kỳ vọng
+hồi quy chưa chạy model sau sửa. Các bài đã dùng để hiệu chỉnh trở thành dữ liệu
+phát triển cho bản nguồn 0.12.1; giữ nguyên raw, prompt, hồ sơ, chart và Forms cũ.
+Không dùng lại chúng làm holdout độc lập để tuyên bố bản mới tốt hơn.
+
+## 2026-10-28 · biên tập theo mẫu: quyền đổi cấu trúc và giữ nghĩa
+
+**Nguồn:** pilot019đóng băng0.12.1 và phản hồi owner chốt hai chế độ ngày28/10/2026. Phân tích hậu kiểm, không phải nhãn tác giả/người chấm hoặc thí nghiệm nhân quả. Đây là bằng chứng về hợp đồng workflow, không lưu sở thích riêng của tác giả.
+
+**Đoạn gốc N1:** “Ba trạng thái mô tả tiến trình ở mức khái quát. ‘Chưa bắt đầu’ cho biết nhiệm vụ chưa được triển khai; ‘đang thực hiện’ cho biết công việc đang được xử lý; ‘đã hoàn thành’ ghi nhận nhiệm vụ đã kết thúc.”
+
+**Đối chiếu:** nhánh B biểu diễn ba định nghĩa bằng ba bullet; D giữ trong đoạn văn. Cả hai giám khảo thích B về tương thích mẫu trên bốn nháp trung tính, nhưng đánh giá dựa nhiều vào hình thức. N2B/A/C bỏ số “năm” khỏi nguồn mơ hồ, Codex/Gemini khác mức lỗi. V3D giữ nét trò chuyện nguồn; không điều chỉnh theo điểm viết hoa của judge.
+
+**Khác biệt gọi tên được:** cổng chỉ sửa lỗi không phân biệt yêu cầu giữ giọng gốc với yêu cầu chủ động theo mẫu. Một câu đúng có thể được chia cấu trúc theo yêu cầu mà không trở thành lỗi ngôn ngữ. **Phân loại:** thiếu nhánh quyền biên tập, không phải pattern mới hoặc sở thích cá nhân. **Quyết định:** owner cho phép thay cấu trúc khi yêu cầu theo mẫu rõ, có căn cứ đúng phạm vi và giữ toàn bộ nghĩa/vùng bảo toàn; chỉ có mẫu vẫn mặc định giữ giọng gốc. Constitution2.1.0 ghi ngoại lệ có giới hạn trước implementation. VC01–VC12 là ca hợp đồng do host soạn; chưa chạy lại model, chưa chứng minh hiệu quả0.13.0. N1–N4 từ đây là dữ liệu phát triển cho thay đổi này.
+
+
+## 2026-10-28 · Mệnh đề ngoài nguồn và ví dụ chỉ dẫn tự mâu thuẫn (0.13.1)
+
+**Nguồn/nhãn:** V1-D trong pilot021 đóng băng, đọc lại cùng nguồn; các ví dụ B trong thư viện0.13.0. Owner giao sửa P0/P1 và thêm ca hồi quy. Đây là phân tích host trên tập phát triển và kiểm tính nhất quán của chỉ dẫn, không phải nhãn người chấm độc lập hay lượt chạy model mới. Không quy kết quan hệ nhân quả giữa ví dụ và đầu ra V1.
+
+| Thể loại / nguồn | Trước / bản sửa sai đã quan sát | Bản đối chiếu / quyết định | Liên quan |
+|---|---|---|---|
+| Blog kỹ thuật, V1 | `Mỗi nơi lưu source sẽ đc gọi là repositories` → `Mỗi nơi lưu source được gọi là repository, số nhiều là repositories.` | Bản0.12.1 đã có `Mỗi nơi lưu source được gọi là repository.` Chú giải số nhiều là mệnh đề mới, dù đúng; bỏ phần chú giải. | Chốt2/3, không phải pattern V1 dù trùng mã ca |
+| B1 | `Chuyển đổi số đóng vai trò quan trọng trong bán lẻ hiện đại.` → thêm tình huống hết hàng/còn kho/chốt đơn | Không có tình huống đó trong đầu vào minh họa; dùng cách nói tương đương hoặc giữ nhận định chung. | B1 |
+| B2 | Ẩn dụ đào tạo/tăng trưởng/chuyển đổi số → phần mềm bị dùng sai trong ba tháng đầu | Tự thêm đối tượng, dự đoán, điều kiện và thời hạn; thay ẩn dụ bằng hai vai trò đã nêu. | B2 |
+| B3 | Quản lý tồn kho ngày càng nan giải → tồn kho lệch là lý do phổ biến nhất hủy đơn đã thanh toán | Tự thêm nguyên nhân, thứ hạng và sự kiện; chỉ bỏ lời dẫn không mang ý riêng. | B3 |
+| B5 | POS giúp thu ngân nhanh hơn/nâng trải nghiệm →90giây xuống40giây và hàng đợi ngắn | Không có số liệu hoặc quan hệ đó; giữ hai lợi ích khác nhau, dùng ca lặp ý thật để minh họa sửa. | B5 |
+| B11 | Tối ưu chi phí/nâng chất lượng/mở thị trường →8%chi phí và không giúp chất lượng | Thêm số, đảo khẳng định và bỏ lợi ích; không cắt một ý chỉ để phá nhịp. | B11 |
+| B6 | Câu hỏi và lời hứa khám phá tồn kho an toàn → một định nghĩa mới | Chỉ giữ định nghĩa nếu đã hiện diện trong ngữ cảnh đầu vào; câu hỏi giải thích thật không tự là lỗi. | B6 |
+| B4/B7/B16 | Ví dụ minh họa đưa kế hoạch12cửa hàng, bãi biển3km, hoặc trải nghiệm4tháng/20lần vào bản sau nhưng không hiện chúng trong bản trước | Chỉ dẫn có nói cần nguồn, nhưng cặp hiển thị dễ dạy sai. Đưa dữ kiện vào đầu vào giả lập đầy đủ, giữ mọi điều kiện và chủ thể khi rút gọn. | B4/B7/B16 |
+
+**Phân loại:** lỗi giữ nghĩa/bằng chứng trong workflow và ví dụ, không phải sở thích riêng của tác giả. Cách viết chữ số, chức năng đại từ và đề mục trong pilot chỉ cho thấy cơ chế cần rút nét mẫu có phạm vi; không đưa giọng tác giả vào quy tắc chung hoặc calibration như một chuẩn tiếng Việt.
+
+**Quyết định:** chốt2 sở hữu kiểm mệnh đề thêm/bỏ hai chiều, gồm cả giải nghĩa đúng nhưng ngoài nguồn. Giữ các ý riêng khi rút gọn; sửa ví dụ trước–sau để nguồn hỗ trợ đầy đủ. B6/B15 phân biệt chức năng thay vì cấm hình thức; guide rút nét mẫu có phạm vi; root chỉ nạp tài liệu cần dùng. Không thêm pattern, ngưỡng, lớp chấm tự động hoặc lượt gọi model. MS01–MS16 là ca hồi quy thủ công; chưa chạy model với0.13.1.
+
+
+## 2026-10-28 · N2: hình thức hợp lệ chưa đủ để chọn theo mẫu (0.13.2)
+
+**Nguồn:** pilot023đóng băng, N2B0.13.0/D0.13.1và các mẫu được cấp. Chủ nhân giao triển khai từ phân tích hậu kiểm, không chạy thêm benchmark. Hai giám khảo model đều chấm giọng4→3và nghĩa clear; dễ đọc Codex5→5,Gemini5→4. Đây là bằng chứng phát triển/nhận xét model, không phải nhãn người bản ngữ độc lập hoặc quan hệ nhân quả đã tách riêng.
+
+| Ngữ cảnh / trước | Bản sửa đã quan sát | Đối chiếu / quyết định |
+|---|---|---|
+| N2Bphân biệt `Phiên bản và môi trường` với `Hướng dẫn thiết lập` | Dgộp dưới `Cần ghi lại những gì trước khi thử?`, gồm cả đoạn đọc hướng dẫn và phân biệt bước đã làm/còn thiếu | Câu hỏi chỉ bao quát phần ghi chép, chưa mô tả hết phần thiết lập. Giữ hai chức năng hoặc dùng đề mục bao quát phù hợp; không bắt giữ nguyên số đề mục. |
+| Bcó `Kết quả của lần thử` | Dcó `Kết quả này cho biết điều gì?` | Cả hai hợp lệ; cần chọn theo chức năng diễn giải giới hạn và bằng chứng mẫu ở vị trí tương ứng, không mặc định câu hỏi tốt hơn. |
+| Bviết `Đầu tiên, cần ghi rõ…` và danh sách bước đã thực hiện/còn thiếu | Dthêm `bạn` và đưa đối chiếu vào một câu | Không mất nghĩa rõ, nhưng chưa thấy lợi ích đủ để đổi quan hệ thuyết minh và cách làm nổi đối chiếu. `Bạn` vẫn hợp lệ khi chỉ người thao tác thật. |
+
+Mẫu generator có câu hỏi khái niệm và cách gọi bạn; mẫu judge-only thiên về đề mục gọi tên chủ đề. Không biến khác biệt ấy thành luật cấm câu hỏi/bạn hoặc giọng chuẩn của tác giả. Đếm hai câu hỏi, hai từ bạn hay số bullet chỉ mô tả đầu ra, không làm ngưỡng sửa.
+
+**Phân loại:** khoảng trống chọn giữa các hình thức phong cách hợp lệ theo chức năng phần, không phải lỗi ngôn ngữ mới hay sở thích riêng cần lưu. **Quyết định:** guide sở hữu bước so hình thức với vai trò nội dung/người đọc; root giữ cổng nghĩa và chế độ, resolver giữ biên profile/card. Rà phạm vi đề mục/đối chiếu sau kiểm nghĩa; cho phép đổi cấu trúc có ích. Bổ sung SF01–SF12với ca dương và chống sửa quá tay, không thêm pattern hoặc lượt chấm. Bản0.13.2chưa chạy model.
+
+
+**Rà hợp đồng trong đợt0.13.2:** root cũ còn câu tuyệt đối `Chỉ sửa khi gọi tên được lỗi` và phần tự kiểm yêu cầu mọi từ thêm phải giải quyết lỗi. Đối chiếu với chốt1cho phép điều chỉnh câu đúng khi được yêu cầu theo mẫu cho thấy phạm vi diễn đạt mơ hồ. Review độc lập phát hiện câu đầu; host rà các câu tự kiểm/câu thiếu từ liên quan. Giới hạn các điều kiện pattern vào nhánh sửa lỗi, còn style edit dẫn về chốt1. Đây là làm rõ quyền đã có, không cho phép tự đổi ý, thêm dữ kiện hoặc bỏ cổng nghĩa. Bản trước lưu trong snapshot024; không lấy việc sửa chỉ dẫn làm bằng chứng model đã qua ca.

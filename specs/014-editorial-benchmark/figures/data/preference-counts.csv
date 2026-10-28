@@ -1,0 +1,16 @@
+a,b,vote,count
+vietnamizer_jev,vietnamizer_review,win,2
+vietnamizer_jev,vietnamizer_review,tie,37
+vietnamizer_jev,vietnamizer_review,loss,0
+vietnamizer_jev,vietnamizer_review,uncertain,0
+vietnamizer_jev,vietnamizer_review,missing,1
+vietnamizer_review,ordinary,win,15
+vietnamizer_review,ordinary,tie,21
+vietnamizer_review,ordinary,loss,3
+vietnamizer_review,ordinary,uncertain,0
+vietnamizer_review,ordinary,missing,1
+vietnamizer_review,bare,win,20
+vietnamizer_review,bare,tie,19
+vietnamizer_review,bare,loss,0
+vietnamizer_review,bare,uncertain,0
+vietnamizer_review,bare,missing,1

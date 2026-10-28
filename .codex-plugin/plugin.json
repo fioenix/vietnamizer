@@ -1,6 +1,6 @@
 {
   "name": "vietnamizer",
-  "version": "0.11.0",
+  "version": "0.13.2",
   "description": "Genre-aware Vietnamese editing that preserves meaning and the writer's voice.",
   "author": {
     "name": "Fioenix",
@@ -20,7 +20,7 @@
     "displayName": "Vietnamizer",
     "shortDescription": "Vietnamese editing, your voice",
     "developerName": "Fioenix",
-    "longDescription": "Edit Vietnamese drafts, workplace messages, articles, README prose, and literal translations. Designed for Vietnamese-speaking writers and professionals, Vietnamizer selects editing rules by genre and audience, checks explicit exceptions before changing text, and reviews each edit for meaning and voice preservation. Correct missing words, unnatural collocations, and awkward sentence structures while preserving facts, terminology, quotations, and code. Keep already-natural wording unchanged. No separate account or API key is required for core editing. This plugin does not detect AI-generated text. Provide only text you are authorized to share, without payment card data, protected health information, government identifiers, or authentication secrets. When the host supplies a TypeSafe key and authorizes transmission, the shipped Python runner automatically attempts Jev evaluation. Without a key or on service failure, core editing remains available.",
+    "longDescription": "Edit Vietnamese drafts, workplace messages, articles, README prose, and literal translations. Designed for Vietnamese-speaking writers and professionals, Vietnamizer selects editing rules by genre and audience, checks explicit exceptions before changing text, and reviews each edit for meaning and voice preservation. Correct missing words, unnatural collocations, and awkward sentence structures while preserving facts, terminology, quotations, and code. By default, keep already-natural wording and source voice unchanged. When explicitly asked to follow supplied reference samples, adapt expression and existing structure while preserving meaning and protected text. No separate account or API key is required for core editing. This plugin does not detect AI-generated text. Provide only text you are authorized to share, without payment card data, protected health information, government identifiers, or authentication secrets. When the host supplies a TypeSafe key and authorizes transmission, the shipped Python runner automatically attempts Jev evaluation. Without a key or on service failure, core editing remains available.",
     "category": "Productivity",
     "capabilities": [],
     "websiteURL": "https://github.com/fioenix/vietnamizer",
@@ -45,7 +45,7 @@
         "translations": {
           "vi-VN": {
             "subtitle": "Biên tập tiếng Việt, giữ giọng",
-            "description": "Giúp AI viết tiếng Việt giống con người hơn. Biên tập bản nháp, tin nhắn công việc, bài viết, README và bản dịch sát. Chọn quy tắc theo thể loại và người đọc, kiểm tra trường hợp không nên sửa, rồi đối chiếu từng thay đổi với ý và giọng gốc. Giữ nguyên dữ kiện, thuật ngữ, trích dẫn, code và câu vốn đã tự nhiên. Không cần tài khoản riêng hay API key cho quy trình cốt lõi; không phải công cụ phát hiện AI. Chỉ cung cấp văn bản được phép chia sẻ, không chứa dữ liệu thẻ thanh toán, thông tin sức khỏe được bảo vệ, định danh chính phủ hoặc secret xác thực. Khi host cấp key TypeSafe và quyền gửi, runner Python tự động thử Jev; thiếu key hoặc lỗi dịch vụ vẫn dùng core."
+            "description": "Giúp AI viết tiếng Việt giống con người hơn. Biên tập bản nháp, tin nhắn công việc, bài viết, README và bản dịch sát. Chọn quy tắc theo thể loại và người đọc, kiểm tra trường hợp không nên sửa, rồi đối chiếu từng thay đổi với ý và giọng gốc. Giữ nguyên dữ kiện, thuật ngữ, trích dẫn và code. Mặc định giữ giọng gốc; khi yêu cầu theo mẫu rõ, có thể đổi cấu trúc ý đã có mà giữ nghĩa. Không cần tài khoản riêng hay API key cho quy trình cốt lõi; không phải công cụ phát hiện AI. Chỉ cung cấp văn bản được phép chia sẻ, không chứa dữ liệu thẻ thanh toán, thông tin sức khỏe được bảo vệ, định danh chính phủ hoặc secret xác thực. Khi host cấp key TypeSafe và quyền gửi, runner Python tự động thử Jev; thiếu key hoặc lỗi dịch vụ vẫn dùng core."
           }
         }
       }

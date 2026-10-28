@@ -20,6 +20,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
 | `references/bang-tra-cuu.md` | Bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán |
 | `references/bo-giai-phong-cach.md` | Năm chiều ngữ cảnh, thứ tự ưu tiên và registry trỏ tới bảy style card; không sở hữu pattern |
+| `references/giu-giong-tu-mau.md` | Cách rút đặc tính và điều chỉnh cấu trúc theo mẫu trong chế độ do `SKILL.md` chọn; kiểm nghĩa/giọng riêng, không sở hữu precedence, pattern hay lưu hồ sơ |
 | `references/typesafe-advisor.md` | Input, authority, coverage và fallback của runner Jev tự động |
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
 | `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
@@ -48,6 +49,34 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `.specify/LICENSE` | MIT notice của GitHub Spec Kit được vendor trong repo |
 | `specs/` | Đặc tả, checklist, plan và task của từng feature; Spec Kit là nguồn chuẩn cho các artifact này |
 | `.agents/skills/` | Generated Codex tooling local, bị gitignore; bootstrap theo `CONTRIBUTING.md` |
+| `benchmarks/` | Corpus giả lập và runner pilot biên tập; kết quả raw giữ local trong `artifacts/`, không phải tập holdout hoặc bằng chứng chất lượng đã chấm độc lập |
+| `benchmarks/mr_compare.py` | Đối chiếu đóng băng MR01–MR12 giữa 0.12.0/0.12.1 trên cùng Codex: 14 tình huống × 2 phiên bản, raw riêng, không chạy lại mẫu; nhãn agent là kiểm tra hồi quy trên tập phát triển |
+| `benchmarks/simple_forms.py`, `benchmarks/simple_forms.gs` | Bộ chấm người đọc trực tiếp: ảnh gốc/sửa hai cột, ba câu hỏi, ghép item ID và kiểm tra thứ tự; dữ liệu model lịch sử giữ nguyên |
+| `benchmarks/gemini_text_only.py`, `benchmarks/gemini_text_guard.mjs`, `benchmarks/gemini-text-only-agent.md` | Đợt Gemini dùng agent riêng, guard đối soát registry theo capability proof và chặn tool call thực tế; raw ngoài workspace, live smoke 1/80 |
+| `benchmarks/gemini_manual.py` | Script để owner tự chạy 80 đầu ra Gemini qua Agybird trong terminal; prepare/test offline, giữ raw và trần lượt, không thay Forms |
+| `benchmarks/gemini_boundary.mjs`, `benchmarks/gemini_capture_cli.mjs` | Proxy egress Google HTTPS và bộ ghi raw theo byte cho runtime Gemini riêng; chưa nghiệm thu tích hợp/inference |
+| `benchmarks/public_ai.py` | Bộ nguồn AI công khai có revision/provenance, bốn nhánh cùng một lượt tạo bản cuối; raw và manifest giữ local |
+| `benchmarks/public_final.py` | Một pass đối soát riêng R020: dùng lại raw hợp lệ trả muộn, chỉ hỏi phần chưa hỏi trong trần; giữ riêng pass lỗi và pass đối soát |
+| `benchmarks/public_availability.py` | Kết thúc tư vấn khi cặp timeout đã hết lượt; giữ tiền dự phòng, tách thiếu dữ liệu do deadline với lỗi schema |
+| `benchmarks/public_abstention.py` | Kết thúc tư vấn khi phục hồi schema đã hết lượt; chỉ nhận prefix hợp lệ, giữ batch lỗi là chưa chấm, không gọi lần ba |
+| `benchmarks/public_deadline.py` | Phục hồi một lần cho request Jev timeout trước HTTP/response; giữ lượt chưa rõ tiền và mọi trần, không lấy mẫu lại câu hợp lệ |
+| `benchmarks/public_recovery.py` | Phục hồi riêng câu Jev sai phân phối, giữ câu hợp lệ, seal nguồn từng câu và trần chi phí/request của đợt công khai |
+| `benchmarks/public_forms.py`, `benchmarks/public_forms.gs` | Tạo hai Forms mới cho đợt công khai, xáo nhãn độc lập, kiểm ảnh/thứ tự/item; không thay Forms pilot |
+| `benchmarks/public_human.py`, `benchmarks/public_human.gs` | Xuất chỉ đọc và nhập phiếu đợt công khai theo item ID, binding và raw UTF-8; chọn hai phiếu rõ ràng trước khi mở khóa chế độ |
+| `benchmarks/public_human_charts.py` | Vẽ SVG/PDF từ nhãn người đã chọn; bootstrap theo nguồn, giữ thiếu/chưa rõ; hình kiểm thử giả lập luôn được ghi nhãn riêng |
+| `benchmarks/execution_report.py` | Phân tích chỉ đọc 160 đầu ra công khai: thay đổi ký tự/độ dài, thời gian/token, đối soát raw và chart SVG/PDF; không gọi model hoặc suy chất lượng |
+| `benchmarks/mindfio_pilot.py` | Pilot giữ giọng riêng: bốn bài Mindfio, ba chế độ trên cùng Codex; hồ sơ được chủ nhân duyệt, tối đa 12 lượt sinh, raw CLI và đối chiếu trước/sau giữ local; không thay các đợt cũ hoặc Forms |
+| `benchmarks/voice_pilot.py`, `benchmarks/voice_guard.mjs`, `benchmarks/voice_continue.py`, `benchmarks/voice_analysis.py` | Pilot giữ giọng tham chiếu 2×2 trên cùng Codex: mẫu và skill là hai yếu tố riêng, 32 đầu ra trong 56 lượt; chấm ẩn nhãn Codex/Gemini, giữ phiếu lỗi là thiếu, đối soát raw/mapping và phân tích offline riêng; không thay các benchmark cũ hoặc Forms |
+| `benchmarks/voice_versions.py`, `benchmarks/voice_version_analysis.py` | Pilot021so0.12.1/0.13.0:32đầu ra trên cùng Codex, prompt theo mẫu rõ, hai đối chứng cùng input;52lượt tối đa gồm calibration/judge, raw riêng và tái dựng offline, không dùng điểm lịch sử làm đối chứng trực tiếp |
+| `benchmarks/voice_patch_versions.py`, `benchmarks/voice_patch_analysis.py` | Pilot023so0.13.0/0.13.1 trên cùng Codex:32đầu ra, hai đối chứng prompt+mẫu;52lượt tối đa, raw riêng và kiểm V1thêm mệnh đề; không chạy lại/sửa các đợt cũ hoặc Forms |
+| `benchmarks/voice_section_versions.py`, `benchmarks/voice_section_analysis.py` | Pilot025so0.13.1/0.13.2 trên cùng Codex,32đầu ra và52lượt tối đa; nguồn/task/đối chứng như023, kiểm riêng N2giọng/nghĩa/chức năng phần; raw và tái dựng riêng, không sửa đợt cũ/Forms |
+| `benchmarks/jev_pilot.py` | Pilot Codex + Jev riêng, giữ dự phòng chi phí và đối soát bằng chứng; không thay runner phát hành |
+| `benchmarks/quality_review.py`, `benchmarks/quality_review_v2.py` | Bộ chấm model ẩn chế độ và bản bổ sung enum; giữ raw, lỗi và mẫu thiếu, không thay chấm người |
+| `benchmarks/reviewer.html`, `benchmarks/quality_human.py` | Giao diện chấm offline, ZIP riêng A/B và kiểm nhận JSON theo packet đã đóng băng |
+| `benchmarks/reviewer_forms.gs`, `benchmarks/quality_forms.py` | Sinh Apps Script form nháp cho người điều phối; chưa nghiệm thu cloud, không tự công khai/gửi lời mời |
+| `benchmarks/quality_analysis.py` | Phân tích model thăm dò, bootstrap theo nguồn và chart có mẫu số/giới hạn |
+| `benchmarks/jev_capture.py`, `benchmarks/jev_recovery.py`, `benchmarks/jev_finish.py` | Phục hồi benchmark riêng: lưu raw HTTP, tái sử dụng bằng chứng đúng payload, cộng dồn chi phí và tạo bản cuối khi nhận đủ câu trả lời; giữ riêng trạng thái thiếu ngữ cảnh |
+| `benchmarks/jev_composite.py` | Chỉ hỏi lại câu trả lời có lỗi phân bố đã quan sát, giữ câu hợp lệ và niêm phong nguồn từng câu trong bằng chứng tổng hợp |
 | `eval/guard/` | Hồ sơ corpus và cấu hình thí nghiệm lịch sử đã ngừng dùng; không có harness thực thi |
 
 Generated integration files, raw runs, scratch output, environment files và cache được giữ local
@@ -83,7 +112,7 @@ Chúng không phải hướng dẫn chạy, không chứng minh hiệu quả cho
 Nếu một cách viết tự nhiên trong công văn nhưng dễ thành sáo ngữ trong blog, hãy xử lý nó ở profile. Không đưa vào V1–V25 như một lỗi áp dụng cho mọi văn bản.
 
 Style card không phải tầng pattern thứ năm. Nó chỉ giải các lựa chọn đều hợp lệ sau khi cổng thể loại
-đã chọn đúng profile. Mỗi profile family giữ pattern trong `rules.md` và card tương thích trong
+đã chọn đúng profile; quyền sửa lỗi hoặc điều chỉnh theo mẫu do chế độ trong `SKILL.md` quyết định. Mỗi profile family giữ pattern trong `rules.md` và card tương thích trong
 `styles/`; không sao chép nội dung card vào rules. `references/bo-giai-phong-cach.md` là nguồn chuẩn
 cho resolver và registry, còn `SKILL.md` sở hữu thứ tự gọi.
 
