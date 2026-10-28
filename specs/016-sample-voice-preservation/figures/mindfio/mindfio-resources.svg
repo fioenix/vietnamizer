@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="1120" height="650" preserveAspectRatio="xMinYMin meet" viewBox="0 0 1120 650" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="1120" height="650"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-650)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="1120" height="650" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="30" y="614" style="font-family: MindfioUnicode; font-size: 19px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1228) scale(1,-1)">Mindfio: tài nguyên từng lượt biên tập</text>
+			<text x="30" y="589" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1178) scale(1,-1)">Mỗi chấm là một bài; nhãn M01/M02/M04/M05 chỉ cùng nguồn qua các chế độ. Không cộng reasoning token vào output token.</text>
+			<text x="30" y="24" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,48) scale(1,-1)">4 bài · 1 lần sinh/bài/chế độ · Cùng Codex gpt-6.1-sol / medium (yêu cầu) · Chưa có nhãn chất lượng của chủ nhân.</text>
+			<text x="220" y="530" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1060) scale(1,-1)">Thời gian CLI (giây)</text>
+			<path d="M 220,210 L 220,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="210.0" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">0.0</text>
+			<path d="M 281.25,210 L 281.25,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="271.25" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">10.9</text>
+			<path d="M 342.5,210 L 342.5,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="332.5" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">21.9</text>
+			<path d="M 403.75,210 L 403.75,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="393.75" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">32.8</text>
+			<path d="M 465,210 L 465,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="455.0" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">43.8</text>
+			<text x="25" y="450" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,900) scale(1,-1)">Prompt thường + hồ sơ</text>
+			<circle cx="402.97808219178086" cy="424.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="409.97808219178086" y="421.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,843) scale(1,-1)">M01</text>
+			<circle cx="338.68515981735163" cy="441.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="345.68515981735163" y="438.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,877) scale(1,-1)">M02</text>
+			<circle cx="329.287899543379" cy="458.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="336.287899543379" y="455.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,911) scale(1,-1)">M04</text>
+			<circle cx="334.29977168949773" cy="475.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="341.29977168949773" y="472.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,945) scale(1,-1)">M05</text>
+			<text x="25" y="355" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,710) scale(1,-1)">Vietnamizer core</text>
+			<circle cx="424.94977168949777" cy="329.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="431.94977168949777" y="326.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,653) scale(1,-1)">M01</text>
+			<circle cx="381.6888127853881" cy="346.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="388.6888127853881" y="343.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,687) scale(1,-1)">M02</text>
+			<circle cx="358.86689497716895" cy="363.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="365.86689497716895" y="360.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,721) scale(1,-1)">M04</text>
+			<circle cx="390.76164383561644" cy="380.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="397.76164383561644" y="377.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,755) scale(1,-1)">M05</text>
+			<text x="25" y="260" style="font-family: MindfioUnicode; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,520) scale(1,-1)">Vietnamizer + hồ sơ</text>
+			<circle cx="433.01575342465753" cy="234.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="438" y="231.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,463) scale(1,-1)">M01</text>
+			<circle cx="394.8841324200913" cy="251.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="401.8841324200913" y="248.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,497) scale(1,-1)">M02</text>
+			<circle cx="366.92728310502287" cy="268.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="373.92728310502287" y="265.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,531) scale(1,-1)">M04</text>
+			<circle cx="351.1085616438356" cy="285.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="358.1085616438356" y="282.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,565) scale(1,-1)">M05</text>
+			<text x="515" y="530" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1060) scale(1,-1)">Input token (nghìn)</text>
+			<path d="M 515,210 L 515,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="505.0" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">0.0</text>
+			<path d="M 576.25,210 L 576.25,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="566.25" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">17.7</text>
+			<path d="M 637.5,210 L 637.5,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="627.5" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">35.5</text>
+			<path d="M 698.75,210 L 698.75,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="688.75" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">53.2</text>
+			<path d="M 760,210 L 760,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="750.0" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">70.9</text>
+			<circle cx="615.6953455571227" cy="424.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="622.6953455571227" y="421.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,843) scale(1,-1)">M01</text>
+			<circle cx="611.7041607898449" cy="441.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="618.7041607898449" y="438.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,877) scale(1,-1)">M02</text>
+			<circle cx="607.840832157969" cy="458.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="614.840832157969" y="455.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,911) scale(1,-1)">M04</text>
+			<circle cx="607.9617771509168" cy="475.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="614.9617771509168" y="472.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,945) scale(1,-1)">M05</text>
+			<circle cx="702.444005641749" cy="329.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="709.444005641749" y="326.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,653) scale(1,-1)">M01</text>
+			<circle cx="717.6727080394922" cy="346.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="724.6727080394922" y="343.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,687) scale(1,-1)">M02</text>
+			<circle cx="715.8896332863187" cy="363.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="722.8896332863187" y="360.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,721) scale(1,-1)">M04</text>
+			<circle cx="715.9967559943582" cy="380.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="722.9967559943582" y="377.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,755) scale(1,-1)">M05</text>
+			<circle cx="712.6897743300423" cy="234.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="719.6897743300423" y="231.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,463) scale(1,-1)">M01</text>
+			<circle cx="727.9115655853315" cy="251.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="733" y="248.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,497) scale(1,-1)">M02</text>
+			<circle cx="726.1284908321579" cy="268.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="733" y="265.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,531) scale(1,-1)">M04</text>
+			<circle cx="726.2425246826516" cy="285.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="733" y="282.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,565) scale(1,-1)">M05</text>
+			<text x="810" y="530" style="font-family: MindfioUnicode; font-size: 12px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,1060) scale(1,-1)">Output token (nghìn)</text>
+			<path d="M 810,210 L 810,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="800.0" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">0.0</text>
+			<path d="M 871.25,210 L 871.25,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="861.25" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">0.8</text>
+			<path d="M 932.5,210 L 932.5,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="922.5" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">1.6</text>
+			<path d="M 993.75,210 L 993.75,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="983.75" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">2.5</text>
+			<path d="M 1055,210 L 1055,485 Z" style="stroke: rgb(88%,89%,91%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="1045.0" y="187" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,374) scale(1,-1)">3.3</text>
+			<circle cx="1007.5590909090909" cy="424.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="1014.5590909090909" y="421.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,843) scale(1,-1)">M01</text>
+			<circle cx="914.6075757575758" cy="441.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="921.6075757575758" y="438.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,877) scale(1,-1)">M02</text>
+			<circle cx="876.9666666666667" cy="458.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="883.9666666666667" y="455.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,911) scale(1,-1)">M04</text>
+			<circle cx="889.439393939394" cy="475.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(19%,36%,61%); fill-rule: evenodd;"/>
+			<text x="896.439393939394" y="472.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,945) scale(1,-1)">M05</text>
+			<circle cx="1016.9878787878788" cy="329.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="1023.9878787878788" y="326.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,653) scale(1,-1)">M01</text>
+			<circle cx="922.7" cy="346.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="929.7" y="343.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,687) scale(1,-1)">M02</text>
+			<circle cx="887.1378787878788" cy="363.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="894.1378787878788" y="360.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,721) scale(1,-1)">M04</text>
+			<circle cx="909.9303030303031" cy="380.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(67%,34%,18%); fill-rule: evenodd;"/>
+			<text x="916.9303030303031" y="377.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,755) scale(1,-1)">M05</text>
+			<circle cx="1012.6818181818182" cy="234.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="1019.6818181818182" y="231.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,463) scale(1,-1)">M01</text>
+			<circle cx="942.3" cy="251.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="949.3" y="248.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,497) scale(1,-1)">M02</text>
+			<circle cx="888.6227272727273" cy="268.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="895.6227272727273" y="265.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,531) scale(1,-1)">M04</text>
+			<circle cx="900.2787878787879" cy="285.5" r="3.2" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(15%,46%,35%); fill-rule: evenodd;"/>
+			<text x="907.2787878787879" y="282.5" style="font-family: MindfioUnicode; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,565) scale(1,-1)">M05</text>
+			<text x="30" y="115" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,230) scale(1,-1)">Thời gian là quan sát từng lần chạy, không gồm chuẩn bị/đánh giá. Không có lặp lại để ước lượng độ ổn định hoặc hiệu ứng cache.</text>
+			<text x="30" y="93" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,186) scale(1,-1)">Lượt M04/prompt phục hồi từ cùng raw gốc sau lỗi parser cảnh báo CLI; không gọi lại. Tổng cộng 12 lần sinh, không phải 13.</text>
+			<text x="30" y="71" style="font-family: MindfioUnicode; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,142) scale(1,-1)">Model backend chưa được runtime chứng thực; raw usage được giữ nguyên. Quota thuê bao không quy đổi thành hóa đơn USD.</text>
+		</g>
+	</g>
+</svg>

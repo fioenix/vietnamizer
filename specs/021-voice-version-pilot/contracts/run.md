@@ -1,0 +1,2 @@
+# Execution
+Only52planned IDs, no retry. Stop on unfinished or unplanned reservation, duplicate session, input/config/raw drift, tool/transport failure or calibration failure. A reproducibly schema/evidence-invalid MAINjudgment with valid terminal native transport may be missing and unattempted IDs continue; no partial score salvage. Frozen52start cap across providers includes failed/reserved starts. Credit/agent/mode identity must match preflight; actual operational tools prohibited. Keep outputs/metadata of failure without treating advertised registry as permission proof.

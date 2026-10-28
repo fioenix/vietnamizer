@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="960" height="480" preserveAspectRatio="xMinYMin meet" viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="960" height="480"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-480)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="960" height="480" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="35" y="442" style="font-family: Helvetica; font-size: 20px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,884) scale(1,-1)">Agreement before adjudication</text>
+			<text x="35" y="420" style="font-family: Helvetica; font-size: 12px;fill: rgb(59%,31%,76%); stroke:none;" transform="translate(0,840) scale(1,-1)">MODEL-ASSESSED / EXPLORATORY</text>
+			<text x="35" y="399" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,798) scale(1,-1)">Meaning labels on matching output cells; descriptive counts, no independence assumption.</text>
+			<text x="100" y="315" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,630) scale(1,-1)">M1 clear</text>
+			<rect x="290" y="290" width="140" height="55" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(41%,41%,41%); fill-rule: evenodd;"/>
+			<text x="350" y="312" style="font-family: Helvetica; font-size: 14px;fill: rgb(100%,100%,100%); stroke:none;" transform="translate(0,624) scale(1,-1)">70</text>
+			<rect x="450" y="290" width="140" height="55" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(97%,97%,97%); fill-rule: evenodd;"/>
+			<text x="510" y="312" style="font-family: Helvetica; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,624) scale(1,-1)">0</text>
+			<rect x="610" y="290" width="140" height="55" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(97%,97%,97%); fill-rule: evenodd;"/>
+			<text x="670" y="312" style="font-family: Helvetica; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,624) scale(1,-1)">0</text>
+			<text x="100" y="245" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,490) scale(1,-1)">M1 violation</text>
+			<rect x="290" y="220" width="140" height="55" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(97%,97%,97%); fill-rule: evenodd;"/>
+			<text x="350" y="242" style="font-family: Helvetica; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,484) scale(1,-1)">0</text>
+			<rect x="450" y="220" width="140" height="55" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(92%,92%,92%); fill-rule: evenodd;"/>
+			<text x="510" y="242" style="font-family: Helvetica; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,484) scale(1,-1)">6</text>
+			<rect x="610" y="220" width="140" height="55" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(97%,97%,97%); fill-rule: evenodd;"/>
+			<text x="670" y="242" style="font-family: Helvetica; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,484) scale(1,-1)">0</text>
+			<text x="100" y="175" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,350) scale(1,-1)">M1 uncertain</text>
+			<rect x="290" y="150" width="140" height="55" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(97%,97%,97%); fill-rule: evenodd;"/>
+			<text x="350" y="172" style="font-family: Helvetica; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,344) scale(1,-1)">0</text>
+			<rect x="450" y="150" width="140" height="55" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(97%,97%,97%); fill-rule: evenodd;"/>
+			<text x="510" y="172" style="font-family: Helvetica; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,344) scale(1,-1)">0</text>
+			<rect x="610" y="150" width="140" height="55" style="stroke: rgb(100%,100%,100%); stroke-linecap: butt; stroke-width: 1; fill: rgb(97%,97%,97%); fill-rule: evenodd;"/>
+			<text x="670" y="172" style="font-family: Helvetica; font-size: 14px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,344) scale(1,-1)">0</text>
+			<text x="290" y="365" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,730) scale(1,-1)">M2 clear</text>
+			<text x="450" y="365" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,730) scale(1,-1)">M2 violation</text>
+			<text x="610" y="365" style="font-family: Helvetica; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,730) scale(1,-1)">M2 uncertain</text>
+			<text x="100" y="90" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,180) scale(1,-1)">Matched cells: 76 | agreement: 1.0 | Cohen kappa: 1.0</text>
+			<text x="35" y="24" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,48) scale(1,-1)">20 synthetic documents; fixed Codex judges; human reviews pending. No general superiority claim.</text>
+		</g>
+	</g>
+</svg>

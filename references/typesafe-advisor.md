@@ -50,6 +50,12 @@ Each section is a full paragraph or structural unit. Supply complete related par
 or two sentences. `profile` is `blog`, `technical` or `typography-only`; `kind` is `prose`, `heading`,
 `list` or `protected`. Resolve canonical genre/profile/style rules first. Add the supplied style
 context to `register`; the runner does not infer personal profiles or source authorship.
+Record the host-selected voice intent and scoped reference traits in the existing `register` text
+when relevant; this is not a new schema field or CLI flag. SKILL.md owns intent and edit authority.
+Jev checks language-pattern applicability, not personal-voice authenticity; a stylistic choice is
+not a violation merely because the source wording is already valid. Reference-driven structural
+edits still require separate host checks of propositions, qualifications, order and protected bytes.
+No additional advisor call or numerical acceptance policy is introduced by either voice intent.
 
 Full mode now auto-segments every supplied paragraph into exact sentence occurrences; optional
 legacy targets are aliases when they match exact sentences, not a filter that can hide later text.
@@ -224,10 +230,21 @@ Overlapping protected ranges are rejected; numerical-token preservation is repor
 Changed numbers do not become acceptable because another score is high.
 
 Read the individual guards and inspect the actual edit. All five canonical safeguards still apply:
-name the error and exclude No flag cases; add no facts; preserve meaning/voice; change only the
-necessary span; keep production metadata out of the delivered text. Preserve exact protected bytes
+use the right edit authority (pattern/No flag for correction, explicit reference intent and
+scoped sample evidence for style adaptation); add no facts; preserve meaning and the selected
+voice within genre; change only the authorized scope; keep production metadata out of the delivered text. Preserve exact protected bytes
 in the host's final output. A fluent candidate may still be invalid. A host-identifiable error can be
-reviewed even if a first-pass Jev classifier missed it. Re-read interacting edits in their paragraphs.
+reviewed even if a first-pass Jev classifier missed it. Independently scan the eligible core
+patterns, including spans with low source-violation scores, acceptable labels or missing checks.
+The existing candidate `improvement` question asks about linguistic repair, not requested style
+adaptation. A low value does not by itself reject a valid style edit. The `voice` question checks
+evidenced register/author stance; it is not a validated personal-voice or style-transfer metric.
+Do not relabel these outputs as reference-voice scores. The host checks the selected intent against
+sample evidence separately, and still rejects unsupported facts/meaning changes regardless of style.
+A source-only judgment does not assess an unsubmitted rewrite; an empty candidate_reviews list
+is not a verdict to keep the whole source. Conversely, an unsupported host edit cannot override
+the safeguards merely because source detection was incomplete. Re-read interacting edits in
+their paragraphs, without inventing numerical acceptance thresholds.
 
 Jev may inform the host's final editing immediately under the owner-approved governance amendment.
 The runner never automatically accepts, rejects or reverts an edit. A future numerical automatic

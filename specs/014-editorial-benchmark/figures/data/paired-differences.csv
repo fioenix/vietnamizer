@@ -1,0 +1,13 @@
+a,b,metric,n_sources,estimate,low,high,planned_sources,excluded_sources
+vietnamizer_jev,vietnamizer_review,precision,11,0.0,0.0,0.0,20,9
+vietnamizer_jev,vietnamizer_review,recall,6,0.0,0.0,0.0,20,14
+vietnamizer_jev,vietnamizer_review,meaning_violation,19,-0.05263157894736842,-0.15789473684210525,0,20,1
+vietnamizer_jev,vietnamizer_review,unnecessary_edit,19,0,0,0,20,1
+vietnamizer_review,ordinary,precision,11,0.21645021645021645,0.08008658008658008,0.3528138528138528,20,9
+vietnamizer_review,ordinary,recall,6,0.0,0.0,0.0,20,14
+vietnamizer_review,ordinary,meaning_violation,19,0.05263157894736842,0,0.15789473684210525,20,1
+vietnamizer_review,ordinary,unnecessary_edit,19,-0.4473684210526316,-0.6578947368421053,-0.23684210526315788,20,1
+vietnamizer_review,bare,precision,11,0.32994227994228,0.12121212121212123,0.5562049062049063,20,9
+vietnamizer_review,bare,recall,6,0.0,0.0,0.0,20,14
+vietnamizer_review,bare,meaning_violation,19,-0.21052631578947367,-0.42105263157894735,-0.05263157894736842,20,1
+vietnamizer_review,bare,unnecessary_edit,19,-0.34210526315789475,-0.5526315789473685,-0.15789473684210525,20,1

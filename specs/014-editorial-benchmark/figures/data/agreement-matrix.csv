@@ -1,0 +1,6 @@
+dimension,M1,M2,count,units
+meaning,clear,clear,70,"paired output labels; descriptive, not independent samples"
+meaning,violation,violation,6,"paired output labels; descriptive, not independent samples"
+voice,clear,clear,75,"paired output labels; descriptive, not independent samples"
+voice,violation,violation,1,"paired output labels; descriptive, not independent samples"
+protected,clear,clear,76,"paired output labels; descriptive, not independent samples"

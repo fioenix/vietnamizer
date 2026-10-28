@@ -25,7 +25,8 @@ Giải tài liệu hỗn hợp theo thứ tự sau:
    dụ đang được bàn tới. Đóng băng từng vùng cùng byte gốc trước khi chia phần; các vùng này không
    nhận style card.
 2. Chia phần văn xuôi còn lại khi mục đích, người đọc hoặc người nói đổi. Heading và độ dài tự nó
-   không tạo một phần mới; các đoạn cùng chức năng nên dùng chung bản tóm tắt phong cách.
+   không tạo một phần mới; các đoạn cùng chức năng nên dùng chung bản tóm tắt phong cách. Vai trò
+   trình bày như giới thiệu khái niệm hay đối chiếu bên trong cùng phần không tự đổi profile/card.
 3. Chọn đúng một base profile và tối đa một style card cho mỗi phần. CTA có thật, đoạn hướng dẫn
    và lời kể trong cùng file được giải riêng nếu chúng làm những việc khác nhau.
 4. Quét pattern và sửa riêng từng phần. Không đem đại từ, nhịp, thuật ngữ, cách kết hoặc mức cam
@@ -49,6 +50,10 @@ Code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn nguyê
 bàn tới là vùng bảo toàn, không phải base profile `typography-only`. Không chọn style card và giữ
 nguyên từng byte ở những vùng này.
 
+Chế độ giữ giọng gốc/theo mẫu do `SKILL.md` sở hữu; có mẫu không tự chọn chế độ theo mẫu.
+Blog kỹ thuật có tác giả hiện diện được giải theo mục đích blog, không theo từ vựng công nghệ.
+README, SOP và hướng dẫn tra cứu vẫn giữ profile kỹ thuật; không chọn profile theo giọng mong muốn.
+
 Style card không được đổi base profile đã xác định đúng thể loại. Một card chỉ giúp giải các lựa chọn đều hợp ngữ pháp bên trong profile đó.
 
 ## Tạo bản tóm tắt phong cách cho từng phần
@@ -58,8 +63,8 @@ Mỗi phần chỉ dùng tối đa một card. Bản tóm tắt phong cách cầ
 - phạm vi phần đang xử lý;
 - base profile;
 - style card hoặc `không có`;
-- yêu cầu cụ thể của lượt hiện tại;
-- đặc tính giọng có bằng chứng từ mẫu/hồ sơ đúng phạm vi;
+- yêu cầu cụ thể, chế độ và giọng đích đã chốt theo `SKILL.md`;
+- đặc tính giọng có bằng chứng từ mẫu/hồ sơ đúng phạm vi; khi có mẫu, chọn hình thức theo vai trò phần ở `giu-giong-tu-mau.md`;
 - những thứ phải giữ: dữ kiện, nghĩa, mức chắc chắn, xưng hô, thuật ngữ và vùng bảo toàn;
 - trạng thái `đã giải`, `giữ cách hiện tại` hoặc `cần hỏi một câu`.
 
@@ -80,7 +85,7 @@ humanize.
 
 ### Ba trạng thái giải
 
-- **Đã giải:** đủ bằng chứng để chọn base profile và card. Bắt đầu quét pattern, nhưng card không tự cho phép sửa.
+- **Đã giải:** đủ bằng chứng để chọn base profile và card. Bắt đầu rà lỗi và thực hiện điều chỉnh theo chế độ; card một mình không cấp quyền sửa.
 - **Giữ cách hiện tại:** thiếu tín hiệu chỉ ảnh hưởng lựa chọn nhỏ như nhịp hoặc mức chêm tiếng Anh. Không hỏi, không tự làm văn bản “có cá tính hơn”.
 - **Cần hỏi một câu:** thiếu thông tin sẽ làm đổi đại từ, quan hệ, thanh ngữ vực hoặc mục đích đáng kể. Hỏi đúng điểm đó, không đưa cả bảng giọng cho người dùng chọn.
 
@@ -95,6 +100,8 @@ humanize.
 | Hồ sơ được cung cấp không chắc đúng người hoặc sai kênh | Không dùng hồ sơ đó |
 | Thiếu vai vế nhưng đầu vào đã có đại từ nhất quán | Giữ đại từ đang có |
 | Thiếu vai vế và thay đổi đại từ là điều bắt buộc để hoàn tất yêu cầu | Hỏi một câu về cách xưng hô rồi dừng phần đó |
+
+Khi có mẫu giọng hoặc hồ sơ được người dùng cung cấp, đọc `giu-giong-tu-mau.md` cho cách rút đặc tính, xử lý bằng chứng yếu và kiểm bản sửa. Thứ tự ưu tiên ở đây vẫn giữ nguyên.
 
 Không hỏi người dùng chỉ để xác nhận điều resolver đã có đủ bằng chứng. Một câu hỏi hợp lệ phải chỉ
 ra đúng biến còn thiếu, chẳng hạn *“Bạn muốn giữ cách xưng hô hiện tại, hay văn bản này gửi cho
@@ -131,4 +138,4 @@ Không tạo card riêng cho một người, công ty hoặc chiến dịch; đ�
 | `van-hanh-doanh-nghiep` | `ky-thuat-doanh-nghiep` | `profiles/ky-thuat-doanh-nghiep/styles/van-hanh-doanh-nghiep.md` |
 | `hoc-thuat-phan-tich` | `ky-thuat-doanh-nghiep` | `profiles/ky-thuat-doanh-nghiep/styles/hoc-thuat-phan-tich.md` |
 
-Sau khi resolver chọn card, đọc đúng file trong bảng. Không đọc các card còn lại chỉ để so sánh giọng.
+Sau khi resolver chọn card, đọc đúng file trong bảng, theo mục Chỉ nạp tài liệu cần dùng của `SKILL.md`. Không đọc các card còn lại chỉ để so sánh giọng; khác biệt chức năng thật trong cùng tài liệu được giải riêng như mục Tài liệu pha nhiều chức năng.

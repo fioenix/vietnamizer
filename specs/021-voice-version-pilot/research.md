@@ -1,0 +1,4 @@
+# Decisions
+Existing8sources and3+2reference split are verified from019seal. Corpus is development data after020; report within-corpus regression only. Same explicit task for both releases avoids changing prompt only for0.13.0. New simultaneous0.12.1cells replace historical control to avoid old prompt/fixedprofile confounding. Full common library availability lets each canonical release route itself; no host-selected newprofile privilege. A/Care identical-prompt stochastic controls, not a release effect. Old/new4source+4neutral strata retained, N2ambiguous count remains unchanged.
+
+PrimaryD-B; secondaryD-Cnewskillvalue,B-Aoldskillvalue,C-Acontrolrepeat. Blinding and exact quote/tie acceptance unchanged; literal evidence not semantic justification. No need for external technology research: same stdlib capture/ReportLab stack already validated. No new evaluator.

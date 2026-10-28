@@ -1,0 +1,2 @@
+# Verify
+Run targeted tests for voice_versions and native helpers. Prepare021offline, freeze sources/code/runtime and request IDs; independent preflight then execute one writer. Analyze only sealed terminal records; report exact completed/valid/missing counts. Preserve old archive seals; portable reproduce into new directory with no provider calls. Never run historical benchmark scripts to resume021.

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="960" height="380" preserveAspectRatio="xMinYMin meet" viewBox="0 0 960 380" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="960" height="380"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-380)" style="clip-path: url(#clip)">
+		<g transform="">
+			<rect x="0" y="0" width="960" height="380" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
+			<text x="35" y="342" style="font-family: Helvetica; font-size: 20px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,684) scale(1,-1)">Paired preference with document-cluster uncertainty</text>
+			<text x="35" y="320" style="font-family: Helvetica; font-size: 12px;fill: rgb(59%,31%,76%); stroke:none;" transform="translate(0,640) scale(1,-1)">MODEL-ASSESSED / EXPLORATORY</text>
+			<text x="35" y="299" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,598) scale(1,-1)">Win=1, tie=0.5, loss=0; neutral=0.5. Both judges retained per document; incomplete clusters excluded.</text>
+			<path d="M 380,85 L 380,250 Z" style="stroke: rgb(90%,90%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="370" y="65" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,130) scale(1,-1)">0</text>
+			<path d="M 475,85 L 475,250 Z" style="stroke: rgb(90%,90%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="465.0" y="65" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,130) scale(1,-1)">0.25</text>
+			<path d="M 570,85 L 570,250 Z" style="stroke: rgb(70%,70%,70%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="560.0" y="65" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,130) scale(1,-1)">0.5</text>
+			<path d="M 665,85 L 665,250 Z" style="stroke: rgb(90%,90%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="655.0" y="65" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,130) scale(1,-1)">0.75</text>
+			<path d="M 760,85 L 760,250 Z" style="stroke: rgb(90%,90%,90%); stroke-linecap: butt; stroke-width: 1;"/>
+			<text x="750" y="65" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,130) scale(1,-1)">1</text>
+			<text x="35" y="235" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,470) scale(1,-1)">Vietnamizer + Jev vs Vietnamizer core</text>
+			<path d="M 570,238 L 600,238 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="580.0" cy="238" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="785" y="235" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,470) scale(1,-1)">n=19/20</text>
+			<text x="35" y="170" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,340) scale(1,-1)">Vietnamizer core vs Ordinary prompt</text>
+			<path d="M 580,173 L 670,173 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="625.0" cy="173" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="785" y="170" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,340) scale(1,-1)">n=19/20</text>
+			<text x="35" y="105" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,210) scale(1,-1)">Vietnamizer core vs Bare prompt</text>
+			<path d="M 625,108 L 705,108 Z" style="stroke: rgb(8%,41%,34%); stroke-linecap: butt; stroke-width: 2;"/>
+			<circle cx="665.0" cy="108" r="3" style="stroke: none; stroke-linecap: butt; stroke-width: 1; fill: rgb(8%,41%,34%); fill-rule: evenodd;"/>
+			<text x="785" y="105" style="font-family: Helvetica; font-size: 10px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,210) scale(1,-1)">n=19/20</text>
+			<text x="35" y="24" style="font-family: Helvetica; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,48) scale(1,-1)">20 synthetic documents; fixed Codex judges; human reviews pending. No general superiority claim.</text>
+		</g>
+	</g>
+</svg>

@@ -2,7 +2,7 @@
 import collections
 import unittest
 
-from jev.core import evaluate, prepare
+from jev.core import MAX_REQUEST, encoded, evaluate, prepare
 from jev.coverage import expand_records
 from tests.test_jev import response
 from tests.test_preparation_limits import SECTION, markdown
@@ -33,15 +33,16 @@ class RequestSequenceCharacterizationTest(unittest.TestCase):
         units = [u['id'] for u in prepare(doc)['units']]
         report, sent = run(doc)
         sequence = [(units.index(r['section']), len(r['question_ids'])) for r in report['receipts']]
-        # Feature 011: heading units (0, 7, 14, 21, 28) lost T4, V2, V3, V5, V11 and V14, and
-        # V11's longer Không flag text adds bytes to every request, so units pack 41 questions and
-        # headings 40; before 011 every request held 42 (1,344 answers, 2,069 missing).
-        headings = {0, 7, 14, 21, 28}
-        self.assertEqual(sequence, [(i, 40 if i in headings else 41) for i in range(32)])
+        # The 0.13.2 V1/T2/T3 exceptions and recipes consume more of the unchanged
+        # 48,000-byte request limit. Later headings include preceding context:
+        # they fit 39 questions; the first heading and prose units fit 40.
+        later_headings = {7, 14, 21, 28}
+        self.assertEqual(sequence, [(i, 39 if i in later_headings else 40) for i in range(32)])
         self.assertEqual(len(sent), 32)
-        self.assertEqual(report['counts']['validated'], 1307)
+        self.assertTrue(all(len(encoded(payload)) <= MAX_REQUEST for payload in sent))
+        self.assertEqual(report['counts']['validated'], 1276)
         self.assertEqual(collections.Counter(m['reason'] for m in expand_records(report['missing'])),
-                         {'budget_exhausted': 1924})
+                         {'budget_exhausted': 1932})
 
 
 if __name__ == '__main__':

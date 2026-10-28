@@ -1,0 +1,2 @@
+# Data
+Epoch: manifest,52IDs, versionarchive/source/code/runtime hashes. Edit cell: sourceID,opaque arm A/B/C/D, freshsession, request/result/seal. Bothsamplecontrols map to identical input. Library: same filenames, version-specific bytes, root-selected active profile. Assessment: source+4aliases,3dimensions,4preferences, source/candidate/referencequotes; rejected block stays missing. Mapping reconstructed from source/texts/seed/provider. No persistent user profile.

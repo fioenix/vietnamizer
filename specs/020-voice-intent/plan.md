@@ -1,0 +1,15 @@
+# Plan020 — bounded voice intent
+
+## Technical context and routing
+Markdown skill, no build/runtime/schema/dependency changes. Canonical coding-workflow read through explicit Obsidian CLI after one sandbox connection-error escalation; review-by2026-10-21 expired. Spec Kit owns workflow. Use tasks/implement: this crosses the editing-authority contract, constitution, root resolver, sample guide and packaged consumers. User accepted the proposed design and implementation; no additional approval needed. No remaining activity-choice ambiguity, no Jev call/budget.
+
+## Constitution check
+2.1.0 records owner-approved explicit style-edit exception to pattern-backed correction. Meaning/genre/protected text unchanged. No language pattern added. Existing019N1–N4 failures provide RED development evidence; VC01–VC12 are host-authored contractual regressions, not model reruns or validated gold. No behavioral effectiveness PASS without inference. Constitution hooks absent; constitution phase complete separately before feature implementation.
+
+## Design and scope
+SKILL owns intent/authority/invariants. Default preserve-source, explicit requested target with usable supplied sample/profile permits adapt-reference. Root selection occurs after data/genre/protected gates and before profile/card application; style never overrides T-only, K genre or protected bytes. Technical personal-blog routing uses author presence/purpose. Guide owns evidence-backed structural choices, semantic inventory and separate checks. Resolver points to canonical intent, no second precedence authority. Advisory register carries intent and scoped traits without CLI/schema/recipe expansion. README/plugin descriptions make default vs requested style behavior accurate.
+
+Owned source: SKILL.md; .plugin-skills/vietnamizer/SKILL.md (discovery description for the same new branch); references/giu-giong-tu-mau.md; references/bo-giai-phong-cach.md; references/typesafe-advisor.md; profiles/ky-thuat-doanh-nghiep/rules.md (routing pointer only); README.md; AGENTS.md (maintenance clarification only if needed); calibration/LOG.md and ca-kiem-thu.md; two plugin version/description carriers. Constitution scoped amendment already done. Registry regenerated/check, unchanged expected as patterns unchanged. No B/V/T/K new pattern, no runtime code/defaults or shared installation change. Version0.13.0, source only.
+
+## Gates and delivery
+Serial one writer. Log observations and twelve manual regression scenarios before skill edit. Review exact before/current diff independently (contract/source consistency and semantic adversarial cases), not forward-generation benchmark. Targeted package tests for touched references/card layout/artifact parity; registry check, validator and local plugin/skill packaging. Discovery/Claude validation if installed, no install/network dependency download. Preserve24895historicalfiles and owner WIP. Artifact020keeps before snapshots, command outputs, hashes and final receipt. No full suite, new benchmark, API, Forms, commit, release or install.

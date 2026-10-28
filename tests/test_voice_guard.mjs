@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {checkInit,checkActivity,capture} from '../benchmarks/voice_guard.mjs';
+const init={event:'init',init:{agent:'judge',model:'gemini',permission_mode:'request-review',tools:['finish','advertised_read_file']}};
+checkInit(init,'judge','gemini');assert.throws(()=>checkInit(init,'wrong','gemini'));
+assert.throws(()=>checkActivity({step_update:{step_type:'tool',tool_name:'read_file'}}));
+assert.throws(()=>checkActivity({subagents:[{}]}));checkActivity({step_update:{tool_name:'finish'}});
+const root=fs.mkdtempSync(path.join(os.tmpdir(),'voice-guard-test-'));const cwd=path.join(root,'workspace');fs.mkdirSync(cwd);
+const raw=JSON.stringify(init)+'\r\n'+JSON.stringify({event:'result',result:{status:'SUCCESS'}})+'\r\n';
+const r=await capture(process.execPath,['-e','process.stdout.write('+JSON.stringify(raw)+');process.stderr.write("diagnostic\\r\\n")'],{dir:path.join(root,'raw'),cwd,agent:'judge',model:'gemini',timeoutMs:2000});
+assert.equal(r.guard_ok,true);assert.equal(fs.readFileSync(path.join(root,'raw/stdout.bin'),'utf8'),raw);assert.equal(fs.readFileSync(path.join(root,'raw/stderr.bin'),'utf8'),'diagnostic\r\n');
+const bad=JSON.stringify(init)+'\n'+JSON.stringify({event:'step_update',step_update:{tool_name:'read_file'}})+'\n';
+const stopped=await capture(process.execPath,['-e','process.stdout.write('+JSON.stringify(bad)+');setTimeout(()=>{},5000)'],{dir:path.join(root,'bad'),cwd,agent:'judge',model:'gemini',timeoutMs:2000});assert.equal(stopped.guard_ok,false);assert.match(stopped.guard_error,/operational_activity/);
+await assert.rejects(capture(process.execPath,[],{dir:path.join(cwd,'raw'),cwd,agent:'judge',model:'gemini',timeoutMs:10}));
+fs.rmSync(root,{recursive:true});console.log('voice guard: init, registry distinction, actual activity rejection, binary capture, raw boundary passed');
