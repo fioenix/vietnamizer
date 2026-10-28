@@ -93,3 +93,15 @@ AGENTS trong cùng diff. Thay đổi package phải giữ manifest, version và 
 
 CI kiểm offline tests, package validation và tracked paths. `.gitignore` chỉ giảm khả năng commit
 nhầm; nó không chặn `git add -f` và không thay thế review dữ liệu hoặc secret scanning.
+
+## Tài liệu và hình benchmark
+
+`README.md` là trang giới thiệu ngắn. Danh mục pattern đầy đủ nằm trong `docs/patterns.md`,
+style card được giới thiệu trong `docs/style-and-voice.md`, nguồn trong `docs/sources.md` và
+lịch sử đầy đủ trong `docs/changelog.md`. Khi đổi version, cập nhật cả tóm tắt README và changelog.
+Validator kiểm cả các tài liệu này; chuyển bảng không được làm mất kiểm tra inventory.
+
+Hình README dùng lại dữ liệu trong báo cáo đã đóng băng, không chạy model. Xem
+[hướng dẫn tái dựng hình](docs/figures/README.md). Bộ vẽ là tooling tùy chọn cho maintainer,
+không thuộc payload hoặc dependency của người cài skill. Không dựng lại hay thay archive
+đã phát hành chỉ vì sửa tài liệu ngoài payload.

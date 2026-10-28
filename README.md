@@ -5,207 +5,100 @@
 
 > **Biên tập tiếng Việt rõ ý, giữ nghĩa và giọng người viết.**
 
-Vietnamizer là skill dành cho Claude, Codex và các agent hỗ trợ Skills CLI. Skill xác định thể
-loại cùng người đọc trước; mặc định gọi tên lỗi rồi sửa phần có vấn đề. Khi người dùng yêu cầu theo giọng mẫu, skill có thể đổi cấu trúc từ các ý đã có và vẫn giữ nghĩa. Blog vẫn giữ cá tính;
-README vẫn giữ thuật ngữ kỹ thuật; báo cáo doanh nghiệp không bị kéo thành lời trò chuyện.
+Vietnamizer là skill giúp Claude, Codex và các agent tương thích rà bản nháp AI,
+bản dịch sát và văn bản tiếng Việt đọc chưa thuận. Skill chọn quy tắc theo thể loại,
+chỉ sửa khi có căn cứ và kiểm lại nghĩa trước khi giữ thay đổi.
 
-Skill dùng được cho bản nháp do AI tạo, bản dịch sát tiếng Anh, nội dung do người viết song ngữ soạn
-hoặc bất kỳ đoạn tiếng Việt nào đọc chưa thuận miệng. Đây không phải công cụ phát hiện AI và không
-dùng lỗi ngôn ngữ để đoán tác giả.
+**Không cần API key cho core Markdown.** Mặc định giữ giọng gốc; khi được yêu cầu rõ,
+có thể điều chỉnh theo mẫu người dùng cung cấp. Khả năng theo giọng mẫu vẫn đang được hiệu chỉnh.
+
+[Cài nhanh](#cài-nhanh) · [Xem bằng chứng](#bằng-chứng-và-kiểm-thử) · [Dùng ngay](#dùng-ngay) · [Tài liệu](#tài-liệu-chi-tiết)
 
 ## Vietnamizer hữu ích ở đâu?
 
-| Khi cần | Vietnamizer hướng agent làm gì? |
+| Khi cần | Skill hướng agent làm gì? |
 |---|---|
-| Rà bản nháp AI hoặc bản dịch sát | Tìm lỗi cụ thể về từ, bổ ngữ và cấu trúc; không viết lại chỉ vì “chưa mượt” |
-| Biên tập blog, bài chuyên môn | Giữ ý định, mức khẳng định, câu rút gọn và điểm ngắt có chức năng |
-| Rà README, báo cáo, tài liệu công việc | Giữ thuật ngữ và giọng theo thể loại; không mặc định đổi sang khẩu ngữ |
-| Giữ giọng cá nhân khi dùng AI | Mặc định giữ giọng gốc; khi yêu cầu theo mẫu rõ, dùng đặc tính có bằng chứng để điều chỉnh cách diễn đạt/cấu trúc và kiểm nghĩa riêng |
+| Rà bản nháp AI hoặc bản dịch sát | Tìm lỗi cụ thể về từ, bổ ngữ và cấu trúc câu |
+| Biên tập blog, bài chuyên môn | Giữ ý định, mức khẳng định, câu rút gọn và nhịp dấu câu |
+| Rà README, báo cáo, tài liệu công việc | Giữ thuật ngữ và giọng theo thể loại |
+| Biên tập theo giọng mẫu | Dùng đặc tính có bằng chứng, kiểm riêng việc thêm/bỏ hoặc đổi ý |
 
-Dùng như một lớp biên tập trước khi gửi hoặc xuất bản; đọc lại các chỗ đổi ý,
-xưng hô và dấu câu. Skill không xác minh sự thật trong bài, không tự tạo trải
-nghiệm cho người viết và chưa được chứng minh luôn tốt hơn prompt biên tập thường.
+Dùng như một bước biên tập có kiểm soát trước khi gửi hoặc xuất bản. Đọc lại những chỗ
+đổi xưng hô, cấu trúc và dấu câu; skill không xác minh sự thật trong bài.
 
 ## Trước/sau: sửa chỗ cần sửa, giữ chỗ đã đúng
 
-Ba ví dụ dưới đây là **đầu ra thật trong lượt hồi quy trên cùng Codex** ngày
-27/10/2026. Cả hai phiên bản nhận cùng nguồn, ngữ cảnh và yêu cầu; các ô có dấu
-`…` chỉ trích phần liên quan, không phải toàn bộ văn bản.
+Trích đầu ra thật trên cùng Codex trong lượt hồi quy **0.12.0/0.12.1** ngày 27/10/2026.
+Bảng chỉ hiển thị phần liên quan; kết quả này không phải phép đo mới cho 0.13.2.
 
-| Ca và mục tiêu | Bản gốc | Sau biên tập với 0.12.0 | Sau biên tập với 0.12.1 |
-|---|---|---|---|
-| MR04 · sửa thiếu bổ ngữ kết quả | Đã tìm khắp nhà nhưng vẫn không tìm chìa khóa. | Đã tìm khắp nhà nhưng vẫn không tìm **thấy** chìa khóa. | Đã tìm khắp nhà nhưng vẫn không tìm **thấy** chìa khóa. |
-| MR05 · giữ điểm ngắt | Tất cả – chỉ khác là… | Tất cả, chỉ khác là… | Tất cả – chỉ khác là… |
-| MR12 · giữ câu rút gọn đã rõ nghĩa | Tôi đang soạn hướng dẫn bàn giao. Soạn xong rồi dừng. | Tôi đang soạn hướng dẫn bàn giao. Soạn xong **bản hướng dẫn** rồi dừng. | Tôi đang soạn hướng dẫn bàn giao. Soạn xong rồi dừng. |
+| Ca | Bản gốc | Sau biên tập với 0.12.1 |
+|---|---|---|
+| MR04 · thiếu bổ ngữ | Đã tìm khắp nhà nhưng vẫn không tìm chìa khóa. | Đã tìm khắp nhà nhưng vẫn không tìm **thấy** chìa khóa. |
+| MR05 · điểm ngắt có chức năng | Tất cả – chỉ khác là… | Giữ nguyên điểm ngắt; 0.12.0 đã đổi thành dấu phẩy. |
+| MR12 · đối tượng đã rõ | Tôi đang soạn hướng dẫn bàn giao. Soạn xong rồi dừng. | Giữ nguyên; 0.12.0 đã thêm “bản hướng dẫn” vào câu sau. |
 
-MR04 có ngữ cảnh đã tìm mà chưa thấy, không phải từ chối tìm. MR05 không có
-quy chuẩn buộc đổi dấu; MR12 đã rõ đối tượng từ câu trước. Giữ nguyên ở hai ca
-sau là hành vi mong đợi, không phải bằng chứng skill bỏ qua mọi câu ngắn.
-[Báo cáo từng ca](specs/018-mr-version-comparison/results.md) ghi tiêu chí, raw
-đã lưu, các trường hợp không tái hiện lỗi và giới hạn của phép so sánh.
+Ở MR04, ngữ cảnh là đã tìm nhưng chưa thấy. MR05 không có quy chuẩn buộc đổi dấu;
+MR12 đã rõ đối tượng từ câu trước. [Xem đủ ca và tiêu chí](specs/018-mr-version-comparison/results.md).
 
 ## Bằng chứng và kiểm thử
 
-**Có dữ liệu thực thi, ví dụ đối chiếu và kết quả hồi quy; chưa có chấm người độc lập.**
-Các phép so sánh thực hiện trên cùng agent/model, không dùng để xếp hạng Codex với Gemini.
+**Có bằng chứng hồi quy về sửa lỗi và tránh sửa quá tay; chưa có chấm người độc lập.**
+Các phép so sánh dưới đây dùng cùng agent biên tập, không xếp hạng Codex với Gemini.
 
-| Đợt đánh giá | Số liệu cụ thể | Kết luận được hỗ trợ |
-|---|---|---|
-| [Hồi quy 0.12.0 → 0.12.1](specs/018-mr-version-comparison/results.md) | 12 ca, 14 tình huống × 2 phiên bản = **28 đầu ra**; đạt **10/12 → 12/12 ca** | MR05 và MR12 chuyển từ chưa đạt sang đạt theo tiêu chí khóa trước; mỗi điều kiện chỉ sinh một lần, nhãn do agent đối chiếu và reviewer kiểm tra |
-| [Pilot giữ giọng Mindfio, 0.12.0](specs/016-sample-voice-preservation/mindfio-results.md) | **4 bài × 3 chế độ = 12 đầu ra**, cùng Codex | Workflow có hồ sơ đã chạy được; lợi ích giữ giọng chưa đồng đều và chưa tách riêng được tác động của hồ sơ với hướng dẫn đọc mẫu |
-| [Nguồn AI công khai, 0.11.0](specs/014-editorial-benchmark/execution-report.md) | **20 nguồn × 4 chế độ = 80 đầu ra** trong mỗi bộ Codex/Gemini; tổng **160 đầu ra** | Đo được thay đổi văn bản, thời gian và token; chưa suy thành điểm chất lượng hoặc tỷ lệ thắng |
+### Hồi quy: hai ca sửa quá tay đã được khắc phục trong lượt đối chiếu
 
-MR01–MR12 là tập phát triển đã dùng để cải tiến skill, không phải tập đánh giá
-độc lập. **12/12 không có nghĩa 100% văn bản sẽ được sửa đúng**; nhãn chỉ xét
-tiêu chí của từng ca. Ở nhánh nhận xét MR11, 0.12.1 vẫn tự dùng “mày” khi ngữ
-cảnh không xác lập quan hệ xưng hô; vấn đề này được ghi riêng trong báo cáo.
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/figures/regression-cases-mobile.svg">
+  <img src="docs/figures/regression-cases.svg" alt="Cùng Codex: 0.12.0 đạt 10/12 ca, 0.12.1 đạt 12/12; MR05 và MR12 chuyển sang đạt.">
+</picture>
 
-Số liệu thực thi và điểm chất lượng được tách riêng. Có thay đổi trong bản sửa chưa chứng
-minh thay đổi đó tốt hơn; các ca giữ nguyên cũng được giữ trong bộ đánh giá.
+**12 ca, 14 tình huống × 2 phiên bản = 28 đầu ra.** MR05 và MR12 chuyển từ chưa đạt sang đạt;
+không ca nào chuyển ngược trong lượt này. Đây là tập phát triển đã dùng để sửa skill,
+mỗi điều kiện sinh một lần; nhãn do agent đối chiếu và reviewer kiểm tra.
+**12/12 không có nghĩa 100% văn bản sẽ được sửa đúng.**
+[Xem báo cáo hồi quy](specs/018-mr-version-comparison/results.md).
 
-| Bằng chứng hiện có | Có thể kiểm tra điều gì? | Giới hạn |
-|---|---|---|
-| [Test tự động](tests/) | Hành vi runner: phân đoạn, vùng bảo toàn, coverage, xử lý phản hồi và lỗi dịch vụ | Test dùng phản hồi giả lập không đo chất lượng phán đoán của Jev hay bản biên tập cuối |
-| [Ca kiểm thử chạy tay](calibration/ca-kiem-thu.md) | Kết quả mong đợi của từng tình huống, gồm cả ca không được sửa | Có ca kiểm thử chưa đồng nghĩa đã chạy và đạt |
-| [Nhật ký hiệu chuẩn](calibration/LOG.md) | Bằng chứng và quyết định đằng sau các lần sửa quy tắc | Ca đã dùng để chỉnh quy tắc không phải tập đánh giá độc lập |
+### Theo giọng mẫu: có tín hiệu tốt, kết quả còn trái chiều
 
-Có thể chạy nhóm test về runner, vùng bảo toàn và lỗi dịch vụ mà không cần gọi API:
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/figures/reference-voice-mobile.svg">
+  <img src="docs/figures/reference-voice.svg" alt="Pilot 0.13.2 so với prompt dùng cùng mẫu: Codex chấm 5 thắng, 3 hòa; Gemini chấm 3 thắng, 1 hòa, 3 thua và thiếu 1 phiếu.">
+</picture>
 
-```bash
-python3 -B -m unittest tests.test_jev tests.test_context_protection tests.test_coverage_faults
-```
+Cả hai hàng là **model chấm ẩn nhãn**, cùng đánh giá đầu ra do **Codex biên tập**.
+So sánh dùng cùng bản gốc, mẫu giọng và yêu cầu theo mẫu. Mỗi hàng có tám nguồn dự kiến;
+phiếu V2–Gemini bị loại do trích dẫn sai và giữ ở trạng thái thiếu.
 
-<details>
-<summary>Chi tiết bộ 160 đầu ra công khai và biểu đồ trước/sau — quy tắc 0.11.0</summary>
+Hai giám khảo đồng ý lựa chọn ở **4/7 nguồn cùng có phiếu**. Corpus đã được dùng để
+hiệu chỉnh skill; model chấm không thay thế tác giả hoặc người đọc. Chưa đủ bằng chứng
+Vietnamizer luôn tốt hơn prompt thông thường kèm mẫu.
+[Xem pilot 0.13.2](specs/025-section-voice-pilot/results.md) · [Phương pháp, dữ liệu và mọi đợt đánh giá](docs/benchmarks.md).
 
-### Trước và sau khi dùng Vietnamizer trên cùng agent — cập nhật 26/10/2026
-
-Bộ số liệu dưới đây dùng quy tắc **0.11.0**. Từ lúc dùng các ca này để hiệu chuẩn bản 0.11.1, cả 20 nguồn trở thành **tập phát triển/hồi quy** cho những phiên bản sửa theo chúng; không dùng lại như holdout độc lập để chứng minh chất lượng bản mới. Xem [hồ sơ hiệu chuẩn](specs/015-benchmark-calibration/results.md).
-
-20 câu trả lời nguyên văn từ [TTP01/Vietverse-SFT-Preview](https://huggingface.co/datasets/TTP01/Vietverse-SFT-Preview/tree/6b4e4a86e3b399318ac4fe91b2bbe64501037f40), có nhãn `synthetic_llm` và dấu vết xử lý do bên phát hành công bố, giấy phép Apache 2.0. Đã lưu nguyên bản 100 dòng, câu hỏi gốc, metadata, revision và SHA-256; chốt 20 mẫu trước khi biên tập. Chưa có raw API hoặc tên model tạo nguồn được đối soát.
-
-Câu hỏi chính: **cùng một văn bản, sau khi dùng Vietnamizer có tự nhiên, rõ ràng hơn mà vẫn giữ đúng ý, số liệu và giọng không?** “Trước” là bản AI gốc đã đóng băng; “sau” là bản agent biên tập từ chính bản đó. Nhánh yêu cầu cơ bản cũng là bản sau biên tập, không thay thế bản gốc.
-
-Báo kết quả trước/sau riêng cho từng chế độ trên cùng agent. Các nhánh yêu cầu cơ bản và prompt thường giúp kiểm tra thêm phần đóng góp của Vietnamizer; nhánh có Jev giúp kiểm tra phần đóng góp của tư vấn. Codex và Gemini là hai lần thực hiện riêng của cùng thiết kế, không dùng để xếp hạng agent và không gộp nhãn thành một mẫu.
-
-Cả bốn nhánh yêu cầu cùng cấu hình Codex `gpt-6.1-sol`, effort `medium`, **mỗi nhánh một lượt tạo bản cuối từ cùng bản gốc**. Backend thực chưa có attestation; 80 lượt đều hoàn tất, không ghi nhận tool.
-
-| Chế độ | Bản hoàn tất | Trùng hoàn toàn bản gốc |
-|---|---:|---:|
-| Yêu cầu biên tập cơ bản | 20/20 | 0 |
-| Prompt biên tập thông thường | 20/20 | 0 |
-| Vietnamizer | 20/20 | 1 |
-| Vietnamizer + Jev | 20/20 | 2 |
-
-“Trùng hoàn toàn” tính cả khoảng trắng và định dạng, **không phải điểm chất lượng**. Jev hoàn tất phạm vi theo hợp đồng ở 1/20 nguồn; 19 nguồn có tư vấn thiếu do giới hạn, ngữ cảnh/phân đoạn hoặc lỗi phản hồi. Các ca này vẫn nằm trong bộ chấm. Chi phí Jev theo usage cộng dự phòng là **0,4564 USD / trần 2 USD**, gồm 0,2003 USD của đợt trước; chưa đối soát hóa đơn.
-
-**[Báo cáo benchmark thực thi đầy đủ](specs/014-editorial-benchmark/execution-report.md)** có 7 hình phân tích, bảng từng nguồn, trung vị và Q1–Q3, cùng phương pháp tái lập từ raw. Hình mô tả thay đổi và tài nguyên; không phải điểm chất lượng hoặc bằng chứng Vietnamizer thắng đối chứng.
-
-#### Trong bộ Codex
-
-Mức thay đổi ký tự trung vị so với bản gốc là **2,42%** với Vietnamizer và **1,75%** với Vietnamizer + Jev. Đây là `1 − SequenceMatcher.ratio`, có tính khoảng trắng/Markdown; không phải tỷ lệ lỗi hay tỷ lệ nội dung được cải thiện.
-
-![Codex: phân bố thay đổi trước/sau trên cùng agent](specs/014-editorial-benchmark/figures/execution/codex-text-distributions.svg)
-
-#### Trong bộ Gemini
-
-Đã đối soát **80/80 bản**, cùng bốn chế độ và 20 nguồn; raw CLI ghi nhận `gemini-3.8-flash-medium`. Mỗi chế độ lần lượt có **15, 12, 12, 15 bản giữ nguyên hoàn toàn** (yêu cầu cơ bản, prompt thường, Vietnamizer, Vietnamizer + Jev). Các trường hợp giữ nguyên vẫn được giữ trong phân tích; chưa đánh giá chúng đúng hay bỏ sót lỗi.
-
-![Gemini: phân bố thay đổi trước/sau trên cùng agent](specs/014-editorial-benchmark/figures/execution/gemini-text-distributions.svg)
-
-Báo cáo tách riêng hai runtime và không dùng các số này để xếp hạng agent. Tổng cộng có 160 đầu ra nhưng chỉ 20 nguồn; mỗi nguồn/chế độ/runtime có một lượt tạo bản cuối. Nguồn từ một tập SFT đã tuyển chọn, chưa phải holdout đại diện cho mọi văn bản AI. Token/thời gian lấy từ CLI; chi phí thuê bao chưa quy thành USD.
-
-Hai Forms và [công cụ chấm người](specs/014-editorial-benchmark/human-analysis-runbook.md) giữ nguyên để dùng lại khi cần, không phải bước phải chờ để hoàn thành báo cáo mô tả. Không gọi thêm model/Jev, không dùng nhãn khảo sát hoặc điểm model từ pilot cũ cho báo cáo hiện tại. Xem [trạng thái](specs/014-editorial-benchmark/CURRENT.md), [nguồn và thực thi](specs/014-editorial-benchmark/public-ai-results.md), [phương pháp trước/sau](specs/014-editorial-benchmark/within-agent-amendment.md).
-
-</details>
-
-<details>
-<summary>Pilot trước trên văn bản giả lập — thiết kế và dữ liệu riêng</summary>
-
-[Đặc tả benchmark](specs/014-editorial-benchmark/spec.md) xác định phép so sánh cùng một
-model ở bốn chế độ: không dùng skill, dùng prompt biên tập thông thường, dùng Vietnamizer
-và dùng Vietnamizer kết hợp Jev. [Chế độ có Jev](specs/014-editorial-benchmark/jev-extension.md)
-đã được triển khai và chạy pilot trên Codex; tình trạng nhận tư vấn và fallback được báo riêng.
-Benchmark cần đo sửa đúng, sửa quá tay, giữ nghĩa và giữ giọng, kèm thời gian và chi phí.
-Điểm model thăm dò được báo riêng bên dưới; chưa có kết luận thắng đối chứng đã được người đọc xác nhận.
-
-**Pilot ngày 25/10/2026:** đã thu 60 bản biên tập từ Codex và 10 bản từ Gemini 3.8 Flash trên
-văn bản giả lập; một trial Gemini bị cách ly vì gọi tool ngoài yêu cầu. Việc chạy tiếp bị chặn
-khi chưa xác minh được cách ly dữ liệu. Pilot chưa đạt mục tiêu 120 đầu ra và chưa được chấm
-chất lượng độc lập. Xem [kết quả, phạm vi kiểm chứng và phần còn thiếu](specs/014-editorial-benchmark/pilot-results.md).
-
-**Codex + Jev, cập nhật ngày 25/10/2026:** đã nhận đủ phản hồi Jev cho **20/20 văn bản**
-và tạo **20 bản Codex + Jev mới**. Bộ chấm hiện tại có 80 bản cuối cho bốn chế độ, dùng lại
-các bản đối chứng từ đợt trước. Các câu trả lời “chưa đủ ngữ cảnh” vẫn được giữ nguyên;
-nhận đủ phản hồi không đồng nghĩa biên tập đã đúng. Tổng chi phí Jev từ usage cộng dự phòng
-khoảng **0.2003 USD / 2 USD**, chưa phải hóa đơn đối soát. Raw request/response, lỗi,
-nguồn từng câu trả lời và bảng phân tích được lưu local. Chưa có chấm chất lượng độc lập
-hoặc bằng chứng hiệu quả Jev. Xem [báo cáo phục hồi và giới hạn](specs/014-editorial-benchmark/recovery-results.md),
-[lưu trữ dữ liệu](specs/014-editorial-benchmark/data-archive.md) và
-[báo cáo đợt partial/fallback trước](specs/014-editorial-benchmark/codex-jev-results.md).
-
-
-**Chấm bằng model, ngày 25/10/2026 — MODEL-ASSESSED / EXPLORATORY:** hai cấu hình giám khảo
-Codex (yêu cầu GPT-6.1 Sol và GPT-6 Astra; backend chưa được attestation) chấm 80 bản cuối.
-Có **156/160 nhận xét hợp lệ**; bốn nhận xét thiếu do một nhóm lỗi enum, không gọi lại.
-Vietnamizer + Jev so với Vietnamizer tự rà: **2 phiếu thắng, 37 hòa, 0 thua, 1 thiếu**.
-CI 95% của preference còn chạm mức trung tính; chưa có bằng chứng rõ về lợi ích tăng thêm
-của Jev. Hai baseline cũ ít lượt sửa hơn nên các so sánh với chúng có giới hạn thiết kế.
-
-![Pilot model: phiếu lựa chọn, gồm phần thiếu](specs/014-editorial-benchmark/figures/model-preferences.svg)
-
-Đơn vị thống kê là 20 nguồn giả lập; CI ghép cặp dùng 19 nguồn đủ cả hai giám khảo, không
-coi các nhận xét là mẫu độc lập. Hai model cùng nhà cung cấp; điểm model không phải nhãn
-chuẩn. Xem [kết quả, CI, an toàn và dữ liệu](specs/014-editorial-benchmark/quality-results.md),
-[protocol](specs/014-editorial-benchmark/quality-protocol.md) và
-[bộ giao hai người chấm](specs/014-editorial-benchmark/human-handoff.md).
-Bộ người đọc dùng [cách chấm trực tiếp](specs/014-editorial-benchmark/human-simple-protocol.md):
-xem bản gốc cạnh bản sửa, trả lời ba câu cho mỗi đoạn; vẫn ẩn tên bốn chế độ.
-Nhãn giữ đúng và độ dễ đọc được báo riêng, không suy thành precision/recall của từng lần sửa.
-
-</details>
+**Kết luận thực dụng:** đáng thử khi cần một quy trình rà tiếng Việt có quy tắc rõ và
+kiểm soát sửa quá tay. Với yêu cầu theo giọng mẫu, cần đọc lại từng bản sửa.
+Không dùng mức đổi ký tự, độ dài hay token làm điểm chất lượng.
 
 ## Cài nhanh
 
-Tên mới từ bản **0.9.7**: Vietnamizer, định danh `vietnamizer` (trước đây là
-`vi-humanizer`). Bản hiện tại là **0.13.2**, giữ nghĩa trước rồi chọn nét giọng theo chức năng từng phần; câu hỏi, đề mục, đại từ và danh sách được chọn theo việc chúng giúp người đọc làm gì. Các chốt giữ ý định, đối tượng lược, nhịp dấu câu, vùng bảo toàn và tư vấn Jev vẫn áp dụng. Runner Jev đọc trọn ghi chú Markdown dài, dùng
-số lượt gọi theo thứ tự ưu tiên và không hỏi những câu mà chính quy tắc đã trả lời. Jev vẫn chỉ chạy
-khi host cấp key và quyền gửi dữ liệu. Phát hành trên GitHub không có nghĩa là Directory đã chấp thuận.
-Asset của các release trước 0.9.7 vẫn mang tên
-`vi-humanizer.*` và chứa định danh cũ.
-Xem [hướng dẫn chuyển tên](docs/rename-vietnamizer-2026-10-03.md).
+Bản hiện tại là **0.13.2**. [Tải các gói từ GitHub Release](https://github.com/fioenix/vietnamizer/releases/latest).
 
-**OpenAI Marketplace, cập nhật 23/10/2026:** owner báo portal hiển thị “We are not accepting more
-skills-only submissions at this time.” Vietnamizer giữ gói skills-only; việc chuẩn bị gửi OpenAI
-đang tạm dừng theo bằng chứng intake này. Tài liệu OpenAI vẫn hỗ trợ định dạng skills-only nhưng
-không chứng minh tài khoản được nhận hồ sơ hoặc plugin được Directory chấp thuận. Chưa kiểm độc
-lập thông báo trên portal; không suy thành chính sách toàn cầu hoặc vĩnh viễn. Các đường cài từ
-repo và gói riêng vẫn tách biệt với việc duyệt Directory. Xem
-[bằng chứng, điều kiện tiếp tục và đánh giá MCP](docs/openai-marketplace-assessment-2026-10-23.md).
-
-### Codex và các agent dùng Skills CLI
+### Skills CLI
 
 ```bash
-npx --yes skills@1.5.20 add fioenix/vietnamizer --global
+npx skills add fioenix/vietnamizer --skill vietnamizer
 ```
 
-Cài cho mọi agent mà Skills CLI hỗ trợ:
+### Codex plugin — catalog Finolabs
+
+Với cài đặt mới chưa có marketplace `agybird` cũ:
 
 ```bash
-npx --yes skills@1.5.20 add fioenix/vietnamizer \
-  --skill vietnamizer \
-  --agent '*' \
-  --global \
-  --yes
+codex plugin marketplace add fioenix/agybird
+codex plugin add vietnamizer@Finolabs
 ```
 
-Bỏ `--global` nếu muốn cài trong phạm vi dự án. Có thể xem skill mà CLI tìm được trước khi cài:
-
-```bash
-npx --yes skills@1.5.20 add fioenix/vietnamizer --list
-```
-
-Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn. Cờ `--agent '*'` chọn mọi agent được hỗ trợ; cờ `--copy` buộc CLI sao chép file thay vì tạo liên kết tượng trưng.
+Đã đăng ký marketplace `agybird`? Đọc [hướng dẫn chuyển và khôi phục](docs/installation.md)
+trước khi đổi đăng ký. **Finolabs** là catalog dùng chung; không phải chứng nhận từ OpenAI.
 
 ### Claude Code plugin
 
@@ -214,723 +107,72 @@ Skills CLI nhận repository, URL hoặc đường dẫn cục bộ làm nguồn
 /plugin install vietnamizer@vietnamizer
 ```
 
-Đây là marketplace của repo, không cần chờ Anthropic duyệt directory. Sau khi cài, gọi skill
-bằng `/vietnamizer:vietnamizer` kèm đoạn cần biên tập. Nếu chưa thấy skill, mở phiên mới.
-
-### Claude web và Claude Desktop: thêm marketplace
-
-1. Mở **Customize → Plugins → Add → Add marketplace**.
-2. Chọn **Add from a repository**, nhập `fioenix/vietnamizer` hoặc
-   `https://github.com/fioenix/vietnamizer`.
-3. Trong **Discover**, chọn **Vietnamizer → Add**, rồi kiểm plugin đã bật.
-4. Trong cuộc trò chuyện, gõ `/` hoặc bấm `+`, chọn skill **Vietnamizer** và gửi đoạn cần sửa.
-
-Theo [hướng dẫn của Claude](https://support.claude.com/en/articles/13837440-use-plugins-in-claude),
-plugin trên web/Desktop dành cho các gói Pro, Max, Team và Enterprise. Nếu không thấy tùy chọn,
-kiểm tra gói và chính sách của tổ chức; cài riêng không bỏ qua các giới hạn này.
-
-Có thể tải `vietnamizer-plugin.zip` từ
-[Releases](https://github.com/fioenix/vietnamizer/releases/latest) để upload plugin thay vì thêm
-repo. Không dùng `vietnamizer.skill` hoặc `vietnamizer-claude-org.zip` ở bước upload plugin:
-hai file đó là gói skill riêng.
-
-Vietnamizer chưa được Anthropic duyệt vào directory; việc gửi duyệt đang tạm dừng. Các đường
-cài riêng ở trên không phụ thuộc việc niêm yết. Maintainer giữ
-[checklist gửi Anthropic](docs/claude-marketplace-checks.md) để dùng khi tiếp tục.
-
-### Marketplace plugin cho tổ chức Claude
-
-Owner của tổ chức Team/Enterprise có thể tải `vietnamizer-plugin.zip` từ Releases, mở
-**Organization settings → Plugins & skills → Add → Upload a plugin**, chọn marketplace mới
-hoặc có sẵn rồi upload. Thành viên cài plugin từ **Discover** theo quyền được cấp.
-
-Đừng nhầm với **Sync from GitHub** của marketplace tổ chức: đường sync này yêu cầu repo
-GitHub private/internal, không nhận trực tiếp repo public `fioenix/vietnamizer`. Dùng upload
-ZIP cho trường hợp đó. Xem
-[hướng dẫn quản trị plugin](https://support.claude.com/en/articles/13837433-manage-plugins-for-your-organization)
-về quyền, bật Cowork/Skills và chính sách phân phối.
-
-### Codex plugin và Marketplace
-
-Catalog Codex dùng chung của Finolabs đặt tại nguồn `fioenix/agybird` với tên máy
-(`marketplace.name`) phân biệt hoa–thường là `Finolabs` và `displayName` là `Finolabs` (đã hiệu
-chỉnh từ bản catalog dùng chung đầu tiên ở `agybird` `v0.2.1` vốn đặt tên máy là `agybird`).
-Catalog này gồm ba mục `agybird@Finolabs`, `vietnamizer@Finolabs` và `markmap-skills@Finolabs`.
-
-Với máy **chưa từng đăng ký** nguồn `agybird` cũ, có thể đăng ký trực tiếp từ GitHub rồi cài
-`vietnamizer@Finolabs`:
-
-```bash
-codex plugin marketplace add fioenix/agybird
-codex plugin add vietnamizer@Finolabs
-```
-
-Hoặc đăng ký từ một bản checkout/clone cục bộ của `fioenix/agybird` đã có `"name": "Finolabs"`:
-
-```bash
-codex plugin marketplace add /path/to/finolabs-catalog
-codex plugin add vietnamizer@Finolabs
-```
-
-Repo này vẫn giữ `.agents/plugins/marketplace.json` độc lập (tên máy `vietnamizer`,
-`displayName` là `Vietnamizer`) để tương thích ngược và phục vụ kiểm tra gói tại chỗ:
-
-```bash
-codex plugin marketplace add fioenix/vietnamizer
-codex plugin add vietnamizer@vietnamizer
-```
-
-**Chuyển từ `@agybird` (`vietnamizer@agybird`) hoặc `vietnamizer@vietnamizer` sang `vietnamizer@Finolabs` và hoàn tác (rollback):**
-trong Codex (`marketplace_upgrade.rs`), lệnh `upgrade` sẽ báo lỗi khi `marketplace.name` tải về
-(`Finolabs`) khác với tên đã cấu hình (`agybird`), còn chạy lại `marketplace add` cùng URL Git
-`fioenix/agybird` trước khi gỡ đăng ký cũ có thể tái sử dụng lại nguồn `agybird` cũ. Vì vậy,
-không dùng lệnh `upgrade` trên `agybird` để đổi tên marketplace và không thêm đè cùng URL Git khi
-nguồn `agybird` cũ vẫn còn. Hãy làm theo thứ tự song song (side-by-side) sau:
-
-1. Sao lưu cấu hình và trạng thái đăng ký plugin/marketplace hiện tại của Codex.
-2. Chuẩn bị một bản clone/checkout cục bộ riêng của `fioenix/agybird` đã cập nhật (ví dụ
-   `git clone https://github.com/fioenix/agybird.git /path/to/finolabs-catalog`), kiểm tra
-   `.agents/plugins/marketplace.json` tại đó có `"name": "Finolabs"`, rồi đăng ký đường dẫn cục bộ
-   này để tạo marketplace `Finolabs` song song với `agybird` cũ:
-   ```bash
-   codex plugin marketplace add /path/to/finolabs-catalog
-   codex plugin add vietnamizer@Finolabs
-   ```
-   (Nếu máy đang dùng cả bộ ba trong catalog dùng chung, cài luôn `agybird@Finolabs` và
-   `markmap-skills@Finolabs` ở bước này.)
-3. Xác nhận `vietnamizer@Finolabs` (cùng các plugin `@Finolabs` liên quan) đã cài và nạp đúng
-   trước khi dọn nguồn cũ.
-4. Dùng lệnh CLI được hỗ trợ để gỡ các selector `@agybird` cũ (`vietnamizer@agybird`, v.v.) và gỡ
-   marketplace `agybird` cũ (hoặc `vietnamizer@vietnamizer` / marketplace `vietnamizer` nếu chuyển
-   từ bản độc lập). Giữ nguyên đăng ký từ bản clone cục bộ là đủ để sử dụng; không giả định cơ chế
-   thay thế tại chỗ sang URL Git từ xa nếu client chưa hỗ trợ.
-
-Nếu cần hoàn tác (rollback), khôi phục từ bản sao lưu ban đầu, hoặc checkout `fioenix/agybird` tại
-tag cố định `v0.2.1` (nơi `marketplace.name` vẫn là `agybird`) để đăng ký lại `vietnamizer@agybird`,
-hoặc dùng nguồn độc lập `fioenix/vietnamizer` với `vietnamizer@vietnamizer`.
-
-Khả năng hiển thị tên nguồn `Finolabs` hoặc `Vietnamizer` và cách gom nhóm trong trang Plugins
-phụ thuộc từng bản client Codex; tài liệu này không khẳng định client đã tự gom nhóm trên UI
-hoặc đã cài đặt thực tế. Skills CLI ở trên vẫn là đường cài độc lập. Catalog của repo không đồng
-nghĩa plugin đã được duyệt vào directory chính thức của OpenAI hoặc Anthropic.
-
-Xem [hướng dẫn phân phối và kiểm thử](docs/plugin-distribution.md),
-[quyền riêng tư](PRIVACY.md) và [điều kiện sử dụng](TERMS.md).
-
-### Claude web và Claude Desktop: chỉ cài skill
-
-[Tải gói skill từ trang Releases](https://github.com/fioenix/vietnamizer/releases/latest),
-mở **Customize → Skills → + Create skill → Upload a skill**, chọn file vừa tải rồi bật skill.
-Claude cần bật **Code execution and file creation** để dùng custom skill. Xem thêm
-[hướng dẫn chính thức của Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
-
-### Claude Org: chỉ cài skill
-
-[Tải gói Claude Org từ trang Releases](https://github.com/fioenix/vietnamizer/releases/latest),
-mở **Organization settings → Plugins & skills → Add → Upload a skill**, rồi chọn file ZIP. Gói này
-đặt `SKILL.md` và `LICENSE` ở thư mục gốc, cùng các file cần khi skill chạy.
-
-### Đóng gói từ source
-
-Người bảo trì repo có thể tự tạo lại cả hai artifact:
-
-```bash
-./scripts/package-skill.sh
-```
-
-Kết quả nằm ở `dist/vietnamizer.skill` và `dist/vietnamizer-claude-org.zip`.
-
-Để tạo gói plugin chung cho Codex và Claude Code:
-
-```bash
-python3 scripts/package-plugin.py
-```
-
-Kết quả là `dist/vietnamizer-plugin.zip`, có hai manifest và một skill trong
-`skills/vietnamizer/`. Script tạo gói từ source chuẩn; không bảo trì bản Markdown thứ hai.
-Đây là gói để cài và kiểm tra riêng, không phải xác nhận OpenAI đang nhận submission.
-Trước khi dựng lại, giữ bản sao và SHA-256 của archive bị thay thế; không dùng candidate local
-cùng version để ghi đè asset đã phát hành. Xem [quy trình đóng gói](docs/plugin-distribution.md).
-
-### Cài thủ công
-
-Chép `LICENSE`, `SKILL.md` cùng `profiles/`, `references/`, `calibration/`, `agents/`, `assets/` và `jev/` vào
-thư mục skill của agent:
-
-```bash
-git clone https://github.com/fioenix/vietnamizer.git /duong/dan/toi/skills/vietnamizer
-```
+Mở session mới sau khi cài. [Claude web/Desktop, Claude Org, cài thủ công và đóng gói](docs/installation.md).
 
 ## Dùng ngay
 
-```text
-/vietnamizer
-
-[văn bản cần biên tập]
-```
-
-Khi cần sửa file, nêu rõ phạm vi:
+Gọi `Vietnamizer` và giao bản nháp, thể loại, người đọc cùng phần cần bảo toàn. Ví dụ:
 
 ```text
-Dùng vietnamizer để sửa phần văn xuôi trong docs/bai-viet.md.
-Giữ nguyên code, bảng tham số và các trích dẫn.
-```
+Use Vietnamizer to copyedit the Vietnamese draft below for a personal blog.
+Preserve its meaning, level of certainty, terminology and existing voice.
+Keep quotations and code unchanged. Return only the edited article.
 
-### Ba prompt dùng thử trên Claude
-
-Dán từng prompt bên dưới sau khi chọn skill Vietnamizer. Với Claude Code, thêm
-`/vietnamizer:vietnamizer` trước prompt. Đây là mẫu thử và tiêu chí mong đợi, không phải cam kết
-mọi lần chạy model sẽ trả cùng một câu.
-
-1. **Hoàn chỉnh ý:** “Sửa câu sau trong bài kể trải nghiệm; chỉ trả câu cuối: Đã thử ba cách mà
-   vẫn không giải quyết vấn đề.” Kết quả mong đợi thêm “được” sau “giải quyết”, giữ “ba cách”.
-2. **Giữ câu vốn tự nhiên:** “Rà câu sau trong chat công việc; nếu đã tự nhiên thì giữ nguyên.
-   Chỉ trả câu cuối: Tôi rời công ty lúc sáu giờ.” Kết quả mong đợi giữ nguyên câu.
-3. **Giữ code trong README:** dùng mẫu dưới đây. Kết quả mong đợi thêm “là” sau “đơn giản nhất”
-   và giữ nguyên khối code từng byte.
-
-````text
-Biên tập phần văn xuôi sau trong README; giữ nguyên khối code từng byte:
-Cách xử lý đơn giản nhất tăng số worker.
-
-```bash
-WORKERS=3 ./run-worker.sh --dry-run
-```
-````
-
-### Cách hoạt động, dữ liệu và hỗ trợ
-
-Plugin nạp hướng dẫn Markdown, profile và bảng tra đi kèm; không có MCP server, hook, bước
-cài dependency hoặc chương trình chạy nền. Chỉ phần văn bản người dùng giao để biên tập được
-xử lý; không tự tìm mẫu giọng trong memory hoặc lịch sử hội thoại. Agent có thể đọc hay sửa
-file được người dùng giao trong phạm vi cụ thể, theo quyền và cơ chế xác nhận của host.
-Đó không phải quyền quét các file khác để thu thập dữ liệu.
-
-Maintainer không có máy chủ nhận văn bản hay telemetry của plugin. Claude vẫn xử lý và có thể
-lưu hội thoại theo chính sách của nền tảng; plugin không biến việc biên tập thành xử lý hoàn
-toàn trên máy. Không gửi credential, định danh chính phủ, dữ liệu thẻ thanh toán hoặc PHI.
-Xem [quyền riêng tư](PRIVACY.md) và [điều kiện sử dụng](TERMS.md).
-
-Khi host cấp key và đã có quyền gửi dữ liệu, Vietnamizer tự động thử đánh giá qua TypeSafe;
-đoạn gốc, candidate và ngữ cảnh liên quan được gửi tới dịch vụ đó. Không có key thì core không
-gọi dịch vụ. Xem [quyền riêng tư](PRIVACY.md) và [hợp đồng Jev](references/typesafe-advisor.md).
-
-- **Không thấy skill:** kiểm plugin đã bật, rồi mở phiên mới. Trong Claude Code kiểm đúng
-  marketplace `vietnamizer` và lời gọi `/vietnamizer:vietnamizer`.
-- **Mô tả hoặc phiên bản chưa đổi:** cập nhật đúng plugin cùng tên từ nguồn đã cài; tránh cài
-  thêm bản review trùng tên. ZIP upload riêng không tự cập nhật từ GitHub.
-- **Icon mặc định:** manifest có icon, nhưng kết quả CLI validator không chứng minh client
-  hiển thị nó. Kiểm preview listing; không coi icon mặc định là lỗi của quy trình biên tập.
-- **Sửa sai hoặc sửa quá tay:** gửi ca giả lập/đã ẩn danh cùng kết quả mong đợi qua
-  [GitHub Issues](https://github.com/fioenix/vietnamizer/issues) theo mẫu báo lỗi. Đọc
-  [hướng dẫn đóng góp](CONTRIBUTING.md) trước; không gửi toàn bộ prompt, log hay tài liệu.
-- **Lỗi bảo mật:** dùng [kênh báo riêng](SECURITY.md), không đăng lên Issues công khai.
-  Không gửi API key, token, dữ liệu cá nhân, tài liệu nội bộ hoặc nội dung nhạy cảm.
-
-## Phạm vi
-
-Skill xử lý ba lớp:
-
-- V1–V25 kiểm tra cách dùng từ và cấu trúc câu, chẳng hạn thiếu bổ ngữ kết quả, thiếu loại từ, dịch sát giới từ, đặt trạng ngữ gây mơ hồ hoặc để sót lời chào của trợ lý trong tài liệu.
-- B1–B17 và K1–K7 kiểm tra sự phù hợp với thể loại. Blog, tin nhắn, README và bài nghiên cứu không dùng cùng một giọng.
-- T1–T6 kiểm tra typography. Với văn xuôi thông thường, chỉ áp dụng khi đồng thời có ít nhất một lỗi
-  V1–V25; với thể loại được giới hạn ở typography-only thì không cần lỗi V đi kèm.
-
-Trước khi sửa, skill xác định thể loại, đọc profile phù hợp và dùng mẫu văn hoặc hồ sơ phong cách
-người dùng chủ động cung cấp. Skill không tự truy xuất memory hay lịch sử hội thoại để tìm mẫu.
-
-Skill không dùng kết quả rà soát để xác định tác giả. Người viết song ngữ cũng có thể giữ cấu trúc tiếng Anh trong câu tiếng Việt; LLM cũng có thể tạo ra câu hoàn toàn tự nhiên.
-
-### Jev tự động khi có key
-
-Từ 0.10.0, mỗi lượt Vietnamizer kiểm tra key được host cấp. Không có key thì Agent dùng core
-Markdown, không gọi API hoặc yêu cầu thiết lập. Có `TYPESAFE_API_KEY`, script execution và quyền
-gửi dữ liệu thì Agent phải thử runner `python3 -B -m jev evaluate --input /absolute/workspace/input.json` từ skill root.
-Runner dùng Python 3.12+ standard library, không SDK; gửi nguyên đoạn cùng ngữ cảnh cần thiết tới
-TypeSafe, model pin `jev-1.14.0`. Key không thay thế quyền truyền dữ liệu hoặc giới hạn của host.
-Từ v0.10.5, runner tự tách câu với input v2; `prepare` chạy offline để xem các span và phần chưa rõ.
-Host chọn layout, đánh dấu vùng bảo toàn và rà phụ thuộc ngữ cảnh; chỉ dữ liệu được phép mới gửi.
-Coverage tách nguồn/ranh giới/ngữ cảnh/câu hỏi. Hết batch vẫn liệt kê phần chưa kiểm; không phải
-bài dài nào cũng hoàn tất trong 32 request. Input cũ chỉ chứng minh coverage các section đã cung cấp.
-
-Gói chứa định nghĩa chuẩn bị sẵn cho đủ V1–V25, T1–T6, B1–B17, K1–K7. Mỗi phần chỉ dùng
-pattern phù hợp thể loại/profile; kiểm cơ học nằm trong mã. Kết quả có coverage và phân bố,
-không phải chứng nhận câu đúng. LLM viết candidate/bản cuối, dùng tín hiệu Jev dưới năm chốt chặn;
-runner không tự áp hoặc quyết định edit bằng ngưỡng số. Chất lượng tiếng Việt chưa được xác nhận
-bởi test schema hay transport.
-
-Key hỏng, quyền bị chặn, timeout hoặc vượt giới hạn thì tiếp tục core và nêu đúng phần Jev chưa
-hoàn tất. Không có capability script thì không mạo nhận đã kiểm key. Hướng dẫn input, status,
-ngữ cảnh, candidate và bảo toàn nằm trong [hợp đồng Jev](references/typesafe-advisor.md).
-Các nghiên cứu 001/002/005 vẫn là lịch sử, không phải runtime mới hoặc bằng chứng hiệu quả.
-
-## Giữ giọng và chọn phong cách
-
-### Giữ giọng của một người cụ thể
-
-Có thể đưa mẫu văn ngay trong yêu cầu:
-
-```text
-Đây là hai đoạn tôi tự viết:
-[mẫu văn]
-
-Hãy sửa đoạn dưới theo cùng cách xưng hô, nhịp câu và mức độ trang trọng:
-[văn bản cần sửa]
-```
-
-Mẫu văn chỉ được ưu tiên đối với thói quen xuất hiện nhất quán, như cách xưng hô, nhịp câu, cách chêm tiếng Anh hoặc dùng dấu câu. Nó không hợp thức hoá lỗi ngôn ngữ rõ ràng và không vượt qua năm quy tắc chốt chặn trong `SKILL.md`.
-
-Có thể dán một hồ sơ phong cách ngắn trong yêu cầu thay cho mẫu văn. Hồ sơ chỉ dùng cho đúng người
-và phạm vi đã nêu; yêu cầu hiện tại được ưu tiên. Skill không tự tìm hay lưu hồ sơ ngoài tác vụ.
-
-### Chọn phong cách theo mục đích
-
-`vietnamizer` không còn gom mọi văn bản vào hai giọng *cá nhân* và *trung tính*. Hai profile đó vẫn
-giữ vai trò cổng pattern, còn bộ giải phong cách chọn một card theo mục đích, người đọc, quan hệ,
-thanh ngữ vực, kênh và mẫu giọng. Một phần văn bản chỉ dùng tối đa một card; file pha nhiều chức
-năng được chia theo phần, không ép chung một giọng.
-
-| Style card | Dùng cho | Base profile |
-|---|---|---|
-| [`ke-trai-nghiem`](profiles/blog-ca-nhan/styles/ke-trai-nghiem.md) | Blog, bài kể có người viết hiện diện | `blog-ca-nhan` |
-| [`phoi-hop-cong-viec`](profiles/blog-ca-nhan/styles/phoi-hop-cong-viec.md) | Chat, bình luận và lời nhờ trong công việc | `blog-ca-nhan` |
-| [`chuyen-mon-cong-khai`](profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md) | LinkedIn, bài quan điểm hoặc chia sẻ chuyên môn | `blog-ca-nhan` |
-| [`marketing-thuyet-phuc`](profiles/blog-ca-nhan/styles/marketing-thuyet-phuc.md) | Nội dung giới thiệu có mục tiêu và CTA thật | `blog-ca-nhan` |
-| [`huong-dan-ky-thuat`](profiles/ky-thuat-doanh-nghiep/styles/huong-dan-ky-thuat.md) | README, văn xuôi API và hướng dẫn xử lý lỗi | `ky-thuat-doanh-nghiep` |
-| [`van-hanh-doanh-nghiep`](profiles/ky-thuat-doanh-nghiep/styles/van-hanh-doanh-nghiep.md) | SOP, báo cáo, biên bản và bàn giao | `ky-thuat-doanh-nghiep` |
-| [`hoc-thuat-phan-tich`](profiles/ky-thuat-doanh-nghiep/styles/hoc-thuat-phan-tich.md) | Giáo trình, đề án và nghiên cứu | `ky-thuat-doanh-nghiep` |
-
-Card không phải khuôn để “làm màu” và không tự tạo lý do sửa. Yêu cầu hiện tại được ưu tiên;
-ràng buộc thể loại và năm quy tắc chốt chặn vẫn giới hạn mọi thay đổi; mẫu/hồ sơ chỉ được dùng khi
-đúng người, đúng phạm vi và có đặc tính ổn định. Chi tiết chuẩn nằm trong
-`references/bo-giai-phong-cach.md`.
-
-## Kiến trúc
-
-`SKILL.md` là nguồn chuẩn. Các file còn lại bổ sung quy tắc theo thể loại, ví dụ hoặc dữ liệu bảo trì:
-
-```text
-SKILL.md                                      quy trình, V1–V25, T1–T6 và cách trả kết quả
-profiles/blog-ca-nhan/rules.md                B1–B17 cho văn bản có giọng cá nhân
-profiles/blog-ca-nhan/styles/                 bốn style card có tác giả hiện diện
-profiles/ky-thuat-doanh-nghiep/rules.md       K1–K7 và giới hạn của văn kỹ thuật, học thuật
-profiles/ky-thuat-doanh-nghiep/styles/        ba style card kỹ thuật, vận hành và học thuật
-references/han-viet-thuan-viet.md             bảng tra và điều kiện phải giữ thuật ngữ
-references/bang-tra-cuu.md                    bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán
-references/bo-giai-phong-cach.md              bộ giải ngữ cảnh, precedence và registry đường dẫn
-references/giu-giong-tu-mau.md                đọc mẫu được giao, rút đặc tính giọng có phạm vi và kiểm bản sửa
-references/typesafe-advisor.md                workflow tự động, input và ranh giới Jev
-calibration/LOG.md                            bằng chứng dùng để sửa quy tắc chung
-calibration/ca-kiem-thu.md                    ca kiểm thử chạy tay cho từng pattern
-agents/openai.yaml                            tên hiển thị và lời gọi mặc định
-assets/                                       icon và wordmark SVG sáng/tối
-.codex-plugin/plugin.json                     manifest và nhận diện plugin Codex
-.plugin-skills/vietnamizer/SKILL.md          adapter source, nạp root SKILL.md; không sao chép rule
-.claude-plugin/                              manifest và catalog Claude Code
-.agents/plugins/marketplace.json             catalog Codex được track, không phải tooling sinh local
-scripts/validate-package.py                   kiểm tra tính đồng bộ của gói
-scripts/package-skill.sh                      tạo hai artifact cài đặt
-scripts/package-plugin.py                     kiểm metadata và tạo ZIP plugin hai nền tảng
-docs/plugin-distribution.md                   đường cài, kiểm thử và giới hạn publication
-docs/openai-marketplace-assessment-2026-10-23.md  bằng chứng intake OpenAI và đề xuất sản phẩm MCP
-scripts/scan-tells.sh                         tìm những chỗ có thể rà bằng biểu thức chính quy; nguồn tín hiệu ưu tiên của registry
-jev/                                         runner Python và registry 55 pattern
-scripts/build-jev-registry.py                 sinh/kiểm registry và tín hiệu ưu tiên từ nguồn canonical
-.specify/                                     constitution, template và script của Spec Kit
-specs/                                        đặc tả, checklist, plan và task theo từng feature
-benchmarks/                                   corpus, runner pilot/Jev, chấm model/người và phân tích; raw giữ local
-eval/guard/                                   hồ sơ corpus/config lịch sử đã ngừng dùng
-```
-
-Ngoài các file từ `.specify/` trở xuống, `docs/`, manifest source và adapter discovery
-cũng phục vụ source hoặc phát triển, không nằm trong gói `vietnamizer.skill`.
-
-Generated agent skills, Spec Kit integration state, raw run và scratch output được giữ local.
-Xem [hướng dẫn đóng góp](CONTRIBUTING.md) để cài tooling maintainer và chạy kiểm tra offline.
-
-Bộ giải phong cách dùng đúng bảy card trong bảng cách dùng ở trên. Nội dung chuẩn của từng card nằm
-trong thư mục `styles/` của profile tương thích; `references/bo-giai-phong-cach.md` chỉ sở hữu cách
-chọn card, thứ tự ưu tiên và registry đường dẫn.
-
-Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đồng, thơ, văn cổ phong và nghi lễ chỉ
-được rà T1–T6. Code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn nguyên văn, tên riêng và ví
-dụ đang được bàn tới là vùng bảo toàn từng byte. Xem danh sách và ngoại lệ đầy đủ trong `SKILL.md`.
-
-## Giữ giọng khi có mẫu
-
-**Đã có cơ chế giúp agent biên tập theo giọng tham chiếu của người dùng.** Gửi bản
-nháp cùng mẫu tự viết, bản đã sửa từ nháp AI hoặc hồ sơ phong cách được chủ động
-cung cấp. Skill dùng mẫu để chọn cách sửa phù hợp, không viết lại mọi câu cho
-giống một khuôn giọng.
-
-[Hướng dẫn đọc mẫu](references/giu-giong-tu-mau.md) yêu cầu rút đặc tính có ví dụ
-và phạm vi: đại từ làm chức năng gì, dùng thuật ngữ và cách viết số nào, nhịp câu/dấu ngắt,
-đề mục và mở/kết ra sao. Có thể theo cách dùng chữ số cho lượng cụ thể, giữ đề mục hỏi có
-chức năng và dùng nhiều đại từ theo vai trò; không thay toàn cục hoặc đưa dữ kiện của mẫu vào bài. Agent đối chiếu bản sửa với mẫu cùng kênh và mục đích; không suy tính
-cách, không rải câu cửa miệng hoặc tự thêm trải nghiệm. Một mẫu ngắn vẫn giúp
-giữ đặc tính hẹp; không đặt số bài tối thiểu chưa được kiểm chứng.
-
-Hình thức hợp lệ chưa tự là lựa chọn nên dùng: phần giới thiệu khái niệm có thể hợp câu hỏi,
-phần thao tác có thể hợp bạn, phần đối chiếu cần làm rõ những trạng thái đã có. Không cấm câu
-hỏi/bạn hoặc giữ cứng bố cục nguồn; khi đổi cấu trúc vẫn kiểm phạm vi đề mục, quan hệ và tình thái.
-
-Ví dụ lời yêu cầu, kèm bản nháp và mẫu ngay trong tác vụ:
-
-```text
-Use Vietnamizer to edit the draft below for my personal blog.
-Adapt the draft toward the supplied reference voice.
-You may restructure sentences, paragraphs, headings or existing lists using evidenced sample traits.
-Preserve every proposition, condition, quantity, level of certainty and protected span.
-Preserve my meaning, level of certainty, terminology and short-sentence rhythm.
-Do not invent experiences or repeat catchphrases just to imitate the samples.
-Return only the edited article.
-
-<writing_samples>Paste your reference samples here.</writing_samples>
 <draft>Paste your draft here.</draft>
 ```
 
-**Hai chế độ:** yêu cầu rà lỗi, viết tự nhiên hơn hoặc chỉ đưa mẫu vẫn mặc định **giữ giọng gốc**.
-Mẫu giúp đối chiếu, không tự bật chuyển giọng. Ví dụ trên chủ động chọn **theo giọng mẫu**;
-chế độ này cần mẫu/hồ sơ dùng được và cho phép đổi cấu trúc câu đúng có căn cứ. Có thể tách
-các định nghĩa đã có thành bullet hoặc đặt đề mục từ ý sẵn có; không thêm bước, đổi cách nhóm
-mơ hồ, bỏ điều kiện hoặc sửa số liệu để giống mẫu. Nếu cần mẫu mà chưa có thì chỉ hỏi mẫu còn thiếu.
+Có thể yêu cầu bảng trước/sau và lý do thay đổi. [Prompt theo tình huống và cách trả kết quả](docs/usage.md).
 
-Để giữ giọng gốc dù có mẫu, dùng yêu cầu:
+## Giữ giọng khi có mẫu
 
-```text
-Copyedit this draft while preserving its existing voice.
-Use the supplied samples only to check consistency, not to transfer their voice.
-```
+Chỉ gửi mẫu chưa tự bật chuyển giọng. Để điều chỉnh theo mẫu, yêu cầu rõ việc đó và
+cung cấp mẫu/hồ sơ ngay trong tác vụ. Skill có thể đổi cách diễn đạt hoặc cấu trúc từ
+các ý đã có, vẫn phải giữ mệnh đề, điều kiện, mức chắc chắn và vùng bảo toàn.
 
-Blog công nghệ có người viết hiện diện được chọn profile theo mục đích blog; README/SOP vẫn
-giữ profile kỹ thuật cùng các giới hạn riêng. Không dùng giọng mẫu để đổi thể loại hoặc vùng bảo toàn.
+Skill không tự tìm/lưu hồ sơ cá nhân hoặc tạo trải nghiệm thay người viết.
+[Xem hai chế độ, ví dụ prompt và bảy style card](docs/style-and-voice.md).
 
-Mẫu được khai báo đã qua AI là giọng tham chiếu người dùng chọn, chưa chứng minh
-giọng tự viết không có AI. Không có mẫu và không yêu cầu theo mẫu thì giữ giọng bản gốc và thể loại, không
-khẳng định đã bắt chước đúng người. Workflow hiện tại tập trung vào **biên tập
-bản nháp theo mẫu**, chưa chứng minh khả năng viết bài mới khớp giọng từ đầu.
+## Phạm vi
 
-Không tự truy xuất hoặc cập nhật hồ sơ trong HOME, memory hay nguồn ngoài tác vụ. Chỉ tạo bản tóm tắt giọng để người dùng xem/lưu khi họ yêu cầu; đây vẫn là công cụ biên tập, không tự tạo trải nghiệm hay quan điểm thay người viết. Chưa có benchmark độc lập chứng minh chất lượng giữ giọng của bản hiện tại.
+- Tự chọn profile theo thể loại; công văn, hợp đồng, thơ và changelog chỉ rà typography.
+- Bảo toàn dữ kiện, thuật ngữ, code và trích dẫn nguyên văn; không suy tác giả AI từ lỗi ngôn ngữ.
+- Khi host cấp key và quyền gửi, runner tự động thử tư vấn Jev; thiếu key hoặc lỗi dịch vụ vẫn dùng core.
+- Chỉ cung cấp văn bản được phép chia sẻ, không chứa credential hoặc dữ liệu bị hạn chế.
 
-[Pilot tách mẫu và skill trên cùng Codex, nguồn0.12.1](specs/019-voice-factorial-benchmark/results.md)
-có32đầu ra và15/16phiếu model hợp lệ. Trên bốn nháp AI trung tính, cả hai giám khảo đều chọn
-prompt+mẫu hơn Vietnamizer+cùng mẫu. Đây là dữ liệu phát triển dẫn tới hai chế độ của0.13.0,
-không phải bằng chứng bản mới đã tốt hơn. Giám khảo có thiên lệch về hình thức; chưa có chấm
-người hoặc tác giả xác nhận.
-
-[Pilot so0.13.0với0.12.1](specs/021-voice-version-pilot/results.md) đã có **32 đầu ra** trên cùng
-Codex. So0.13.0với prompt+cùng mẫu, Codex chọn thắng/hòa/thua **1/1/6**, Gemini **2/0/6** trên
-tám bản. V1 còn thêm chú giải số nhiều ngoài nguồn. Đây là dữ liệu phát triển, chưa chứng minh
-skill vượt prompt+mẫu. Bản0.13.1 sửa chỉ dẫn và ví dụ từ các lỗi đó.
-
-[Pilot023cho0.13.1](specs/023-voice-patch-pilot/results.md) có32đầu ra trên cùng Codex. So với
-prompt+cùng mẫu, Codex chọn thắng/hòa/thua4/2/2,Gemini5/0/3; hai giám khảo chỉ đồng ý lựa chọn
-ở3/8bản. Riêng N2cả hai thích0.13.0hơn, dù đều ghi nghĩa được giữ. Đây là tập phát triển đã dùng
-sửa skill, không chứng minh vượt trội. Bản0.13.2 làm rõ chọn nét giọng theo chức năng từ ca này;
-Kiểm offline/package không xác nhận hiệu quả biên tập.
-
-[Pilot025cho0.13.2](specs/025-section-voice-pilot/results.md) có32đầu ra và15/16phiếu chấm hợp lệ;
-V2–Gemini thiếu do quote sai, không hỏi lại. N2:Codex cho0.13.1/0.13.2hòa4→4,Gemini nâng4→5;
-cả hai ghi nghĩa được giữ và chọn0.13.2hơn prompt+cùng mẫu. Toàn bộ so phiên bản,Codex0/6/2
-thắng/hòa/thua trên8bản,Gemini4/0/3trên7bản có phiếu. N2có tín hiệu tích cực, chưa chứng minh
-nâng cấp đồng đều. Đây vẫn là tập phát triển và model chấm, không phải xác nhận từ tác giả/người đọc.
-
-[Pilot Mindfio ngày 27/10/2026](specs/016-sample-voice-preservation/mindfio-results.md)
-đã có **12/12 bản cuối** trên cùng Codex: bốn bài, ba chế độ, hồ sơ được chủ nhân
-duyệt và nguồn 0.12.0 đóng băng trước khi chạy. Có raw CLI, đối chiếu trước/sau và
-hai hình phân tích thay đổi/tài nguyên. Nhận xét chất lượng là thăm dò của agent;
-chưa chứng minh thêm hồ sơ giúp giữ giọng tốt hơn trên mọi bài. Bộ này giữ riêng,
-không thay kết quả benchmark 0.11.0 hoặc hai Forms cũ.
-
-Ví dụ ở M05: nhánh core thêm `với sự trống rỗng ấy` vào câu `Mà chạy để tránh
-đối diện.`, còn nhánh kèm hồ sơ giữ câu ngắn. Tuy nhiên prompt thường kèm hồ sơ
-cũng giữ câu này. Đây là ví dụ hữu ích để đọc và chọn bản sửa, **chưa chứng minh
-lợi ích riêng của Vietnamizer hoặc tỷ lệ khớp giọng**. Cả bốn bài đã qua biên tập
-AI theo xác nhận của chủ nhân; không có bản nháp trước AI để đối chiếu.
-
-[Hiệu chỉnh 0.12.1 từ Mindfio](specs/017-preserve-meaning-rhythm/results.md) ưu tiên
-giữ ý muốn/khả năng/phạm vi, câu rút gọn có chức năng và quan hệ ý khi đổi dấu.
-Đã [chạy đối chiếu MR01–MR12 trên cùng Codex](specs/018-mr-version-comparison/results.md):
-0.12.0 đạt 10/12 ca và 0.12.1 đạt 12/12 theo tiêu chí đã khóa, với MR05/MR12 chuyển
-từ chưa đạt sang đạt. Mỗi tình huống chỉ sinh một bản cho mỗi phiên bản; nhãn do
-agent đối chiếu và reviewer kiểm tra, không phải chấm người độc lập. Những bài đã dùng để hiệu chỉnh là dữ liệu phát triển/hồi quy,
-không còn là holdout độc lập để chứng minh bản mới tốt hơn.
+[Xem xử lý dữ liệu và Jev](docs/usage.md) · [Quyền riêng tư](PRIVACY.md) · [Báo lỗi bảo mật](SECURITY.md).
 
 ## Danh mục pattern
 
-### Cách dùng từ và cấu trúc câu (V1–V25)
+| Nhóm | Số lượng | Phạm vi |
+|---|---:|---|
+| V1–V25 | 25 | Cách dùng từ và cấu trúc câu |
+| T1–T6 | 6 | Typography |
+| B1–B17 | 17 | Blog, bài cá nhân, nội dung công việc và marketing |
+| K1–K7 | 7 | Tài liệu kỹ thuật, doanh nghiệp và học thuật |
 
-| # | Pattern | Ví dụ hoặc phép kiểm tra |
-|---|---|---|
-| V1 | Thiếu bổ ngữ kết quả và bổ ngữ hướng | *không giải quyết vấn đề* → *không giải quyết **được** vấn đề* khi ý là chưa thành công |
-| V2 | Cặp liên từ bị thiếu từ ở vế sau | *Vì A, B* → *Vì A **nên** B* nếu câu cần nói rõ quan hệ nhân quả |
-| V3 | Thiếu "là" trong câu định nghĩa hoặc lựa chọn | *Cách đơn giản nhất tăng worker* → *Cách đơn giản nhất **là** tăng worker* |
-| V4 | Thiếu hoặc lạm dụng từ chỉ thời gian và trạng thái | Xem câu có cần *đã, đang, rồi, vẫn, chưa* để phân biệt diễn biến hay không |
-| V5 | Thiếu hoặc sai loại từ | *nuôi ba mèo* → *nuôi ba **con** mèo* |
-| V6 | Câu hỏi hoặc lời nhờ không đúng ý định giao tiếp | Phân biệt câu hỏi có hoặc không với câu hỏi cần nội dung cụ thể |
-| V7 | "của" thừa trong cụm danh từ | *hiệu suất của hệ thống* → *hiệu suất hệ thống* nếu không có quan hệ sở hữu |
-| V8 | "các" và "những" được thêm theo dấu số nhiều | Bỏ khi số nhiều đã rõ và phạm vi không đổi |
-| V9 | Cụm giới từ dài do dịch sát | *trong quá trình kiểm tra* → *khi kiểm tra* nếu nghĩa giữ nguyên |
-| V10 | Trạng ngữ đặt ở vị trí gây khó hiểu | Chuyển vị trí khi người đọc không biết trạng ngữ bổ nghĩa cho hành động nào |
-| V11 | Câu dẫn không mang thêm thông tin | Bỏ *Điều quan trọng cần lưu ý là* nếu phần sau tự đứng được |
-| V12 | Lặp từ nối ở đầu câu | Xem lại chuỗi câu cùng mở bằng *Ngoài ra, Tuy nhiên, Do đó* |
-| V13 | Đoạn văn lặp cứng một kiểu mở câu | Chỉ sửa ở cấp đoạn khi khuôn lặp làm đứt mạch thông tin |
-| V14 | Danh ngữ đứng riêng như một câu | *Một giải pháp linh hoạt cho nhiều kho.* → viết thành câu hoặc dùng làm heading đúng chức năng |
-| V15 | Danh hoá thừa và động từ ít nội dung | *tiến hành thực hiện việc rà soát* → *rà soát* |
-| V16 | Câu bị động dịch sát "được / bị ... bởi" | *được hoàn thành bởi phòng kế toán* → *phòng kế toán hoàn thành* khi tác nhân là trọng tâm |
-| V17 | Dùng cụm dài thay cho "là" hoặc "có" | *đóng vai trò là trung tâm* → *là trung tâm* nếu không cần nhấn chức năng |
-| V18 | Câu lồng nhiều tầng, "mà" và "điều này" không rõ | Tách câu nhưng giữ nguyên chủ thể và quan hệ nhân quả |
-| V19 | Chêm tiếng Anh không hợp người đọc hoặc lĩnh vực | Giữ thuật ngữ theo cách dùng thật của cộng đồng, không tự thêm hoặc xoá đồng loạt |
-| V20 | Từ hoặc cụm từ bị thiếu một tiếng | *đọc lên thấy hụt* → *đọc lên thấy **hụt hẫng*** khi đúng với ý câu |
-| V21 | Tàn dư lượt hội thoại của trợ lý | *Chắc chắn rồi! Dưới đây là ba bước...* → *Ba bước triển khai...* |
-| V22 | Rào trước về nguồn rồi đưa phỏng đoán | *Không có thông tin công bố. Nhiều khả năng công ty bắt đầu từ đầu những năm 2000.* → giữ điều nguồn nói, bỏ phần đoán |
-| V23 | Phản biện một ý không có đối tượng | Bỏ vỏ *không ai phủ nhận...* khi mạch văn không có ý nào cần phản biện |
-| V24 | Chồng từ chỉ khả năng cùng chức năng | *có khả năng có thể* → giữ một mức khả năng; không đụng các từ có phạm vi nghĩa khác nhau |
-| V25 | Làm mơ hồ quan hệ đã có trong nguồn | Khôi phục *phụ thuộc ở runtime* thay vì *có quan hệ* khi nguồn trong phạm vi đã nêu rõ |
+**55 pattern.** [Danh mục đầy đủ](docs/patterns.md); quy tắc chuẩn nằm trong `SKILL.md` và `profiles/`.
 
-### Typography (T1–T6)
+## Tài liệu chi tiết
 
-| # | Pattern |
+| Cần tìm | Tài liệu |
 |---|---|
-| T1 | Viết hoa theo kiểu tiêu đề tiếng Anh |
-| T2 | Gạch ngang làm sai hoặc mờ quan hệ ý |
-| T3 | Ngoặc kép không nhất quán |
-| T4 | Dấu phẩy đứng trước "và" |
-| T5 | Định dạng thay cho cấu trúc câu |
-| T6 | Emoji |
-
-Với văn xuôi thông thường, typography chỉ được sửa khi văn bản đồng thời có ít nhất một pattern
-V1–V25. Thể loại được cổng đầu vào giới hạn ở T1–T6 là ngoại lệ; vùng bảo toàn vẫn giữ nguyên từng byte.
-
-### Blog, bài cá nhân, nội dung công việc và marketing (B1–B17)
-
-| # | Pattern |
-|---|---|
-| B1 | Sáo ngữ tôn vinh tầm quan trọng |
-| B2 | Ẩn dụ có sẵn và thành ngữ dịch sát từ tiếng Anh |
-| B3 | Mở bài dẫn dắt vòng vo |
-| B4 | Kết bài lạc quan sáo rỗng |
-| B5 | Song hành phủ định "không chỉ... mà còn" |
-| B6 | Nghi vấn tu từ mở đoạn kiểu SEO |
-| B7 | Tụng ca địa phương và doanh nghiệp |
-| B8 | Danh xưng và thẩm quyền phóng đại |
-| B9 | Hán-Việt hoá tên gọi đời thường |
-| B10 | Thành ngữ dùng lệch và mật độ thành ngữ bất thường |
-| B11 | Nhịp ba cân âm tiết và biền ngẫu giả |
-| B12 | Cụm bốn âm tiết Hán-Việt tự chế |
-| B13 | Nhịp câu đều đặn bất thường |
-| B14 | Rụng tiểu từ tình thái cuối câu |
-| B15 | Xưng hô lơ lửng và phẳng |
-| B16 | Giả thân mật |
-| B17 | Trộn mức độ trang trọng không chủ đích |
-
-### Tài liệu kỹ thuật, doanh nghiệp và học thuật (K1–K7)
-
-| # | Pattern |
-|---|---|
-| K1 | Viết theo diff thay vì mô tả hiện trạng |
-| K2 | Sáo ngữ thể chế rỗng ngoài văn bản pháp quy |
-| K3 | Bộ đề mục Hán-Việt đối xứng rỗng |
-| K4 | Mô tả hiện tượng mà không đưa hiện tượng ra |
-| K5 | Câu dẫn nhập rỗng sau đề mục |
-| K6 | Siêu dữ liệu về quá trình tạo ra văn bản |
-| K7 | Dẫn uy tín vô danh thay cho bằng chứng |
-
-Profile này còn yêu cầu không thêm tiểu từ, ý kiến hoặc ngôi thứ nhất; không thay thuật ngữ chỉ để tránh lặp; không thuần Việt hoá thuật ngữ đã được định nghĩa.
-
-## Những điểm khác với skill humanizer tiếng Anh
-
-**Lặp từ không tự động là lỗi.** Trong tài liệu kỹ thuật, một thuật ngữ cần được gọi nhất quán. Ở văn xuôi, việc lặp danh từ cũng có thể giúp người đọc biết câu sau vẫn nói về cùng đối tượng. Chỉ thay khi bản thân từ đang sai hoặc chuỗi đồng nghĩa làm đối tượng bị đổi tên liên tục.
-
-**Gạch ngang được kiểm theo chức năng.** T2 không kết luận lỗi từ riêng mã `—` hoặc `–`, cũng không lấy số lần xuất hiện làm ngưỡng. Giữ lời thoại, khoảng, tên riêng và điểm ngắt có chủ ý đúng chức năng; chỉ đổi khi có lỗi cụ thể hoặc quy chuẩn đã giao, đồng thời giữ nghĩa và vùng bảo toàn.
-
-**Ngoặc kép không bị ép về một hình dạng duy nhất.** Word, Google Docs và hệ điều hành có thể tự chuyển ngoặc thẳng thành ngoặc cong. T3 kiểm tra sự nhất quán trong cùng văn bản, không sửa theo sở thích của công cụ.
-
-## Những khác biệt chính tả không dùng để suy đoán tác giả
-
-Skill không tự động chọn giữa dấu thanh kiểu cũ và mới, như *hòa / hoà*, hoặc giữa *i / y*, như *kĩ / kỹ*. Đây là khác biệt chuẩn chính tả và quy ước xuất bản. Skill chỉ giữ cách viết nhất quán trong phạm vi văn bản, trừ khi người dùng yêu cầu theo một chuẩn cụ thể.
-
-Khoảng trắng trước dấu câu, lỗi gõ và biến thể chính tả cũng không được dùng làm bằng chứng về tác giả. Có thể sửa chúng khi người dùng yêu cầu làm sạch văn bản, nhưng không suy ra ai đã viết.
-
-## Hồ sơ phong cách và nhật ký hiệu chuẩn
-
-Hai cơ chế này phục vụ hai mục đích khác nhau.
-
-### Hồ sơ người dùng chủ động cung cấp
-
-Người dùng có thể tự giữ một hồ sơ và dán vào yêu cầu. Hồ sơ nên ngắn, chỉ chứa thông tin giữ giọng:
-
-- cách xưng hô;
-- nhịp và độ dài câu thường dùng;
-- mức dùng từ Hán-Việt;
-- cách chêm tiếng Anh;
-- thói quen viết hoa và dấu câu;
-- phạm vi áp dụng cùng một ví dụ ngắn.
-
-Skill chỉ dùng hồ sơ được cung cấp trong tác vụ, không tự truy xuất Claude memory, lịch sử chat
-hoặc dữ liệu khác, cũng không tự ghi hồ sơ. Không dùng mẫu của người này cho người khác;
-yêu cầu hiện tại luôn được ưu tiên.
-
-### `calibration/LOG.md`
-
-Đây là nhật ký bằng chứng dùng để bảo trì quy tắc chung của skill, không phải hồ sơ cá nhân. Chỉ ghi vào log khi phản hồi cho thấy:
-
-- một pattern sửa nhầm câu vốn đúng;
-- mục **Không flag** còn thiếu trường hợp loại trừ;
-- skill bỏ sót một lỗi có thể gọi tên;
-- người bản ngữ nêu một quy tắc tiếng Việt có thể kiểm tra độc lập.
-
-Khác biệt chỉ thuộc sở thích cá nhân không được đưa vào log. Nhờ ranh giới này, skill không âm thầm học giọng của một người rồi áp lên mọi người dùng khác.
-
-Quy trình đầy đủ nằm trong `AGENTS.md`.
-
-## Mức độ tin cậy và nguồn
-
-Mỗi quy tắc phải chỉ rõ nó dựa trên tài liệu, quan sát có bản đối chiếu trong `calibration/LOG.md` hay suy luận từ khác biệt giữa tiếng Anh và tiếng Việt. Repo chưa có bộ ngữ liệu đủ để đặt ngưỡng tần suất, nên số lần xuất hiện chỉ giúp tìm chỗ cần đọc lại.
-
-### Nguồn quy phạm và học thuật
-
-| Nguồn | Nội dung được dùng |
-|---|---|
-| [Nghị định 30/2020/NĐ-CP, Phụ lục II](https://thuvienphapluat.vn/chinh-sach-phap-luat-moi/vn/bieu-mau/55095/tong-hop-cac-phu-luc-ve-van-ban-hanh-chinh-moi-nhat-ban-hanh-kem-theo-nghi-dinh-30-2020) | Cách viết hoa tên cơ quan trong văn bản hành chính, dùng cho T1 |
-| [Quyết định 1989/QĐ-BGDĐT năm 2018](https://thuvienphapluat.vn/van-ban/Giao-duc/Quyet-dinh-1989-QD-BGDDT-2018-quy-dinh-chinh-ta-Chuong-trinh-sach-giao-khoa-giao-duc-pho-thong-445355.aspx) | Điều 8 và 9, dùng để xác định phạm vi của dấu thanh và i/y |
-| [ViDetect, arXiv:2405.03206](https://arxiv.org/abs/2405.03206) | Nghiên cứu phát hiện văn bản AI tiếng Việt; không dùng làm danh sách pattern ngôn ngữ |
-| [VietBinoculars, arXiv:2509.26189](https://arxiv.org/abs/2509.26189) | Nghiên cứu phát hiện văn bản AI tiếng Việt; không dùng làm danh sách pattern ngôn ngữ |
-| [A Survey on Zero Pronoun Translation, arXiv:2305.10196](https://arxiv.org/abs/2305.10196) | Tham khảo về lược đại từ và dịch thuật |
-| [Nghiên cứu dịch câu bị động Anh–Việt](https://i-jte.org/index.php/journal/article/view/90) | Tham khảo cho V16; đối tượng nghiên cứu là người dịch |
-| [Danh hoá động từ trong danh ngữ](https://tcgd.tapchigiaoduc.edu.vn/index.php/tapchi/article/view/4322) | Tham khảo cho V15 |
-| [Cú pháp tiếng Việt nhìn từ ngữ pháp chức năng](https://vjol.info.vn/index.php/tdm/article/download/93747/79245/) | Tham khảo cho cấu trúc đề–thuyết ở V13 |
-| [Tình thái từ](https://voer.edu.vn/c/tinh-thai-tu/4491bb06/712ccc96) và [tiểu từ tình thái trong hành động ngỏ lời](https://vusta.vn/mot-so-tieu-tu-tinh-thai-bieu-dat-tinh-lich-su-trong-hanh-dong-ngo-loi-bang-tieng-viet-p72715.html) | Tham khảo cho B14 |
-| [Loại từ CON và CÁI](http://ngonngu.org/Con_Cai.htm) | Tham khảo cho V5 |
-
-### Nguồn trình bày lại và nguồn cộng đồng
-
-Những nguồn dưới đây giúp tìm thuật ngữ hoặc ghi nhận hiện tượng, không được dùng riêng làm căn cứ quy phạm:
-
-- [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
-- [Wikipedia: Loại từ](https://vi.wikipedia.org/wiki/Lo%E1%BA%A1i_t%E1%BB%AB)
-- [Wikipedia: Dấu gạch ngang](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_g%E1%BA%A1ch_ngang)
-- [Wikipedia: Dấu ngoặc kép](https://vi.wikipedia.org/wiki/D%E1%BA%A5u_ngo%E1%BA%B7c_k%C3%A9p)
-- [Phân biệt gạch ngang và gạch nối, Giáo dục TP.HCM](https://giaoduc.edu.vn/phan-biet-dau-gach-ngang-va-gach-noi/)
-- [Brands Vietnam: dấu hiệu nội dung viết bởi AI](https://help.brandsvietnam.com/vi/article/dau-hieu-nhan-biet-noi-dung-duoc-viet-boi-ai-3zy07d/)
-- [Cặp quan hệ từ, HOCMAI](https://hoctot.hocmai.vn/dau-hieu-nhan-biet-quan-he-tu-va-cap-quan-he-tu.html)
-- [Đề–thuyết, Ngày ngày viết chữ](https://ngayngayvietchu.com/thu-phan-tich-cau-tieng-viet-theo-cau-truc-de-thuyet/)
-
-### Nguồn cộng đồng về giữ giọng theo mẫu
-
-Tham khảo phương pháp từ [write-like-me](https://github.com/ddutchie/write-like-me/blob/98e615d34cac1a31d6ee14fcc0fb6b1a57cd4835/skills/me/SKILL.md), [Synthesis Voice Profiler](https://github.com/synthesisengineering/synthesis-skills/blob/53fca8aeb81b42b21e98ed044b30352611731ee8/skills/synthesis-voice-profiler/SKILL.md) và [Voice Builder](https://github.com/charlie947/social-media-skills/blob/10ca79c0ec0be0f7654d19cd4f0c86b6fa6ed23b/skills/voice-builder/SKILL.md). Đây là thiết kế workflow cộng đồng, chưa phải bằng chứng hiệu quả tiếng Việt. [Hồ sơ đối chiếu](specs/016-sample-voice-preservation/research.md) ghi revision, giấy phép và phần chọn/loại; không chép template hoặc luật tiếng Anh vào skill.
-
-### Nguồn gợi ý giả thuyết
-
-- [`blader/humanizer` 3.0.0](https://github.com/blader/humanizer/tree/v3.0.0) chỉ được dùng để nêu
-  giả thuyết cho V23–V25, phần mở rộng B8 và K7. Quyết định tiếng Việt dựa trên các ca dương/âm và
-  bằng chứng ghi ngày 28/09/2026 trong `calibration/LOG.md`; repo upstream không được coi là nguồn
-  quy phạm tiếng Việt.
-
-### Nguồn còn thiếu
-
-- V3 và V13 cần thêm nguồn gốc về lý thuyết đề–thuyết thay cho các bài trình bày lại.
-- V16 cần thêm nghiên cứu công bố trực tiếp về đối chiếu câu bị động Anh–Việt.
-
-## Tác giả và ghi nhận
-
-`vietnamizer` do Fioenix thiết kế và duy trì. Codex và Claude Code được dùng làm agent kỹ thuật để
-hỗ trợ nghiên cứu, triển khai, kiểm thử và review.
-
-Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tham khảo
-[blader/humanizer](https://github.com/blader/humanizer) cùng hướng dẫn của WikiProject AI Cleanup.
-Các pattern tiếng Việt được xây dựng riêng cho repo này.
+| Cài đặt theo nền tảng, marketplace và đóng gói | [Cài đặt](docs/installation.md) |
+| Prompt, phạm vi, dữ liệu và tư vấn Jev | [Sử dụng](docs/usage.md) |
+| Giữ giọng gốc, theo mẫu và chọn phong cách | [Giọng và phong cách](docs/style-and-voice.md) |
+| Cây nguồn, các tầng quy tắc và thành phần | [Kiến trúc](docs/architecture.md) |
+| Tên và vai trò của từng pattern | [Danh mục 55 pattern](docs/patterns.md) |
+| Phương pháp, giới hạn và các kết quả benchmark | [Benchmark](docs/benchmarks.md) |
+| Tài liệu tham khảo và mức độ tin cậy | [Nguồn và ghi nhận](docs/sources.md) |
+| Thay đổi qua từng phiên bản | [Changelog](docs/changelog.md) |
 
 ## Lịch sử phiên bản
 
-- **0.13.2** (28/10/2026) – Phân biệt hình thức được phép, có căn cứ mẫu và phù hợp với chức năng phần; chọn đề mục, đại từ và đối chiếu sau khi giữ nghĩa. Không cấm câu hỏi/bạn, không đóng băng bố cục hoặc chia profile theo mỗi đoạn; làm rõ lượng với cách viết số và giữ tình thái khi đổi danh sách. Thêm SF01–SF12 để rà thủ công từ N2và phản ví dụ; giữ55pattern, quy trình skill không thêm lượt gọi model. Pilot025chạy sau đó cho N2tín hiệu tích cực nhưng chưa xác nhận nâng cấp đồng đều; xem báo cáo và phiếu thiếu ở phần giữ giọng.
-- **0.13.1** (28/10/2026, mã nguồn chưa phát hành) – Giữ nghĩa trước khi theo mẫu: đối chiếu mệnh đề thêm/bỏ hai chiều, loại chú giải đúng nhưng ngoài nguồn; sửa ví dụ B tự thêm số liệu hoặc đảo/bỏ ý. Rút cách viết số, chức năng đại từ và cấu trúc hỏi có phạm vi; chọn tài liệu trước khi nạp. Thêm MS01–MS16 để rà thủ công từ V1 và các ví dụ sai; giữ 55 pattern, không thêm lượt gọi model. Đã có kiểm offline và gói; pilot023chạy sau đó được báo riêng ở phần giữ giọng, không phải bằng chứng của0.13.2.
-- **0.13.0** (28/10/2026, mã nguồn chưa phát hành) – Tách giữ giọng gốc mặc định với theo giọng mẫu khi có yêu cầu rõ và mẫu/hồ sơ dùng được. Cho phép đổi cấu trúc có căn cứ mà giữ mệnh đề, điều kiện, số lượng, thứ tự và vùng bảo toàn; chọn profile theo chức năng văn bản. Thêm VC01–VC12 từ phân tích pilot019và phản ví dụ; không thêm pattern, ngưỡng hoặc lượt gọi model. Chưa chạy lại benchmark để xác nhận hiệu quả.
+- **0.13.2** (28/10/2026) — Ưu tiên giữ nghĩa, chọn nét giọng theo chức năng từng phần; không mặc định cấm câu hỏi hay “bạn”. [Lịch sử đầy đủ](docs/changelog.md).
 
-- **0.12.1** (27/10/2026, mã nguồn chưa phát hành) – Làm rõ giữ ý muốn, khả năng và phạm vi; giữ đối tượng lược/câu ngắn có chủ ý; T2 xét chức năng thay vì mặc định sửa theo mã ký tự. Phân biệt trích dẫn nguyên văn với thuật ngữ được nhấn, rà ứng viên lặp đoạn trong đúng phạm vi. Thêm MR01–MR12 từ phân tích Mindfio và phản ví dụ; đồng bộ tư vấn Jev, không đổi runtime hoặc ngưỡng. Đối chiếu hồi quy trên cùng Codex ghi nhận MR05/MR12 chuyển từ chưa đạt sang đạt; chưa có bằng chứng chất lượng độc lập ngoài tập phát triển.
-- **0.12.0** (26/10/2026, mã nguồn chưa phát hành) – Thêm workflow có điều kiện để rút và kiểm đặc tính giọng từ mẫu được giao; phân biệt thói quen với nét thỉnh thoảng, điều cấm với phần chưa quan sát, và đổi giọng với đổi nội dung. Không tự tìm/lưu hồ sơ. Tham khảo thiết kế OSS, có 8 ca đối chiếu tổng hợp; chưa đo hiệu quả khớp giọng bằng model/người chấm.
-- **0.11.1** (26/10/2026, mã nguồn chưa phát hành) – Làm rõ chốt bảo toàn hành động khi câu gốc mơ hồ; T2 chỉ cho sửa typography tối thiểu, V19 không tự dịch đồng loạt khi thiếu bằng chứng người đọc. Host vẫn rà core khi tư vấn Jev thiếu hoặc không flag. Thêm 10 ca hồi quy thủ công; chưa chạy đánh giá model sau sửa, không tuyên bố nâng chất lượng đã được kiểm chứng.
-- **0.11.0** (23/10/2026) – Runner Jev đọc trọn ghi chú dài và chỉ hỏi những chỗ cần hỏi. Trên một
-  ghi chú kỹ thuật khoảng 8.600 từ, bước chuẩn bị không còn vùng `preparation_limit` nào (trước đó
-  có 168 vùng). Input có thể đặt số lượt gọi (`evaluation.requests`, từ 1 đến 32) và vùng cần ưu
-  tiên (`focus`). Runner lập kế hoạch trước khi gửi và dùng số lượt theo thứ tự: candidate, vùng host
-  chỉ định, tín hiệu từ `scripts/scan-tells.sh`, rồi rải đều. Vì vậy 32 lượt gọi chạm tới 32 đơn vị
-  thay vì 9. Báo cáo có thêm khối `priority`. Phần chưa chấm vì hết lượt mang lý do
-  `budget_exhausted`, thay cho `limit_exceeded`. Một lượt chạy dừng ở phản hồi không hợp lệ thứ ba,
-  còn mọi lỗi khác thì dừng ngay. T4 chỉ được hỏi khi câu có `, và`. Pattern nào có **Không flag** loại trừ cả một cấu trúc thì không được hỏi
-  trên cấu trúc đó: tiêu đề bỏ qua V2, V3, V5, V11 và V14, dòng nhãn–giá trị bỏ qua V11, trừ khi câu
-  có dấu hiệu chuẩn của chính pattern. Dòng nhãn–giá trị gồm nhãn in đậm, danh sách trường và câu có
-  nhãn đứng riêng trên dòng. Coverage thêm `excluded_subjects`, `subject_positions` cùng hai lý do
-  `sign_absent` và `structure_excluded`. Mục **Không flag** của V11 thêm tiêu đề, dòng nhãn–giá trị,
-  ô bảng, chú thích ảnh, mục lục và mục checklist, dựa trên bằng chứng trong `calibration/LOG.md`
-  ngày 23/10/2026. Link Markdown có ngoặc đơn trong địa chỉ được chia câu bình thường. CLI báo
-  `input_unreadable` khi không đọc được input. Host đang đọc `limit_exceeded` cần chuyển sang
-  `budget_exhausted`.
+## Đóng góp
 
-- **0.10.6** (19/10/2026) – Cập nhật hướng dẫn cài đặt, kiểm thử và chuyển đổi hoặc hoàn tác sang
-  catalog Codex dùng chung của Finolabs tại `fioenix/agybird` (bản công bố đầu từ `agybird` v0.2.1
-  dùng `vietnamizer@agybird`; bản hiệu chỉnh định danh marketplace sau đó đổi tên máy sang đúng
-  chữ hoa–thường `Finolabs` với selector `vietnamizer@Finolabs`), đồng thời giữ catalog độc lập
-  `vietnamizer@vietnamizer` để tương thích ngược. Không đổi quy tắc biên tập hay hành vi runtime.
-
-- **0.10.5** – Tự tách đoạn/câu từ input nguồn, giữ vị trí và nguyên đoạn/ngữ cảnh;
-  đối soát từng câu, pattern và rubric qua nhiều batch. CLI có `prepare` offline, contract v2 phân biệt
-  đủ câu trả lời với đủ ngữ cảnh và kiểm đầy đủ; input `sections` cũ vẫn dùng được. Phần mơ hồ hoặc
-  vượt giới hạn cục bộ/dịch vụ được báo riêng; không tăng quota hay tự quyết định edit.
-
-- **0.10.0** – Thêm runner Jev 1.14 và registry 55 pattern: tự động thử khi host cấp key và quyền gửi,
-  core độc lập khi không có key hoặc dịch vụ lỗi. Kiểm tra riêng từng candidate, giữ năm chốt chặn,
-  coverage và trạng thái lỗi trung thực; không tự quyết định edit theo điểm số. Gói cài chứa cùng runtime.
-
-- **0.9.8** – Chuẩn hóa base listing Codex bằng tiếng Anh, giữ bản dịch tiếng Việt và bổ sung
-  liên kết hỗ trợ. Làm rõ workflow theo thể loại, ranh giới dữ liệu bị hạn chế và quyền riêng tư;
-  phản hồi biên tập không tự cấp quyền ghi nhật ký hiệu chuẩn hoặc sửa skill. Thêm gate metadata
-  chặn URL hỗ trợ không an toàn, nội dung vượt giới hạn và bản dịch không hợp lệ. Giữ branding,
-  pattern và TypeSafe tùy chọn; phát hành gói không thay thế xét duyệt của Directory.
-- **0.9.7** – Đưa `LICENSE` vào cả hai archive, giữ MIT notice cho tooling Spec Kit và chuyển
-  generated Codex integration cùng state từng checkout ra khỏi Git tracking. Bổ sung ignore
-  hẹp cho tooling local, environment, scratch output và cache; thêm hướng dẫn contributor cùng
-  gate CI chặn file tracked bị ignore. Thêm icon SVG sáng/tối, metadata UI, catalog Codex và ZIP plugin chung với
-  Claude Code; cả hai dùng một nguồn skill chuẩn. Bổ sung thông tin quyền riêng tư, điều kiện
-  sử dụng và kiểm tra asset/metadata trước đóng gói.
-  Đổi thương hiệu từ vi-humanizer sang Vietnamizer, đồng bộ định danh skill/plugin/catalog,
-  repo và tên gói tải thành `vietnamizer`. Quy tắc biên tập giữ nguyên. Loại CLI advisor khỏi
-  ba archive và repo, cùng harness, kiểm thử và dependency SDK của nó; TypeSafe chỉ được tận
-  dụng qua skill chính chủ đã có khi hữu ích và người dùng đồng ý gửi dữ liệu. Bỏ tự truy xuất/lưu hồ sơ memory; ảnh README
-  dùng Markdown, giữ SVG nền trong suốt và hai biến thể violet/mint đã duyệt.
-- **0.9.6** – Đóng gói optional TypeSafe advisor CLI cho host local: probe thật mới xác nhận
-  readiness, assess/rank chỉ trả typed signal cho lát cắt V20, còn host Agent giữ quyền quyết định
-  và viết câu cuối. Core vẫn chạy không key, không mạng và không SDK; cả `.skill` lẫn ZIP Claude
-  Org chứa adapter nhưng không chứa secret hoặc mạo nhận capability của host. README đưa ba ví dụ
-  đã hiệu chỉnh và các đường cài trực tiếp từ artifact phát hành lên đầu trang.
-- **0.9.5** – Tổ chức hai base profile thành thư mục cha–con: `rules.md` giữ B/K pattern, còn bảy
-  style card nằm trong `styles/` của profile tương thích. Gói Claude Org nay hiển thị riêng từng
-  phong cách; resolver và bảng tra dùng chung vẫn nằm trong `references/`. Nếu prompt hoặc công cụ
-  đang đọc trực tiếp `profiles/blog-ca-nhan.md` hay `profiles/ky-thuat-doanh-nghiep.md`, hãy chuyển
-  sang file `rules.md` trong thư mục profile cùng tên.
-- **0.9.1** – Sửa cổng typography-only để các thể loại bị giới hạn có thể chạy T1–T6 mà không cần
-  một lỗi V đi kèm; tách code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn, tên riêng và ví
-  dụ thành vùng bảo toàn từng byte. Đồng thời cấm tự thêm thái độ, sửa ví dụ T3, đồng bộ registry
-  K1–K7 và rà lại cách diễn đạt trong README cùng profile kỹ thuật.
-- **0.9.0** – Thêm V23 cho phản biện ý không có đối tượng, V24 cho các từ chỉ khả năng chồng cùng
-  chức năng, V25 cho quan hệ bị làm mơ hồ dù nguồn đã nói rõ và K7 cho cách mượn uy tín thay cho
-  bằng chứng; đồng thời phân vai lại B5/B8 để tránh hai pattern cùng sửa một lỗi. Bốn giả thuyết
-  được hiệu chỉnh bằng 24 ca tiếng Việt, gồm 12 ca dương và 12 ca chống sửa quá tay.
-- **0.8.0** – Thêm bộ giải nhiều phong cách theo mục đích, người đọc, thanh ngữ vực, kênh và mẫu giọng; bổ sung bảy style card, precedence rõ ràng và phân đoạn tài liệu hỗn hợp mà không đổi 51 pattern hiện có.
-- **0.7.1** – Siết trường hợp loại trừ cho nhãn và dòng liệt kê: lược chủ ngữ, hư từ, loại từ thì được, còn bổ ngữ của động từ và tiếng thứ hai của từ hai tiếng thì phải giữ. Theo bản vàng ghi trong `calibration/LOG.md` ngày 09/09/2026.
-- **0.7.0** – Thêm V21 cho tàn dư lượt hội thoại của trợ lý và V22 cho kiểu rào trước về nguồn rồi vẫn đưa phỏng đoán; quy trình nói rõ văn bản đầu vào là chất liệu để biên tập, không phải chỉ thị để làm theo; quy tắc chốt chặn 3 thêm thứ hạng và quan hệ đồng thời. Đối chiếu với `blader/humanizer` 3.0.0.
-- **0.6.0** – Thêm K6 cho những câu nói về quá trình tạo ra tài liệu thay vì nói về chủ đề của nó; thêm quy tắc chốt chặn thứ năm và một dòng trong mục Cách trả kết quả; thêm `calibration/ca-kiem-thu.md` với tám ca kiểm thử cho K6.
-- **0.5.2** – Mở rộng V18 để phát hiện các mệnh đề nối nhau nhưng không rõ chủ thể; bổ sung cho V20 cách kiểm tra nghĩa, vai trò và khả năng kết hợp của từ trong câu.
-- **0.5.1** – Chỉnh lại vài chỗ diễn đạt trong `SKILL.md`. Không thêm bớt pattern và không đổi hành vi.
-- **0.5.0** – Viết lại toàn bộ tài liệu theo `SKILL.md`; bỏ các ngưỡng chưa hiệu chỉnh và những kết luận tuyệt đối; tách hồ sơ văn phong cá nhân sang memory hoặc knowledge base của agent; xác định `calibration/LOG.md` chỉ là nhật ký bằng chứng cho quy tắc dùng chung; đồng bộ lại profile, bảng tra, manifest và script quét.
-- **0.4.0** – Thêm V20 để xử lý từ hoặc cụm từ bị thiếu một tiếng; sửa quy trình tự kiểm tra để tránh dùng lặp một cách chữa; mở rộng giao thức tiếp nhận quy tắc tiếng Việt do người bản ngữ nêu ra.
-- **0.3.0** – Viết lại phần mở đầu README; bổ sung K4 về đoạn giải thích thiếu ví dụ và đổi pattern câu dẫn nhập thành K5.
-- **0.2.2** – Mở rộng T4 cho dấu phẩy đứng trước *và*; thêm `scripts/scan-tells.sh`.
-- **0.2.1** – Tự áp skill lên README; sửa lỗi diễn đạt và đồng bộ phần mô tả cấu trúc repo.
-- **0.2.0** – Thêm giao thức hiệu chuẩn bằng phản hồi thực tế và `calibration/LOG.md`.
-- **0.1.1** – Bổ sung các trường hợp loại trừ cho văn bản doanh nghiệp và thuật ngữ nội bộ.
-- **0.1.0** – Bản đầu gồm V1–V19, T1–T6, B1–B17, K1–K4 và hai file tham chiếu.
+[Gửi ca sửa sai hoặc góp mã](CONTRIBUTING.md) · [Issues](https://github.com/fioenix/vietnamizer/issues) · [Điều khoản](TERMS.md).
 
 ## Giấy phép
 
-MIT
+Fioenix / FINOLABS · [Giấy phép MIT](LICENSE).

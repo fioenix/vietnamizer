@@ -442,6 +442,14 @@ exit_on_errors()
 
 skill = read("SKILL.md")
 readme = read("README.md")
+guide_names = (
+    "installation", "usage", "style-and-voice", "architecture", "patterns",
+    "benchmarks", "sources", "changelog",
+)
+guides = {name: read(f"docs/{name}.md") for name in guide_names}
+for name in guide_names:
+    if f"](docs/{name}.md)" not in readme:
+        fail(f"README.md chưa trỏ tới docs/{name}.md")
 
 plugin_path = ROOT / ".claude-plugin" / "plugin.json"
 plugin = json.loads(plugin_path.read_text(encoding="utf-8")) if plugin_path.exists() else {}
@@ -484,10 +492,16 @@ else:
 readme_version_match = re.search(r"(?m)^- \*\*([0-9]+\.[0-9]+\.[0-9]+)\*\*", readme)
 if not readme_version_match:
     fail("README.md thiếu mục Lịch sử phiên bản")
+changelog_version_match = re.search(
+    r"(?m)^- \*\*([0-9]+\.[0-9]+\.[0-9]+)\*\*", guides["changelog"]
+)
+if not changelog_version_match:
+    fail("docs/changelog.md thiếu lịch sử phiên bản")
 
 versions = {
     "SKILL.md": skill_version,
     "README.md": readme_version_match.group(1) if readme_version_match else "",
+    "docs/changelog.md": changelog_version_match.group(1) if changelog_version_match else "",
     "plugin.json": str(plugin.get("version", "")),
 }
 if len(set(versions.values())) != 1:
@@ -512,15 +526,15 @@ for prefix, owner in PATTERN_OWNERS.items():
         if missing_fields:
             fail(f"Pattern {pattern_id} trong {owner} thiếu mục: {missing_fields}")
 
-# --- README phải liệt kê đủ pattern -------------------------------------
+# --- Danh mục chi tiết phải liệt kê đủ pattern ---------------------------
 
-documented = set(re.findall(r"(?m)^\| ([VTBK]\d+) \|", readme))
+documented = set(re.findall(r"(?m)^\| ([VTBK]\d+) \|", guides["patterns"]))
 missing = declared - documented
 extra = documented - declared
 if missing:
-    fail(f"README thiếu pattern trong bảng: {sorted(missing)}")
+    fail(f"docs/patterns.md thiếu pattern trong bảng: {sorted(missing)}")
 if extra:
-    fail(f"README liệt kê pattern không tồn tại: {sorted(extra)}")
+    fail(f"docs/patterns.md liệt kê pattern không tồn tại: {sorted(extra)}")
 
 # --- Registry phong cách -------------------------------------------------
 
@@ -552,11 +566,11 @@ for card_id, _profile_id, card_path in expected_registry_rows:
         fail(f"SKILL.md chưa trỏ tới style card `{card_path}`")
 if f"`{STYLE_REGISTRY}`" not in skill:
     fail(f"SKILL.md chưa trỏ tới `{STYLE_REGISTRY}`")
-if f"`{STYLE_REGISTRY}`" not in readme:
-    fail(f"README.md chưa trỏ tới `{STYLE_REGISTRY}`")
+if f"`{STYLE_REGISTRY}`" not in guides["style-and-voice"]:
+    fail(f"docs/style-and-voice.md chưa trỏ tới `{STYLE_REGISTRY}`")
 for card_id in STYLE_CARDS:
-    if f"`{card_id}`" not in readme:
-        fail(f"README.md thiếu style card `{card_id}`")
+    if f"`{card_id}`" not in guides["style-and-voice"]:
+        fail(f"docs/style-and-voice.md thiếu style card `{card_id}`")
 
 k_count = len(pattern_numbers(technical_profile, "K"))
 technical_registry_rows = [

@@ -1,0 +1,115 @@
+{
+  "schema": "readme-evidence-v1",
+  "sources": [
+    {
+      "path": "specs/018-mr-version-comparison/results.md",
+      "sha256": "ae5f09e0de89b6627e42894d40f594fcf8ece8558d2cc6e9177d1602cdda52ce"
+    },
+    {
+      "path": "specs/025-section-voice-pilot/results.md",
+      "sha256": "f3d46c87acb920d9e99d092038d6cea558aa909d6168b4bc9114f0a6c01fdbdc"
+    }
+  ],
+  "regression": {
+    "editor": "Codex",
+    "baseline": "0.12.0",
+    "revised": "0.12.1",
+    "situations": 14,
+    "outputs": 28,
+    "cases": [
+      {
+        "id": "MR01",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR02",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR03",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR04",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR05",
+        "baseline_pass": false,
+        "revised_pass": true
+      },
+      {
+        "id": "MR06",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR07",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR08",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR09",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR10",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR11",
+        "baseline_pass": true,
+        "revised_pass": true
+      },
+      {
+        "id": "MR12",
+        "baseline_pass": false,
+        "revised_pass": true
+      }
+    ]
+  },
+  "voice": {
+    "editor": "Codex",
+    "version": "0.13.2",
+    "comparison": "D-C",
+    "criterion": "paired reference-voice preference",
+    "judges": [
+      {
+        "judge": "Codex",
+        "planned": 8,
+        "observed": 8,
+        "win": 5,
+        "tie": 3,
+        "loss": 0,
+        "missing": 0
+      },
+      {
+        "judge": "Gemini",
+        "planned": 8,
+        "observed": 7,
+        "win": 3,
+        "tie": 1,
+        "loss": 3,
+        "missing": 1
+      }
+    ]
+  },
+  "limits": [
+    "development data, not holdout",
+    "one generation per condition",
+    "model/agent labels, not independent human ratings",
+    "missing judgment is not imputed",
+    "no population effect or p-value claim"
+  ]
+}

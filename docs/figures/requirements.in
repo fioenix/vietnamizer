@@ -1,0 +1,2 @@
+# Optional figure rendering only; not a core skill/runtime dependency.
+matplotlib==3.10.8

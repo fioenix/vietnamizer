@@ -24,7 +24,11 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `references/typesafe-advisor.md` | Input, authority, coverage và fallback của runner Jev tự động |
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
 | `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
-| `README.md` | Hướng dẫn cài đặt, mô tả kiến trúc, danh mục pattern, nguồn và lịch sử phiên bản |
+| `README.md` | Giới thiệu ngắn, ví dụ, biểu đồ bằng chứng, cài nhanh và điều hướng tài liệu |
+| `docs/installation.md`, `docs/usage.md` | Cài đặt theo nền tảng, cách dùng, phạm vi và dữ liệu |
+| `docs/style-and-voice.md`, `docs/architecture.md` | Giọng mẫu/phong cách và cấu trúc nguồn; trỏ về quy tắc canonical |
+| `docs/patterns.md`, `docs/changelog.md`, `docs/sources.md` | Danh mục đủ 55 pattern, lịch sử phiên bản và nguồn có mức độ tin cậy |
+| `docs/benchmarks.md`, `docs/figures/` | Chỉ mục bằng chứng, hình README, dữ liệu nguồn và công cụ vẽ tùy chọn; không phải raw benchmark |
 | `CONTRIBUTING.md` | Hướng dẫn góp ca sửa sai, kiểm offline, bootstrap tooling và ranh giới source/local |
 | `LICENSE` | MIT notice của sản phẩm, bắt buộc có trong cả hai archive |
 | `agents/openai.yaml` | Tên hiển thị và lời gọi mặc định trên các nền tảng tương thích |
@@ -34,7 +38,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `.agents/plugins/marketplace.json` | Catalog phân phối Codex được track, không phải tooling sinh local |
 | `.claude-plugin/plugin.json` | Manifest của plugin Claude Code |
 | `.claude-plugin/marketplace.json` | Manifest marketplace của repo |
-| `scripts/validate-package.py` | Kiểm tra version, số hiệu pattern, bảng README và giới hạn dòng |
+| `scripts/validate-package.py` | Kiểm tra version, số hiệu pattern, danh mục trong docs, điều hướng README và giới hạn dòng |
 | `scripts/package-skill.sh` | Đóng gói `dist/vietnamizer.skill` và `dist/vietnamizer-claude-org.zip` |
 | `scripts/package-plugin.py` | Kiểm metadata/asset và tạo ZIP plugin hai nền tảng từ cùng public payload |
 | `docs/plugin-distribution.md` | Hướng dẫn kiểm cài đặt và ranh giới repo marketplace với directory chính thức |
@@ -118,11 +122,11 @@ cho resolver và registry, còn `SKILL.md` sở hữu thứ tự gọi.
 
 ## Hợp đồng bảo trì
 
-- **Số hiệu pattern:** bốn tiền tố `V`, `T`, `B`, `K` đều bắt đầu từ 1 và tăng liên tục. `V` và `T` thuộc `SKILL.md`; `B` thuộc profile blog; `K` thuộc profile kỹ thuật. Khi thêm, bỏ hoặc đổi số, phải cập nhật bảng pattern trong `README.md` cùng lúc.
+- **Số hiệu pattern:** bốn tiền tố `V`, `T`, `B`, `K` đều bắt đầu từ 1 và tăng liên tục. `V` và `T` thuộc `SKILL.md`; `B` thuộc profile blog; `K` thuộc profile kỹ thuật. Khi thêm, bỏ hoặc đổi số, phải cập nhật bảng trong `docs/patterns.md` và số lượng/tóm tắt trong `README.md` cùng lúc.
 - **Ngưỡng thêm pattern:** một dấu hiệu chỉ được thành pattern riêng khi không pattern nào hiện có ngụ ý nó. Còn lại thì mở rộng mục **Dấu hiệu** của pattern gần nhất. Khi hai pattern chạm nhau, pattern hẹp hơn phải có một câu phân vai trỏ sang pattern kia, như K6 trỏ sang V21 cho phần lời chào và lời mời làm tiếp.
-- **Version:** `metadata.version` trong `SKILL.md`, mục mới nhất của phần Lịch sử phiên bản trong `README.md` và `version` trong `.claude-plugin/plugin.json` phải giống nhau. Giữ version bên trong `metadata`; không đặt khoá `version` ở cấp cao nhất của frontmatter vì một số nền tảng không nhận khoá này. `marketplace.json` không có version để tránh hai nguồn dữ liệu.
+- **Version:** `metadata.version` trong `SKILL.md`, mục mới nhất trong `docs/changelog.md`, bản tóm tắt phiên bản trong `README.md` và `version` trong `.claude-plugin/plugin.json` phải giống nhau. Giữ version bên trong `metadata`; không đặt khoá `version` ở cấp cao nhất của frontmatter vì một số nền tảng không nhận khoá này. `marketplace.json` không có version để tránh hai nguồn dữ liệu.
 - **Giới hạn dòng:** `SKILL.md` tối đa 550 dòng, profile blog tối đa 320 dòng, profile kỹ thuật tối đa 220 dòng. Các file trong `references/` không bị giới hạn.
-- **Nguồn:** khi thêm pattern dựa trên tài liệu bên ngoài, phải thêm nguồn vào `README.md` và ghi đúng mức độ tin cậy. Nếu chỉ là suy luận, phải nói rõ là suy luận. Không tự tạo nguồn hoặc số liệu tần suất.
+- **Nguồn:** khi thêm pattern dựa trên tài liệu bên ngoài, phải thêm nguồn vào `docs/sources.md` và giữ đường dẫn từ `README.md`, ghi đúng mức độ tin cậy. Nếu chỉ là suy luận, phải nói rõ là suy luận. Không tự tạo nguồn hoặc số liệu tần suất.
 - **Kiểm tra trước khi phát hành:** chạy `python3 scripts/validate-package.py`, `python3 scripts/package-plugin.py`, `npx skills add . --list`, `claude plugin validate .` và `claude plugin validate .claude-plugin/plugin.json --strict`. Plugin ZIP phải chứa đúng một skill; icon và manifest phải resolve trong gói. Giữ root `SKILL.md` canonical, chỉ đổi layout trong output sinh ra.
 
 ## Khi sửa nội dung
@@ -177,5 +181,5 @@ Không dùng quan sát của một cá nhân để âm thầm điều chỉnh sk
 ## Những việc còn thiếu
 
 - Repo chưa có bộ ngữ liệu đủ để đặt ngưỡng tần suất cho các dấu hiệu. Số lần xuất hiện chỉ dùng để tìm chỗ cần đọc kỹ hơn.
-- Một số nguồn trong README vẫn là nguồn trình bày lại. Xem mục “Nguồn còn thiếu” trước khi nâng mức độ tin cậy.
+- Một số nguồn trong `docs/sources.md` vẫn là nguồn trình bày lại. Xem mục “Nguồn còn thiếu” trước khi nâng mức độ tin cậy.
 - Skill không tự kiểm tra được những phát biểu về cấu trúc repo. Mỗi khi thêm, đổi tên hoặc xoá file, phải đối chiếu lại `README.md` và `AGENTS.md` với cây thư mục thật.

@@ -1,0 +1,20 @@
+{
+  "source": "FINOLABS design-system/packages/tokens/theme.css",
+  "source_sha256": "cba31a7674a2f755937dc75859dfd4b8d9b353d2e9844f7a52e88a47599bcfbc",
+  "token_names": {
+    "violet": "--color-fn-violet",
+    "mint": "--color-fn-mint",
+    "ink": "--color-ink-900",
+    "muted": "--color-ink-500",
+    "quiet": "--color-ink-300",
+    "paper": "--color-ink-0"
+  },
+  "colors": {
+    "violet": "#9750C4",
+    "mint": "#7FE2CE",
+    "ink": "#0B0B17",
+    "muted": "#5B5B79",
+    "quiet": "#BCBCD0",
+    "paper": "#FFFFFF"
+  }
+}
