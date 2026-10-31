@@ -1,0 +1,92 @@
+{
+  "role": "development",
+  "origin": "Synthetic public-safe cases authored for this change; not observed model outputs.",
+  "cases": [
+    {
+      "id": "RO01",
+      "task": "Chỉ review nghĩa và cách viết của câu công việc, không sửa.",
+      "source": "Một số bản có thể chậm nếu thiếu bộ nhớ.",
+      "candidate": "Mọi bản sẽ chậm vì thiếu bộ nhớ.",
+      "required_reads": [
+        "SKILL.md"
+      ],
+      "semantic_expectations": [
+        "scope, modality and condition changed",
+        "style clarity must not cancel meaning issue"
+      ]
+    },
+    {
+      "id": "RO02",
+      "task": "Chỉ review bài chia sẻ chuyên môn theo mẫu được giao; không sửa. Mẫu có nhịp giải thích rồi chốt giới hạn.",
+      "source": "Công cụ A lưu link. Bản thử chưa đồng bộ.",
+      "candidate": "Công cụ A lưu link. Riêng bản thử, chưa có đồng bộ.",
+      "required_reads": [
+        "SKILL.md",
+        "references/quy-trinh-viet.md",
+        "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md",
+        "references/giu-giong-tu-mau.md"
+      ],
+      "semantic_expectations": [
+        "assess meaning separately from sample suitability",
+        "no automatic whole-article rewrite"
+      ]
+    },
+    {
+      "id": "WR01",
+      "task": "Viết chia sẻ công khai từ brief ít ý, không có mẫu cá nhân và số liệu đo.",
+      "source": "Công cụ A lưu link. Chưa có số liệu tiết kiệm thời gian.",
+      "candidate": "Sau một tuần dùng A, tôi tiết kiệm 30% thời gian.",
+      "required_reads": [
+        "SKILL.md",
+        "references/quy-trinh-viet.md",
+        "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md"
+      ],
+      "semantic_expectations": [
+        "invented experience and metric unsupported",
+        "absence of sample is not a license to impersonate"
+      ]
+    },
+    {
+      "id": "WR02",
+      "task": "Giải thích cache cho người mới từ brief; muốn có ví dụ trải nghiệm thật nhưng chưa cung cấp.",
+      "source": "Cache lưu kết quả. Dữ liệu có thể cũ nếu chưa làm mới. Chưa có ví dụ trải nghiệm được giao.",
+      "candidate": "Tôi đã dùng cache cho hệ thống bán hàng của mình và thấy mọi truy vấn nhanh hơn.",
+      "required_reads": [
+        "SKILL.md",
+        "references/quy-trinh-viet.md",
+        "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md"
+      ],
+      "semantic_expectations": [
+        "identify missing reader concept/example before expanding",
+        "ask for needed facts or keep general; do not fabricate experience"
+      ]
+    },
+    {
+      "id": "AT01",
+      "task": "Chỉ review attribution trong câu, không sửa.",
+      "source": "Theo báo cáo nhóm A, một số bản thử có thể chậm.",
+      "candidate": "Tôi đã xác nhận mọi bản thử đều chậm.",
+      "required_reads": [
+        "SKILL.md",
+        "references/loi-cau-va-quan-he.md"
+      ],
+      "semantic_expectations": [
+        "keep attribution, scope and uncertainty",
+        "polished sentence is not proof of meaning preservation"
+      ]
+    },
+    {
+      "id": "EC01",
+      "task": "Review candidate đang được giao, dù HEAD hoặc report cũ có bản khác.",
+      "source": "Bản thử chưa đồng bộ.",
+      "candidate": "Bản thử đã đồng bộ.",
+      "required_reads": [
+        "SKILL.md"
+      ],
+      "semantic_expectations": [
+        "bind exact current candidate bytes",
+        "reject stale packet/report after candidate changes"
+      ]
+    }
+  ]
+}

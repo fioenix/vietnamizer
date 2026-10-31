@@ -70,3 +70,8 @@ hay chứng thực không AI. Chỉ tham khảo cách tổ chức, giải thích
 không xác minh mọi luận điểm, không dùng dữ kiện lịch sử như hiện tại, không nhập chuyện riêng
 hoặc kết quả tự báo cáo vào bài mới. Đây không phải nguồn quy phạm cho 55 pattern và chưa là
 bằng chứng hiệu quả của workflow. Reference nguồn sở hữu danh mục; guide mẫu chỉ trỏ tới nó khi cần chọn nguồn, file này ghi vai trò/mức tin cậy.
+
+
+### Nghiên cứu workflow review của Matt Pocock
+
+Tham khảo thiết kế từ [mattpocock/skills tại a496f5513d4a4cf889bc48e189e579f4b0bdf6aa](https://github.com/mattpocock/skills/tree/a496f5513d4a4cf889bc48e189e579f4b0bdf6aa): trigger đọc trước review, tách kết luận nội dung/phong cách và gắn review với candidate hiện tại. Đây là nguồn thiết kế cộng đồng, không phải benchmark tiếng Việt hoặc bằng chứng viết tốt hơn. Follow-up trong spec027 ghi phần chọn/loại. Hướng dẫn tiếng Việt và harness cơ học được viết riêng, không chép code/template nguồn; không thêm quyền gửi dữ liệu hoặc lượt evaluator.

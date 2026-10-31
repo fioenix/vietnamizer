@@ -4,7 +4,7 @@ Date: 2026-10-31. Branch `codex/readme-evidence`, HEAD unchanged `7a6b07a2460560
 Metadata remains 0.13.2; this is not the original release payload. Existing README is preserved byte-for-byte
 (SHA-256 `14443f027bb3d7d317f11533cf7b4c7b4f46b8d25903f440459c4c3f59be3a6e`).
 
-## Route measurements
+## Route measurements (refreshed for PR28 follow-up)
 
 Method and exact mandatory/conditional file sets: [measurements.json](measurements.json). Full UTF-8 files
 counted once, Unicode codepoints and splitlines; excludes user prose, tool output, hidden model scaffolding
@@ -13,18 +13,18 @@ context trace, billing-token saving or semantic-quality gain is claimed.
 
 | Route | Before files/lines/chars | After required files/lines/chars |
 |---|---|---|
-| Core | 1 / 543 / 63,401 | 1 / 131 / 9,189 |
-| Local work sentence | 5 / 1,118 / 114,233 | 1 / 131 / 9,189 |
-| Professional article | 5 / 1,118 / 114,389 | 3 / 183 / 13,088 |
-| New article with supplied samples | 6 / 1,342 / 131,978 | 4 / 243 / 17,399 |
+| Core | 1 / 543 / 63,401 | 1 / 135 / 9,699 |
+| Local work sentence | 5 / 1,118 / 114,233 | 1 / 135 / 9,699 |
+| Professional article | 5 / 1,118 / 114,389 | 3 / 189 / 13,788 |
+| New article with supplied samples | 6 / 1,342 / 131,978 | 4 / 249 / 18,099 |
 
-The realistic local missing-complement correction triggers the completion catalog: **2 files / 217 lines /
-20,784 chars**, a 81.81% reduction against the same incoming sentence route. Other error families,
+The realistic local missing-complement correction triggers the completion catalog: **2 files / 221 lines /
+21,294 chars**, a 81.36% reduction against the same incoming sentence route. Other error families,
 profile diagnoses, mixed-context resolver, evaluator contract and lexical details remain conditional and
 add their own file sizes when triggered; the table does not pretend they are free. Detailed lookups can
 read heading ranges when supported, but these measurements conservatively count whole files.
 
-## Canonical and consumer checks
+## Initial modularization checks (before Matt follow-up)
 
 - Saved incoming source/README/registry and default dist archives under output/simplification-20261031/.
 - Red check: tests.test_selective_reading failed while registry builder still expected patterns in core;
@@ -74,3 +74,10 @@ negation/modality/causal ambiguity, protected bytes, technical register and samp
 fresh texts for semantic evaluation and blinded human/source-linked judgments; report errors/missing
 runs and latency/actual provider token usage where available, not character counts as bills. Character
 reduction is established; preserving or improving semantic quality remains an empirical question.
+
+
+## PR28 Matt-research follow-up
+
+[matt-followup.md](matt-followup.md) records pinned provenance, selected gaps, exact-packet/trace limitations, six development cases and the separate empty heldout plan. Core now has 135 lines/9,699 characters; required file sets remain unchanged on the original three routes. The report has separate meaning/style conclusions and cannot silently summarize issue findings as clear/not_assessed. New tests cover stale uncommitted candidates and supplied read-event order, not actual agent execution. The original archive and test receipts above are historical; new follow-up validation and CI are reported on the current PR head, without claiming old archive bytes cover new text. No behavioral A/B or actual-read trace has been executed.
+
+Latest bounded local follow-up run: 66 tests, OK, 21.982s; package validator, registry --check and diff check pass. This is mechanical/contract verification, not a new semantic or actual-routing benchmark.

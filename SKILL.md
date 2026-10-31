@@ -40,6 +40,7 @@ nhập liệu chỉ xử lý nếu yêu cầu gồm trình bày/chính tả. Kh�
 | Sửa một cụm/câu, rà cục bộ | Chỉ catalog đúng nghi vấn ở bảng dưới; đọc ngữ cảnh cần hiểu | Workflow bài, resolver, profile/card, guide mẫu |
 | Biên tập toàn bài hoặc viết từ brief/outline | `references/quy-trinh-viet.md` và một card theo bảng mục đích | Các catalog chưa có nghi vấn, resolver nếu lựa chọn đã rõ |
 | Theo mẫu được giao | Thêm `references/giu-giong-tu-mau.md` trên tuyến bài; với đoạn nhỏ chỉ guide và phạm vi ấy | Danh mục nguồn tham khảo khi mẫu đã đủ |
+| Chỉ review/nhận xét, không sửa | Trước nhận xét đọc năm chốt bên dưới; với cả bài đọc `references/quy-trinh-viet.md` và card; có mẫu đọc `references/giu-giong-tu-mau.md`; tra catalog khi cần kiểm pattern | Không tự sửa hoặc coi tên file là bằng chứng đã đọc |
 | Chỉ typography theo cổng trên | `references/typography.md` khi định sửa T | Workflow, profile/card, guide mẫu |
 
 Rà văn bản bằng nghĩa, cách kết hợp từ và chức năng câu/đoạn, rồi tra nhóm có nghi vấn;
@@ -89,7 +90,7 @@ README/SOP không thành blog chỉ vì mẫu thân mật. Card không cấp quy
    Outline không thay nguồn. Không nhập chuyện riêng/quan điểm/dữ kiện của mẫu hoặc kiến thức đúng
    nhưng ngoài nguồn; thiếu dữ kiện thì giữ mức khái quát hoặc hỏi đúng phần thiếu. Hư từ chỉ thêm
    hình thức cần thiết, không thêm ý. Chỗ mơ hồ giữ mơ hồ, không tự chọn một cách hiểu để viết gọn.
-3. **Giữ quan hệ và giọng.** Giữ chủ thể/đối tượng, thời điểm, lượng/phạm vi, điều kiện/phủ định,
+3. **Giữ quan hệ và giọng.** Giữ chủ thể/đối tượng, lời ai/nguồn viện dẫn, thời điểm, lượng/phạm vi, điều kiện/phủ định,
    nhân quả/thứ tự/đồng thời, ý muốn/khả năng/nghĩa vụ, độ chắc chắn/cam kết và nhấn mạnh. Không đổi
    muốn thành có thể, một số thành mọi, có thể thành sẽ. Giữ câu rút gọn, bỏ lửng và nhịp có chức năng;
    dấu câu không tự thêm quan hệ giải thích. Giữ thuật ngữ theo cộng đồng/người đọc, không dịch sạch
@@ -123,6 +124,9 @@ Jev chỉ hỗ trợ, không tự áp/loại edit, không chứng nhận giọng
 Không tạo thêm lượt model để lập outline hay tự chấm. Chỉ báo đã dùng Jev khi có kết quả hợp lệ.
 
 ## Trả kết quả
+
+Review đúng candidate hiện tại (nội dung/file được giao), không thay bằng HEAD cũ hay tóm tắt agent.
+Khi chỉ review, kết luận riêng **nghĩa** (chốt 2–4) và **cách viết** (giọng/nhịp/người đọc); không lấy cách viết bù sai ý.
 
 Dán văn bản/chỉ yêu cầu viết lại hoặc skill là một bước khác: trả bản cuối, không lời dẫn/phân tích.
 Chỉ nhận xét/đối chiếu khi được yêu cầu. Giao file: sửa đúng phần, giữ code/frontmatter/link và báo

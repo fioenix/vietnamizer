@@ -24,3 +24,8 @@ Use tasks/implement, since relocation touches package and registry bindings acro
 
 ## Verification
 Contract/canonical mutation tests before consumer changes; regenerate registry and compare all fields except source paths. Target distribution/package-security/registry/context-protection tests, not full historical suite. Measure required and conditional route footprints; inspect remaining links/guards. Generate archives only for validation, retain labelled Unreleased copies, restore baseline dist by hash. Use independent read-only reviewer if available without new external capability; behavioral A/B remains pending if no cost-free authorized execution path.
+
+
+## Approved PR28 follow-up — 2026-10-31
+
+The owner requested applying the completed Matt-skill research to PR28. Continue the existing Spec Kit scope/tasks on codex/selective-reading-unreleased; preserve the original execution record above. Use the already-loaded installed Spec Kit guidance from the original checkout (the new Git worktree omits ignored generated integration files), without installing tooling or substituting a generic workflow. Small addition: explicit review-only entry/adapter, separate verdicts using existing gates, exact-current-candidate offline evidence checks, six synthetic development cases and a separate pending holdout plan. No new runtime reference or rule catalog, provider/model call, user-scope/README change, release or version bump. Current authorization includes commit/push to PR28; required independent approval still blocks merge. Target tests cover packet integrity, stale candidates/quotes, expected paths and untrusted trace limits; judgments and actual-read A/B remain pending.

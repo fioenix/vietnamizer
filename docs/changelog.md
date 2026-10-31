@@ -4,6 +4,14 @@
 
 ## Unreleased
 
+### 31/10/2026 · Review-only và bằng chứng candidate
+
+Làm rõ tuyến chỉ review phải đọc chốt trước nhận xét, dùng đúng workflow/card/mẫu khi xét cả bài;
+tách kết luận nghĩa/cách viết, giữ lời ai và nguồn viện dẫn. Adapter gọi core cả khi review.
+Bổ sung sáu ca tổng hợp phát triển, kế hoạch heldout riêng chưa có dữ liệu và harness offline
+kiểm hash candidate, quote cùng thứ tự receipt trước review. Receipt hợp lệ không chứng thực
+agent thực đọc hoặc phán đoán đúng. Nghiên cứu Matt pinned là gợi ý thiết kế, chưa phải hiệu quả.
+
 ### 31/10/2026 · Tách tuyến đọc
 
 Core chỉ giữ điều phối/chốt; chuyển nguyên nội dung V/T sang bốn catalog theo nghi vấn, giữ B/K

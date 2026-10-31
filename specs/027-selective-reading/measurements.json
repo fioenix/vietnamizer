@@ -20,14 +20,14 @@
       "files": [
         {
           "file": "SKILL.md",
-          "lines": 131,
-          "unicode_characters": 9189,
-          "utf8_bytes": 11746
+          "lines": 135,
+          "unicode_characters": 9699,
+          "utf8_bytes": 12378
         }
       ],
-      "lines": 131,
-      "unicode_characters": 9189,
-      "utf8_bytes": 11746
+      "lines": 135,
+      "unicode_characters": 9699,
+      "utf8_bytes": 12378
     }
   },
   "routes": {
@@ -75,24 +75,24 @@
         "files": [
           {
             "file": "SKILL.md",
-            "lines": 131,
-            "unicode_characters": 9189,
-            "utf8_bytes": 11746
+            "lines": 135,
+            "unicode_characters": 9699,
+            "utf8_bytes": 12378
           }
         ],
-        "lines": 131,
-        "unicode_characters": 9189,
-        "utf8_bytes": 11746
+        "lines": 135,
+        "unicode_characters": 9699,
+        "utf8_bytes": 12378
       },
-      "character_reduction_percent": 91.96,
+      "character_reduction_percent": 91.51,
       "after_with_triggered_completion_catalog": {
         "file_count": 2,
         "files": [
           {
             "file": "SKILL.md",
-            "lines": 131,
-            "unicode_characters": 9189,
-            "utf8_bytes": 11746
+            "lines": 135,
+            "unicode_characters": 9699,
+            "utf8_bytes": 12378
           },
           {
             "file": "references/loi-thieu-tu.md",
@@ -101,9 +101,9 @@
             "utf8_bytes": 15259
           }
         ],
-        "lines": 217,
-        "unicode_characters": 20784,
-        "utf8_bytes": 27005
+        "lines": 221,
+        "unicode_characters": 21294,
+        "utf8_bytes": 27637
       }
     },
     "professional_article": {
@@ -150,15 +150,15 @@
         "files": [
           {
             "file": "SKILL.md",
-            "lines": 131,
-            "unicode_characters": 9189,
-            "utf8_bytes": 11746
+            "lines": 135,
+            "unicode_characters": 9699,
+            "utf8_bytes": 12378
           },
           {
             "file": "references/quy-trinh-viet.md",
-            "lines": 42,
-            "unicode_characters": 2769,
-            "utf8_bytes": 3625
+            "lines": 44,
+            "unicode_characters": 2959,
+            "utf8_bytes": 3884
           },
           {
             "file": "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md",
@@ -167,11 +167,11 @@
             "utf8_bytes": 1450
           }
         ],
-        "lines": 183,
-        "unicode_characters": 13088,
-        "utf8_bytes": 16821
+        "lines": 189,
+        "unicode_characters": 13788,
+        "utf8_bytes": 17712
       },
-      "character_reduction_percent": 88.56
+      "character_reduction_percent": 87.95
     },
     "new_article_with_sample": {
       "before": {
@@ -223,15 +223,15 @@
         "files": [
           {
             "file": "SKILL.md",
-            "lines": 131,
-            "unicode_characters": 9189,
-            "utf8_bytes": 11746
+            "lines": 135,
+            "unicode_characters": 9699,
+            "utf8_bytes": 12378
           },
           {
             "file": "references/quy-trinh-viet.md",
-            "lines": 42,
-            "unicode_characters": 2769,
-            "utf8_bytes": 3625
+            "lines": 44,
+            "unicode_characters": 2959,
+            "utf8_bytes": 3884
           },
           {
             "file": "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md",
@@ -246,11 +246,11 @@
             "utf8_bytes": 5730
           }
         ],
-        "lines": 243,
-        "unicode_characters": 17399,
-        "utf8_bytes": 22551
+        "lines": 249,
+        "unicode_characters": 18099,
+        "utf8_bytes": 23442
       },
-      "character_reduction_percent": 86.82
+      "character_reduction_percent": 86.29
     }
   },
   "conditional_files": {
@@ -277,5 +277,11 @@
     ]
   },
   "pattern_parity": "55 full bodies equal after stripping only surrounding section separators/blank space; registry fields equal except source paths",
-  "behavioral_ab": "pending; no controlled model execution performed"
+  "behavioral_ab": "pending; no controlled model execution performed",
+  "review_only_evidence": {
+    "expected_routing": "core five gates before any verdict; whole article uses article/card routes, supplied samples add sample guide; catalogs only for pattern diagnosis",
+    "fixtures": "tests/fixtures/review_contract/development.json",
+    "actual_agent_read_trace": "pending; receipt format checks do not attest tool execution",
+    "candidate_binding": "SHA-256 of supplied current candidate bytes, never HEAD"
+  }
 }
