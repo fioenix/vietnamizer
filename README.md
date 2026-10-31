@@ -80,7 +80,7 @@ Không dùng mức đổi ký tự, độ dài hay token làm điểm chất lư
 
 ## Cài nhanh
 
-Bản hiện tại là **0.13.2**. [Tải các gói từ GitHub Release](https://github.com/fioenix/vietnamizer/releases/latest).
+Bản hiện tại là **0.13.3**. [Tải các gói từ GitHub Release](https://github.com/fioenix/vietnamizer/releases/latest).
 
 ### Skills CLI
 
@@ -167,7 +167,7 @@ Skill không tự tìm/lưu hồ sơ cá nhân hoặc tạo trải nghiệm thay
 
 ## Lịch sử phiên bản
 
-- **0.13.2** (28/10/2026) — Ưu tiên giữ nghĩa, chọn nét giọng theo chức năng từng phần; không mặc định cấm câu hỏi hay “bạn”. [Lịch sử đầy đủ](docs/changelog.md).
+- **0.13.3** — Core gọn, đọc tài liệu theo tác vụ; review nghĩa và cách viết riêng, kiểm đúng candidate hiện tại. Giữ 55 pattern và runtime. [Lịch sử đầy đủ](docs/changelog.md).
 
 ## Đóng góp
 

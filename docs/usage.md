@@ -35,7 +35,7 @@ Chỉ trả thông báo cuối.
 Khi chỉ sửa một cụm/câu, quy trình áp dụng trong đúng phạm vi đó; đọc đoạn xung quanh để hiểu,
 không tự viết lại cả bài. Khi giao biên tập toàn bài, tách các ý và sắc thái trước khi chọn
 cách diễn đạt; không mặc định phải thay mọi câu. Bản tách ý không phải đầu ra bắt buộc.
-Quy trình mới đang ở Unreleased, metadata giữ 0.13.2; chưa có pilot xác nhận nó tốt hơn
+Source 0.13.3 đóng gói quy trình mới; chưa có pilot xác nhận nó tốt hơn
 payload 0.13.2 đã phát hành trước cập nhật này.
 
 ### Đọc ít theo đúng việc
