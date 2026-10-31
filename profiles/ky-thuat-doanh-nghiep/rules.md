@@ -1,17 +1,11 @@
 # Profile cho tài liệu kỹ thuật, doanh nghiệp và học thuật
 
-Đọc file này sau `SKILL.md` khi văn bản là README, SOP nội bộ, đặc tả, tài liệu doanh nghiệp, giáo trình, đề án môn học hoặc nghiên cứu khoa học.
+Chỉ tra khi có nghi vấn diễn đạt/đề mục/viện dẫn hoặc rò giọng trong tài liệu kỹ thuật,
+doanh nghiệp/học thuật. Core sở hữu tuyến đọc; file này sở hữu các giới hạn và K1–K7.
+Đọc phần cần dùng, không tự nạp resolver/card hoặc các catalog V/T khác. Blog công nghệ có tác giả
+không tự thành tài liệu tra cứu. Theo mẫu vẫn giữ thuật ngữ/ngữ vực đúng người đọc và thể loại.
 
-Blog chuyên môn có tác giả hiện diện được chọn profile theo `SKILL.md`, không chỉ vì chủ đề là kỹ thuật. Khi phần này thực sự là README, SOP hoặc tài liệu tra cứu, chế độ theo mẫu vẫn giữ các giới hạn của profile dưới đây; chỉ áp đặc tính mẫu tương thích.
-
-Với những thể loại này, giọng trung tính thường là lựa chọn đúng. Mục tiêu là làm câu rõ nghĩa và đúng thuật ngữ, không thêm cá tính hoặc sự thân mật. File này gồm các giới hạn bắt buộc, cách áp V1–V25 và bảy pattern riêng K1–K7.
-
-Sau khi chọn profile này, dùng registry `references/bo-giai-phong-cach.md` để đọc đúng một card
-tương thích trong `profiles/ky-thuat-doanh-nghiep/styles/`. Card giúp phân biệt tài liệu tra cứu,
-quy trình vận hành và lập luận học thuật; nó không được nới bốn giới hạn bắt buộc dưới đây và không
-biến một lựa chọn trình bày thành lỗi nhóm K.
-
----
+Chỉ khi mục đích/người đọc mâu thuẫn hoặc pha chức năng mới đọc `references/bo-giai-phong-cach.md`.
 
 ## Những giới hạn bắt buộc
 

@@ -21,14 +21,17 @@ def registry():
 
 class RegistryExclusionTest(unittest.TestCase):
     def build_with(self, old, new):
-        """Build the registry from a copy of the canonical sources with one SKILL.md edit."""
+        """Build the registry from a copy of the canonical sources with one canonical catalog edit."""
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)
             shutil.copytree(ROOT / 'profiles', tmp / 'profiles')
             (tmp / 'scripts').mkdir(); shutil.copy(ROOT / 'scripts/scan-tells.sh', tmp / 'scripts')
-            text = (ROOT / 'SKILL.md').read_text(encoding='utf-8')
+            shutil.copytree(ROOT / 'references', tmp / 'references')
+            matches = [path for path in (tmp / 'references').glob('*.md') if old in path.read_text()]
+            self.assertEqual(len(matches), 1, old)
+            text = matches[0].read_text(encoding='utf-8')
             self.assertEqual(text.count(old), 1, old)
-            (tmp / 'SKILL.md').write_text(text.replace(old, new), encoding='utf-8')
+            matches[0].write_text(text.replace(old, new), encoding='utf-8')
             return generator().build(tmp)
 
     def test_t4_gate_comes_from_its_sign(self):

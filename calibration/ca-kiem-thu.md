@@ -324,3 +324,49 @@ Ca hồi quy để rà thủ công, chưa chạy model0.13.2. SF01/SF04/SF05tham
 | SF10 | Một bài blog có phần giải thích cache rồi phần hướng dẫn cấu hình; cùng người đọc/thanh ngữ vực | Có thể dùng câu hỏi cho khái niệm, đề mục gọi tên bước và bạn cho thao tác; vẫn một profile/card phù hợp | Áp một hình thức cho cả bài; đổi profile/card theo từng heading dù chức năng tổng thể/người đọc không đổi |
 | SF11 | Mẫu được giao có câu hỏi khi giới thiệu khái niệm; phần hiện tại là liệt kê phạm vi áp dụng | Rút nét theo chức năng tương ứng; thiếu mẫu cùng vai trò thì thu hẹp suy luận, không coi điều chưa thấy là bị cấm | Suy tác giả luôn hỏi hoặc không bao giờ hỏi; tìm mẫu giám khảo kín/nguồn ngoài để làm vừa điểm |
 | SF12 | Yêu cầu `Copyedit; preserve the existing voice`, kèm mẫu có câu hỏi/bạn; có code/trích dẫn bảo toàn | Giữ chế độ gốc theo root; chỉ sửa lỗi có căn cứ, vùng bảo toàn nguyên byte | Dùng bước chọn nét để tự bật chuyển giọng, sửa quote/code, thêm trải nghiệm hoặc bỏ điều kiện nhằm tạo bố cục đẹp |
+
+
+## EW01–EW16 · lập ý, khai triển và kiểm lại nghĩa
+
+Ca tổng hợp cho quy trình Unreleased, không phải bản vàng duy nhất hoặc đầu ra model đã chạy.
+Đọc cả yêu cầu, nguồn và mẫu; so với bản gốc đầy đủ, không chỉ outline. Trạng thái thực nghiệm:
+**pending**. Ca này là tập phát triển; pilot độc lập cần nguồn mới chưa dùng sửa hướng dẫn.
+
+| Ca | Yêu cầu, nguồn và ngữ cảnh | Tiêu chí quan sát được |
+|---|---|---|
+| EW01 | Viết bài ngắn từ brief: công cụ A lưu link; bản thử chưa đồng bộ; gửi kèm link tài liệu, không mời đăng ký | Có đủ chức năng, giới hạn và link được giao; không bịa trải nghiệm hoặc CTA đăng ký; không cần nháp AI trung gian |
+| EW02 | Viết thông báo từ ý: nhóm mở bản thử thứ Hai; tối đa 20 người; chưa chốt ngày kết thúc | Giữ ngày, trần 20 và chưa chốt; không tự thêm giờ, hạn chót hoặc khan hiếm giả |
+| EW03 | Viết giải thích từ ý: cache lưu kết quả; dữ liệu có thể cũ nếu chưa làm mới; không có số hiệu năng | Diễn đạt đủ chức năng và điều kiện; không thêm benchmark, tốc độ hoặc quan hệ nhân quả ngoài brief |
+| EW04 | Viết bài công khai; chỉ có mẫu chat công việc ngắn `Xong rồi nhé`; không giao dùng giọng chat | Không nhận mẫu chat làm toàn bộ giọng bài; dùng thể loại/yêu cầu đã có, không tự rải nhé hoặc tuyên bố khớp giọng cá nhân |
+| EW05 | Theo mẫu trên nháp: `Mình mới thử với 3 bài ngắn. Có bài đỡ cứng hơn, nhưng chưa biết gặp bài dài thì sao.` | Giữ mới, 3, ngắn, có bài và chưa biết; không chuyển thành mọi bài tốt hơn hoặc chưa thử bài dài |
+| EW06 | Nháp quảng bá có đủ ý riêng về tính năng/giới hạn/link; giao bộ tham chiếu chuyên môn nhiều tác giả, từng đoạn có xuất xứ | Chọn nét đúng nhiệm vụ, không gọi là giọng cá nhân; mỗi ý còn nguyên; cách mở/chuyển/kết có căn cứ đúng ngữ cảnh; không bắt buộc khuôn vấn đề → vừa thử → hữu ích → link |
+| EW07 | Theo mẫu: `Nếu thiếu bộ nhớ, một số bản thử có thể chậm. Chưa xác nhận nguyên nhân.` | Giữ điều kiện, một số, có thể và chưa xác nhận; outline không biến điều kiện thành nguyên nhân đã kết luận |
+| EW08 | Theo mẫu bài công khai; mẫu kể chuyến đi và nói đã có 10 khách hàng, nháp chỉ mô tả công cụ A | Dùng cách dẫn ý/nhịp phù hợp; không nhập chuyến đi, khách hàng, quan điểm hoặc testimonial từ mẫu |
+| EW09 | Rà lỗi, giữ giọng: `Mà chạy để tránh đối diện.` sau đoạn nêu nhiều nỗi sợ | Không tự chọn một nỗi sợ làm đối tượng; giữ bỏ lửng có chức năng và độ mở của nguồn |
+| EW10 | Giữ giọng: `Rất khó. Rất lâu. Nhưng vẫn muốn làm.` trong bài có nhịp chủ ý | Không giảm rất thành khá, đổi muốn thành có thể hoặc gộp mọi nhịp chỉ vì ý gần nhau |
+| EW11 | Theo mẫu: `A diễn ra trước B. C diễn ra đồng thời với B, chưa rõ có liên quan không.` | Giữ thứ tự, đồng thời và chưa rõ quan hệ; đảo trình bày không tạo nhân quả hoặc quy trình mới |
+| EW12 | Biên tập hai đoạn gần trùng nội dung nhưng đoạn sau thêm thái độ tiếc nuối | Nhận diện phần thái độ; không bỏ chỉ vì outline thông tin giống nhau; không mặc định giữ nhiều chữ là giữ đủ nghĩa |
+| EW13 | Chỉ sửa cụm `giải quyết vấn đề` trong `Đã thử ba cách mà vẫn không giải quyết vấn đề.` với ngữ cảnh kết quả chưa đạt | Thêm được ở phạm vi giao nếu cần; không đổi ba cách, viết lại đoạn hoặc chuyển giọng |
+| EW14 | Chỉ rà typography của hợp đồng; có code, tên riêng và trích dẫn nguyên văn | Chỉ T theo cổng; không dựng lại câu hoặc động tới byte vùng bảo toàn để khớp outline/mẫu |
+| EW15 | Theo mẫu: `Có thể giảm khoảng 10% nếu dùng cấu hình A.`; trích nguyên văn riêng `"Tôi chưa đồng ý."` | Giữ xấp xỉ, giá trị, điều kiện và tình thái; trích dẫn giữ từng byte, không bỏ chưa để câu tích cực hơn |
+| EW16 | Giữ giọng trên một nháp AI; chỉ có nháp và yêu cầu viết rõ, không giao mẫu cá nhân | Không tuyên bố nháp là giọng cá nhân; vẫn giữ giọng hiện có trong phạm vi rà lỗi; không tự truy xuất hồ sơ hoặc đổi mọi câu |
+
+Chấm riêng nghĩa, giọng, tự nhiên và phạm vi. Mỗi lỗi cần chỉ ra nguồn và bản ra tương ứng;
+trôi chảy không bù lỗi nghĩa. Không chấm theo số bullet, lượng thay đổi hoặc số dấu hiệu giống mẫu.
+
+
+### Pilot so quy trình — chưa chạy
+
+EW01–EW16 là ca thiết kế/hồi quy, không dùng để tuyên bố hiệu quả trên tập chưa thấy.
+Pilot dự kiến dùng 16 nguồn mới theo bốn nhóm tương ứng, so ba nhánh: payload phát hành 0.13.2 đóng băng trước cập nhật,
+source mới và prompt+cùng mẫu không có skill; hai lượt sinh độc lập mỗi ô (96 đầu ra dự kiến).
+Đóng băng nguồn, brief, mẫu, prompt chung, phiên bản/model/cấu hình và trần lượt trước khi chạy.
+Prompt chung không tiết lộ riêng bước tách ý của nhánh mới. Giữ từng đầu ra/lỗi/thiếu, không
+chọn bản đẹp hoặc dùng điểm lịch sử làm đối chứng. Tách tập phát triển khỏi tập đánh giá mới;
+nguồn đã dùng thiết kế hướng dẫn không được gọi là holdout, mẫu dùng khai triển không đồng thời
+làm mẫu giám khảo riêng. Chưa có quyền chạy model/chi phí cho pilot trong lần cập nhật này.
+
+Người đọc tiếng Việt/chủ giọng chấm ẩn nhãn, có quyền hòa/chưa rõ; model chỉ hỗ trợ tìm chỗ cần
+xem. Chấm riêng nghĩa, giọng, tự nhiên, phạm vi và thời gian/token. Dẫn cặp nguồn/đầu ra cho
+mỗi lỗi; giữ báo cáo cả ca thua, lỗi và phiếu thiếu. Không dùng AI detector, số bullet, số từ
+thay hay độ giống bề mặt làm chuẩn. Lỗi nghĩa/vượt phạm vi không được bù bằng điểm giọng.

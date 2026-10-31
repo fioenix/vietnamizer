@@ -1,6 +1,6 @@
 # Bảng tra hư từ và cấu trúc câu
 
-File này bổ sung ví dụ cho một số pattern trong `SKILL.md`. Chỉ đọc mục liên quan khi cần tra cứu; mọi quyết định sửa vẫn phải theo phần **Không flag** của pattern gốc.
+File này bổ sung ví dụ cho một số pattern ở các catalog do `SKILL.md` chỉ định. Chỉ đọc mục liên quan khi cần tra cứu; mọi quyết định sửa vẫn phải theo phần **Không flag** của pattern gốc.
 
 ---
 

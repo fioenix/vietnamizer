@@ -1,0 +1,281 @@
+{
+  "method": "Count full UTF-8 files once as Unicode codepoints, lines by splitlines; before is incoming Unreleased snapshot, not HEAD. Excludes user text, tool results, caches and model scaffolding; this is not a context trace/token/billing measurement. No tokenizer download. Existing no-key case; evaluator contract is conditional.",
+  "core": {
+    "before": {
+      "file_count": 1,
+      "files": [
+        {
+          "file": "SKILL.md",
+          "lines": 543,
+          "unicode_characters": 63401,
+          "utf8_bytes": 83403
+        }
+      ],
+      "lines": 543,
+      "unicode_characters": 63401,
+      "utf8_bytes": 83403
+    },
+    "after": {
+      "file_count": 1,
+      "files": [
+        {
+          "file": "SKILL.md",
+          "lines": 131,
+          "unicode_characters": 9189,
+          "utf8_bytes": 11746
+        }
+      ],
+      "lines": 131,
+      "unicode_characters": 9189,
+      "utf8_bytes": 11746
+    }
+  },
+  "routes": {
+    "small_work_sentence": {
+      "before": {
+        "file_count": 5,
+        "files": [
+          {
+            "file": "SKILL.md",
+            "lines": 543,
+            "unicode_characters": 63401,
+            "utf8_bytes": 83403
+          },
+          {
+            "file": "references/bo-giai-phong-cach.md",
+            "lines": 141,
+            "unicode_characters": 9234,
+            "utf8_bytes": 11752
+          },
+          {
+            "file": "references/typesafe-advisor.md",
+            "lines": 268,
+            "unicode_characters": 19465,
+            "utf8_bytes": 19537
+          },
+          {
+            "file": "profiles/blog-ca-nhan/rules.md",
+            "lines": 156,
+            "unicode_characters": 21159,
+            "utf8_bytes": 27596
+          },
+          {
+            "file": "profiles/blog-ca-nhan/styles/phoi-hop-cong-viec.md",
+            "lines": 10,
+            "unicode_characters": 974,
+            "utf8_bytes": 1252
+          }
+        ],
+        "lines": 1118,
+        "unicode_characters": 114233,
+        "utf8_bytes": 143540
+      },
+      "after_required": {
+        "file_count": 1,
+        "files": [
+          {
+            "file": "SKILL.md",
+            "lines": 131,
+            "unicode_characters": 9189,
+            "utf8_bytes": 11746
+          }
+        ],
+        "lines": 131,
+        "unicode_characters": 9189,
+        "utf8_bytes": 11746
+      },
+      "character_reduction_percent": 91.96,
+      "after_with_triggered_completion_catalog": {
+        "file_count": 2,
+        "files": [
+          {
+            "file": "SKILL.md",
+            "lines": 131,
+            "unicode_characters": 9189,
+            "utf8_bytes": 11746
+          },
+          {
+            "file": "references/loi-thieu-tu.md",
+            "lines": 86,
+            "unicode_characters": 11595,
+            "utf8_bytes": 15259
+          }
+        ],
+        "lines": 217,
+        "unicode_characters": 20784,
+        "utf8_bytes": 27005
+      }
+    },
+    "professional_article": {
+      "before": {
+        "file_count": 5,
+        "files": [
+          {
+            "file": "SKILL.md",
+            "lines": 543,
+            "unicode_characters": 63401,
+            "utf8_bytes": 83403
+          },
+          {
+            "file": "references/bo-giai-phong-cach.md",
+            "lines": 141,
+            "unicode_characters": 9234,
+            "utf8_bytes": 11752
+          },
+          {
+            "file": "references/typesafe-advisor.md",
+            "lines": 268,
+            "unicode_characters": 19465,
+            "utf8_bytes": 19537
+          },
+          {
+            "file": "profiles/blog-ca-nhan/rules.md",
+            "lines": 156,
+            "unicode_characters": 21159,
+            "utf8_bytes": 27596
+          },
+          {
+            "file": "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md",
+            "lines": 10,
+            "unicode_characters": 1130,
+            "utf8_bytes": 1450
+          }
+        ],
+        "lines": 1118,
+        "unicode_characters": 114389,
+        "utf8_bytes": 143738
+      },
+      "after_required": {
+        "file_count": 3,
+        "files": [
+          {
+            "file": "SKILL.md",
+            "lines": 131,
+            "unicode_characters": 9189,
+            "utf8_bytes": 11746
+          },
+          {
+            "file": "references/quy-trinh-viet.md",
+            "lines": 42,
+            "unicode_characters": 2769,
+            "utf8_bytes": 3625
+          },
+          {
+            "file": "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md",
+            "lines": 10,
+            "unicode_characters": 1130,
+            "utf8_bytes": 1450
+          }
+        ],
+        "lines": 183,
+        "unicode_characters": 13088,
+        "utf8_bytes": 16821
+      },
+      "character_reduction_percent": 88.56
+    },
+    "new_article_with_sample": {
+      "before": {
+        "file_count": 6,
+        "files": [
+          {
+            "file": "SKILL.md",
+            "lines": 543,
+            "unicode_characters": 63401,
+            "utf8_bytes": 83403
+          },
+          {
+            "file": "references/bo-giai-phong-cach.md",
+            "lines": 141,
+            "unicode_characters": 9234,
+            "utf8_bytes": 11752
+          },
+          {
+            "file": "references/typesafe-advisor.md",
+            "lines": 268,
+            "unicode_characters": 19465,
+            "utf8_bytes": 19537
+          },
+          {
+            "file": "profiles/blog-ca-nhan/rules.md",
+            "lines": 156,
+            "unicode_characters": 21159,
+            "utf8_bytes": 27596
+          },
+          {
+            "file": "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md",
+            "lines": 10,
+            "unicode_characters": 1130,
+            "utf8_bytes": 1450
+          },
+          {
+            "file": "references/giu-giong-tu-mau.md",
+            "lines": 224,
+            "unicode_characters": 17589,
+            "utf8_bytes": 23039
+          }
+        ],
+        "lines": 1342,
+        "unicode_characters": 131978,
+        "utf8_bytes": 166777
+      },
+      "after_required": {
+        "file_count": 4,
+        "files": [
+          {
+            "file": "SKILL.md",
+            "lines": 131,
+            "unicode_characters": 9189,
+            "utf8_bytes": 11746
+          },
+          {
+            "file": "references/quy-trinh-viet.md",
+            "lines": 42,
+            "unicode_characters": 2769,
+            "utf8_bytes": 3625
+          },
+          {
+            "file": "profiles/blog-ca-nhan/styles/chuyen-mon-cong-khai.md",
+            "lines": 10,
+            "unicode_characters": 1130,
+            "utf8_bytes": 1450
+          },
+          {
+            "file": "references/giu-giong-tu-mau.md",
+            "lines": 60,
+            "unicode_characters": 4311,
+            "utf8_bytes": 5730
+          }
+        ],
+        "lines": 243,
+        "unicode_characters": 17399,
+        "utf8_bytes": 22551
+      },
+      "character_reduction_percent": 86.82
+    }
+  },
+  "conditional_files": {
+    "diagnostic_catalogs": [
+      "references/loi-thieu-tu.md",
+      "references/loi-cau-va-quan-he.md",
+      "references/loi-tu-va-loi-dan.md",
+      "references/typography.md",
+      "profiles/blog-ca-nhan/rules.md",
+      "profiles/ky-thuat-doanh-nghiep/rules.md"
+    ],
+    "mixed_or_ambiguous_context": [
+      "references/bo-giai-phong-cach.md"
+    ],
+    "choose_new_professional_sources": [
+      "references/nguon-van-phong.md"
+    ],
+    "key_available_and_transmission_authorized": [
+      "references/typesafe-advisor.md"
+    ],
+    "lexical_detail": [
+      "references/bang-tra-cuu.md",
+      "references/han-viet-thuan-viet.md"
+    ]
+  },
+  "pattern_parity": "55 full bodies equal after stripping only surrounding section separators/blank space; registry fields equal except source paths",
+  "behavioral_ab": "pending; no controlled model execution performed"
+}

@@ -1,0 +1,3 @@
+# Reading contract
+
+Core is always read. Local correction: no required article workflow, resolver, profile, card, sample guide or evaluator schema. Article: article workflow plus one directly selected card; resolver only if selection is unclear/mixed. Supplied-sample article additionally reads voice guide; no automatic source directory. Error lookup uses the relevant catalog before committing an error correction, including its exception; no forced 55-pattern loop. Typography-only does not use profile/cards. Status can run without loading the evaluator contract; key/capability/transmission failures preserve core fallback and honest status. Existing external authority is neither broadened nor bypassed.

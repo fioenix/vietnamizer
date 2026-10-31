@@ -2,6 +2,24 @@
 
 [← README](../README.md)
 
+## Unreleased
+
+### 31/10/2026 · Tách tuyến đọc
+
+Core chỉ giữ điều phối/chốt; chuyển nguyên nội dung V/T sang bốn catalog theo nghi vấn, giữ B/K
+ở profile. Tuyến sửa nhỏ không nạp workflow bài, resolver, card hoặc guide mẫu; tuyến bài dùng
+workflow/card, thêm guide khi có mẫu. Danh mục nguồn và hợp đồng evaluator nạp có điều kiện;
+kiểm key/capability trước hợp đồng. Đồng bộ validator/registry với nơi sở hữu mới, không đổi
+recipe hay ngưỡng. Metadata giữ 0.13.2, chưa phát hành; số đo context là kích thước hướng dẫn,
+không phải billing token hoặc bằng chứng chất lượng hành vi.
+
+Metadata giữ **0.13.2**, phiên bản hiện hành. Nội dung dưới đây chưa phát hành và không phải
+payload 0.13.2 nguyên gốc; chỉ chọn version mới khi được yêu cầu chuẩn bị phiên bản/phát hành.
+
+### 31/10/2026 · Quy trình lập ý trước khai triển
+
+Chung quy trình tách ý có đối chiếu nguồn → chọn giọng → khai triển → kiểm nghĩa hai chiều và đọc câu/đoạn/toàn bài cho viết mới từ brief và biên tập. Outline không thay bản gốc, giữ sắc thái và phạm vi sửa nhỏ; không nhận nháp AI là giọng cá nhân. Phân biệt mẫu cá nhân với tham chiếu chuyên môn nhiều tác giả có xuất xứ; thêm danh mục khởi đầu năm bài, chỉ metadata/link và giới hạn, không tải corpus. Thêm EW01–EW16 để kiểm thủ công; giữ 55 pattern/runtime Jev, không thêm lượt gọi model. Chưa chạy pilot cũ/mới, chưa chứng minh cải thiện văn phong.
+
 ## Lịch sử phiên bản
 
 - **0.13.2** (28/10/2026) – Phân biệt hình thức được phép, có căn cứ mẫu và phù hợp với chức năng phần; chọn đề mục, đại từ và đối chiếu sau khi giữ nghĩa. Không cấm câu hỏi/bạn, không đóng băng bố cục hoặc chia profile theo mỗi đoạn; làm rõ lượng với cách viết số và giữ tình thái khi đổi danh sách. Thêm SF01–SF12 để rà thủ công từ N2và phản ví dụ; giữ55pattern, quy trình skill không thêm lượt gọi model. Pilot025chạy sau đó cho N2tín hiệu tích cực nhưng chưa xác nhận nâng cấp đồng đều; xem báo cáo và phiếu thiếu ở phần giữ giọng.
