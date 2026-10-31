@@ -7,7 +7,7 @@ description: |
   biên tập và theo mẫu khi được yêu cầu rõ.
 license: MIT
 metadata:
-  version: "0.13.2"
+  version: "0.13.3"
 ---
 
 # Vietnamizer

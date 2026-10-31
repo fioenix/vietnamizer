@@ -94,7 +94,7 @@ giữ profile kỹ thuật cùng các giới hạn riêng. Không dùng giọng 
 
 Mẫu được khai báo đã qua AI là giọng tham chiếu người dùng chọn, chưa chứng minh
 giọng tự viết không có AI. Không có mẫu và không yêu cầu theo mẫu thì biên tập giữ giọng bản gốc, viết mới theo brief/thể loại;
-không khẳng định đã bắt chước đúng người. Trong phần cập nhật Unreleased, workflow có nhánh viết mới từ ý được giao cùng các bước tách ý, chọn giọng và
+không khẳng định đã bắt chước đúng người. Từ source 0.13.3, workflow có nhánh viết mới từ ý được giao cùng các bước tách ý, chọn giọng và
 kiểm lại như biên tập. Chưa có pilot so quy trình mới/cũ hoặc xác nhận viết mới khớp giọng.
 
 Không tự truy xuất hoặc cập nhật hồ sơ trong HOME, memory hay nguồn ngoài tác vụ. Chỉ tạo bản tóm tắt giọng để người dùng xem/lưu khi họ yêu cầu; viết mới hay biên tập đều không tự tạo trải nghiệm hay quan điểm thay người viết. Chưa có benchmark độc lập chứng minh chất lượng giữ giọng của bản hiện tại.
@@ -145,6 +145,6 @@ Khác biệt chỉ thuộc sở thích cá nhân không được đưa vào log.
 Quy trình đầy đủ nằm trong `AGENTS.md`.
 
 
-Trong cấu trúc Unreleased, card chọn trực tiếp từ core khi việc đã rõ. Không bắt đọc resolver
+Trong cấu trúc source 0.13.3, card chọn trực tiếp từ core khi việc đã rõ. Không bắt đọc resolver
 hoặc profile rules trước mỗi card; chỉ tra resolver khi ngữ cảnh mâu thuẫn/pha chức năng, rules khi
 có nghi vấn thể loại. Năm chốt và quyền đổi giọng do core sở hữu, không lặp quy trình ở các guide.

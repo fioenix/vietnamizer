@@ -5,7 +5,7 @@
 ## Cài nhanh
 
 Tên mới từ bản **0.9.7**: Vietnamizer, định danh `vietnamizer` (trước đây là
-`vi-humanizer`). Bản hiện tại là **0.13.2**, giữ nghĩa trước rồi chọn nét giọng theo chức năng từng phần; câu hỏi, đề mục, đại từ và danh sách được chọn theo việc chúng giúp người đọc làm gì. Các chốt giữ ý định, đối tượng lược, nhịp dấu câu, vùng bảo toàn và tư vấn Jev vẫn áp dụng. Runner Jev đọc trọn ghi chú Markdown dài, dùng
+`vi-humanizer`). Bản hiện tại là **0.13.3**, giữ nghĩa trước rồi chọn nét giọng theo chức năng từng phần; câu hỏi, đề mục, đại từ và danh sách được chọn theo việc chúng giúp người đọc làm gì. Các chốt giữ ý định, đối tượng lược, nhịp dấu câu, vùng bảo toàn và tư vấn Jev vẫn áp dụng. Runner Jev đọc trọn ghi chú Markdown dài, dùng
 số lượt gọi theo thứ tự ưu tiên và không hỏi những câu mà chính quy tắc đã trả lời. Jev vẫn chỉ chạy
 khi host cấp key và quyền gửi dữ liệu. Phát hành trên GitHub không có nghĩa là Directory đã chấp thuận.
 Asset của các release trước 0.9.7 vẫn mang tên

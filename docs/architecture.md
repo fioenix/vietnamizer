@@ -4,7 +4,7 @@
 
 ## Kiến trúc
 
-`SKILL.md` là nguồn chuẩn về điều phối và chốt; từng catalog sở hữu duy nhất nội dung pattern được core uỷ quyền. Đây là cấu trúc Unreleased, metadata giữ 0.13.2:
+`SKILL.md` là nguồn chuẩn về điều phối và chốt; từng catalog sở hữu duy nhất nội dung pattern được core uỷ quyền. Đây là cấu trúc source 0.13.3:
 
 ```text
 SKILL.md                                      core gọn: phạm vi, chốt, tuyến đọc và trả kết quả
@@ -66,7 +66,7 @@ Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đ�
 dụ đang được bàn tới là vùng bảo toàn từng byte. Xem danh sách và ngoại lệ đầy đủ trong `SKILL.md`.
 
 
-Trong phần cập nhật Unreleased, root điều khiển cùng quy trình lập ý → chọn giọng → khai triển → review cho
+Từ source 0.13.3, root điều khiển cùng quy trình lập ý → chọn giọng → khai triển → review cho
 viết mới và biên tập. Brief hoặc bản gốc đầy đủ là nguồn đối chiếu; outline không thay nguồn.
 Guide mẫu giữ chi tiết cách dùng bằng chứng giọng cá nhân/tham chiếu chuyên môn, không sở hữu
 quy trình riêng. Không đổi 55 pattern, schema, request hay runtime Jev; kiểm nghĩa với brief
