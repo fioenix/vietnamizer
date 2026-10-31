@@ -26,10 +26,10 @@ LINE_BUDGETS = {
 
 # Tiền tố pattern và file sở hữu. Mỗi tiền tố phải đánh số liên tục từ 1.
 PATTERN_OWNERS = {
-    "V": "SKILL.md",   # lỗi dùng từ và cấu trúc câu
-    "T": "SKILL.md",   # typography
-    "B": "profiles/blog-ca-nhan/rules.md",
-    "K": "profiles/ky-thuat-doanh-nghiep/rules.md",
+    "V": ("references/loi-thieu-tu.md", "references/loi-cau-va-quan-he.md", "references/loi-tu-va-loi-dan.md"),
+    "T": ("references/typography.md",),
+    "B": ("profiles/blog-ca-nhan/rules.md",),
+    "K": ("profiles/ky-thuat-doanh-nghiep/rules.md",),
 }
 PATTERN_FIELDS = ["Dấu hiệu", "Vì sao", "Sửa", "Không flag"]
 
@@ -81,6 +81,9 @@ EXPECTED_PROFILE_DIRECTORIES = {
 }
 PACKAGE_PAYLOAD = {"LICENSE", "SKILL.md", "profiles", "references", "calibration", "agents", "assets", "jev"}
 REFERENCE_FILES = {
+    "references/loi-thieu-tu.md", "references/loi-cau-va-quan-he.md",
+    "references/loi-tu-va-loi-dan.md", "references/typography.md",
+    "references/quy-trinh-viet.md", "references/nguon-van-phong.md",
     "references/bang-tra-cuu.md",
     "references/bo-giai-phong-cach.md",
     "references/giu-giong-tu-mau.md",
@@ -225,7 +228,11 @@ def validate_payload_tree(root: Path) -> None:
         if registry["model"] != "jev-1.14.0" or len(entries) != 55 or {e["id"] for e in entries} != expected_ids:
             raise ValueError("registry inventory")
         for entry in entries:
-            owner = PATTERN_OWNERS[entry["id"][0]]
+            owners = [path for path in PATTERN_OWNERS[entry["id"][0]]
+                      if re.search(r"(?m)^### " + re.escape(entry["id"]) + r"\.", (root / path).read_text())]
+            if len(owners) != 1:
+                raise ValueError("pattern must have exactly one canonical owner")
+            owner = owners[0]
             source = (root / owner).read_text()
             match = re.search(r"(?ms)^### " + re.escape(entry["id"]) + r"\. (.+?)\n(.*?)(?=^### [VTBK]\d+\.|\Z)", source)
             exclusion = re.search(r"\*\*Không flag:\*\*\s*(.*?)(?=\n\n(?:##|---)|\Z)", match[2], re.S)[1].strip()
@@ -510,9 +517,10 @@ if len(set(versions.values())) != 1:
 # --- Đánh số pattern liên tục -------------------------------------------
 
 declared: set[str] = set()
-for prefix, owner in PATTERN_OWNERS.items():
-    text = read(owner)
-    numbers = pattern_numbers(text, prefix)
+for prefix, owners in PATTERN_OWNERS.items():
+    owner = ", ".join(owners)
+    text = "\n".join(read(path) for path in owners)
+    numbers = sorted(pattern_numbers(text, prefix))
     if not numbers:
         fail(f"Không tìm thấy pattern nào có tiền tố {prefix} trong {owner}")
         continue

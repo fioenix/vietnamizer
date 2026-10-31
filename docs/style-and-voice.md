@@ -93,11 +93,24 @@ Blog công nghệ có người viết hiện diện được chọn profile theo
 giữ profile kỹ thuật cùng các giới hạn riêng. Không dùng giọng mẫu để đổi thể loại hoặc vùng bảo toàn.
 
 Mẫu được khai báo đã qua AI là giọng tham chiếu người dùng chọn, chưa chứng minh
-giọng tự viết không có AI. Không có mẫu và không yêu cầu theo mẫu thì giữ giọng bản gốc và thể loại, không
-khẳng định đã bắt chước đúng người. Workflow hiện tại tập trung vào **biên tập
-bản nháp theo mẫu**, chưa chứng minh khả năng viết bài mới khớp giọng từ đầu.
+giọng tự viết không có AI. Không có mẫu và không yêu cầu theo mẫu thì biên tập giữ giọng bản gốc, viết mới theo brief/thể loại;
+không khẳng định đã bắt chước đúng người. Trong phần cập nhật Unreleased, workflow có nhánh viết mới từ ý được giao cùng các bước tách ý, chọn giọng và
+kiểm lại như biên tập. Chưa có pilot so quy trình mới/cũ hoặc xác nhận viết mới khớp giọng.
 
-Không tự truy xuất hoặc cập nhật hồ sơ trong HOME, memory hay nguồn ngoài tác vụ. Chỉ tạo bản tóm tắt giọng để người dùng xem/lưu khi họ yêu cầu; đây vẫn là công cụ biên tập, không tự tạo trải nghiệm hay quan điểm thay người viết. Chưa có benchmark độc lập chứng minh chất lượng giữ giọng của bản hiện tại.
+Không tự truy xuất hoặc cập nhật hồ sơ trong HOME, memory hay nguồn ngoài tác vụ. Chỉ tạo bản tóm tắt giọng để người dùng xem/lưu khi họ yêu cầu; viết mới hay biên tập đều không tự tạo trải nghiệm hay quan điểm thay người viết. Chưa có benchmark độc lập chứng minh chất lượng giữ giọng của bản hiện tại.
+
+## Dùng giọng để khai triển từ ý
+
+Đọc/tách nội dung trước, chọn bằng chứng giọng phù hợp rồi mới khai triển. Giữ bản nguồn đầy đủ
+để rà mọi mệnh đề, quan hệ và sắc thái; đừng biến outline thành bản tóm tắt mất điều kiện rồi
+viết lại chỉ từ nó. Chọn điểm vào, chuyển ý và điểm dừng theo nội dung và giọng được giao,
+không chỉ thay đại từ hoặc chèn câu cửa miệng. Review cả câu, đoạn và toàn bài; sửa tiếp thì
+kiểm lại nghĩa phần bị ảnh hưởng. Quy trình đầy đủ do `SKILL.md` sở hữu.
+
+Mẫu cá nhân được chỉ định giúp theo giọng một người. Bộ bài báo/blog/chuyên môn nhiều tác giả
+là tham chiếu cách viết theo nhiệm vụ: chọn phần cùng thể loại, người đọc và chức năng, giữ
+xuất xứ và giới hạn bằng chứng. Không trộn thành giọng trung bình hoặc mặc định bắt chước giọng
+chủ. Không lấy dữ kiện, chuyện riêng hay quan điểm của mẫu sang bài. Guide mẫu mô tả cách dùng bằng chứng; danh mục nguồn ở `references/nguon-van-phong.md` chỉ đọc khi được giao tìm/chọn nguồn, gồm báo chí, blog công nghệ/nghiên cứu và giải thích phương pháp khoa học. Danh mục chỉ giữ metadata/link cùng giới hạn, không tải corpus hoặc chép toàn văn.
 
 ## Hồ sơ phong cách và nhật ký hiệu chuẩn
 
@@ -130,3 +143,8 @@ yêu cầu hiện tại luôn được ưu tiên.
 Khác biệt chỉ thuộc sở thích cá nhân không được đưa vào log. Nhờ ranh giới này, skill không âm thầm học giọng của một người rồi áp lên mọi người dùng khác.
 
 Quy trình đầy đủ nằm trong `AGENTS.md`.
+
+
+Trong cấu trúc Unreleased, card chọn trực tiếp từ core khi việc đã rõ. Không bắt đọc resolver
+hoặc profile rules trước mỗi card; chỉ tra resolver khi ngữ cảnh mâu thuẫn/pha chức năng, rules khi
+có nghi vấn thể loại. Năm chốt và quyền đổi giọng do core sở hữu, không lặp quy trình ở các guide.

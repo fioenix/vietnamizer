@@ -22,7 +22,7 @@ def scan_expressions():
 
 
 def section(pid):
-    text = (ROOT / 'SKILL.md').read_text(encoding='utf-8')
+    text = (ROOT / registry()[pid]['source']).read_text(encoding='utf-8')
     return re.search(r'^### ' + pid + r'\..*?(?=^### |\Z)', text, re.M | re.S).group(0)
 
 

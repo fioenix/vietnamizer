@@ -1,24 +1,13 @@
 # Automatic Jev evaluation and host editing
 
-## Entry on every Vietnamizer invocation
+## Entry only after capability and authority checks
 
-After the input-data gate, resolve the installed skill root and run locally from it:
-
-```bash
-python3 -B -m jev status
-```
-
-- `key_absent`: use the complete Markdown editing workflow; do not run evaluation scripts,
-  contact TypeSafe, request a key or suggest setup.
-- `key_available`: prepare the authorized input below and run the shipped evaluator before
-  producing the final edited response. Evaluation is the default, not a discretionary V20-only step.
-- No Python/tool execution: record `capability_unavailable`; continue core editing without
-  pretending the key was absent or Jev ran. Key availability is not proof that the API works.
-
-Use only the host's existing credential injection. The package reads the injected
-`TYPESAFE_API_KEY` internally; never print it, put it in arguments/input, search files/keychains,
-install a connector or change shared settings. Existing authorization persists; an available key
-never overrides host transmission policy or the restricted-data gate in SKILL.md.
+Read this contract only after SKILL.md's local status step reports `key_available` and transmission
+is authorized. Core owns the status command and fallback for absent key, unavailable execution or
+blocked transmission; those branches do not need this schema manual. An available key never grants
+transmission authority. Use injected credentials internally, never print or search for them, install
+connectors, or change shared settings. Run the existing evaluator before the final edited response;
+this is not an extra model pass for outline, self-scoring or personal-voice authenticity.
 
 ## Prepare the input
 

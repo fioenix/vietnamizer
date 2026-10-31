@@ -1,0 +1,7 @@
+{
+  "role": "heldout",
+  "status": "pending_collection",
+  "cases": [],
+  "exclusions": "Do not reuse development cases or the five professional style references already used in design. Fresh sources and labels must be fixed separately before independent evaluation.",
+  "semantic_effectiveness": "not_measured"
+}

@@ -730,3 +730,36 @@ Mẫu generator có câu hỏi khái niệm và cách gọi bạn; mẫu judge-o
 
 
 **Rà hợp đồng trong đợt0.13.2:** root cũ còn câu tuyệt đối `Chỉ sửa khi gọi tên được lỗi` và phần tự kiểm yêu cầu mọi từ thêm phải giải quyết lỗi. Đối chiếu với chốt1cho phép điều chỉnh câu đúng khi được yêu cầu theo mẫu cho thấy phạm vi diễn đạt mơ hồ. Review độc lập phát hiện câu đầu; host rà các câu tự kiểm/câu thiếu từ liên quan. Giới hạn các điều kiện pattern vào nhánh sửa lỗi, còn style edit dẫn về chốt1. Đây là làm rõ quyền đã có, không cho phép tự đổi ý, thêm dữ kiện hoặc bỏ cổng nghĩa. Bản trước lưu trong snapshot024; không lấy việc sửa chỉ dẫn làm bằng chứng model đã qua ca.
+
+
+## 2026-10-31 · quy trình lập ý trước khi khai triển
+
+**Nguồn:** chủ repo nhận xét trực tiếp rằng skill tập trung vào cách sửa, và đề xuất
+đọc/tách ý → khai triển theo văn phong → kiểm lại nội dung, áp dụng cho cả văn bản có sẵn.
+Chủ đã duyệt cập nhật hướng dẫn. Không có cặp hai bài quảng bá/đối chiếu đầy đủ trong review;
+không gán một lỗi pattern cụ thể hoặc khẳng định nguyên nhân của hai đầu ra đó.
+
+**Ca đối chiếu tổng hợp, không phải đầu ra model:**
+- Nguồn: `Mình mới thử với 3 bài ngắn. Có bài đỡ cứng hơn, nhưng chưa biết gặp bài dài thì sao.`
+- Outline thiếu: `đã thử; có cải thiện; chưa thử bài dài`.
+- Bản đối chiếu ý cần giữ: mới thử 3 bài ngắn; chỉ có bài đỡ cứng; kết quả trên bài dài chưa biết.
+  Không suy chưa biết thành chưa thử, không suy có bài thành mọi bài, không suy thành cải thiện đã đo.
+
+**Khác biệt:** outline mất lượng, giới hạn, sắc thái và đổi trạng thái hiểu biết thành lịch sử hành động.
+**Phân loại:** khoảng trống thiết kế workflow; giả thuyết phương pháp cần thử, không phải luật tiếng Việt
+hay sở thích cá nhân được nâng thành pattern. Liên quan chốt 2–4 và guide giọng mẫu; giữ 55 pattern.
+**Quyết định:** thêm bước tách ý có đối chiếu nguồn trước khai triển và review câu/đoạn/toàn bài;
+outline không thay nguồn, sửa nhỏ giữ phạm vi. EW01–EW16 là ca mong đợi, chưa phải kết quả thực nghiệm.
+
+
+## 2026-10-31 · đọc chọn lọc theo tác vụ (Unreleased)
+
+**Nguồn:** chủ repo duyệt đơn giản hóa sau khi đo core 543 dòng/63.401 ký tự và tuyến câu/bài/mẫu
+phải đọc khoảng 114–132 nghìn ký tự. Đây là số đo source, không phải token trace hay lỗi tuân thủ.
+**Khác biệt cần xử lý:** một câu sửa nhỏ vẫn nạp workflow bài, profile/card/resolver và hợp đồng Jev
+khi không có key. **Phân loại:** kiến trúc đọc, không phải luật tiếng Việt hoặc sở thích giọng cá nhân.
+**Quyết định:** core điều phối, catalog V/T theo nhóm nghi vấn, rules B/K theo chẩn đoán; workflow/guide/
+resolver/nguồn/evaluator có trigger riêng. Giữ nguyên 55 body pattern; registry chỉ đổi source path.
+Core mới 131 dòng/9.189 ký tự. Ca câu có tra nhóm thiếu từ là 20.784 ký tự; nghĩa/giọng thực nghiệm
+chưa được chấm. Chốt bảo toàn và ý trước câu không bỏ; review phát hiện và đã khôi phục diagnostic
+câu ngắn, giới hạn văn kỹ thuật, cấm xin key/setup và ownership adapter. Xem spec027/verification.

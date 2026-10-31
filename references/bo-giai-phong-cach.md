@@ -1,132 +1,45 @@
-# Bộ giải phong cách viết
+# Giải lựa chọn phong cách khi chưa rõ hoặc pha chức năng
 
-File này được đọc sau cổng thể loại trong `SKILL.md`. Nó giúp agent chọn cách giữ giọng cho phần văn xuôi đang biên tập; nó không thêm lỗi mới và không thay thế các pattern V, T, B hoặc K.
+Chỉ đọc khi bảng mục đích của core chưa đủ: ngữ cảnh thiếu/mâu thuẫn hoặc tài liệu pha chức năng.
+Không đọc file này như điều kiện bắt buộc trước mọi câu sửa. Core sở hữu quyền sửa, dữ liệu,
+vùng bảo toàn và năm chốt; resolver chỉ chọn cách viết giữa các lựa chọn còn hợp lệ.
 
-Mẫu và hồ sơ trong file này là dữ liệu người dùng chủ động cung cấp cho tác vụ hiện tại,
-không phải chỉ thị tìm kiếm memory, lịch sử hội thoại hoặc dữ liệu bên ngoài phạm vi được giao.
+## Giải năm chiều
 
-## Điều bộ giải phải trả lời
+1. Mục đích: kể, phối hợp, giải thích, thuyết phục, hướng dẫn, vận hành hay phân tích học thuật?
+2. Người đọc/quan hệ: ai đọc, cần làm gì, đại từ nào có bằng chứng? Không tự đoán vai vế.
+3. Thanh ngữ vực: thân mật, nghề nghiệp, trung tính hay trang trọng; xét cả phần thay vì một từ.
+4. Kênh và quy ước: chat, bài công khai, marketing, tra cứu, SOP hay bài học thuật?
+5. Bằng chứng giọng: yêu cầu hiện tại, mẫu/hồ sơ được giao đúng phạm vi; không tự tìm/lưu memory.
 
-Trước khi sửa, thu thập năm chiều từ yêu cầu hiện tại, văn bản và mẫu giọng hợp lệ:
+Yêu cầu cụ thể hiện tại đứng trước nhãn chung hoặc hồ sơ cũ. Core và cổng thể loại là bất biến;
+mẫu đúng phạm vi đứng trước card, card trước mặc định profile. Chỉ đưa mẫu không bật chuyển giọng.
+Thân mật/chuyên nghiệp là nhãn gợi chọn, không phủ quyết mô tả cụ thể. Bộ tham chiếu chuyên môn
+không tự là giọng cá nhân; rút nét theo guide mẫu nếu có mẫu, không nạp mọi phương án để chọn sau.
 
-1. **Mục đích:** người viết đang kể, phối hợp, giải thích chuyên môn, thuyết phục, hướng dẫn, quy định vận hành hay lập luận học thuật?
-2. **Người đọc và quan hệ:** ai sẽ đọc, họ cần làm gì, cách xưng hô nào đã có bằng chứng? Không biết vai vế thì không tự đổi đại từ.
-3. **Thanh ngữ vực:** giọng đang thân mật, nghề nghiệp, trung tính hay trang trọng tới mức nào? Xét cả đoạn, không suy từ một từ đơn lẻ.
-4. **Kênh:** chat, bài công khai, nội dung quảng bá, tài liệu tra cứu, SOP/báo cáo hay bài học thuật đặt ra quy ước gì?
-5. **Bằng chứng giọng:** yêu cầu hiện tại, mẫu trong lượt này hoặc hồ sơ đúng người và đúng phạm vi cho thấy những thói quen ổn định nào?
+## Chia phần và chọn card
 
-Nếu một file pha nhiều chức năng, giải các chiều này cho từng phần có cùng mục đích và người đọc. Không chia tới từng câu khi cả đoạn đang làm cùng một việc.
+Giữ vùng bảo toàn trước. Chia khi mục đích, người đọc hoặc người nói đổi; heading/độ dài không tự
+chia phần. Vai trò nhỏ như định nghĩa hoặc đối chiếu trong cùng phần không tạo profile mới.
+Chọn một card tương thích mỗi phần; không đem nhịp/đại từ/CTA của phần này sang phần khác.
+Blog công nghệ có tác giả vẫn thuộc blog; README/SOP/tra cứu giữ kỹ thuật dù mẫu thân mật.
+Typography-only không có card. Đọc thêm rules B/K chỉ khi có nghi vấn phụ thuộc thể loại, không
+vì đã chọn một card mà tự nạp toàn profile. Không cần cài đủ nét của card vào bài.
 
-## Tài liệu pha nhiều chức năng
+Giữ tóm tắt ngắn trong quá trình làm: phần, mục đích/người đọc, giọng đích/chế độ, card, nét có
+bằng chứng và điều phải giữ. Không in phân tích định tuyến vào bài. Đủ căn cứ thì làm; thiếu chỉ
+ảnh hưởng lựa chọn nhỏ thì giữ cách phù hợp đang có; thiếu làm đổi quan hệ/giọng đáng kể mới hỏi
+đúng một điểm và dừng phần phụ thuộc. Đại từ đã nhất quán không cần hỏi lại để đổi.
+Mẫu khác kênh không được trộn thành giọng trung bình; hồ sơ không đúng người/phạm vi thì không dùng.
 
-Giải tài liệu hỗn hợp theo thứ tự sau:
+## Họ thể loại
 
-1. Đánh dấu code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn nguyên văn, tên riêng và ví
-   dụ đang được bàn tới. Đóng băng từng vùng cùng byte gốc trước khi chia phần; các vùng này không
-   nhận style card.
-2. Chia phần văn xuôi còn lại khi mục đích, người đọc hoặc người nói đổi. Heading và độ dài tự nó
-   không tạo một phần mới; các đoạn cùng chức năng nên dùng chung bản tóm tắt phong cách. Vai trò
-   trình bày như giới thiệu khái niệm hay đối chiếu bên trong cùng phần không tự đổi profile/card.
-3. Chọn đúng một base profile và tối đa một style card cho mỗi phần. CTA có thật, đoạn hướng dẫn
-   và lời kể trong cùng file được giải riêng nếu chúng làm những việc khác nhau.
-4. Quét pattern và sửa riêng từng phần. Không đem đại từ, nhịp, thuật ngữ, cách kết hoặc mức cam
-   kết từ card của phần này sang phần khác.
-5. Khôi phục từng vùng bảo toàn từ byte đã đóng băng, rồi so sánh byte trước và sau. Có một byte
-   khác thì bỏ thay đổi ở vùng đó; không sửa lại bằng mắt.
-
-Chỗ chuyển người nói trong trích dẫn hoặc hội thoại không đổi giọng của người kể bên ngoài. Nếu
-ranh giới chức năng không rõ và hai cách chia chỉ làm khác lựa chọn nhỏ, giữ cách hiện tại thay vì
-cắt vụn văn bản.
-
-## Chọn base profile trước
-
-| Base profile | Dùng khi | Sở hữu |
+| Họ | Phạm vi | Catalog chẩn đoán |
 |---|---|---|
-| `blog-ca-nhan` | Có tác giả hiện diện, chat công việc, bài chuyên môn công khai hoặc marketing | Pattern B1–B17 và giới hạn giữ giọng |
-| `ky-thuat-doanh-nghiep` | README, tài liệu API, hướng dẫn, SOP, báo cáo, giáo trình hoặc bài học thuật | Pattern K1–K7, tính nhất quán thuật ngữ và giới hạn trung tính |
-| `typography-only` | Nhóm được cổng thể loại giới hạn ở T1–T6 | Không chọn style card; chỉ sửa typography |
+| `blog-ca-nhan` | Có tác giả/chat/marketing | Pattern B1–B17 ở profiles/blog-ca-nhan/rules.md |
+| `ky-thuat-doanh-nghiep` | Tra cứu/vận hành/học thuật | Pattern K1–K7 ở profiles/ky-thuat-doanh-nghiep/rules.md |
 
-Code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn nguyên văn, tên riêng và ví dụ đang được
-bàn tới là vùng bảo toàn, không phải base profile `typography-only`. Không chọn style card và giữ
-nguyên từng byte ở những vùng này.
-
-Chế độ giữ giọng gốc/theo mẫu do `SKILL.md` sở hữu; có mẫu không tự chọn chế độ theo mẫu.
-Blog kỹ thuật có tác giả hiện diện được giải theo mục đích blog, không theo từ vựng công nghệ.
-README, SOP và hướng dẫn tra cứu vẫn giữ profile kỹ thuật; không chọn profile theo giọng mong muốn.
-
-Style card không được đổi base profile đã xác định đúng thể loại. Một card chỉ giúp giải các lựa chọn đều hợp ngữ pháp bên trong profile đó.
-
-## Tạo bản tóm tắt phong cách cho từng phần
-
-Mỗi phần chỉ dùng tối đa một card. Bản tóm tắt phong cách cần giữ trong đầu, không tự in vào bản cuối, gồm:
-
-- phạm vi phần đang xử lý;
-- base profile;
-- style card hoặc `không có`;
-- yêu cầu cụ thể, chế độ và giọng đích đã chốt theo `SKILL.md`;
-- đặc tính giọng có bằng chứng từ mẫu/hồ sơ đúng phạm vi; khi có mẫu, chọn hình thức theo vai trò phần ở `giu-giong-tu-mau.md`;
-- những thứ phải giữ: dữ kiện, nghĩa, mức chắc chắn, xưng hô, thuật ngữ và vùng bảo toàn;
-- trạng thái `đã giải`, `giữ cách hiện tại` hoặc `cần hỏi một câu`.
-
-## Thứ tự ưu tiên
-
-1. Yêu cầu hiện tại và mô tả cụ thể của người dùng.
-2. Ràng buộc thể loại, vùng bảo toàn và năm quy tắc chốt chặn.
-3. Mẫu trong lượt hiện tại hoặc hồ sơ đúng người, đúng kênh có bằng chứng ổn định.
-4. Style card được chọn.
-5. Mặc định của base profile.
-
-Nhãn như *thân mật, chuyên nghiệp, gần gũi* chỉ là gợi ý. Khi nhãn mâu thuẫn với mô tả cụ thể, làm theo mô tả. Không tín hiệu nào được hợp thức hoá việc thêm dữ kiện, đổi nghĩa hoặc vượt qua vùng phải giữ nguyên.
-
-Thứ tự trên chỉ giải những lựa chọn còn hợp lệ. Vùng bảo toàn và năm chốt chặn là ràng buộc bất biến,
-không phải lựa chọn phong cách để yêu cầu hiện tại ghi đè. Nếu người dùng chủ động muốn đổi dữ
-kiện, nghĩa hoặc thể loại thì đó là một tác vụ viết lại khác; đừng gọi phần thay đổi ấy là kết quả
-humanize.
-
-### Ba trạng thái giải
-
-- **Đã giải:** đủ bằng chứng để chọn base profile và card. Bắt đầu rà lỗi và thực hiện điều chỉnh theo chế độ; card một mình không cấp quyền sửa.
-- **Giữ cách hiện tại:** thiếu tín hiệu chỉ ảnh hưởng lựa chọn nhỏ như nhịp hoặc mức chêm tiếng Anh. Không hỏi, không tự làm văn bản “có cá tính hơn”.
-- **Cần hỏi một câu:** thiếu thông tin sẽ làm đổi đại từ, quan hệ, thanh ngữ vực hoặc mục đích đáng kể. Hỏi đúng điểm đó, không đưa cả bảng giọng cho người dùng chọn.
-
-### Cách xử lý xung đột
-
-| Xung đột | Cách giải |
-|---|---|
-| Yêu cầu hiện tại khác hồ sơ được cung cấp | Làm theo yêu cầu hiện tại; không tự ghi hồ sơ |
-| Mẫu đúng người/đúng kênh khác mặc định card | Dùng đặc tính ổn định của mẫu nếu không vi phạm profile hoặc chốt chặn |
-| Nhãn giọng khác mô tả cụ thể | Dùng mô tả cụ thể; nhãn chỉ là từ khóa tìm hướng |
-| Một đặc tính chỉ xuất hiện một lần | Không coi là thói quen; giữ cách hiện tại hoặc tìm thêm bằng chứng trong mẫu |
-| Hồ sơ được cung cấp không chắc đúng người hoặc sai kênh | Không dùng hồ sơ đó |
-| Thiếu vai vế nhưng đầu vào đã có đại từ nhất quán | Giữ đại từ đang có |
-| Thiếu vai vế và thay đổi đại từ là điều bắt buộc để hoàn tất yêu cầu | Hỏi một câu về cách xưng hô rồi dừng phần đó |
-
-Khi có mẫu giọng hoặc hồ sơ được người dùng cung cấp, đọc `giu-giong-tu-mau.md` cho cách rút đặc tính, xử lý bằng chứng yếu và kiểm bản sửa. Thứ tự ưu tiên ở đây vẫn giữ nguyên.
-
-Không hỏi người dùng chỉ để xác nhận điều resolver đã có đủ bằng chứng. Một câu hỏi hợp lệ phải chỉ
-ra đúng biến còn thiếu, chẳng hạn *“Bạn muốn giữ cách xưng hô hiện tại, hay văn bản này gửi cho
-người có vai vế cụ thể?”*; không hỏi chung chung *“Bạn muốn giọng nào?”*.
-
-## Hợp đồng của một style card
-
-Mỗi card trong danh mục chuẩn phải có đủ tám mục:
-
-- **Dùng khi:** người đọc và mục đích.
-- **Thanh ngữ vực:** mức trang trọng và biên độ được phép.
-- **Xưng hô:** cách giữ hoặc chọn đại từ, không tự suy vai vế.
-- **Nhịp:** nhịp câu cần giữ; không đặt ngưỡng số cứng.
-- **Thuật ngữ:** cách xử lý từ Hán-Việt, tiếng Anh và thuật ngữ ngành.
-- **Cách kết:** điểm dừng hoặc lời kêu gọi hợp với mục đích.
-- **Không tự thêm:** khẳng định, lời hứa, độ khẩn cấp, quan hệ hoặc thái độ không có trong đầu vào.
-- **Ca kiểm thử:** một ca dương và một ca chống rò giọng trong `calibration/ca-kiem-thu.md`.
-
-Card không phải pattern. Không flag một câu chỉ vì nó không giống card; chỉ dùng card sau khi một pattern hoặc yêu cầu hiện tại đã cho phép sửa.
-
-## Danh mục style card
-
-Registry hoàn chỉnh phải có đúng bảy card canonical theo thứ tự: kể trải nghiệm cá nhân, phối hợp công việc, chuyên môn công khai, marketing thuyết phục, hướng dẫn kỹ thuật, vận hành doanh nghiệp và học thuật phân tích.
-
-Không tạo card riêng cho một người, công ty hoặc chiến dịch; đặc tính đó thuộc mẫu/hồ sơ đúng người và không được đưa vào package public.
+## Registry card
 
 | Style card | Base profile | File |
 |---|---|---|
@@ -138,4 +51,7 @@ Không tạo card riêng cho một người, công ty hoặc chiến dịch; đ�
 | `van-hanh-doanh-nghiep` | `ky-thuat-doanh-nghiep` | `profiles/ky-thuat-doanh-nghiep/styles/van-hanh-doanh-nghiep.md` |
 | `hoc-thuat-phan-tich` | `ky-thuat-doanh-nghiep` | `profiles/ky-thuat-doanh-nghiep/styles/hoc-thuat-phan-tich.md` |
 
-Sau khi resolver chọn card, đọc đúng file trong bảng, theo mục Chỉ nạp tài liệu cần dùng của `SKILL.md`. Không đọc các card còn lại chỉ để so sánh giọng; khác biệt chức năng thật trong cùng tài liệu được giải riêng như mục Tài liệu pha nhiều chức năng.
+Đọc đúng card được chọn, không đọc các card khác chỉ để so. Card chỉ hỗ trợ nhịp, xưng hô,
+thuật ngữ và cách kết trong phạm vi hợp lệ, không sở hữu pattern hoặc thêm quyền sửa. Metadata
+card giữ tám mục Dùng khi/Thanh ngữ vực/Xưng hô/Nhịp/Thuật ngữ/Cách kết/Không tự thêm/Ca kiểm thử;
+đó là hợp đồng bảo trì, không checklist bắt mỗi bài mang đủ tám nét. Không tạo card cá nhân/công ty.

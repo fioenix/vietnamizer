@@ -4,10 +4,16 @@
 
 ## Kiến trúc
 
-`SKILL.md` là nguồn chuẩn. Các file còn lại bổ sung quy tắc theo thể loại, ví dụ hoặc dữ liệu bảo trì:
+`SKILL.md` là nguồn chuẩn về điều phối và chốt; từng catalog sở hữu duy nhất nội dung pattern được core uỷ quyền. Đây là cấu trúc Unreleased, metadata giữ 0.13.2:
 
 ```text
-SKILL.md                                      quy trình, V1–V25, T1–T6 và cách trả kết quả
+SKILL.md                                      core gọn: phạm vi, chốt, tuyến đọc và trả kết quả
+references/loi-thieu-tu.md                    V1–V8,V20
+references/loi-cau-va-quan-he.md               V9–V18,V24–V25
+references/loi-tu-va-loi-dan.md                V19,V21–V23
+references/typography.md                      T1–T6
+references/quy-trinh-viet.md                  workflow bài, không nạp khi sửa nhỏ
+references/nguon-van-phong.md                 nguồn mẫu chuyên môn, không nạp khi đã có mẫu
 profiles/blog-ca-nhan/rules.md                B1–B17 cho văn bản có giọng cá nhân
 profiles/blog-ca-nhan/styles/                 bốn style card có tác giả hiện diện
 profiles/ky-thuat-doanh-nghiep/rules.md       K1–K7 và giới hạn của văn kỹ thuật, học thuật
@@ -58,3 +64,16 @@ chọn card, thứ tự ưu tiên và registry đường dẫn.
 Trước khi chạy pattern, skill kiểm tra thể loại. Pháp quy, hợp đồng, thơ, văn cổ phong và nghi lễ chỉ
 được rà T1–T6. Code, schema, dữ liệu có cấu trúc, bảng tham số, trích dẫn nguyên văn, tên riêng và ví
 dụ đang được bàn tới là vùng bảo toàn từng byte. Xem danh sách và ngoại lệ đầy đủ trong `SKILL.md`.
+
+
+Trong phần cập nhật Unreleased, root điều khiển cùng quy trình lập ý → chọn giọng → khai triển → review cho
+viết mới và biên tập. Brief hoặc bản gốc đầy đủ là nguồn đối chiếu; outline không thay nguồn.
+Guide mẫu giữ chi tiết cách dùng bằng chứng giọng cá nhân/tham chiếu chuyên môn, không sở hữu
+quy trình riêng. Không đổi 55 pattern, schema, request hay runtime Jev; kiểm nghĩa với brief
+khi viết mới vẫn do host thực hiện. Ca EW01–EW16 là kỳ vọng thủ công, chưa phải pilot chất lượng.
+
+
+Tuyến mặc định không nạp catalog, resolver hoặc schema evaluator. Sửa nhỏ chỉ tra nghi vấn;
+làm bài thêm workflow và một card; có mẫu thêm guide. Resolver chỉ khi mâu thuẫn/pha chức năng,
+guide nguồn chỉ khi chọn nguồn. Trạng thái key/capability kiểm từ core trước; đầy đủ điều kiện
+mới đọc hợp đồng Jev. Tiết kiệm ký tự hướng dẫn chưa chứng minh giảm billing token hoặc tăng chất lượng.

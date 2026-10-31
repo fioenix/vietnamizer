@@ -12,15 +12,19 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 
 | File | Vai trò |
 |---|---|
-| `SKILL.md` | Kiểm tra thể loại, quy trình, V1–V25, T1–T6 và cách trả kết quả. **Đây là nguồn chuẩn.** |
+| `SKILL.md` | Kiểm tra thể loại, bộ điều phối tuyến đọc, cổng dữ liệu/thể loại, năm chốt và cách trả kết quả; uỷ quyền nội dung V/T cho catalog. **Đây là nguồn chuẩn.** |
 | `profiles/blog-ca-nhan/rules.md` | B1–B17 cho blog, bài cá nhân, nội dung công việc và marketing |
 | `profiles/blog-ca-nhan/styles/` | Bốn style card tương thích với profile có tác giả hiện diện |
 | `profiles/ky-thuat-doanh-nghiep/rules.md` | K1–K7 cùng các giới hạn riêng của tài liệu kỹ thuật, doanh nghiệp và học thuật |
 | `profiles/ky-thuat-doanh-nghiep/styles/` | Ba style card cho hướng dẫn kỹ thuật, vận hành và học thuật |
+| `references/loi-thieu-tu.md`, `references/loi-cau-va-quan-he.md`, `references/loi-tu-va-loi-dan.md` | Nguồn canonical duy nhất V1–V25, chia theo nghi vấn; không đọc cả ba mặc định |
+| `references/typography.md` | Nguồn canonical duy nhất T1–T6; cổng áp dụng ở core |
+| `references/quy-trinh-viet.md` | Workflow meaning-first cho bài/phần có tổ chức, không dùng cho sửa nhỏ |
+| `references/nguon-van-phong.md` | Metadata/link tham chiếu chuyên môn, chỉ đọc khi được giao tìm/chọn nguồn |
 | `references/han-viet-thuan-viet.md` | Bảng tra Hán-Việt và thuần Việt, kèm điều kiện phải giữ nguyên thuật ngữ |
 | `references/bang-tra-cuu.md` | Bảng tra hư từ, loại từ, tiểu từ và câu hỏi chẩn đoán |
-| `references/bo-giai-phong-cach.md` | Năm chiều ngữ cảnh, thứ tự ưu tiên và registry trỏ tới bảy style card; không sở hữu pattern |
-| `references/giu-giong-tu-mau.md` | Cách rút đặc tính và điều chỉnh cấu trúc theo mẫu trong chế độ do `SKILL.md` chọn; kiểm nghĩa/giọng riêng, không sở hữu precedence, pattern hay lưu hồ sơ |
+| `references/bo-giai-phong-cach.md` | Năm chiều ngữ cảnh, thứ tự ưu tiên và registry trỏ tới bảy style card khi lựa chọn chưa rõ/pha chức năng; không sở hữu pattern |
+| `references/giu-giong-tu-mau.md` | Cách rút đặc tính, tiếp nhận tham chiếu chuyên môn có xuất xứ và khai triển theo mẫu trong chế độ do `SKILL.md` chọn; kiểm nghĩa/giọng riêng, không sở hữu precedence, pattern hay lưu hồ sơ |
 | `references/typesafe-advisor.md` | Input, authority, coverage và fallback của runner Jev tự động |
 | `calibration/LOG.md` | Nhật ký bằng chứng dùng để sửa quy tắc chung; không lưu hồ sơ văn phong cá nhân |
 | `calibration/ca-kiem-thu.md` | Ca kiểm thử chạy tay cho từng pattern, gồm cả ca chống sửa quá tay |
@@ -48,7 +52,7 @@ Skill được viết riêng cho tiếng Việt, không phải bản dịch củ
 | `.github/ISSUE_TEMPLATE/` | Mẫu báo lỗi tối thiểu đã ẩn dữ liệu và đường dẫn báo bảo mật riêng |
 | `jev/` | Runner, transport, CLI và registry được đóng gói |
 | `scripts/build-jev-registry.py` | Sinh/kiểm định nghĩa 55 pattern từ nguồn canonical, kèm tín hiệu ưu tiên lấy từ `scripts/scan-tells.sh` |
-| `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại; biểu thức nào khớp với mục pattern trong `SKILL.md` cũng thành tín hiệu xếp thứ tự chấm trong `jev/registry.json` |
+| `scripts/scan-tells.sh` | Tìm những dấu hiệu có thể quét bằng biểu thức chính quy để người biên tập xem lại; biểu thức nào khớp với mục pattern trong catalog canonical do core chỉ định cũng thành tín hiệu xếp thứ tự chấm trong `jev/registry.json` |
 | `.specify/` | Cấu hình, template và script của Spec Kit; constitution trong `.specify/memory/constitution.md` chi phối spec, plan và implementation |
 | `.specify/LICENSE` | MIT notice của GitHub Spec Kit được vendor trong repo |
 | `specs/` | Đặc tả, checklist, plan và task của từng feature; Spec Kit là nguồn chuẩn cho các artifact này |
@@ -110,7 +114,7 @@ Chúng không phải hướng dẫn chạy, không chứng minh hiệu quả cho
 
 Đây là quyết định kiến trúc quan trọng nhất của repo.
 
-- V1–V25 trong `SKILL.md` kiểm tra cách dùng từ và cấu trúc câu. Chúng chỉ chạy trên các thể loại được phép biên tập, đồng thời phải tuân theo mục **Không flag** của từng pattern.
+- V1–V25 trong các catalog do `SKILL.md` chỉ định kiểm tra cách dùng từ và cấu trúc câu. Chúng chỉ chạy trên các thể loại được phép biên tập, đồng thời phải tuân theo mục **Không flag** của từng pattern.
 - B1–B17 và K1–K7 phụ thuộc vào thể loại, người đọc và giọng văn. Chúng nằm trong `profiles/`.
 
 Nếu một cách viết tự nhiên trong công văn nhưng dễ thành sáo ngữ trong blog, hãy xử lý nó ở profile. Không đưa vào V1–V25 như một lỗi áp dụng cho mọi văn bản.
@@ -122,7 +126,7 @@ cho resolver và registry, còn `SKILL.md` sở hữu thứ tự gọi.
 
 ## Hợp đồng bảo trì
 
-- **Số hiệu pattern:** bốn tiền tố `V`, `T`, `B`, `K` đều bắt đầu từ 1 và tăng liên tục. `V` và `T` thuộc `SKILL.md`; `B` thuộc profile blog; `K` thuộc profile kỹ thuật. Khi thêm, bỏ hoặc đổi số, phải cập nhật bảng trong `docs/patterns.md` và số lượng/tóm tắt trong `README.md` cùng lúc.
+- **Số hiệu pattern:** bốn tiền tố `V`, `T`, `B`, `K` đều bắt đầu từ 1 và tăng liên tục. `V` và `T` do core uỷ quyền cho bốn catalog trong `references/`; `B` thuộc profile blog; `K` thuộc profile kỹ thuật. Khi thêm, bỏ hoặc đổi số, phải cập nhật bảng trong `docs/patterns.md` và số lượng/tóm tắt trong `README.md` cùng lúc.
 - **Ngưỡng thêm pattern:** một dấu hiệu chỉ được thành pattern riêng khi không pattern nào hiện có ngụ ý nó. Còn lại thì mở rộng mục **Dấu hiệu** của pattern gần nhất. Khi hai pattern chạm nhau, pattern hẹp hơn phải có một câu phân vai trỏ sang pattern kia, như K6 trỏ sang V21 cho phần lời chào và lời mời làm tiếp.
 - **Version:** `metadata.version` trong `SKILL.md`, mục mới nhất trong `docs/changelog.md`, bản tóm tắt phiên bản trong `README.md` và `version` trong `.claude-plugin/plugin.json` phải giống nhau. Giữ version bên trong `metadata`; không đặt khoá `version` ở cấp cao nhất của frontmatter vì một số nền tảng không nhận khoá này. `marketplace.json` không có version để tránh hai nguồn dữ liệu.
 - **Giới hạn dòng:** `SKILL.md` tối đa 550 dòng, profile blog tối đa 320 dòng, profile kỹ thuật tối đa 220 dòng. Các file trong `references/` không bị giới hạn.

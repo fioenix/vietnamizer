@@ -61,7 +61,11 @@ class DistributionTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             repo = self.documentation_fixture(Path(temporary))
             path = repo / "docs/changelog.md"
-            path.write_text(path.read_text().replace("- **0.13.2**", "- **0.13.1**", 1))
+            current = json.loads((repo / ".claude-plugin/plugin.json").read_text())["version"]
+            marker = f"- **{current}**"
+            self.assertIn(marker, path.read_text())
+            stale = "0.0.0" if current != "0.0.0" else "0.0.1"
+            path.write_text(path.read_text().replace(marker, f"- **{stale}**", 1))
             self.assertNotEqual(self.package(repo).returncode, 0)
 
     def test_relocated_style_guide_still_rejects_missing_card(self) -> None:

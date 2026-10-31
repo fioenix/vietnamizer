@@ -58,3 +58,20 @@ hỗ trợ nghiên cứu, triển khai, kiểm thử và review.
 Cách đóng gói và khung **Dấu hiệu / Vì sao / Sửa / Không flag** tham khảo
 [blader/humanizer](https://github.com/blader/humanizer) cùng hướng dẫn của WikiProject AI Cleanup.
 Các pattern tiếng Việt được xây dựng riêng cho repo này.
+
+
+### Tham chiếu văn phong chuyên môn theo nhiệm vụ
+
+[Danh mục tham chiếu theo nhu cầu](../references/nguon-van-phong.md) giữ metadata/link của năm bài:
+Thanh An (Tia Sáng, 2018), Vũ Hữu Tiệp (Machine Learning Cơ Bản, 2017), Minh Monmen (Viblo, 2020),
+Phạm Huy Hoàng (Tôi Đi Code Dạo, 2015) và Nguyễn Văn Tuấn (Thời Sự Y Học, 2020).
+Phiên nghiên cứu nguồn ngày 31/10/2026 đã kiểm byline/ngày trên bài; chưa kiểm bản lưu lịch sử
+hay chứng thực không AI. Chỉ tham khảo cách tổ chức, giải thích và giới hạn chứng cứ;
+không xác minh mọi luận điểm, không dùng dữ kiện lịch sử như hiện tại, không nhập chuyện riêng
+hoặc kết quả tự báo cáo vào bài mới. Đây không phải nguồn quy phạm cho 55 pattern và chưa là
+bằng chứng hiệu quả của workflow. Reference nguồn sở hữu danh mục; guide mẫu chỉ trỏ tới nó khi cần chọn nguồn, file này ghi vai trò/mức tin cậy.
+
+
+### Nghiên cứu workflow review của Matt Pocock
+
+Tham khảo thiết kế từ [mattpocock/skills tại a496f5513d4a4cf889bc48e189e579f4b0bdf6aa](https://github.com/mattpocock/skills/tree/a496f5513d4a4cf889bc48e189e579f4b0bdf6aa): trigger đọc trước review, tách kết luận nội dung/phong cách và gắn review với candidate hiện tại. Đây là nguồn thiết kế cộng đồng, không phải benchmark tiếng Việt hoặc bằng chứng viết tốt hơn. Follow-up trong spec027 ghi phần chọn/loại. Hướng dẫn tiếng Việt và harness cơ học được viết riêng, không chép code/template nguồn; không thêm quyền gửi dữ liệu hoặc lượt evaluator.

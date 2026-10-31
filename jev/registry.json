@@ -5,7 +5,7 @@
     {
       "id": "V1",
       "title": "Thiếu bổ ngữ kết quả và bổ ngữ hướng",
-      "source": "SKILL.md",
+      "source": "references/loi-thieu-tu.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "hành động đang diễn ra hoặc lặp lại (*\"Tôi đọc tài liệu mỗi sáng\"*), mô tả chức năng (*\"Hệ thống xử lý yêu cầu HTTP\"*), câu lệnh và quy trình từng bước (*\"Nhấn nút, chọn tệp, tải lên\"*). Giữ câu rút gọn khi ngữ cảnh đủ rõ hoặc mạch văn cho thấy sự bỏ lửng có chức năng. V1 không cho phép tự điền đối tượng của động từ, chọn riêng một đối tượng trong nhiều khả năng hoặc kéo dài câu chỉ để đủ khuôn; đọc mục Phân biệt câu ngắn có chủ ý với câu thiếu từ.",
@@ -33,7 +33,7 @@
     {
       "id": "V2",
       "title": "Cặp liên từ bị thiếu từ ở vế sau",
-      "source": "SKILL.md",
+      "source": "references/loi-thieu-tu.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "câu nói tự nhiên đã rõ quan hệ dù lược một đầu của cặp; tít, sapo; cụm nối đứng độc lập như *\"Vì thế, chúng tôi dừng dự án.\"* Không thêm từ chỉ để câu đủ khuôn.",
@@ -64,7 +64,7 @@
     {
       "id": "V3",
       "title": "Thiếu \"là\" trong câu định nghĩa hoặc lựa chọn",
-      "source": "SKILL.md",
+      "source": "references/loi-thieu-tu.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "tính từ làm vị ngữ không cần *là*: *\"Cô ấy đẹp\"* là câu đúng. Cũng không thêm *là* vào câu chỉ trạng thái hoặc hành động. Không áp dụng pattern này cho tiêu đề, nhãn, mục lục hoặc ô bảng.",
@@ -95,7 +95,7 @@
     {
       "id": "V4",
       "title": "Thiếu hoặc lạm dụng từ chỉ thời gian và trạng thái",
-      "source": "SKILL.md",
+      "source": "references/loi-thieu-tu.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "*đã* là dấu hiệu duy nhất cho biết sự việc thuộc quá khứ; định nghĩa, thông số và mô tả chức năng không gắn với thời điểm; đoạn đã nêu mốc thời gian rõ và các câu sau không cần nhắc lại.",
@@ -124,7 +124,7 @@
     {
       "id": "V5",
       "title": "Thiếu hoặc sai loại từ",
-      "source": "SKILL.md",
+      "source": "references/loi-thieu-tu.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "danh từ mang nghĩa khái quát (*\"Xe là phương tiện chủ yếu ở đô thị\"*), danh từ khối hoặc trừu tượng, thuật ngữ kỹ thuật, tiêu đề, bảng biểu và lối nói rút gọn đã rõ nghĩa. Không sửa cách dùng loại từ ổn định của vùng miền nếu người dùng muốn giữ giọng đó.",
@@ -155,7 +155,7 @@
     {
       "id": "V6",
       "title": "Câu hỏi hoặc lời nhờ không đúng ý định giao tiếp",
-      "source": "SKILL.md",
+      "source": "references/loi-thieu-tu.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "câu hỏi có hoặc không vốn đúng ý định; câu hỏi tu từ; tiêu đề dạng câu hỏi; biểu mẫu, giao diện và thông báo hệ thống như *\"Vui lòng nhập mật khẩu\"*. *Vui lòng* cũng hợp lệ trong thư từ hoặc thông báo trang trọng.",
@@ -184,7 +184,7 @@
     {
       "id": "V7",
       "title": "\"của\" thừa trong cụm danh từ",
-      "source": "SKILL.md",
+      "source": "references/loi-thieu-tu.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "bỏ *của* làm câu mơ hồ hoặc tạo chuỗi danh từ khó đọc; văn bản pháp lý cần nêu rõ chủ thể quyền; các cụm sở hữu thật như *xe của tôi* và *quyết định của ban giám đốc*. Hai chữ *của* trong cùng một cụm không tự động là lỗi.",
@@ -199,7 +199,7 @@
     {
       "id": "V8",
       "title": "\"các\" và \"những\" được thêm theo dấu số nhiều",
-      "source": "SKILL.md",
+      "source": "references/loi-thieu-tu.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "*các* hoặc *những* đang phân biệt rõ phạm vi; cụm như *các thông tin sau, các bên, các cấp, các loại*; văn bản pháp quy và danh sách đối tượng áp dụng. Không đặt giới hạn cứng về số lần xuất hiện trong một câu.",
@@ -226,7 +226,7 @@
     {
       "id": "V9",
       "title": "Cụm giới từ dài do dịch sát",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "cụm giới từ mang nội dung thật hoặc là cách viết chuẩn của thể loại; pháp quy và hợp đồng; câu mục đích cụ thể như *\"Nhằm nâng cao hiệu quả vận hành kho, team dev đã triển khai...\"*. Nếu chuyển thành mệnh đề mà phải tự thêm chủ thể, hãy để nguyên hoặc hỏi người dùng.",
@@ -270,7 +270,7 @@
     {
       "id": "V10",
       "title": "Trạng ngữ đặt ở vị trí gây khó hiểu",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "trạng ngữ đứng đầu, giữa hoặc cuối câu nhưng quan hệ bổ nghĩa vẫn rõ; vị trí được chọn để nhấn thông tin; câu dài nhưng người đọc vẫn xác định được trạng ngữ đi với hành động nào. Không chuyển trạng ngữ chỉ để mọi câu có cùng một trật tự.",
@@ -296,7 +296,7 @@
     {
       "id": "V11",
       "title": "Câu dẫn không mang thêm thông tin",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "câu dẫn thật sự thay đổi cách hiểu, chẳng hạn báo trước một ngoại lệ, kết luận hoặc dữ kiện trái với phần trước. *Điều này có nghĩa là* cũng hợp lệ khi phần sau diễn giải một khái niệm khó. Không áp dụng pattern này cho tiêu đề, dòng nhãn–giá trị (*Ngày: 22/10/2026*), ô bảng, chú thích ảnh, mục lục và mục checklist, vì đó là nhãn, tên mục hoặc việc cần làm chứ không phải câu dẫn trước thông tin.",
@@ -354,7 +354,7 @@
     {
       "id": "V12",
       "title": "Lặp từ nối ở đầu câu",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "paragraph",
       "mode": "semantic",
       "no_flag": "từ nối đang đánh dấu một bước lập luận thật; văn bản học thuật, báo cáo thẩm định hoặc tài liệu có quy ước liên kết rõ; danh sách theo trình tự như *Thứ nhất, Thứ hai*. Không đặt ngưỡng số lần dùng chung cho mọi đoạn.",
@@ -401,7 +401,7 @@
     {
       "id": "V13",
       "title": "Đoạn văn lặp cứng một kiểu mở câu",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "paragraph",
       "mode": "semantic",
       "no_flag": "pháp quy, điều khoản, mô tả thuật toán và tài liệu API cần trật tự cố định để tránh mơ hồ; đoạn kể một chuỗi hành động của cùng chủ thể; đoạn ngắn chưa đủ để nhận ra một khuôn lặp; văn trang trọng mà việc đưa đối tượng lên đầu sẽ làm câu lệch sang giọng nói.",
@@ -437,7 +437,7 @@
     {
       "id": "V14",
       "title": "Danh ngữ đứng riêng như một câu",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "tít, sapo, chú thích ảnh, nhãn nút, mục lục, ô bảng, checklist và mảnh câu dùng có chủ ý để tạo nhịp. Cũng không flag câu có động từ làm vị ngữ dù câu mở đầu bằng *một* hoặc *những*.",
@@ -468,7 +468,7 @@
     {
       "id": "V15",
       "title": "Danh hoá thừa và động từ ít nội dung",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "*việc* danh hoá một mệnh đề có chủ ngữ riêng (*\"Việc anh ấy nghỉ ngang khiến cả nhóm bối rối\"*). *việc* nghĩa đen là công việc. *sự* trong từ ghép cố định: sự thật, sự kiện, sự cố, sự nghiệp. *tính* trong thuật ngữ: tính toàn vẹn dữ liệu, tính thanh khoản. Hành chính và pháp quy: *tiến hành thanh tra*, *thực hiện nghĩa vụ thuế* là thuật ngữ đúng chuẩn.",
@@ -508,7 +508,7 @@
     {
       "id": "V16",
       "title": "Câu bị động dịch sát \"được / bị ... bởi\"",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "không quét *được* hoặc *bị* riêng lẻ. Giữ khi chúng chỉ sự thụ hưởng (*được nghỉ phép*), khả năng (*làm được*), kết quả (*giữ được tiến độ*) hoặc bất lợi (*đơn hàng bị huỷ*). Câu bị động cũng hợp lệ khi tác nhân không quan trọng, khi câu cần giữ đối tượng ở đầu, hoặc khi thể loại yêu cầu, như *\"Quyết định được ban hành ngày...\"*. Giữ *được kỳ vọng sẽ* nếu đổi sang chủ động buộc phải tự thêm người đang kỳ vọng.",
@@ -536,7 +536,7 @@
     {
       "id": "V17",
       "title": "Dùng cụm dài thay cho \"là\" hoặc \"có\"",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "*đóng vai trò* đang phân biệt chức năng với danh tính; *sở hữu* nói đến quyền tài sản thật (*công ty sở hữu 51% cổ phần*); *mang lại* nêu một kết quả hoặc lợi ích thật chứ không thay cho *là* hoặc *có*.",
@@ -551,7 +551,7 @@
     {
       "id": "V18",
       "title": "Chủ thể hoặc điểm quy chiếu không rõ giữa các mệnh đề",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "chủ thể lược đi đã rõ từ câu trước; hai vế có chủ thể khác nhau nhưng đều được nêu rõ; các cấu trúc tự nhiên như *\"Đến nơi thì trời đã tối\"*; *mà* dùng đúng để đối lập (*\"Rẻ mà bền\"*) hoặc làm tiểu từ (*\"Tôi đã nói rồi mà\"*); câu dài nhưng các quan hệ vẫn rõ; pháp quy và hợp đồng cần giữ một câu để xác định phạm vi.",
@@ -599,7 +599,7 @@
     {
       "id": "V19",
       "title": "Chêm tiếng Anh không hợp người đọc hoặc lĩnh vực",
-      "source": "SKILL.md",
+      "source": "references/loi-tu-va-loi-dan.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "người viết chủ động thuần Việt hoá nhất quán; văn bản dành cho người đọc ngoài ngành; thuật ngữ chưa có từ tiếng Việt tương đương; cách chêm tiếng Anh xuất hiện ổn định trong mẫu văn của người dùng. Không sửa khi chưa biết cộng đồng đó thực sự gọi thuật ngữ như thế nào.",
@@ -648,7 +648,7 @@
     {
       "id": "V20",
       "title": "Từ hoặc cụm từ bị thiếu một tiếng",
-      "source": "SKILL.md",
+      "source": "references/loi-thieu-tu.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "từ đơn hợp lệ đúng nghĩa (*đi, ăn, vui, buồn, đẹp, sạch*). Giữ *rời* trong *rời công ty, rời vị trí, tách rời, bộ phận rời*; giữ *rà* trong *rà lại tài liệu, rà kỹ, rà một lượt, rà kế hoạch một lần nữa*; các nghĩa chuyên biệt như *rà mìn, rà sóng, rà kim, máy bay rà thấp*; và cách nói nội bộ như *rà code, rà log* khi mẫu giọng cho phép. Với các cặp như *đẹp / đẹp đẽ, sạch / sạch sẽ*, thêm tiếng thứ hai chỉ là lựa chọn phong cách. Thuật ngữ rút gọn theo quy ước ngành và văn phong tối giản có chủ ý cũng không flag; riêng với dòng liệt kê và nhãn, đọc mục *Phân biệt câu ngắn có chủ ý với câu thiếu từ* trước khi bỏ qua, vì tối giản không cho phép bỏ thành phần mà ý câu thực sự cần hoặc cắt tiếng bắt buộc của một từ hai tiếng.",
@@ -697,7 +697,7 @@
     {
       "id": "V21",
       "title": "Tàn dư lượt hội thoại của trợ lý",
-      "source": "SKILL.md",
+      "source": "references/loi-tu-va-loi-dan.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "hội thoại được trích lại làm ví dụ hoặc dữ liệu; kịch bản trợ lý ảo, nội dung mẫu và tài liệu đang bàn về chính những câu đó; lời chào, lời chúc và câu kết trong thư, email hoặc tin nhắn, vì đó là quy ước thư từ có trước chatbot.",
@@ -724,7 +724,7 @@
     {
       "id": "V22",
       "title": "Rào trước về nguồn rồi đưa phỏng đoán",
-      "source": "SKILL.md",
+      "source": "references/loi-tu-va-loi-dan.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "dự báo, kịch bản, phân tích rủi ro và đề xuất, nơi phỏng đoán chính là nội dung được yêu cầu và đã ghi rõ là phỏng đoán. Câu nêu mốc dữ liệu thật như *\"số liệu cập nhật đến 30/06/2026\"*. Phần giới hạn nghiên cứu trong bài khoa học. Ước lượng có nêu cơ sở tính.",
@@ -753,7 +753,7 @@
     {
       "id": "V23",
       "title": "Phản biện một ý không có đối tượng",
-      "source": "SKILL.md",
+      "source": "references/loi-tu-va-loi-dan.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "câu đang trả lời một câu hỏi, phản hồi một trích dẫn hoặc ý kiến đã nêu, so sánh phương án trong ADR/FAQ, phân biệt hai khái niệm dễ nhầm đã được định nghĩa, hoặc giữ một đối lập có thông tin thật. Với khuôn song hành chỉ nâng giọng hoặc lặp ý, xem B5.",
@@ -780,7 +780,7 @@
     {
       "id": "V24",
       "title": "Chồng từ chỉ khả năng cùng chức năng",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "các từ có phạm vi khác nhau, như *có thể sẽ* (khả năng + tương lai), *dường như có thể* (bằng chứng quan sát + năng lực), *chưa chắc đã* (mức tin cậy + trạng thái). Giữ lời trích, chỗ ngập ngừng có chủ ý và thuật ngữ xác suất đã được định nghĩa.",
@@ -806,7 +806,7 @@
     {
       "id": "V25",
       "title": "Làm mơ hồ quan hệ đã có trong nguồn",
-      "source": "SKILL.md",
+      "source": "references/loi-cau-va-quan-he.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "nguồn chỉ nêu quan hệ chung, quan hệ còn chưa chắc chắn, người dùng yêu cầu ẩn danh/khái quát hóa, hoặc không có nguồn trong phạm vi để đối chiếu. Không dùng pattern này như công cụ kiểm chứng dữ kiện; nếu bản gốc và nguồn mâu thuẫn mà không rõ bên nào đúng thì nêu chỗ lệch thay vì tự sửa.",
@@ -834,7 +834,7 @@
     {
       "id": "T1",
       "title": "Viết hoa theo kiểu tiêu đề tiếng Anh",
-      "source": "SKILL.md",
+      "source": "references/typography.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "tên thương hiệu, mã dự án và chữ viết tắt có quy ước viết riêng; tên chính thức có cách viết như *Bộ Công Thương*; dòng chữ in hoa toàn bộ do thể thức văn bản hoặc thiết kế; trích dẫn nguyên văn. Không tự sửa tên cơ quan chỉ vì cách viết của nó khác các ví dụ trên.",
@@ -862,7 +862,7 @@
     {
       "id": "T2",
       "title": "Gạch ngang làm sai hoặc mờ quan hệ ý",
-      "source": "SKILL.md",
+      "source": "references/typography.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "dấu dùng đúng chức năng và không trái quy chuẩn đã giao: điểm ngắt, chú thích hoặc bỏ lửng có chủ ý vẫn rõ nghĩa và hợp giọng; lời thoại đầu dòng, đầu mục liệt kê, cặp tên riêng (*quan hệ Việt – Trung*), khoảng (*2020 – 2025*), gạch nối phiên âm hoặc mã số. Vùng bảo toàn giữ nguyên byte, kể cả dấu. Không coi dấu hai chấm hoặc dấu phẩy luôn tốt hơn gạch ngang; quy chuẩn trình bày cũng không cho phép đổi nghĩa.",
@@ -894,7 +894,7 @@
     {
       "id": "T3",
       "title": "Ngoặc kép không nhất quán",
-      "source": "SKILL.md",
+      "source": "references/typography.md",
       "scope": "target",
       "mode": "mechanical",
       "no_flag": "toàn văn bản nhất quán một kiểu, dù cong hay thẳng. `«...»` trong bản dịch từ tiếng Pháp hoặc Nga. Ngoặc lồng. Code, JSON, chuỗi kỹ thuật. Trích dẫn nguyên văn hoặc phần chưa rõ chức năng vẫn thuộc vùng bảo toàn, không đổi cả dấu; với thuật ngữ chỉ đặt trong ngoặc để nhấn mạnh, T3 chỉ cho thống nhất kiểu ngoặc, không tự đổi nội dung.",
@@ -903,7 +903,7 @@
     {
       "id": "T4",
       "title": "Dấu phẩy đứng trước \"và\"",
-      "source": "SKILL.md",
+      "source": "references/typography.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "dấu phẩy cần thiết để phân định các phần tử dài hoặc một phần tử đã chứa từ *và*; *và* nối hai ý bổ sung đúng nghĩa; dấu phẩy được người viết dùng có chủ ý để tạo nhịp. Dấu chấm phẩy là một dấu câu khác và không thuộc T4; không sửa nó chỉ vì nó đứng giữa hai mệnh đề.",
@@ -935,7 +935,7 @@
     {
       "id": "T5",
       "title": "Định dạng thay cho cấu trúc câu",
-      "source": "SKILL.md",
+      "source": "references/typography.md",
       "scope": "paragraph",
       "mode": "semantic",
       "no_flag": "nhãn–giá trị (*Trạng thái: đang xử lý*), thuật ngữ–định nghĩa, người nói–lời nói, tiêu đề có phụ đề thật, mục hỏi–đáp, biểu mẫu, bảng, slide, thẻ giao diện và bảng thuật ngữ. Trong README, changelog, đặc tả kỹ thuật, SOP hoặc tài liệu tham chiếu, giữ nhãn khi nó xác định trường dữ liệu, loại bước hoặc nhóm nội dung cần cho việc tra cứu. Thể loại kỹ thuật tự nó không phải lý do để miễn T5. Một heading có dấu hai chấm đứng riêng cũng chưa đủ để flag; cần thấy khuôn lặp lại hoặc nhãn rõ ràng không mang thông tin.",
@@ -967,7 +967,7 @@
     {
       "id": "T6",
       "title": "Emoji",
-      "source": "SKILL.md",
+      "source": "references/typography.md",
       "scope": "target",
       "mode": "semantic",
       "no_flag": "tin nhắn, mạng xã hội, nội dung nội bộ có văn hoá dùng emoji. Emoji mang thông tin thật (trạng thái trong bảng, ký hiệu quy ước).",

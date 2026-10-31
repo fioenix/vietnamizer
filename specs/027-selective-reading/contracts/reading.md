@@ -1,0 +1,6 @@
+# Reading contract
+
+Core is always read. Local correction: no required article workflow, resolver, profile, card, sample guide or evaluator schema. Article: article workflow plus one directly selected card; resolver only if selection is unclear/mixed. Supplied-sample article additionally reads voice guide; no automatic source directory. Error lookup uses the relevant catalog before committing an error correction, including its exception; no forced 55-pattern loop. Typography-only does not use profile/cards. Status can run without loading the evaluator contract; key/capability/transmission failures preserve core fallback and honest status. Existing external authority is neither broadened nor bypassed.
+
+
+Review-only also reads core's five gates before judging. Whole-article or supplied-sample review uses the explicit article/card/sample routes even if no text is edited. Catalogs are conditional on a pattern diagnosis, not mandatory merely because meaning differs. Review the exact supplied candidate bytes, not a commit range or agent summary; report meaning and style separately. benchmarks/review_contract.py binds packets to current candidate bytes and explicit expected files; supplied receipts are order/hash checked but never authenticated as actual agent reads or semantic truth.

@@ -6,6 +6,18 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+CATALOG_SOURCES = (
+    'references/loi-thieu-tu.md', 'references/loi-cau-va-quan-he.md',
+    'references/loi-tu-va-loi-dan.md', 'references/typography.md',
+)
+PATTERN_SOURCES = CATALOG_SOURCES + (
+    'profiles/blog-ca-nhan/rules.md', 'profiles/ky-thuat-doanh-nghiep/rules.md',
+)
+
+
+def language_catalogs(root=ROOT):
+    return '\n'.join((root / name).read_text(encoding='utf-8') for name in CATALOG_SOURCES)
+
 # English instructions are recipes; Vietnamese rules/exclusions remain canonical in source.
 RECIPES = {
 'V1': 'Does the intended result, capability or direction of the action require a missing complement such as được or ra? Distinguish deliberate refusal from inability. Preserve context-licensed ellipsis and intentional fragments; do not select an object from several possible referents merely to complete a sentence.',
@@ -188,7 +200,7 @@ def _sign_pattern(phrase):
 
 
 def signals(skill_text, root=ROOT):
-    """Tier 3 ordering signals: scan-tells.sh alternatives that their own SKILL.md section supports."""
+    """Tier 3 ordering signals: scan-tells.sh alternatives that their own canonical catalog section supports."""
     sections={m.group(1):m.group(0) for m in re.finditer(r'^### ([VT]\d+)\..*?(?=^### |\Z)',skill_text,re.M|re.S)}
     kept={};dropped=[]
     for line in (root/'scripts/scan-tells.sh').read_text(encoding='utf-8').splitlines():
@@ -207,8 +219,8 @@ def signals(skill_text, root=ROOT):
 
 def build(root=ROOT):
     entries = []
-    kept,_ = signals((root/'SKILL.md').read_text(encoding='utf-8'),root)
-    for source in ['SKILL.md','profiles/blog-ca-nhan/rules.md','profiles/ky-thuat-doanh-nghiep/rules.md']:
+    kept,_ = signals(language_catalogs(root),root)
+    for source in PATTERN_SOURCES:
         text = (root/source).read_text()
         matches = list(re.finditer(r'^### ([VTBK]\d+)\. (.+)$', text, re.M))
         for i, m in enumerate(matches):
@@ -243,13 +255,14 @@ def build(root=ROOT):
                 entries[-1]['applicability_signs']=[_sign_pattern(x) for x in APPLICABILITY_SIGNS[ident].split(', ')]
     expected = {f'{p}{i}' for p,n in [('V',25),('T',6),('B',17),('K',7)] for i in range(1,n+1)}
     assert len(entries)==55 and {e['id'] for e in entries}==expected==set(RECIPES)
+    entries.sort(key=lambda entry: ('VTBK'.index(entry['id'][0]), int(entry['id'][1:])))
     return {'version':'1','model':'jev-1.14.0','patterns':entries}
 
 
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('--check',action='store_true'); args=parser.parse_args()
     target=ROOT/'jev/registry.json'; content=json.dumps(build(),ensure_ascii=False,indent=2)+'\n'
-    for ident,variant in signals((ROOT/'SKILL.md').read_text(encoding='utf-8'))[1]:
+    for ident,variant in signals(language_catalogs())[1]:
         print(f'signal not in canonical {ident} section, not shipped: {variant}')
     if args.check:
         if not target.exists() or target.read_text()!=content:

@@ -1,16 +1,13 @@
 # Profile cho blog, bài viết cá nhân, nội dung công việc và marketing
 
-Đọc file này sau `SKILL.md` khi văn bản là blog, bài viết thể hiện quan điểm, nội dung công việc, chat nội bộ, LinkedIn, bài xây dựng thương hiệu cá nhân hoặc nội dung marketing.
-
-Các pattern B1–B17 không phải quy tắc chung cho mọi văn bản. Chỉ sửa khi cách viết lệch khỏi thể loại, người đọc hoặc giọng ổn định của tác giả. Chạy V1–V25 trước, rồi mới rà file này. Với blog hoặc hội thoại, có thể giữ tiểu từ tình thái và cách nói riêng của người viết; với nội dung công việc hoặc marketing, chỉ giữ tiếng Anh khi cộng đồng người đọc thực sự dùng thuật ngữ đó.
-
-Sau khi chọn profile này, dùng registry `references/bo-giai-phong-cach.md` để đọc đúng một card
-tương thích trong `profiles/blog-ca-nhan/styles/`. Card quyết định cách giữ nhịp, xưng hô, thuật ngữ
-và cách kết cho mục đích cụ thể; B1–B17 vẫn là nơi duy nhất quyết định một dấu hiệu phụ thuộc thể
-loại có phải lỗi hay không. Không dùng card để thêm cá tính, CTA hoặc tiểu từ khi bản gốc và mẫu
-giọng không có bằng chứng.
+Chỉ tra file này khi có nghi vấn sáo ngữ, nhịp, xưng hô hoặc ngữ vực đúng họ blog/chat/marketing.
+Core sở hữu tuyến đọc và quyền sửa; B1–B17 là nội dung canonical của các lỗi phụ thuộc thể loại.
+Đọc đúng mục cùng Không flag, không bắt đọc mọi B hoặc resolver/card chỉ vì đã mở catalog.
+Giữ giọng ổn định, tiểu từ phù hợp và thuật ngữ cộng đồng thật; không tự thêm cá tính hoặc CTA.
 
 ---
+
+Chỉ khi mục đích/người đọc mâu thuẫn hoặc pha chức năng mới đọc `references/bo-giai-phong-cach.md`.
 
 ## Sáo ngữ và thổi phồng
 
